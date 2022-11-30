@@ -18,9 +18,12 @@ export const Routes: React.FC = () => {
 	// Otherwise we'd have to store the actual location somewhere, which will
 	// differ between web and Electron contexts.
 
+	console.log(prefs.welcomeSeen);
+
 	return (
 		<HashRouter>
-			{prefs.welcomeSeen ? (
+			{
+			prefs.welcomeSeen ? (
 				<Switch>
 					<Route exact path="/">
 						<HomeRoute />

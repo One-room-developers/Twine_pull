@@ -1,3 +1,4 @@
+import { reduce } from 'lodash';
 import * as React from 'react';
 import './home-route.css';
 import useIntersectionObserver from './useIntersectionObserver';
