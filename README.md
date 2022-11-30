@@ -112,3 +112,33 @@ https://twinery.org/latestversion/2.json.
 `npm test` will test the source code respectively.
 
 `npm run clean` will delete existing files in `electron-build/` and `dist/`.
+
+
+
+## Route의 폴더 입력 양식
+
+1. route하나 당 폴더 하나 생성
+
+2. index.ts 파일로 tsx파일 export해줌
+
+3. ~-route.tsx파일 생성
+
+4. 
+
+
+## 폴더 역할들
+
+1. src/routes/stories/defaults.ts 에 passage 크기 default가 있음
+
+2. src/route-actions/build-actions.tsx 는 story편집의 사이드 바 버튼들이 있음.
+build관련 버튼임.
+
+3. import 코드 분석하기
+src/dialogs/story-import/story-import.tsx 에 파일 첨부하는 코드
+
+
+## 알아야 되는 거
+story가 어디로 저장되는 가
+
+1. 브라우저 캐시에 자동 저장되는 방식 알아올것
+2. publish to File을 눌렀을 때 어떻게 해서 download에 저장되는가

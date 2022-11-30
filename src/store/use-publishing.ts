@@ -32,11 +32,17 @@ export interface UsePublishingProps {
  * A React hook publish stories from context. You probably want to use
  * `useStoryLaunch` instead--this is for doing the actual binding of the story
  * and story format.
+ * 
+ * React 후크는 컨텍스트에서 스토리를 게시합니다. 대신 `useStoryLaunch`를 사용하고 싶을 것입니다.
+ * 이것은 스토리와 스토리 형식의 실제 바인딩을 수행하기 위한 것입니다.
  */
+
+//위에 interface받음
 export function usePublishing(): UsePublishingProps {
 	// As little logic as possible should live here--instead it should be in
 	// util/publish.ts.
 
+	//반환될 데이터들
 	const {prefs} = usePrefsContext();
 	const {dispatch: storyFormatsDispatch, formats} = useStoryFormatsContext();
 	const {stories} = useStoriesContext();
@@ -46,6 +52,7 @@ export function usePublishing(): UsePublishingProps {
 			async () => publishArchive(stories, getAppInfo()),
 			[stories]
 		),
+
 		proofStory: React.useCallback(
 			async storyId => {
 				const story = storyWithId(stories, storyId);         // 스토리에 아이디를 부여해서 변수에 저장
@@ -81,6 +88,7 @@ export function usePublishing(): UsePublishingProps {
 				storyFormatsDispatch
 			]
 		),
+
 		publishStory: React.useCallback(
 			async (storyId, publishOptions) => {
 				const story = storyWithId(stories, storyId);
@@ -106,6 +114,7 @@ export function usePublishing(): UsePublishingProps {
 			},
 			[formats, stories, storyFormatsDispatch]
 		),
+
 		publishStoryData: React.useCallback(
 			(storyId: string) => {
 				const story = storyWithId(stories, storyId);
@@ -114,5 +123,6 @@ export function usePublishing(): UsePublishingProps {
 			},
 			[stories]
 		)
+
 	};
 }

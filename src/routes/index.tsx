@@ -20,7 +20,7 @@ export const Routes: React.FC = () => {
 
 	return (
 		<HashRouter>
-			{prefs.welcomeSeen ? (
+			{prefs.welcomeSeen ? ( //삼항 연산자 조건문. welcomeSeen이 true이면 아래. 아니면 : 뒤에.
 				<Switch>
 					<Route exact path="/">
 						<HomeRoute />
@@ -60,7 +60,44 @@ export const Routes: React.FC = () => {
 					></Route>
 				</Switch>
 			) : (
-				<HomeRoute />
+				<Switch>
+					<Route exact path="/">
+						<HomeRoute />
+					</Route>
+					<Route exact path="/select">
+						<SelectRoute />
+					</Route>
+					<Route exact path="/story-list">
+						<StoryListRoute />
+					</Route>
+					<Route path="/story-formats">
+						<StoryFormatListRoute />
+					</Route>
+					<Route path="/stories/:storyId/play">
+						<StoryPlayRoute />
+					</Route>
+					<Route path="/stories/:storyId/proof">
+						<StoryProofRoute />
+					</Route>
+					<Route path="/stories/:storyId/test/:passageId">
+						<StoryTestRoute />
+					</Route>
+					<Route path="/stories/:storyId/test">
+						<StoryTestRoute />
+					</Route>
+					<Route path="/stories/:storyId">
+						<StoryEditRoute />
+					</Route>
+					<Route
+						path="*"
+						render={path => {
+							console.warn(
+								`No route for path "${path.location.pathname}", rendering story list`
+							);
+							return <StoryListRoute />;
+						}}
+					></Route>
+				</Switch>
 			)}
 		</HashRouter>
 	);
