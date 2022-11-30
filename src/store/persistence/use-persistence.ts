@@ -13,6 +13,7 @@ export interface PersistenceHooks {
 	};
 	stories: {
 		load: () => Promise<StoriesState>;
+		//인자 타입 선언
 		saveMiddleware: (
 			state: StoriesState,
 			action: StoriesAction,

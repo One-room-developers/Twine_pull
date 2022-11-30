@@ -22,7 +22,9 @@ export interface BuildActionsProps {
 }
 
 export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
+	//html publish함수
 	const {publishStory} = usePublishing();
+
 	const [playError, setPlayError] = React.useState<Error>();
 	const [proofError, setProofError] = React.useState<Error>();
 	const [publishError, setPublishError] = React.useState<Error>();
@@ -72,6 +74,9 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 		resetErrors();
 
+		//Html저장 함수
+		//saveHtml의 첫번째 인자가 모든 html의 데이터를 받는다.
+		//즉 publishStory가 스토리 출력 함수가 됨.
 		try {
 			saveHtml(await publishStory(story.id), storyFileName(story));
 		} catch (error) {
@@ -152,6 +157,8 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 					/>
 				</CardContent>
 			</CardButton>
+			
+
 			<CardButton
 				ariaLabel={publishError?.message ?? ''}
 				disabled={!story}
