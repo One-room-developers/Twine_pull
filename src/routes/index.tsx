@@ -9,6 +9,7 @@ import {StoryProofRoute} from './story-proof';
 import {StoryTestRoute} from './story-test';
 import { HomeRoute } from './home';
 import { SelectRoute } from './select';
+import { GamePlayRoute } from './game-play';
 
 export const Routes: React.FC = () => {
 	const {prefs} = usePrefsContext();
@@ -29,6 +30,9 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/select">
 						<SelectRoute />
+					</Route>
+					<Route exact path="/game-play">
+						<GamePlayRoute />
 					</Route>
 					<Route exact path="/story-list">
 						<StoryListRoute />
@@ -68,6 +72,9 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/select">
 						<SelectRoute />
+					</Route>
+					<Route exact path="/game-play">
+						<GamePlayRoute />
 					</Route>
 					<Route exact path="/story-list">
 						<StoryListRoute />
