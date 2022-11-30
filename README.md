@@ -142,3 +142,19 @@ story가 어디로 저장되는 가
 
 1. 브라우저 캐시에 자동 저장되는 방식 알아올것
 2. publish to File을 눌렀을 때 어떻게 해서 download에 저장되는가
+
+
+## 바꾼 기능들
+1. move-passage.ts에서
+```
+if (story.snapToGrid) {
+			left = Math.round(left / 100) * 100;
+			top = Math.round(top / 100) * 100;
+		}
+```
+이걸 바꿔서 한번에 큰 눈금 한칸씩 이동하도록 바꿈
+
+
+2. zoom button 삭제
+src/route/story-edit/zoom-buttons.css 삭제
+src/route/story-edit/zoom-buttons.tsx 삭제

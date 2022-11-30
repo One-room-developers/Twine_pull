@@ -22,7 +22,7 @@ import {
 import {Point, Rect} from '../../util/geometry';
 import {StoryEditToolbar} from './toolbar';
 import './story-edit-route.css';
-import {ZoomButtons} from './zoom-buttons';
+
 import {DocumentTitle} from '../../components/document-title/document-title';
 import {useZoomTransition} from './use-zoom-transition';
 import {useZoomShortcuts} from './use-zoom-shortcuts';
@@ -179,7 +179,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 					visibleZoom={visibleZoom}
 					zoom={story.zoom}
 				/>
-				<ZoomButtons story={story} />
 			</MainContent>
 		</div>
 	);
