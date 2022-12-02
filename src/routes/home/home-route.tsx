@@ -5,16 +5,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const HomeRoute: React.FC = () => {
 
-    interface Episode {
-        id: number;
-        mainText: string;
-    }
-
-    axios.get<Episode>('http://localhost:3001/game_play/1')
-        .then((res) => {
-            console.log(res.data.mainText);
-        });
-
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
 

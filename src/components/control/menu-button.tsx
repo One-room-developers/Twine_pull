@@ -27,6 +27,10 @@ export type LabeledMenuItem =
 	| CheckableLabeledMenuItem;
 
 export interface MenuSeparator {
+	disabled?: boolean;
+	label?: string;
+	onClick?: (e: React.MouseEvent) => void;
+	variant?: IconButtonProps['variant'];
 	separator: true;
 }
 

@@ -25,7 +25,7 @@ export const TagButton: React.FC<TagButtonProps> = props => {
 					...colors.map(color => ({
 						checkable: true,
 						checked: color === 'none' ? !props.color : color === props.color,
-						label: t(`colors.${color}`),
+						label: t(`colors.${color}`, ),
 						onClick: () => props.onChangeColor(color)
 					})),
 					{
