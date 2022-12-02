@@ -158,3 +158,7 @@ if (story.snapToGrid) {
 2. zoom button 삭제
 src/route/story-edit/zoom-buttons.css 삭제
 src/route/story-edit/zoom-buttons.tsx 삭제
+
+3. component/route-toolbar/route-toolbar.css 변환
+
+4.

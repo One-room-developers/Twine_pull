@@ -3,7 +3,11 @@
 	--grid-size: 10px;
 
 	/* Height for buttons, text inputs, etc. */
+	/*과거 헤더 기준.*/
 	--control-height: calc(var(--grid-size) * 4);
+	
+	/*새로 만들어준 왼쪽 기준*/
+	--control-left: calc(var(--grid-size) * 4);
 
 	--control-inner-padding: calc(var(--grid-size) / 2);
 
