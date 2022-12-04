@@ -1,14 +1,14 @@
-import { reduce } from 'lodash';
 import * as React from 'react';
 import './game-play-route.css';
 import bookLogo from '../../styles/image/book-svgrepo-com.svg';
 
 export const GamePlayRoute: React.FC = () => {
+
     React.useEffect(() => 
     {
         var moduleA = require('./game-play-write-text.js');    
         moduleA.main()
-    }, [])
+    }, []);
     
     return(
     <body className="game_play_body">

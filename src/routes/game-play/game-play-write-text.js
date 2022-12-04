@@ -1,15 +1,57 @@
 import axios from 'axios';
-export{main};
 
-function main(){
+export{main};
+let input_text = [];
+let input_option = [];
+let option_result = new Object();
+let input_result = [];
+
+function main() {
   let episode_title = document.querySelector('.episode_name');
   let episode_number = document.querySelector('.episode_number_text');
-
-  axios.get('http://localhost:3001/game_play/episode/1')
-  .then(function (res){
+  
+  // 에피소드 가져오기
+  axios.get('http://localhost:3001/game_play/episode/6')
+  .then((res) => {
     episode_number.innerText = '#'+res.data.id;
     episode_title.innerText = res.data.title;
+    input_text.push(res.data.mainText);
   });
+
+  // 선택지 가져오기
+  axios.get('http://localhost:3001/game_play/options/6')
+  .then((res) => {
+    option_result = res.data;
+
+    for(let i = 0; i < res.data.length; i++) {
+      input_option.push([]);
+      input_option[0].push(res.data[i].text);
+    };
+
+    // 캐릭터 스테이터스 가져오기
+    axios.get('http://localhost:3001/game_play/character/1')
+    .then((res) => {
+      // 선택지를 고른 후 캐릭터 스테이터스 업데이트
+      axios.patch('http://localhost:3001/game_play/change_character/1', 
+      {
+        "changed_health": res.data.health + option_result[0].health_change,
+        "changed_money": res.data.money + option_result[0].money_change,
+        "changed_hungry": res.data.hungry + option_result[0].hungry_change,
+        "changed_strength": res.data.strength + option_result[0].strength_change,
+        "changed_agility": res.data.agility + option_result[0].agility_change,
+        "changed_armour": res.data.armour + option_result[0].armour_change,
+        "changed_mental": res.data.mental + option_result[0].mental_change,
+      })
+      .then((res) => {
+        console.log(res.data);
+
+      input_result.push([]);
+      input_result[0].push(`란데셀리암의 성에 도착했을 때, 공주는 이미 먹기 좋게 조리된 상태였다.
+      그 모습을 본 당신은 허기가 ${option_result[0].hungry_change} 감소하였다.`);
+      })
+      .catch((error) => console.log(error.response));
+      });
+    });
 
   setTimeout(function(){typing_episode(0)}, 3000);
 };
@@ -22,50 +64,6 @@ function typing_episode(index){
   var option_class = document.querySelector('.episode_option');
   var result_text_class = document.querySelector('.episode_result_text')
   var result_option_class = document.querySelector('.episode_result_option')
-  var input_text = ["\t얼음이 가득한 북부. 차게 핀 서리눈꽃이 숨죽여 떨어지는 곳."+ 
-                  "\t거탑 2층의 외진 도시 테오존에서 당신은 태어났다.\n"+
-                  "\t이곳의 사람들은 항상 굶주려있다. "+
-                  "\t1년 중 농사를 지을 수 있는 기간은 얼음이 녹는 5-6개월 남짓이다."+
-                  "\t테오존에서 울무를 설치하지 못하거나 쪽활로 짐승을 사냥하지 못하는 사람은 없다.\n"+
-                  "\t당신만 빼고 그렇다.\n"+
-                  "\t당신은 어렸을 때 짐승에게 당해 세 손가락을 잃었다. 그때의 기억은 트라우마가 되어 당신은 사냥을 하지 못한다."+
-                  "\t그러한 사람들은 모두 죽었기 때문이다. 농사철이 되면 모두 농사를 짓는다. 안정적인 수확을 낼 수 있는 수단이 존재한다는 사실."+
-                  "\t이 얼마나 큰 축복인가.\n"+
-                  "\t땅에 한기가 가득하기에 벼 대신 질긴 호밀을 심는다. 호밀로 만든 질기고 퀘퀘한 빵, 그 빵을 발효시킨 음료, 호밀을 발효시켜 만든 맥주."+
-                  "\t이 도시는 고기와 호밀로 쌓아올려졌다고 봐도 무방하다."+
-                  "\t얼음이 가득한 북부. 차게 핀 서리눈꽃이 숨죽여 떨어지는 곳."+ 
-                  "\t거탑 2층의 외진 도시 테오존에서 당신은 태어났다.\n"+
-                  "\t이곳의 사람들은 항상 굶주려있다. "+
-                  "\t1년 중 농사를 지을 수 있는 기간은 얼음이 녹는 5-6개월 남짓이다."+
-                  "\t테오존에서 울무를 설치하지 못하거나 쪽활로 짐승을 사냥하지 못하는 사람은 없다.\n"+
-                  "\t당신만 빼고 그렇다.\n"+
-                  "\t당신은 어렸을 때 짐승에게 당해 세 손가락을 잃었다. 그때의 기억은 트라우마가 되어 당신은 사냥을 하지 못한다."+
-                  "\t그러한 사람들은 모두 죽었기 때문이다. 농사철이 되면 모두 농사를 짓는다. 안정적인 수확을 낼 수 있는 수단이 존재한다는 사실."+
-                  "\t이 얼마나 큰 축복인가.\n"+
-                  "\t땅에 한기가 가득하기에 벼 대신 질긴 호밀을 심는다. 호밀로 만든 질기고 퀘퀘한 빵, 그 빵을 발효시킨 음료, 호밀을 발효시켜 만든 맥주."+
-                  "\t이 도시는 고기와 호밀로 쌓아올려졌다고 봐도 무방하다.",
-                  "\t청춘! 이는 듣기만 하여도 가슴이 설레는 말이다. 청춘! 너의 두 손을 가슴에 대고, 물방아 같은 심장의 고동을 들어 보라. 청춘의 피는 끓는다. 끓는 피에 뛰노는 심장은 거선(巨船)의 기관(汽罐)같이 힘있다. 이것이다. 인류의 역사를 꾸며 내려온 동력은 바로 이것이다. 이성(理性)은 투명하되 얼음과 같으며, 지혜는 날카로우나 갑 속에 든 칼이다. 청춘의 끓는 피가 아니더면, 인간이 얼마나 쓸쓸하랴? 얼음에 싸인 만물(萬物)은 죽음이 있을 뿐이다.\n"+
-                  "\t그들에게 생명을 불어넣는 것은 따뜻한 봄바람이다. 풀밭에 속잎 나고, 가지에 싹이 트고, 꽃 피고 새 우는 봄날의 천지는 얼마나 기쁘며, 얼마나 아름다우냐? 이것을 얼음 속에서 불러내는 것이 따뜻한 봄바람이다. 인생에 따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다. 청춘의 피가 뜨거운지라, 인간의 동산에는 사랑의 풀이 돋고, 이상(理想)의 꽃이 피고, 희망(希望)의 놀고 뜨고, 열락(悅樂)의 새가 운다.\n"+
-                  "\t사랑의 풀이 없으면 인간은 사막이다. 오아시스도 없는 사막이다. 보이는 끝까지 찾아다녀도, 목숨이 있는 때까지 방황하여도, 보이는 것은 거친 모래뿐일 것이다. 이상의 꽃이 없으면, 쓸쓸한 인간에 남는 것은 영락(零落)과 부패(腐敗) 뿐이다. 낙원을 장식하는 천자만홍(千紫萬紅)이 어디 있으며, 인생을 풍부하게 하는 온갖 과실이 어디 있으랴?\n"
-                ]
-    var input_option = [
-      ["싸운다", "도망친다", "고함을 친다"],
-      ["그게 무슨 말인지?", "조금 더 들어보지"]
-    ];
-
-    var input_result = [
-        ["\t당신은 사투 끝에 블브를 죽이는데 성공했다. 하지만 남은 것은 상처뿐이었다. \n\thp를 1 잃었다.", 
-
-        "\t당신은 전력을 다해 도망쳤으나, 인간의 두 다리로 블브를 따돌리기란 어불성설이었다. 마을에 도달했을 때, 당신은 이미 상처투성이었다. \n\thp를 2 잃었다.",
-
-        "\t당신은 모습을 들어내지 않았다. 수풀에 몸을 숨긴 채 블브가 다가오길 기다렸다. 블브가 지척까지 다가왔을 때 당신은 고함을 질렀다."+
-        "\t청력이 좋은 블브는 귀가 찢어지는 듯한 통증을 느끼며 깜짝 놀라 달아났다. 녀석이 있었던 자리엔 작은 금화 주머니 하나가 놓여져 있었다."+
-        "\t당신은 주머니를 소매에 챙겼다. \n\t금화를 5개 얻었다."
-      ],
-      ["\t결과 1 \n변화1", 
-        "\t결과 2 \n변화2"
-      ]
-    ]
 
   var split_txt;
   var hot_point = 0;
@@ -195,5 +193,3 @@ function typing_episode(index){
     setTimeout(function(){typing_episode(1)}, 1500)
   }
 }
-
-
