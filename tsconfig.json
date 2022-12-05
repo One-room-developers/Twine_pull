@@ -19,7 +19,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
-    //아래는 이지원이 추가한 코드
+    //아래는 이지원이 추가한 코드(js 파일을 import 하기 위해 필요한 코드)
     "checkJs": false
   },
   "include": [

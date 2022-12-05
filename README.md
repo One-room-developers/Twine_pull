@@ -160,5 +160,5 @@ src/route/story-edit/zoom-buttons.css 삭제
 src/route/story-edit/zoom-buttons.tsx 삭제
 
 ## 오류
-1. game-play 컴포넌트에서 뒤로가기를 누르면 error 발생. 
-이유 : 아직 모름
+1. game-play-route를 실행 할 때, 글자가 출력되는 중에 뒤로가기를 누르면 error 발생. 
+이유 : 

@@ -242,7 +242,17 @@ body{
 
 .game_play-right_ui{
     width: 25vw;
+    padding-top: 25vh;
 }
+
+.game_play-right_ui > div{
+    padding-bottom: 5px;
+}
+
+.game_play-right_ui > div > img{
+    margin-right: 2px;
+}
+
 
 .hidden{
     display : none;
