@@ -263,5 +263,18 @@ body{
 }
 
 .right-ui-img{
-    animation: logo-opacity 0.3s forwards;
+    animation: logo-opacity 0.5s forwards;
+}
+
+.stat-ui{
+    position :fixed;
+    width : 60vh;
+    height : 90vh;
+    top : 8px;
+    left : 0;
+    right : 0;
+    margin : 0 auto;
+    padding : 40px 20px;
+    background-color: antiquewhite;
+
 }

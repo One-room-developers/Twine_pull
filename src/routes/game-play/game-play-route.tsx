@@ -1,19 +1,28 @@
-import { max, reduce } from 'lodash';
-import { main} from './game-play-write_text'
+import {main} from './game-play-write_text'
+import {GamePlayStatUI} from './game-play-stat_ui'
 
 import * as React from 'react';
 import './game-play-route.css';
 import bookLogo from '../../styles/image/book-svgrepo-com.svg';
-import { setMaxListeners } from 'process';
+
 
 
 
 export const GamePlayRoute: React.FC = () => {
+    var [statUIOn, setStatUIOn] = React.useState(false);
 
     React.useEffect(() => {
         main();
     }, [])
-    
+
+    function StatUi(){
+        if(statUIOn){
+            return <GamePlayStatUI/>
+        }
+        else{
+            return
+        }
+    }
     return (
         <body className="game_play_body">
             <div className="game_play-left_ui">
@@ -47,7 +56,7 @@ export const GamePlayRoute: React.FC = () => {
                     </div>
                 </div>
                 <div className="game_play-main_ui">
-                    <button className="main-ui-btn font-game-thin">능력치</button>
+                    <button className="main-ui-btn font-game-thin" onClick={function(){setStatUIOn((statUIOn ? false : true))}}>능력치</button>
                     <button className="main-ui-btn font-game-thin">SAVE</button>
                     <button className="main-ui-btn font-game-thin">인벤토리</button>
                     <button className="main-ui-btn font-game-thin">환경설정</button>
@@ -55,16 +64,12 @@ export const GamePlayRoute: React.FC = () => {
             </main>
 
             <div className="game_play-right_ui">
-                <div className='heart'>
-                    {/* {makeHeart()} */}
-                </div>
-                <div className='hungry'>
-                    {/* {makeHungry()} */}
-                </div>
-                <div className='money'>
-                    {/* {makeMoney()} */}
-                </div>
+                <div className='heart'></div>
+                <div className='hungry'></div>
+                <div className='money'></div>
             </div>
+            {StatUi()};
         </body>
+        
     );
 };
