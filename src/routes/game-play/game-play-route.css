@@ -218,7 +218,6 @@ body{
         background-position: 0% 0%;
         color: var(--main-orange);
         text-shadow: 0px 0px 1px var(--main-white);
-
     }
 }
 .main-ui-btn{
@@ -261,4 +260,8 @@ body{
 .icon-book{
     width: 45px;
     height: 45px;
+}
+
+.right-ui-img{
+    animation: logo-opacity 0.3s forwards;
 }
