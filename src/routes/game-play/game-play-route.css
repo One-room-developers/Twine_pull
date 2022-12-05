@@ -218,7 +218,6 @@ body{
         background-position: 0% 0%;
         color: var(--main-orange);
         text-shadow: 0px 0px 1px var(--main-white);
-
     }
 }
 .main-ui-btn{
@@ -242,7 +241,17 @@ body{
 
 .game_play-right_ui{
     width: 25vw;
+    padding-top: 25vh;
 }
+
+.game_play-right_ui > div{
+    padding-bottom: 5px;
+}
+
+.game_play-right_ui > div > img{
+    margin-right: 2px;
+}
+
 
 .hidden{
     display : none;
@@ -251,4 +260,21 @@ body{
 .icon-book{
     width: 45px;
     height: 45px;
+}
+
+.right-ui-img{
+    animation: logo-opacity 0.5s forwards;
+}
+
+.stat-ui{
+    position :fixed;
+    width : 60vh;
+    height : 90vh;
+    top : 8px;
+    left : 0;
+    right : 0;
+    margin : 0 auto;
+    padding : 40px 20px;
+    background-color: antiquewhite;
+
 }

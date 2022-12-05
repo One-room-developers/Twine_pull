@@ -5,13 +5,14 @@ let input_text = [];
 let input_option = [];
 let option_result = new Object();
 let input_result = [];
+let episode_num = Math.floor(Math.random() * 6) + 1;
 
 function main() {
   let episode_title = document.querySelector('.episode_name');
   let episode_number = document.querySelector('.episode_number_text');
-  
+
   // 에피소드 가져오기
-  axios.get('http://localhost:3001/game_play/episode/6')
+  axios.get(`http://localhost:3001/game_play/episode/${episode_num}`)
   .then((res) => {
     episode_number.innerText = '#'+res.data.id;
     episode_title.innerText = res.data.title;
@@ -19,7 +20,7 @@ function main() {
   });
 
   // 선택지 가져오기
-  axios.get('http://localhost:3001/game_play/options/6')
+  axios.get(`http://localhost:3001/game_play/options/${episode_num}`)
   .then((res) => {
     option_result = res.data;
 
@@ -46,8 +47,7 @@ function main() {
         console.log(res.data);
 
       input_result.push([]);
-      input_result[0].push(`란데셀리암의 성에 도착했을 때, 공주는 이미 먹기 좋게 조리된 상태였다.
-      그 모습을 본 당신은 허기가 ${option_result[0].hungry_change} 감소하였다.`);
+      input_result[0].push(option_result[0].result_text);
       })
       .catch((error) => console.log(error.response));
       });
@@ -164,8 +164,8 @@ function typing_episode(index){
     var resultDiv;
     result_text_class.classList.remove("hidden");
     result_option_class.classList.remove("hidden");
-    input_result[index][i] = input_result[index][i].replace(/\t/g, "&nbsp;");
-    input_result[index][i] = input_result[index][i].replace(/\n/g, "<br><br>.<br><br>");
+    //input_result[index][i] = input_result[index][i].replace(/\t/g, "&nbsp;");
+    //input_result[index][i] = input_result[index][i].replace(/\n/g, "<br><br>.<br><br>");
     result_text_class.innerHTML += "<br>" + input_result[index][i];
 
     resultDiv = document.createElement('div');
