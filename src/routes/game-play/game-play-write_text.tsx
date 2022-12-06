@@ -1,9 +1,16 @@
+/* global history */
+/* global location */
+/* global window */
+
+/* eslint no-restricted-globals: ["off"] */
+
 import heartLogo from "../../styles/image/heart.png"
 import heartBLogo from "../../styles/image/heart_b.png"
 import hungryLogo from "../../styles/image/hungry.png"
 import moneyLogo from "../../styles/image/money.png"
 import money5Logo from "../../styles/image/money5.png"
 import axios from 'axios';
+import { useHistory } from 'react-router-dom'
 
 interface Status {
   health: number,
@@ -52,7 +59,6 @@ function main() {
   episode_title_div = document.querySelector('.episode_name') as HTMLDivElement;
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
   //let db_episode_num = Math.floor(Math.random() * 6) + 1;
-
   db_episode_num = 1;
   // 에피소드 가져오기
   axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
@@ -77,6 +83,7 @@ function main() {
       current_status = res.data;
       });
     });
+
   setTimeout(function () { typing_episode(0) }, 3000);
 };
 
@@ -350,21 +357,25 @@ function clickOptionEvent(optionId: number) {
   .catch((error) => console.log(error.response));
 }
 
-function makeResultDiv(){
+function makeResultDiv() {
   var resultDiv: any;
-  resultDiv = document.createElement('div');
-  resultDiv.className = "result_div font-game-thick"
-  if(db_episode_num !== 11){
-    resultDiv.innerText += "다음으로 . . .";
-    resultDiv.addEventListener('click', (e: any) => { clickResultEvent() });
-  }
-  else{
-    resultDiv.innerText += "로비로 . . .";
-    //로비로 이동하는 코드 작성
-  }
 
+  resultDiv = document.createElement('div');
+  resultDiv.className = "result_div font-game-thick";
+
+    if(db_episode_num !== 11){
+      resultDiv.innerText += "다음으로 . . .";
+      resultDiv.addEventListener('click', (e: any) => { clickResultEvent() });
+    }
+    else{
+    resultDiv.innerText += "로비로 . . .";
+    resultDiv.addEventListener('click', function onClick() {
+      window.location.href = 'http://localhost:3000/#/select';
+    });
+  }
   result_option_class.appendChild(resultDiv);
 }
+
 function clickResultEvent() {
   resetTextDiv();
   

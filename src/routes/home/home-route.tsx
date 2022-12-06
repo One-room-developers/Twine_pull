@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './home-route.css';
 import useIntersectionObserver from './useIntersectionObserver';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const HomeRoute: React.FC = () => {
 
