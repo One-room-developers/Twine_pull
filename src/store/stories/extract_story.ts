@@ -8,6 +8,20 @@ export function findFirstPassage(
     return story.startPassage
 }
 
+//
+export function extractFirstEpsiodeTitle(
+    story : Story
+) {
+    const firstPassageID = findFirstPassage(story);//ID반환
+    const firstPassage = story.passages.find(p => p.id === firstPassageID);
+    
+    if (firstPassage) {
+		let title : string = firstPassage.name;
+        return title;
+    }
+    return "error"
+}
+
 //일단 첫번째 passage 텍스트만 출력
 //story를 인자로 받을 수 있는듯 함
 export function extractEpsiodeText(

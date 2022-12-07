@@ -19,7 +19,7 @@ import {useStoryLaunch} from '../store/use-story-launch';
 import {saveHtml} from '../util/save-html';
 
 //story 텍스트를 추출하기 위해 추가한 능력
-import {extractEpsiodeText, extractSomeEpisodeText} from './../store/stories/extract_story';
+import {extractEpsiodeText, extractSomeEpisodeText, extractFirstEpsiodeTitle} from './../store/stories/extract_story';
 
 export interface BuildActionsProps {
 	story?: Story;
@@ -115,6 +115,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 			//await testStory(story.id);
 			//await는 왜 씀?
+			console.log(extractFirstEpsiodeTitle(story));
 			console.log(extractEpsiodeText(story));
 			console.log(extractSomeEpisodeText(story, "option"));
 		} catch (error) {
