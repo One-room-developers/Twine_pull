@@ -10,7 +10,6 @@ import hungryLogo from "../../styles/image/hungry.png"
 import moneyLogo from "../../styles/image/money.png"
 import money5Logo from "../../styles/image/money5.png"
 import axios from 'axios';
-import { useHistory } from 'react-router-dom'
 
 interface Status {
   health: number,
@@ -35,9 +34,9 @@ var money_class: HTMLDivElement;
 let episode_title_div
 let episode_number_div
 
-var input_text: any = [];
-var input_option: any = [];
-var input_result: any = [];
+var input_text: any;
+var input_option: any;
+var input_result: any;
 
 var current_episode_num: number;
 
@@ -68,6 +67,10 @@ function main() {
     input_text.push({ text : res.data.mainText });
   });
 
+  input_text = [];
+  input_option = [];
+  input_result = [];
+  
   // 선택지 가져오기
   axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
   .then((res) => {

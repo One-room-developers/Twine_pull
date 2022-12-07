@@ -17,9 +17,10 @@ import {Story} from '../store/stories';
 import {usePublishing} from '../store/use-publishing';
 import {useStoryLaunch} from '../store/use-story-launch';
 import {saveHtml} from '../util/save-html';
+import axios from 'axios';
 
 //story 텍스트를 추출하기 위해 추가한 능력
-import {extractEpsiodeText, extractSomeEpisodeText, extractFirstEpsiodeTitle} from './../store/stories/extract_story';
+import {extractEpsiodeText, extractSomeEpisodeText, extractFirstEpsiodeTitle , searchOptionsString} from './../store/stories/extract_story';
 
 export interface BuildActionsProps {
 	story?: Story;
@@ -104,20 +105,61 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 	//추가해준 함수.
 	//save버튼 누르면 실행.
-	async function handleSaveFile() {
+	async function handleSaveFile(): Promise<void> {
 		if (!story) {
 			throw new Error('No story provided to publish');
 		}
 
 		resetErrors();
 
+		
 		try {
-
+			
+			let sentences : String[];
 			//await testStory(story.id);
 			//await는 왜 씀?
-			console.log(extractFirstEpsiodeTitle(story));
-			console.log(extractEpsiodeText(story));
-			console.log(extractSomeEpisodeText(story, "option"));
+			
+			sentences = extractEpsiodeText(story) as String[]
+
+			//배열에 들어있는 선택지 수많큼 반복 출력
+
+			axios.post('http://localhost:3001/game_play/episode', {
+				genre: 1,
+				title: extractFirstEpsiodeTitle(story),
+				mainText: sentences[0]
+			})
+			.then((res) => {
+				const option_text = searchOptionsString(sentences);
+				
+				console.log(option_text + "이거임");
+
+				for(let i = 0; i < option_text.length; i++) {
+					const option_data = extractSomeEpisodeText(story, option_text[i]);
+					
+					axios.post('http://localhost:3001/game_play/option', {
+						episode: res.data,
+						text: option_text[i],
+						result_text: option_data[2],
+						health_change: option_data[1],
+						money_change: option_data[1],
+						hungry_change: option_data[1],
+						strength_change: option_data[1],
+						agility_change: option_data[1],
+						armour_change: option_data[1],
+						mental_change: option_data[1]
+					})
+					.then((res) => {
+						console.log(res.data);
+						console.log(option_text[i]);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 		} catch (error) {
 			setTestError(error as Error);
 		}

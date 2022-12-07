@@ -22,6 +22,30 @@ export function extractFirstEpsiodeTitle(
     return "error"
 }
 
+
+//[[]] 안에 있는 모든 string들 따로 따로 넣어줌.
+export function searchOptionsString(
+	sentences : String[]
+) {
+	
+	let optionsText : String[] = [];
+
+	//const regex : RegExp = /\[\[.*\]\]/;
+    for(let i =0; i < sentences.length; i++) {
+        if(
+            sentences[i].charAt(0) == "[" && sentences[i].charAt(1) == "["
+        ){
+    
+            //optionTemp = sentences[i].match(regex)[0]; Refectory할 때 사용할것.
+    
+            optionsText.push( sentences[i].replace('[[', '').replace(']]', '') );
+        }
+    };
+    
+	return optionsText
+}
+
+
 //일단 첫번째 passage 텍스트만 출력
 //story를 인자로 받을 수 있는듯 함
 export function extractEpsiodeText(
@@ -33,7 +57,7 @@ export function extractEpsiodeText(
     const firstPassage = story.passages.find(p => p.id === firstPassageID);
     
     if (firstPassage) {
-		let paragraph : string[] = splitPassageText(firstPassage.text);
+		let paragraph : String[] = splitPassageText(firstPassage.text);
         return paragraph;
     }
     return "error"
@@ -43,12 +67,12 @@ export function extractEpsiodeText(
 //이걸 이용해서 선택지 passage만들어보기
 export function extractSomeEpisodeText(
     story : Story,
-    passageName: string
+    passageName: String
 ) {
     const Passage = story.passages.find(p => p.name === passageName);//passage반환
     
     if (Passage) {
-		let paragraph : string[] = splitPassageText(Passage.text);
+		let paragraph : String[] = splitPassageText(Passage.text);
         return paragraph;
     }
     return "error"

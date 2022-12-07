@@ -2,6 +2,7 @@ import uniq from 'lodash/uniq';
 import {Passage, StorySearchFlags, Story} from './stories.types';
 import {createRegExp} from '../../util/regexp';
 import {parseLinks} from '../../util/parse-links';
+import { StoryImportDialogProps } from '../../dialogs';
 
 export function passageWithId(
 	stories: Story[],

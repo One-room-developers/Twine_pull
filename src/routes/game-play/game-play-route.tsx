@@ -5,9 +5,9 @@ import * as React from 'react';
 import './game-play-route.css';
 import bookLogo from '../../styles/image/book-svgrepo-com.svg';
 
+
 export const GamePlayRoute: React.FC = () => {
     var [statUIOn, setStatUIOn] = React.useState(false);
-    const history = useHistory();
 
     React.useEffect(() => {
         main();
@@ -15,11 +15,17 @@ export const GamePlayRoute: React.FC = () => {
 
     function StatUi(){
         if(statUIOn){
+            document.querySelector("body").addEventListener('click', StatUiEvent);
             return <GamePlayStatUI/>
         }
         else{
+            document.querySelector("body").removeEventListener('click', StatUiEvent);
             return
         }
+    }
+
+    function StatUiEvent(){
+        setStatUIOn((statUIOn ? false : true))
     }
     return (
         <body className="game_play_body">
@@ -54,7 +60,7 @@ export const GamePlayRoute: React.FC = () => {
                     </div>
                 </div>
                 <div className="game_play-main_ui">
-                    <button className="main-ui-btn font-game-thin" onClick={function(){setStatUIOn((statUIOn ? false : true))}}>능력치</button>
+                    <button className="main-ui-btn font-game-thin" onClick={StatUiEvent}>능력치</button>
                     <button className="main-ui-btn font-game-thin">SAVE</button>
                     <button className="main-ui-btn font-game-thin">인벤토리</button>
                     <button className="main-ui-btn font-game-thin">환경설정</button>
