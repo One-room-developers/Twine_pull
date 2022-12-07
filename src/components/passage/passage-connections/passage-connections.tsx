@@ -20,6 +20,8 @@ const noOffset: Point = {left: 0, top: 0};
 export const PassageConnections: React.FC<PassageConnectionsProps> = props => {
 	const {formatName, formatVersion, offset, passages, startPassageId} = props;
 	const referenceParser = useFormatReferenceParser(formatName, formatVersion);
+	
+	//드래그 관련
 	const {draggable: draggableLinks, fixed: fixedLinks} = React.useMemo(
 		() => passageConnections(passages),
 		[passages]

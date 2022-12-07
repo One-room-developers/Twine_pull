@@ -1,4 +1,5 @@
 .selectable-card.selected .card {
-	background: var(--light-blue);
-	box-shadow: var(--shadow-small), inset 0 0 0 1px var(--blue);
+	background: var(--main-dark);
+	color: var(--main-blue);
+	box-shadow: var(--shadow-small), inset 0 0 0 2px var(--main-blue);
 }

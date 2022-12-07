@@ -18,7 +18,7 @@ export const BackButton: React.FC = () => {
 			variant="primary"
 			label={
 				history.length > 1
-					? t('common.back')
+					? "이전 페이지"
 					: t('routes.storyList.titleGeneric')
 			}
 			onClick={() =>

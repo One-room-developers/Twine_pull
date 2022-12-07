@@ -48,7 +48,7 @@
 	cursor: pointer;
 	display: inline-flex;
 	font: 110% var(--font-system);
-	font-family: "hambak";
+	font-family: "gameBold";
 	height: calc(1.2 * var(--control-height));
 	padding: var(--grid-size);
 	transition: background 0.3s;

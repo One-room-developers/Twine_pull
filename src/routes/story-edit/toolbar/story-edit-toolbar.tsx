@@ -15,19 +15,29 @@ export interface StoryEditToolbarProps {
 
 export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 	const {getCenter, story} = props;
-	const {t} = useTranslation();
+	//i18 인가 뭔가 하는 기능 안 쓰기.
+	//const {t} = useTranslation();
 
 	return (
 		<RouteToolbar
 			pinnedControls={<UndoRedoButtons />}
-			tabs={{
-				[t('common.passage')]: (
-					<PassageActions getCenter={getCenter} story={story} />
-				),
-				[t('common.story')]: <StoryActions story={story} />,
-				[t('common.build')]: <BuildActions story={story} />,
-				[t('common.appName')]: <AppActions />
-			}}
+			tabs={
+				//object를 인자로 받음
+				{
+				["스토리 Box"]: (
+						<PassageActions getCenter={getCenter} story={story} />
+					),
+				["에피소드"]: <StoryActions story={story} />,
+				["빌드"]: <BuildActions story={story} />,
+				["Twine 설정"]: <AppActions />	
+				// [t('common.passage')]: (
+				// 	<PassageActions getCenter={getCenter} story={story} />
+				// ),
+				// [t('common.story')]: <StoryActions story={story} />,
+				// [t('common.build')]: <BuildActions story={story} />,
+				// [t('common.appName')]: <AppActions />
+			}
+		}
 		/>
 	);
 };

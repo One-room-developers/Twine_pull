@@ -37,6 +37,9 @@ export const Routes: React.FC = () => {
 					<Route exact path="/story-list">
 						<StoryListRoute />
 					</Route>
+					<Route path="/stories/:storyId">
+						<StoryEditRoute />
+					</Route>
 					<Route path="/story-formats">
 						<StoryFormatListRoute />
 					</Route>
@@ -52,9 +55,7 @@ export const Routes: React.FC = () => {
 					<Route path="/stories/:storyId/test">
 						<StoryTestRoute />
 					</Route>
-					<Route path="/stories/:storyId">
-						<StoryEditRoute />
-					</Route>
+					
 					<Route
 						path="*"
 						render={path => {

@@ -28,15 +28,20 @@ import {useZoomTransition} from './use-zoom-transition';
 import {useZoomShortcuts} from './use-zoom-shortcuts';
 import {MarqueeablePassageMap} from './marqueeable-passage-map';
 
+
 export const InnerStoryEditRoute: React.FC = () => {
 	const [inited, setInited] = React.useState(false);
 	const {dispatch: dialogsDispatch} = useDialogsContext();
 	const mainContent = React.useRef<HTMLDivElement>(null);
 	const {storyId} = useParams<{storyId: string}>();
 	//뒤로가기를 가능하게 해 주는 듯.
+	//useUndoableStoriesContext 가 stories를 반환함. 확인해야 함. stories는 sotry의 복수형
 	const {dispatch: undoableStoriesDispatch, stories} =
 		useUndoableStoriesContext();
 	const story = storyWithId(stories, storyId);
+
+
+
 	useZoomShortcuts(story);
 
 	const selectedPassages = React.useMemo(
@@ -144,6 +149,8 @@ export const InnerStoryEditRoute: React.FC = () => {
 	// user (and skip undo history, since it was an automatic action).
 
 	React.useEffect(() => {
+		
+
 		if (!inited) {
 			setInited(true);
 

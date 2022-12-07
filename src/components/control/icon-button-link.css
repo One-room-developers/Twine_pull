@@ -11,7 +11,7 @@
 	cursor: pointer;
 	font: 100% var(--font-system);
 	color: var(--main-white);
-	height: var(--control-height);
+	height: calc(1.2 * var(--control-height));
 	padding: var(--grid-size);
 	transition: background 0.3s;
 	user-select: none;
@@ -96,7 +96,7 @@
 .icon-link.variant-primary {
 	color: var(--main-white);
 	font: 110% var(--font-system);
-	font-family: "hambak";
+	font-family: "gameBold";
 }
 
 .icon-button.variant-primary:hover:not(:disabled),

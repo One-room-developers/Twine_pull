@@ -2,7 +2,7 @@
 @import '../../styles/metrics.css';
 
 .main-content {
-	background: var(--off-white);
+	background: var(--main-white);
 	min-height: calc(100vh - 2 * var(--control-height));
 	overflow: auto;
 	position: fixed;
