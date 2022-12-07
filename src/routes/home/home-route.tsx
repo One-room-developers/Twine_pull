@@ -1,9 +1,9 @@
+import { reduce } from 'lodash';
 import * as React from 'react';
 import './home-route.css';
 import useIntersectionObserver from './useIntersectionObserver';
 
 export const HomeRoute: React.FC = () => {
-
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
 

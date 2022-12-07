@@ -3,7 +3,8 @@ import {
 	IconFileText,
 	IconPlayerPlay,
 	IconTool,
-	IconX
+	IconX,
+	IconDisc
 } from '@tabler/icons';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next/';
@@ -17,12 +18,17 @@ import {usePublishing} from '../store/use-publishing';
 import {useStoryLaunch} from '../store/use-story-launch';
 import {saveHtml} from '../util/save-html';
 
+//story 텍스트를 추출하기 위해 추가한 능력
+import {extractEpsiodeText, extractSomeEpisodeText, extractFirstEpsiodeTitle} from './../store/stories/extract_story';
+
 export interface BuildActionsProps {
 	story?: Story;
 }
 
 export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
+	//html publish함수
 	const {publishStory} = usePublishing();
+
 	const [playError, setPlayError] = React.useState<Error>();
 	const [proofError, setProofError] = React.useState<Error>();
 	const [publishError, setPublishError] = React.useState<Error>();
@@ -72,6 +78,9 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 		resetErrors();
 
+		//Html저장 함수
+		//saveHtml의 첫번째 인자가 모든 html의 데이터를 받는다.
+		//즉 publishStory가 스토리 출력 함수가 됨.
 		try {
 			saveHtml(await publishStory(story.id), storyFileName(story));
 		} catch (error) {
@@ -88,6 +97,27 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 		try {
 			await testStory(story.id);
+		} catch (error) {
+			setPublishError(error as Error);//모르겠으니 일단 publish error
+		}
+	}
+
+	//추가해준 함수.
+	//save버튼 누르면 실행.
+	async function handleSaveFile() {
+		if (!story) {
+			throw new Error('No story provided to publish');
+		}
+
+		resetErrors();
+
+		try {
+
+			//await testStory(story.id);
+			//await는 왜 씀?
+			console.log(extractFirstEpsiodeTitle(story));
+			console.log(extractEpsiodeText(story));
+			console.log(extractSomeEpisodeText(story, "option"));
 		} catch (error) {
 			setTestError(error as Error);
 		}
@@ -152,6 +182,8 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 					/>
 				</CardContent>
 			</CardButton>
+			
+
 			<CardButton
 				ariaLabel={publishError?.message ?? ''}
 				disabled={!story}
@@ -159,6 +191,26 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 				label={t('routeActions.build.publishToFile')}
 				onChangeOpen={() => setPublishError(undefined)}
 				onClick={handlePublishFile}
+				open={!!publishError}
+			>
+				<CardContent>
+					<p>{publishError?.message}</p>
+					<IconButton
+						icon={<IconX />}
+						label={t('common.close')}
+						onClick={() => setPublishError(undefined)}
+						variant="primary"
+					/>
+				</CardContent>
+			</CardButton>
+
+			<CardButton
+				ariaLabel={publishError?.message ?? ''}
+				disabled={!story}
+				icon={<IconDisc/>}
+				label={"저장하기"}
+				onChangeOpen={() => setPublishError(undefined)}
+				onClick={handleSaveFile}
 				open={!!publishError}
 			>
 				<CardContent>

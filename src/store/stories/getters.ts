@@ -20,6 +20,9 @@ export function passageWithId(
 	);
 }
 
+//Story 배열과 StoryId 와 passage 이름을 인자로 넣으면 
+//find함수는 배열의 특정 값을 찾는 함수이다.
+//passages는 Passage의 배열이므로 값 하나는 passage하나이다.
 export function passageWithName(
 	stories: Story[],
 	storyId: string,

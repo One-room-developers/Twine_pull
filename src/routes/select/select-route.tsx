@@ -19,7 +19,7 @@ export const SelectRoute: React.FC = () => {
                         당신의 선택이 만들어나가는 모험
                     </h1>
                 </div>
-                <a href="/#/game-play">
+                <a href="./#/game-play">
                     <div className="appear-animation">
                         <div className="game-start-btn" >
                             <h1 className="font-game-thick">게임 시작하기</h1>

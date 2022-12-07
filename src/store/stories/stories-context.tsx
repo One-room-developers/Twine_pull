@@ -20,8 +20,12 @@ StoriesContext.displayName = 'Stories';
 export const useStoriesContext = () => React.useContext(StoriesContext);
 
 export const StoriesContextProvider: React.FC = props => {
+	//스토리 관련 변수인가? 이 값을 반환하는 함수인가?
 	const {stories: storiesPersistence} = usePersistence();
+
+	//스토리 포멘 관련 변수인가? 이 값을 반환하는 함수인가?
 	const {formats} = useStoryFormatsContext();
+
 	const {reportError} = useStoreErrorReporter();
 	const persistedReducer: React.Reducer<
 		StoriesState,

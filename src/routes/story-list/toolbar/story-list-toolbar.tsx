@@ -23,11 +23,16 @@ export const StoryListToolbar: React.FC<StoryListToolbarProps> = props => {
 		<RouteToolbar
 			pinnedControls={<StorageQuota watch={stories} />}
 			tabs={{
-				[t('common.story')]: <StoryActions selectedStory={selectedStory} />,
-				[t('routes.storyList.library')]: <LibraryActions />,
-				[t('common.build')]: <BuildActions story={selectedStory} />,
-				[t('common.view')]: <ViewActions />,
-				[t('common.appName')]: <AppActions />
+				["에피소드"]: <StoryActions selectedStory={selectedStory} />,
+				["저장소"]: <LibraryActions />,
+				["빌드"]: <BuildActions story={selectedStory} />,
+				["관리"]: <ViewActions />,
+				["Twine 설정"]: <AppActions />
+				// [t('common.story')]: <StoryActions selectedStory={selectedStory} />,
+				// [t('routes.storyList.library')]: <LibraryActions />,
+				// [t('common.build')]: <BuildActions story={selectedStory} />,
+				// [t('common.view')]: <ViewActions />,
+				// [t('common.appName')]: <AppActions />
 			}}
 		/>
 	);

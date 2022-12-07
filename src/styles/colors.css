@@ -40,6 +40,12 @@
 	--purple: hsl(272, 90%, 60%);
 	--light-purple: hsl(272, 90%, 90%);
 	--light-purple-translucent: hsla(272, 90%, 65%, 0.25);
+
+	--main-dark:rgb(34, 40, 49);
+    --main-gray:rgb(57, 62, 70);
+    --main-blue:rgb(0, 173, 181);
+    --main-orange:rgb(251,157,52);
+    --main-white:rgb(238, 238, 238);
 }
 
 [data-app-theme='dark'] {

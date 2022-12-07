@@ -22,20 +22,26 @@ import {
 import {Point, Rect} from '../../util/geometry';
 import {StoryEditToolbar} from './toolbar';
 import './story-edit-route.css';
-import {ZoomButtons} from './zoom-buttons';
+
 import {DocumentTitle} from '../../components/document-title/document-title';
 import {useZoomTransition} from './use-zoom-transition';
 import {useZoomShortcuts} from './use-zoom-shortcuts';
 import {MarqueeablePassageMap} from './marqueeable-passage-map';
+
 
 export const InnerStoryEditRoute: React.FC = () => {
 	const [inited, setInited] = React.useState(false);
 	const {dispatch: dialogsDispatch} = useDialogsContext();
 	const mainContent = React.useRef<HTMLDivElement>(null);
 	const {storyId} = useParams<{storyId: string}>();
+	//뒤로가기를 가능하게 해 주는 듯.
+	//useUndoableStoriesContext 가 stories를 반환함. 확인해야 함. stories는 sotry의 복수형
 	const {dispatch: undoableStoriesDispatch, stories} =
 		useUndoableStoriesContext();
 	const story = storyWithId(stories, storyId);
+
+
+
 	useZoomShortcuts(story);
 
 	const selectedPassages = React.useMemo(
@@ -66,11 +72,16 @@ export const InnerStoryEditRoute: React.FC = () => {
 		[story, undoableStoriesDispatch]
 	);
 
+	//passage 드래그로 옮기는 함수.
 	const handleDragPassages = React.useCallback(
 		(change: Point) => {
 			// Ignore tiny drags--they're probably caused by the user moving their
 			// mouse slightly during double-clicking.
 
+			//일정 이상 변하지 않으면 움직임을 취소함.
+			//마냥 올린다고 내가 원하는 변화가 나는 게 아님. 일정 이상 움직여야지만 움직여지는 기능이 아니라,
+			//일정 이상 넘으면 그 단위만큼 움직여져야 함
+			//게다가 훨씬 멀리로 옮기면 그만임. 이상한 곳에 놓을 수 있게 됨
 			if (Math.abs(change.left) < 1 && Math.abs(change.top) < 1) {
 				return;
 			}
@@ -83,6 +94,8 @@ export const InnerStoryEditRoute: React.FC = () => {
 							current.selected ? [...result, current.id] : result,
 						[]
 					),
+					//이만큼 옮기게 됨. zoom이 무슨 변수인가?
+					//이걸 알기 위해선 story변수에 무엇이 저장되어있는 지를 알아야 한다.
 					change.left / story.zoom,
 					change.top / story.zoom
 				),
@@ -136,6 +149,8 @@ export const InnerStoryEditRoute: React.FC = () => {
 	// user (and skip undo history, since it was an automatic action).
 
 	React.useEffect(() => {
+		
+
 		if (!inited) {
 			setInited(true);
 
@@ -171,7 +186,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 					visibleZoom={visibleZoom}
 					zoom={story.zoom}
 				/>
-				<ZoomButtons story={story} />
 			</MainContent>
 		</div>
 	);

@@ -27,9 +27,10 @@ export function movePassages(
 		let left = Math.max(passage.left + xChange, 0);
 		let top = Math.max(passage.top + yChange, 0);
 
+		//큰 눈금 하나당 움직이도록 25 -> 100 으로 모두 바꿔줌.
 		if (story.snapToGrid) {
-			left = Math.round(left / 25) * 25;
-			top = Math.round(top / 25) * 25;
+			left = Math.round(left / 100) * 100;
+			top = Math.round(top / 100) * 100;
 		}
 
 		passageUpdates[passage.id] = {left, top};

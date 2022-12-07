@@ -2,13 +2,14 @@
 @import '../../styles/metrics.css';
 
 .main-content {
-	background: var(--off-white);
+	background: var(--main-white);
 	min-height: calc(100vh - 2 * var(--control-height));
 	overflow: auto;
 	position: fixed;
-	top: calc(2 * var(--control-height));
+	/*top: calc(2 * var(--control-height));*/
 	/* height of <top-bar> */
-	left: 0;
+	top: 0;
+	left: calc(6 * var(--control-left));
 	right: 0;
 	bottom: 0;
 }

@@ -13,13 +13,13 @@ export const UndoRedoButtons: React.FC = () => {
 			<IconButton
 				disabled={!undo}
 				icon={<IconArrowBack />}
-				label={undoLabel ?? t('common.undo')}
+				label={undoLabel ?? "되돌리기"}
 				onClick={undo}
 			/>
 			<IconButton
 				disabled={!redo}
 				icon={<IconArrowForward />}
-				label={redoLabel ?? t('common.redo')}
+				label={redoLabel ?? "앞으로"}
 				onClick={redo}
 			/>
 		</>

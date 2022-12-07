@@ -2,7 +2,21 @@
 @import '../../styles/metrics.css';
 @import '../../styles/typography.css';
 
-.icon-button,
+.icon-button{
+	align-items: center;
+	background: none;
+	border: none;
+	border-radius: var(--corner-round);
+	display: inline-flex;
+	cursor: pointer;
+	font: 100% var(--font-system);
+	color: var(--main-white);
+	height: calc(1.2 * var(--control-height));
+	padding: var(--grid-size);
+	transition: background 0.3s;
+	user-select: none;
+}
+
 .icon-link {
 	align-items: center;
 	background: none;
@@ -22,10 +36,10 @@
 .icon-button .icon svg,
 .icon-link .icon img,
 .icon-link .icon svg {
-	height: 18px;
+	height: 22px;
 	position: relative;
 	top: 2px; /* mysterious-- not sure why align-items doesn't get it */
-	width: 18px;
+	width: 22px;
 }
 
 .icon-button:not(.icon-only) .icon img,
@@ -80,19 +94,21 @@
 
 .icon-button.variant-primary,
 .icon-link.variant-primary {
-	color: var(--dark-blue);
+	color: var(--main-white);
+	font: 110% var(--font-system);
+	font-family: "gameBold";
 }
 
 .icon-button.variant-primary:hover:not(:disabled),
 .icon-link.variant-primary:hover:not(:disabled) {
-	background: var(--light-blue-translucent);
-	color: var(--dark-blue);
+	background: var(--light-gray-translucent);
+	color: var(--main-white);
 }
 
 .icon-button.variant-primary:active:not(:disabled),
 .icon-link.variant-primary:active:not(:disabled) {
-	background: var(--blue);
-	color: var(--dark-blue);
+	background: var(--main-white);
+	color: var(--main-blue);
 }
 
 .icon-button.variant-create,
@@ -131,5 +147,5 @@
 
 .icon-button.selected, .icon-link.selected {
 	background: var(--faint-blue);
-	color: var(--dark-blue);
+	color: var(--main-blue);
 }
