@@ -1,6 +1,5 @@
 import { main } from './game-play-write_text'
 import {GamePlayStatUI} from './game-play-stat_ui'
-import { useHistory } from 'react-router-dom';
 import * as React from 'react';
 import './game-play-route.css';
 import bookLogo from '../../styles/image/book-svgrepo-com.svg';
