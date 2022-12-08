@@ -9,10 +9,6 @@ import bookLogo from '../../styles/image/book-svgrepo-com.svg';
 export const GamePlayRoute: React.FC = () => {
     var [statUIOn, setStatUIOn] = React.useState(false);
 
-    React.useEffect(() => {
-        main();
-    }, [])
-
     function StatUi(){
         if(statUIOn){
             document.querySelector("body").addEventListener('click', StatUiEvent);
@@ -28,7 +24,7 @@ export const GamePlayRoute: React.FC = () => {
         setStatUIOn((statUIOn ? false : true))
     }
     return (
-        <body className="game_play_body">
+        <body className="game_play_body" onLoad={main}>
             <div className="game_play-left_ui">
             </div>
 

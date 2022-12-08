@@ -103,6 +103,75 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 		}
 	}
 
+	async function postEpisode(option_text : String[], sentences : String[], episode_id : number) {
+		let health_change : String;
+		let money_change : String;
+		let hungry_change : String;
+		let strength_change : String;
+		let agility_change : String;
+		let armour_change : String;
+		let mental_change : String;
+
+		for(let i = 0; i < option_text.length; i++) {
+			const option_data = extractSomeEpisodeText(story, option_text[i]);
+
+			health_change = '0';
+			money_change = '0';
+			hungry_change = '0';
+			strength_change = '0';
+			agility_change = '0';
+			armour_change = '0';
+			mental_change = '0';
+			
+			switch(option_data[0]) {
+				case 'health':
+					health_change = option_data[1];
+					break;
+				case 'money':
+					money_change = option_data[1];
+					break;
+				case 'hungry':
+					hungry_change = option_data[1];
+					break;
+				case 'strength':
+					strength_change = option_data[1];
+					break;
+				case 'agility':
+					agility_change = option_data[1];
+					break;
+				case 'armour':
+					armour_change = option_data[1];
+					break;
+				case 'mental':
+					mental_change = option_data[1];
+					break;
+			}
+			try {
+				await axios.post('http://localhost:3001/game_play/option', {
+				episode: episode_id,
+				text: option_text[i],
+				result_text: option_data[2],
+				health_change: health_change,
+				money_change: money_change,
+				hungry_change: hungry_change,
+				strength_change: strength_change,
+				agility_change: agility_change,
+				armour_change: armour_change,
+				mental_change: mental_change
+			})
+			.then((res) => {
+				console.log(res.data);
+				console.log(option_text[i]);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
+}
+
 	//추가해준 함수.
 	//save버튼 누르면 실행.
 	async function handleSaveFile(): Promise<void> {
@@ -112,14 +181,14 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 		resetErrors();
 
-		
+	
 		try {
 			
 			let sentences : String[];
 			//await testStory(story.id);
 			//await는 왜 씀?
 			
-			sentences = extractEpsiodeText(story) as String[]
+			sentences = extractEpsiodeText(story) as String[];
 
 			//배열에 들어있는 선택지 수많큼 반복 출력
 
@@ -130,32 +199,8 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			})
 			.then((res) => {
 				const option_text = searchOptionsString(sentences);
-				
-				console.log(option_text + "이거임");
-
-				for(let i = 0; i < option_text.length; i++) {
-					const option_data = extractSomeEpisodeText(story, option_text[i]);
-					
-					axios.post('http://localhost:3001/game_play/option', {
-						episode: res.data,
-						text: option_text[i],
-						result_text: option_data[2],
-						health_change: option_data[1],
-						money_change: option_data[1],
-						hungry_change: option_data[1],
-						strength_change: option_data[1],
-						agility_change: option_data[1],
-						armour_change: option_data[1],
-						mental_change: option_data[1]
-					})
-					.then((res) => {
-						console.log(res.data);
-						console.log(option_text[i]);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-				}
+				const episode_id = res.data;
+				postEpisode(option_text, sentences, episode_id);
 			})
 			.catch((error) => {
 				console.log(error);
