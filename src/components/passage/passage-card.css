@@ -1,5 +1,6 @@
 @import '../../styles/colors.css';
 @import '../../styles/metrics.css';
+@import '../../styles/components/font.css';
 
 .passage-card {
 	cursor: default;
@@ -25,15 +26,29 @@
 }
 
 .passage-card h2 {
-	color: var(--black);
+	color: var(--main-dark);
 	font-size: 100%;
 	font-weight: normal;
+	font-family: "hambak";
+}
+
+/* 선택시 empty는 그대로 passage는 white */
+.passage-card.selected h2{
+	color: var(--main-white);
+}
+.passage-card.selected.empty h2{
+	color: var(--main-dark);
 }
 
 .passage-card .card-content {
 	color: var(--gray);
 	padding: 0;
 	overflow: ellipsis;
+}
+
+/**/
+.passage-card.selected .card-content{
+	color: var(--main-dark);
 }
 
 .passage-card.empty .card {
@@ -44,8 +59,8 @@
 }
 
 .passage-card.empty.selected .card {
-	background: hsla(212, 90%, 60%, 0.1);
-	border: 1px dashed var(--blue);
+	background: rgba(34, 40, 49, 0.1);
+	border: 1px dashed var(--main-blue);
 	box-shadow: none;
 }
 

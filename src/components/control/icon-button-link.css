@@ -1,8 +1,7 @@
 @import '../../styles/colors.css';
 @import '../../styles/metrics.css';
 @import '../../styles/typography.css';
-
-.icon-button{
+.route-toolbar .icon-button{
 	align-items: center;
 	background: none;
 	border: none;
@@ -11,6 +10,20 @@
 	cursor: pointer;
 	font: 100% var(--font-system);
 	color: var(--main-white);
+	height: calc(1.2 * var(--control-height));
+	padding: var(--grid-size);
+	transition: background 0.3s;
+	user-select: none;
+}
+.icon-button{
+	align-items: center;
+	background: none;
+	border: none;
+	border-radius: var(--corner-round);
+	display: inline-flex;
+	cursor: pointer;
+	font: 100% var(--font-system);
+	color: var(--main-dark);
 	height: calc(1.2 * var(--control-height));
 	padding: var(--grid-size);
 	transition: background 0.3s;
