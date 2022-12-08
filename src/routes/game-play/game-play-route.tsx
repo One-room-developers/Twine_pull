@@ -23,8 +23,10 @@ export const GamePlayRoute: React.FC = () => {
     function StatUiEvent(){
         setStatUIOn((statUIOn ? false : true))
     }
+
+    React.useEffect(main, [])
     return (
-        <body className="game_play_body" onLoad={main}>
+        <body className="game_play_body" >
             <div className="game_play-left_ui">
             </div>
 

@@ -7,6 +7,7 @@
 import heartLogo from "../../styles/image/heart.png"
 import heartBLogo from "../../styles/image/heart_b.png"
 import hungryLogo from "../../styles/image/hungry.png"
+import hungryBLogo from "../../styles/image/hungry_b.png"
 import moneyLogo from "../../styles/image/money.png"
 import money5Logo from "../../styles/image/money5.png"
 import axios from 'axios';
@@ -18,9 +19,12 @@ interface Status {
   strength: number,
   agility: number,
   armour: number,
-  mental: number
+  mental: number,
+  
 };
 
+var maxHealth : number = 5;
+var maxHungry : number = 5;
 var episode_text: HTMLDivElement;
 var text_view: HTMLDivElement;
 var main_text_view: HTMLDivElement;
@@ -50,15 +54,14 @@ var main_text_view_basic_size: number;
 var tyInt: ReturnType<typeof setInterval>;
 let option_result = new Object();
 export let current_status : Status;
-var maxhelath = 5;
-var maxHungry = 5;
 let db_episode_num
 
 function main() {
+  console.log("main");
   episode_title_div = document.querySelector('.episode_name') as HTMLDivElement;
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
-  //let db_episode_num = Math.floor(Math.random() * 6) + 1;
-  db_episode_num = 1;
+  db_episode_num = Math.floor(Math.random() * 6) + 1;
+
   // 에피소드 가져오기
   axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
   .then((res) => {
@@ -81,12 +84,13 @@ function main() {
     };
 
     // 캐릭터 스테이터스 가져오기
-    axios.get('http://localhost:3001/game_play/character/5')
+    axios.get('http://localhost:3001/game_play/character/1')
     .then((res) => {
       current_status = res.data;
       });
     });
 
+    
   setTimeout(function () { typing_episode(0) }, 3000);
 };
 
@@ -126,8 +130,8 @@ function resetRightUI() {
 function makeRightUI() {
   if (current_status.health < 0)
     current_status.health = 0;
-  else if(current_status.health > maxhelath)
-    current_status.health = maxhelath
+  else if(current_status.health > maxHealth)
+    current_status.health = maxHealth
 
   if (current_status.hungry < 0)
     current_status.hungry = 0;
@@ -142,10 +146,11 @@ function makeRightUI() {
   var helathBImg = [];
   var moneyImg = [];
   var hungryImg = [];
+  var hungryBImg = [];
   var money5 = Math.floor(money / 5);
 
   let i = 0;
-  //helath의 개수가 0보다 작거나 maxhelath보다 클 수 없게 설정
+  //helath의 개수가 0보다 작거나 current_status.maxHealth보다 클 수 없게 설정
   
     
   for (i = 0; i < health; i++) {
@@ -155,7 +160,7 @@ function makeRightUI() {
     helathImg[i].width = 30;
     health_class.appendChild(helathImg[i]);
   }
-  for (i = 0; i < maxhelath - health; i++) {
+  for (i = 0; i < maxHealth - health; i++) {
     helathBImg[i] = new Image();
     helathBImg[i].className = "right-ui-img"
     helathBImg[i].src = heartBLogo;
@@ -169,6 +174,13 @@ function makeRightUI() {
     hungryImg[i].src = hungryLogo;
     hungryImg[i].width = 30;
     hungry_class.appendChild(hungryImg[i]);
+  }
+  for (i = 0; i < maxHungry - hungry; i++) {
+    hungryBImg[i] = new Image();
+    hungryBImg[i].className = "right-ui-img"
+    hungryBImg[i].src = hungryBLogo;
+    hungryBImg[i].width = 30;
+    hungry_class.appendChild(hungryBImg[i]);
   }
 
   if (money <= 5) {
@@ -199,11 +211,9 @@ function makeRightUI() {
 }
 
 function click_on() {
-  console.log("click_on" + current_episode_num);
   click = true
 }
 function typing() {
-  console.log(click);
   //클릭을 했다면 탈출
   if (click === true) {
     clearInterval(tyInt);
@@ -237,7 +247,6 @@ function typing() {
 
         if (text_view.clientHeight * height_multiple < episode_text.clientHeight + text_view_header.clientHeight) {
           episode_text.innerText = episode_text.innerText.slice(0, -1);
-          console.log("size : " + text_view.clientHeight * height_multiple + main_text_view_basic_size);
           main_text_view.style.height = `${(text_view.clientHeight * height_multiple + main_text_view_basic_size)}px`;
           moveScrollBottom();
           hot_point = 30;
@@ -263,7 +272,6 @@ function makeOptionDiv() {
   var optionDiv = [];
   let i = 0;
   option_class.classList.remove("hidden");
-  console.log("run) makeOptionDiv")
 
   for (i = 0; i < input_option[current_episode_num].length; i++) {
     optionDiv[i] = document.createElement('div');
@@ -283,7 +291,7 @@ function clickOptionEvent(optionId: number) {
   result_option_class.classList.remove("hidden");
 
   // 선택지를 고른 후 캐릭터 스테이터스 업데이트
-  axios.patch('http://localhost:3001/game_play/change_character/5',
+  axios.patch('http://localhost:3001/game_play/change_character/1',
   {
     "changed_health": current_status.health + option_result[optionId].health_change,
     "changed_money": current_status.money + option_result[optionId].money_change,
@@ -357,7 +365,6 @@ function clickOptionEvent(optionId: number) {
       moveScrollBottom();
       height_multiple++;
   })
-  .catch((error) => console.log(error.response));
 }
 
 function makeResultDiv() {
