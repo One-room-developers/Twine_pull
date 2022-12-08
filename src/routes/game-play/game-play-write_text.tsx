@@ -420,6 +420,6 @@ function resetTextDiv() {
   option_class.classList.add("hidden");
   result_text_class.classList.add("hidden");
   result_option_class.classList.add("hidden");
-}
+// }
 
 export { main };
