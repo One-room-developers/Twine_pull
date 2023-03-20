@@ -1,0 +1,139 @@
+.signup-background-img{
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    position: absolute;
+    background-color: var(--main-dark);
+}
+
+.signup-main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-dark);
+}
+
+.welcome-title{
+    color: var(--main-white);
+    font-size: 6vh;
+    margin-bottom: 3.5vh;
+}
+.welcome-title-2{
+    color: var(--main-white);
+    font-size: 3.5vh;
+    margin-bottom: 3.5vh;
+}
+.welcome-title-3{
+    color: var(--main-white);
+    font-size: 3vh;
+    margin-bottom: 3vh;
+}
+
+.signup-form-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 82vh;
+    margin-bottom: 10vh;
+}
+
+.email-form{
+    display: flex;
+    width: 74vh;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.email-input{
+    background-color: var(--main-dark);
+    border: 1px solid var(--main-white);
+    width: 50vh;
+    height: 7vh;
+    border-radius: 5px;
+    padding: 0 10px 0 15px;
+    font-size: 2.3vh;
+    color: white;
+}
+.signup-button{
+    width: 23vh;
+    height: 7vh;
+    background-color: var(--main-blue);
+    color: var(--main-white);
+    border: none;
+    border-radius: 5px;
+    font-size: 3.5vh;
+    
+}
+@keyframes signup-btn-hover{
+    0%{
+        background-color: var(--main-blue);
+    }
+    100%{
+        background-color: rgb(0, 150, 158);
+    }
+}
+.signup-button:hover{
+    cursor: pointer;
+    animation: signup-btn-hover 0.3s ease-in-out forwards;
+}
+
+.google-signup-btn{
+    width: 7vh;
+    height: 7vh;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+.google-signup-btn:hover{
+    cursor: pointer;
+}
+.google-signup-btn img{
+    width: 4vh;
+    height: 4vh;
+}
+
+.signup-footer{
+    width: 100%;
+    height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 2vw 0px 2vw;
+    background-color: var(--main-dark);
+}
+
+.signup-footer-logo{
+    color: #FFFFFF;
+    font-size: 1.6em;
+}
+
+.signup-footer-menu{
+    width: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.signup-footer-menu button{
+    width: 76px;
+    height: 34px;
+    border-radius: 3px;
+    background-color: var(--main-blue);
+    color: var(--main-white);
+}
+.signup-footer-menu button:hover{
+    cursor: pointer;
+}
+
+.signup-footer-menu select{
+    width: 124px;
+    height: 34px;
+    border-radius: 3px;
+    background-color: var(--main-dark);
+    color: var(--main-white);
+}

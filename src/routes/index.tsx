@@ -10,6 +10,8 @@ import {StoryTestRoute} from './story-test';
 import { HomeRoute } from './home';
 import { SelectRoute } from './select';
 import { GamePlayRoute } from './game-play';
+import { LoginRoute } from './login';
+import { SignupRoute } from './signup';
 
 export const Routes: React.FC = () => {
 	const {prefs} = usePrefsContext();
@@ -30,6 +32,12 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/select">
 						<SelectRoute />
+					</Route>
+					<Route exact path="/login">
+						<LoginRoute />
+					</Route>
+					<Route exact path="/signup">
+						<SignupRoute />
 					</Route>
 					<Route exact path="/game-play">
 						<GamePlayRoute />
@@ -73,6 +81,12 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/select">
 						<SelectRoute />
+					</Route>
+					<Route exact path="/login">
+						<LoginRoute />
+					</Route>
+					<Route exact path="/signup">
+						<SignupRoute />
 					</Route>
 					<Route exact path="/game-play">
 						<GamePlayRoute />
