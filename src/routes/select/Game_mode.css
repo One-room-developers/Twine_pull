@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500&display=swap');
+@font-face {
+    font-family: 'ChosunGs';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.game_mode-background{
+    position :fixed;
+    width : 100%;
+    height : 100%;
+    top : 0;
+    left : 0;
+    background-color: black;
+    opacity: 0.8;
+}
+
+.game_mode{
+    position :fixed;
+    width : 110vh;
+    height : 50vh;
+    top : 20vh;
+    left : 0;
+    right : 0;
+    margin : 0 auto;
+    background-color: #D8D8D8;
+    border: 10px groove rgba(0,0,0,0.9);
+
+    border-radius: 4px;
+    font-size: 12px;
+
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: 85% 15%;
+
+}
+
+.game_mode-text{
+    grid-column : 1/2;
+    grid-row: 1/1;
+    
+    display: flex;
+    flex-direction: column;
+    padding-top : 10px;
+    padding-left : 20px;
+}
+
+.game_mode-text div{
+    margin : 20px 0px;
+}
+
+.game_mode-modes{
+    grid-column : 2/3;
+    grid-row: 1/1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    padding : 0px 20px;
+}
+
+.game_mode-select_button{
+    grid-column : 1/-1;
+    grid-row: 2/2;
+    border-top: 1px solid black;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.game_mode-select_button button{
+    margin : 0px 10px;
+    width : 100px;
+    font-size: 15px;
+}
+
+
+.game_mode-modes-element{
+    display: flex;
+    flex-direction: column;
+    border : 5px double gray;
+    
+    border-radius: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    background-color: aliceblue;
+    opacity: 0.8;
+}
+
+.game_mode-modes-element.hover{
+    display: flex;
+    flex-direction: column;
+    border : 5px double gray;
+    
+    border-radius: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    background-color: aliceblue;
+    opacity: 1;
+}
+
+.game_mode-modes-element.click{
+    display: flex;
+    flex-direction: column;
+    border : 5px groove black;
+    
+    border-radius: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    background-color: aliceblue;
+    opacity: 1;
+}
+
+.game_mode-modes-element img{
+    width : 30vh;
+    height : 25vh;
+    border-bottom: 5px double gray;
+}
+
+.game_mode-modes-element.hover img{
+    width : 30vh;
+    height : 25vh;
+    border-bottom : 5px double gray;
+}
+
+.game_mode-modes-element.click img{
+    width : 30vh;
+    height : 25vh;
+    border-bottom : 5px groove black;
+}
+
+.game_mode-modes-element div{
+    padding : 5px 0px;
+}
+
+.title_font{
+    font-size: 30px;
+}
+
+.content_font{
+    font-size: 15px;
+}
+
+.subtitle_font{
+    font-size : 18px;
+    font-weight: bold;
+}
+
+.font-Hahmet{
+    font-family: 'Hahmlet', serif;
+}
+
+.font-josun{
+    font-family: 'ChosunGs';
+}
+
+.text_center{
+    text-align: center;
+}
+
+.hidden{
+    display : none;
+}

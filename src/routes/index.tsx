@@ -8,7 +8,7 @@ import {StoryPlayRoute} from './story-play';
 import {StoryProofRoute} from './story-proof';
 import {StoryTestRoute} from './story-test';
 import { HomeRoute } from './home';
-import { SelectRoute } from './select';
+import { SelectRoute } from './select/select-route';
 import { GamePlayRoute } from './game-play';
 import { LoginRoute } from './login';
 import { SignupRoute } from './signup';
