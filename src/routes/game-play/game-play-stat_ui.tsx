@@ -32,21 +32,49 @@ export const GamePlayStatUI: React.FC = (
         </div>
 
         <div className="stat-ui-div">
-        <div className="stat-img-container">
-
-        </div>
-        <div className="stat-all-container">
-            <div className="stat-ui-div-text">힘</div>
-            <div className="cristal-div">
-            {StatIconPusher(20, current_status.strength)}
+            <div className="stat-img-container">
+                <div className="stat-ui-div-text">힘</div>
+            </div>
+            <div className="stat-all-container">
+                <div className="cristal-div">
+                {StatIconPusher(20, current_status.strength)}
+                </div>
             </div>
         </div>
+
+        <div className="stat-ui-div">
+            <div className="stat-img-container">
+                <div className="stat-ui-div-text">민첩</div>
+            </div>
+            <div className="stat-all-container">
+                <div className="cristal-div">
+                {StatIconPusher(20, current_status.agility)}
+                </div>
+            </div>
         </div>
 
-        <div className="stat-ui-div">민첩 : {current_status.agility}</div>
-        <div className="stat-ui-div">방어력 :{current_status.armour}</div>
-        <div className="stat-ui-div">정신력 : {current_status.mental}</div>
+        <div className="stat-ui-div">
+            <div className="stat-img-container">
+                <div className="stat-ui-div-text">방어력</div>
+            </div>
+            <div className="stat-all-container">
+                <div className="cristal-div">
+                {StatIconPusher(20, current_status.armour)}
+                </div>
+            </div>
+        </div>
 
+        <div className="stat-ui-div">
+            <div className="stat-img-container">
+                <div className="stat-ui-div-text">정신력</div>
+            </div>
+            <div className="stat-all-container">
+                <div className="cristal-div">
+                {StatIconPusher(20, current_status.mental)}
+                </div>
+            </div>
+        </div>
+        
     </div>
     );
 };

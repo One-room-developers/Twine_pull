@@ -1,4 +1,3 @@
-import { reduce } from 'lodash';
 import * as React from 'react';
 import './home-route.css';
 import useIntersectionObserver from './useIntersectionObserver';
@@ -98,8 +97,12 @@ export const HomeRoute: React.FC = () => {
                             </div>
                         </div>
                         <div className="btn__container">
-                            <div className="font-hambak login-btn">LOGIN</div>
-                            <div className="font-hambak sign-btn">SIGN UP</div>
+                            <a href="/#/login">
+                                <div className="font-hambak login-btn">LOGIN</div>
+                            </a>
+                            <a href="/#/signup">
+                                <div className="font-hambak sign-btn">SIGN UP</div>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -60,8 +60,9 @@ function main() {
   console.log("main");
   episode_title_div = document.querySelector('.episode_name') as HTMLDivElement;
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
-  db_episode_num = Math.floor(Math.random() * 6) + 1;
+  //db_episode_num = Math.floor(Math.random() * 6) + 3;
 
+  db_episode_num = 60;
   // 에피소드 가져오기
   axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
   .then((res) => {
@@ -84,7 +85,7 @@ function main() {
     };
 
     // 캐릭터 스테이터스 가져오기
-    axios.get('http://localhost:3001/game_play/character/1')
+    axios.get('http://localhost:3001/game_play/character/3')
     .then((res) => {
       current_status = res.data;
       });
@@ -291,7 +292,7 @@ function clickOptionEvent(optionId: number) {
   result_option_class.classList.remove("hidden");
 
   // 선택지를 고른 후 캐릭터 스테이터스 업데이트
-  axios.patch('http://localhost:3001/game_play/change_character/1',
+  axios.patch('http://localhost:3001/game_play/change_character/3',
   {
     "changed_health": current_status.health + option_result[optionId].health_change,
     "changed_money": current_status.money + option_result[optionId].money_change,
@@ -307,11 +308,16 @@ function clickOptionEvent(optionId: number) {
         text: option_result[optionId].result_text,
         health: option_result[optionId].health_change,
         hungry: option_result[optionId].hungry_change,
-        money: option_result[optionId].money_change
+        money: option_result[optionId].money_change,
+        strength : option_result[optionId].strength_change,
+        agility : option_result[optionId].agility_change,
+        armour : option_result[optionId].armour_change,
+        mental : option_result[optionId].mental_change
       });
 
       result_text_class.innerHTML += "<br>" + input_result[current_episode_num].text + "<br><br>";
 
+      console.log(input_result);
       for(let key in option_result[optionId]) {
         if(key == 'id' || key == 'text' || key == 'result_text') {
           continue;
@@ -357,6 +363,10 @@ function clickOptionEvent(optionId: number) {
       current_status.health += input_result[current_episode_num].health;
       current_status.hungry += input_result[current_episode_num].hungry;
       current_status.money += input_result[current_episode_num].money;
+      current_status.strength += input_result[current_episode_num].strength;
+      current_status.agility += input_result[current_episode_num].agility;
+      current_status.armour += input_result[current_episode_num].armour;
+      current_status.mental += input_result[current_episode_num].mental;
 
       makeResultDiv();
       resetRightUI();
@@ -391,10 +401,9 @@ function clickResultEvent() {
   
   current_episode_num += 1;
 
-  db_episode_num = Math.floor(Math.random() * 6) + 1;
-
-
-  if(current_status.health <= 0)
+  //db_episode_num = Math.floor(Math.random() * 6) + 3;
+  db_episode_num = 60
+  if(current_status.health <= 0 || current_status.hungry <= 0)
     db_episode_num = 11
 
   // 에피소드 가져오기

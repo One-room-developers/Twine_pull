@@ -21,13 +21,15 @@ export const LoginRoute: React.FC = () => {
                     <div></div>
                 </header>
 
-                <form className="login-form" action="">
+                <form className="login-form" action="http://localhost:3001/auth/login" method="post">
                 
                     <div className="grid-1 font-game-thick">로그인</div>
                     <div className="grid-2 ">
                         <input type="text" placeholder="계정 이메일" />
                         <input type="password" placeholder="비밀번호" />
-                        <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
+                        <form className='google-login-form' action="http://localhost:3001/auth/google" method="get">
+                            <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
+                        </form>
                         <div className="autoLogin-container">
                             <input type="checkbox" id="autoLogin" name="autoLogin" />
                             <label className="font-game-thin" htmlFor="autoLogin">로그인 상태 유지</label>
@@ -41,7 +43,7 @@ export const LoginRoute: React.FC = () => {
                     <div className="grid-4 font-game-thin">
                         <a href="">아이디/비밀번호 찾기</a>
                         <br />
-                        <a href="">회원가입</a>
+                        <a href="/#/signup">회원가입</a>
                     </div>
                     
                 </form>

@@ -201,6 +201,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 				const option_text = searchOptionsString(sentences);
 				const episode_id = res.data;
 				postEpisode(option_text, sentences, episode_id);
+				alert('에피소드 생성 성공');
 			})
 			.catch((error) => {
 				console.log(error);
