@@ -2,8 +2,26 @@ import * as React from 'react';
 import './login-route.css';
 import googleLogo from '../../styles/image/google-logo.png';
 import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
+import axios from 'axios';
 
 export const LoginRoute: React.FC = () => {
+
+    const [email, setEmail] = React.useState("");
+    const [pwd, setPwd] = React.useState("");
+
+    const onChangeEmail = React.useCallback((e) => setEmail(e.target.value), []);
+    const onChangePwd = React.useCallback((e) => setPwd(e.target.value), []);
+
+    function login() {
+        axios({
+            method: "POST",
+            url: `http://localhost:3001/auth/login`,
+            data: {
+                email: email,
+                password: pwd,
+            },
+        })
+    }
 
     return(
         <body className="login-img">
@@ -21,12 +39,13 @@ export const LoginRoute: React.FC = () => {
                     <div></div>
                 </header>
 
-                <form className="login-form" action="http://localhost:3001/auth/login" method="post">
+                <form className="login-form" action="http://localhost:3001/auth/login" method="post"
+                    onSubmit={login}>
                 
                     <div className="grid-1 font-game-thick">로그인</div>
                     <div className="grid-2 ">
-                        <input type="text" placeholder="계정 이메일" />
-                        <input type="password" placeholder="비밀번호" />
+                        <input type="email" placeholder="계정 이메일" required onChange={onChangeEmail}/>
+                        <input type="password" placeholder="비밀번호" required onChange={onChangePwd}/>
                         <form className='google-login-form' action="http://localhost:3001/auth/google" method="get">
                             <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
                         </form>
