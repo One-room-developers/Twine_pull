@@ -39,8 +39,7 @@ export const LoginRoute: React.FC = () => {
                     <div></div>
                 </header>
 
-                <form className="login-form" action="http://localhost:3001/auth/login" method="post"
-                    onSubmit={login}>
+                <form className="login-form" onSubmit={login}>
                 
                     <div className="grid-1 font-game-thick">로그인</div>
                     <div className="grid-2 ">
