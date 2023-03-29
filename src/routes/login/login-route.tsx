@@ -24,9 +24,8 @@ export const LoginRoute: React.FC = () => {
                 password: pwd,
             },
         })
-        .then((res) => {
-            history.push("/");
-        })
+        
+        history.push("/");
     }
 
     return(
