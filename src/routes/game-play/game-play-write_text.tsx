@@ -107,7 +107,6 @@ function typing_episode(indexNum: number) {
   health_class = document.querySelector(".health") as HTMLDivElement;
   hungry_class = document.querySelector(".hungry") as HTMLDivElement;
   money_class = document.querySelector(".money") as HTMLDivElement;
-
   hot_point = 0;
   click = false;
   typingIdx = 0;
@@ -292,7 +291,7 @@ function clickOptionEvent(optionId: number) {
   result_option_class.classList.remove("hidden");
 
   // 선택지를 고른 후 캐릭터 스테이터스 업데이트
-  axios.patch('http://localhost:3001/game_play/change_character/3',
+  axios.patch('http://localhost:3001/game_play/changestatus/3',
   {
     "changed_health": current_status.health + option_result[optionId].health_change,
     "changed_money": current_status.money + option_result[optionId].money_change,

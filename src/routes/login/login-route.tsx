@@ -3,8 +3,11 @@ import './login-route.css';
 import googleLogo from '../../styles/image/google-logo.png';
 import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
 import axios from 'axios';
+import { useHistory } from "react-router";
 
 export const LoginRoute: React.FC = () => {
+
+    const history = useHistory();
 
     const [email, setEmail] = React.useState("");
     const [pwd, setPwd] = React.useState("");
@@ -20,6 +23,9 @@ export const LoginRoute: React.FC = () => {
                 email: email,
                 password: pwd,
             },
+        })
+        .then((res) => {
+            history.push("/");
         })
     }
 
