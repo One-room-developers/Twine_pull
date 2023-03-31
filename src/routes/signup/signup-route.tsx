@@ -2,10 +2,13 @@ import * as React from 'react';
 import './signup-route.css';
 import googleLogo from '../../styles/image/google-logo.png';
 import axios from 'axios';
-import { CreatePlayerDTO } from '../../../../server/src/player/dto/signup.dto';
+import EmailContainer from './components/email-container';
+import { CreatePlayerDTO } from '../../../../back-end/src/player/dto/signup.dto';
 
 
 export const SignupRoute: React.FC = () => {
+
+    const [email, setEmail] = React.useState("");
 
     function signup() {
         axios.get(`http:localhost:3001/auth/signup`)
@@ -22,10 +25,7 @@ export const SignupRoute: React.FC = () => {
                 <h3 className="welcome-title-3 font-game-thin">모험을 떠날 준비가 되었나요? 게임을 플레이하거나 스토리를 제작하려면 이메일 주소를 입력하세요.</h3>
 
                 <div className="signup-form-container">
-                    <form className="email-form" action="">
-                        <input className="email-input" type="email" placeholder="이메일 주소" required />
-                        <button className="font-game-thin signup-button">시작하기</button>
-                    </form>
+                    <EmailContainer onFormSubmit={function(){ }.bind(this)}></EmailContainer>
             
                     <button className="google-signup-btn"><img src={googleLogo} alt="" /></button>
                 </div>

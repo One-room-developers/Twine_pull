@@ -67,26 +67,24 @@ export const LoginRoute: React.FC = () => {
                     <div></div>
                 </header>
 
-                <div className="login-div" onSubmit={login}>
+                <div className="login-div">
                 
                     <div className="grid-1 font-game-thick">로그인</div>
-                    <div className="grid-2 ">
+                    <form className="grid-2" onSubmit={login}>
                         <input type="email" placeholder="계정 이메일" required onChange={onChangeEmail}/>
                         <input type="password" placeholder="비밀번호" required onChange={onChangePwd}/>
-                        <div className='google-login-form'>
-                            <div className="google-login" onClick={googleLogin}> <img src={googleLogo} />구글 로그인</div>
-                        </div>
+                        <form className='google-login-form' action='http://localhost:3001/auth/googleAuth' method="get">
+                            <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
+                        </form>
                         <div className="autoLogin-container">
                             <input type="checkbox" id="autoLogin" name="autoLogin" />
                             <label className="font-game-thin" htmlFor="autoLogin">로그인 상태 유지</label>
                         </div>
-                    </div>
-                    <div className="grid-3">
                         <button className="login-enter-btn">
                             <img src={arrow} alt="" />
                         </button>
-                    </div>
-                    <div className="grid-4 font-game-thin">
+                    </form>
+                    <div className="grid-3 font-game-thin">
                         <a href="">아이디/비밀번호 찾기</a>
                         <br />
                         <a href="/#/signup">회원가입</a>
