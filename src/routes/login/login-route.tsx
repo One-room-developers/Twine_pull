@@ -68,7 +68,7 @@ export const LoginRoute: React.FC = () => {
                         </div>
                     </div>
                     <div className="grid-3">
-                        <button type='submit' className="login-enter-btn" onSubmit={login}>
+                        <button className="login-enter-btn" onClick={login}>
                             <img src={arrow} alt="" />
                         </button>
                     </div>
