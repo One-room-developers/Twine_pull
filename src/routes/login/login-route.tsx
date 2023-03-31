@@ -36,6 +36,7 @@ export const LoginRoute: React.FC = () => {
     }
 
     function googleLogin() {
+        console.log('hi');
         axios({
             method: "GET",
             url: `http://localhost:3001/auth/googleAuth`,
@@ -66,7 +67,7 @@ export const LoginRoute: React.FC = () => {
                     <div></div>
                 </header>
 
-                <form className="login-form" onSubmit={login}>
+                <div className="login-div" onSubmit={login}>
                 
                     <div className="grid-1 font-game-thick">로그인</div>
                     <div className="grid-2 ">
@@ -91,6 +92,12 @@ export const LoginRoute: React.FC = () => {
                         <a href="/#/signup">회원가입</a>
                     </div>
                     
+                </div>
+
+                <form action='http://localhost:3001/auth/googleAuth' method="get">
+                    <div className='google-login-form'>
+                        <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
+                    </div>
                 </form>
 
                 <div></div>
