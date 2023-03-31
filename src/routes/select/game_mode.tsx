@@ -14,7 +14,7 @@ class Game_mode extends Component<any, any>{
       click : 1,
       contents : [
         {id : 1, title : '아포칼립스', explain : '멸망한 세계에서 살아남으세요'},
-        {id : 2, title : '판타지', explain : '마법과 검의 세계에서 당신의 가능성을 증명해보세요'}
+        {id : 2, title : '판타지', explain : '마법과 검의 세계에서 당신을 증명하세요'}
       ]
     }
   }

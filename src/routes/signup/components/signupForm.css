@@ -1,0 +1,130 @@
+.signup-background{
+    z-index: 10;
+    position :fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width : 100%;
+    height : 100%;
+    top : 0;
+    left : 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.signup-info{
+    width: 520px;
+    height: 575px;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    background-color: var(--main-white);
+    border-radius: 5px;
+    align-items: center;
+}
+
+.signup-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 62px;
+    padding: 0 20px 0 20px;
+    border-bottom: 1px solid var(--main-gray);
+}
+
+.signup-header h1{
+    font-size: 18px;
+}
+.signup-close{
+    display: flex;
+    align-items: center;
+}
+.signup-close:hover{
+    cursor: pointer;
+}
+.signup-close img{
+    width: 17px;
+    height: 17px;
+}
+
+.signup-header div{
+    width: 25px;
+    height: 25px;
+}
+
+.signup-title{
+    width: 100%;
+    height: 112px;
+    padding: 15px 20px 0 20px;
+    display: flex;
+    align-items: center;
+}
+.signup-title h1{
+    font-size: 20px;
+}
+
+.signup-line{
+    width: 100%;
+    height: 52px;
+    padding: 0 20px 0 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+
+.signup-line label{
+    width: 30%;
+    font-size: 18px;
+}
+
+.signup-line input{
+    background-color: var(--main-white);
+    font-size: 18px;
+    width: 70%;
+    height: 28px;
+    border: 1px solid rgba(58, 62, 69, 0.5);
+    border-radius: 5px;
+}
+
+.input-checkbox{
+
+}
+
+.input-checkbox label{
+    width: 45%;
+}
+.input-checkbox input{
+    width: 20px;
+    height: 20px;
+}
+
+.signup-line label{
+
+}
+
+.terms-a{
+    color: var(--main-blue);
+    font-size:14px;
+}
+.terms-a:visited{
+    color: var(--main-blue);
+    font-size:14px;
+}
+
+.signup-form-submit-btn{
+    width: 480px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: var(--main-blue);
+    color: var(--main-white);
+    font-size: 18px;
+    border: none;
+    margin-top: 12px;
+}
+.signup-form-submit-btn:hover{
+    cursor: pointer;
+}
+
+.hidden{
+    display : none;
+}

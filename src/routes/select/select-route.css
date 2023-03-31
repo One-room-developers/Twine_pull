@@ -108,6 +108,7 @@
 
 .game-start-btn:hover{
     animation: btn-hover1 0.3s ease-in-out forwards;
+    cursor: pointer;
 }
 
 @keyframes painting3_reduce{
