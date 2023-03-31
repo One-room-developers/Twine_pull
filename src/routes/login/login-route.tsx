@@ -15,6 +15,13 @@ export const LoginRoute: React.FC = () => {
     const onChangeEmail = React.useCallback((e) => setEmail(e.target.value), []);
     const onChangePwd = React.useCallback((e) => setPwd(e.target.value), []);
 
+    const user = {
+        providerId: String,
+        email: String,
+        name: String,
+        accessToken: String
+    }
+
     function login() {
         axios({
             method: "POST",
@@ -26,6 +33,21 @@ export const LoginRoute: React.FC = () => {
         })
         
         history.push("/");
+    }
+
+    function googleLogin() {
+        axios({
+            method: "GET",
+            url: `http://localhost:3001/auth/googleAuth`,
+        })
+        .then((res) => {
+            user.providerId = res.data.providerid;
+            user.email = res.data.email;
+            user.name = res.data.name;
+            user.accessToken = res.data.accessToken;
+
+            console.log(user);
+        });
     }
 
     return(
@@ -50,9 +72,9 @@ export const LoginRoute: React.FC = () => {
                     <div className="grid-2 ">
                         <input type="email" placeholder="계정 이메일" required onChange={onChangeEmail}/>
                         <input type="password" placeholder="비밀번호" required onChange={onChangePwd}/>
-                        <form className='google-login-form' action="http://localhost:3001/auth/google" method="get">
-                            <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
-                        </form>
+                        <div className='google-login-form'>
+                            <div className="google-login" onClick={googleLogin}> <img src={googleLogo} />구글 로그인</div>
+                        </div>
                         <div className="autoLogin-container">
                             <input type="checkbox" id="autoLogin" name="autoLogin" />
                             <label className="font-game-thin" htmlFor="autoLogin">로그인 상태 유지</label>
