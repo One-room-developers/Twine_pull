@@ -37,7 +37,7 @@
     width: 24.4em;
     height: 36em;
     display: grid;
-    grid-template-rows: 1fr 3.6fr 1.5fr;
+    grid-template-rows: 1fr 2.6fr 1fr 1.5fr;
     background-color: rgba(255, 255, 255, 0.77);
     transition: all 0.3s ease-in-out;
 }
@@ -79,9 +79,16 @@
 .grid-2 input:focus{
     border: 1px solid black;
 }
+
 .grid-3{
     grid-column: 1 / 2;
 	grid-row: 3 / 4;
+    display: flex;
+    justify-content: center;
+}
+.grid-4{
+    grid-column: 1 / 2;
+	grid-row: 4 / 5;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -147,7 +154,6 @@
 
 .autoLogin-container{
     width: 100%;
-    margin-bottom: 25px;
     display: flex;
     align-items: center;
 }
