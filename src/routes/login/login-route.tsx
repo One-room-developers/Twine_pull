@@ -35,22 +35,6 @@ export const LoginRoute: React.FC = () => {
         history.push("/");
     }
 
-    function googleLogin() {
-        console.log('hi');
-        axios({
-            method: "GET",
-            url: `http://localhost:3001/auth/googleAuth`,
-        })
-        .then((res) => {
-            user.providerId = res.data.providerid;
-            user.email = res.data.email;
-            user.name = res.data.name;
-            user.accessToken = res.data.accessToken;
-
-            console.log(user);
-        });
-    }
-
     return(
         <body className="login-img">
             <main className="login-main">
@@ -84,7 +68,7 @@ export const LoginRoute: React.FC = () => {
                         </div>
                     </div>
                     <div className="grid-3">
-                        <button type='submit' className="login-enter-btn" onSubmit={login}>
+                        <button className="login-enter-btn" onClick={login}>
                             <img src={arrow} alt="" />
                         </button>
                     </div>
