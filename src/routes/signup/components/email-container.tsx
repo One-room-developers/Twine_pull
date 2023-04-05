@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component, createRef } from 'react';
 import SignupForm from './signupForm';
 import './emailContainer.css';
+import axios from 'axios';
 
 type Modes_props = {
     onFormSubmit(email : string) : void,
@@ -53,6 +54,29 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                 this.state.password = e.target.pw.value;
                 this.state.password_con = e.target.pwc.value;
                 this.state.nickname = e.target.nic.value;
+
+                axios({
+                    method: "POST",
+                    url: `http://localhost:3001/auth/signup`,
+                    data: {
+                        email: this.state.email,
+                        nickname: this.state.nickname,
+                        password: this.state.password
+                    },
+                })
+                .then((res) => {
+                    if(res.data.errorMsg == 13) {
+                        // 이미 가입된 회원이라고 알려주는 알림창 필요
+                        console.log('이미 가입된 회원입니다.');
+                    }
+                    else if(res.data.errorMsg == 11) {
+                        console.log('서버 문제로 회원가입 실패');
+                    }
+
+                    if(res.data.successMsg == 10) {
+                        window.location.href='http://localhost:3000/#/login';
+                    }
+                });
 
             }.bind(this)}
             emailDefault={default_email}></SignupForm>;

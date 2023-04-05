@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 export const LoginRoute: React.FC = () => {
 
     const history = useHistory();
-
+    
     const [email, setEmail] = React.useState("");
     const [pwd, setPwd] = React.useState("");
 
@@ -30,7 +30,7 @@ export const LoginRoute: React.FC = () => {
                 email: email,
                 password: pwd,
             },
-        })
+        });
         
         history.push("/");
     }
@@ -58,7 +58,7 @@ export const LoginRoute: React.FC = () => {
                         <input type="email" placeholder="계정 이메일" required onChange={onChangeEmail}/>
                         <input type="password" placeholder="비밀번호" required onChange={onChangePwd}/>
                         
-                        <form className='google-login-form' action='http://localhost:3001/auth/googleAuth' method="get">
+                        <form className='google-login-form' action="http://localhost:3001/auth/googleAuth" method="post">
                                 <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
                         </form>
 
