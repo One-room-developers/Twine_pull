@@ -35,7 +35,7 @@ class Game_mode_modes extends Component<Modes_props>{
                 }.bind(this)
               }
             >
-                <img src={apoImg} alt=''/>
+                <div className='genre-img'></div>
                 <div className='subtitle_font font-Hahmet'>아포칼립스</div>
             </div>
             <div 
@@ -60,7 +60,7 @@ class Game_mode_modes extends Component<Modes_props>{
                 }.bind(this)
               }
             >
-                <img src={apoImg} alt=''/>
+                <div className='genre-img'></div>
                 <div className='subtitle_font font-Hahmet'>판타지</div>
             </div>
         </div>

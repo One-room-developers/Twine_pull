@@ -9,13 +9,13 @@ type Text_props = {
 class Game_mode_text extends Component<Text_props>{
   render() {
     return(
-        <div className='game_mode-text'>
-            <div className='title_font font-Hahmet text_center'>
+        <div className='game_mode-text side-block'>
+            <div className='title_font text_center font-game-thick'>
               {
                 this.props.click_title
               }
             </div>
-            <div className='content_font font-Hahmet'>
+            <div className='content_font font-game-thin'>
               {
                 this.props.click_explain
               }
