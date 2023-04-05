@@ -23,39 +23,43 @@ class Game_mode extends Component<any, any>{
   render() {
     var click_content = this.state.contents.filter(element => (element.id === this.state.click))[0];
     return(
-      <div className={`main ${this.props.hidden ? 'hidden' : ''}`}>
-        <div className='game_mode-background'></div>
-        <div className='game_mode'>
-          <Text
-            click_title= {
-              click_content.title
-            }
-            click_explain = {
-              click_content.explain
-            }
-          />
-          <Modes 
-            hover = {this.state.hover} 
-            click = {this.state.click}
-            onHover = {
-              function(number){
-                this.setState({hover : Number(number)})
-              }.bind(this)
-            }
-            onClick = {
-              function(number){
-                this.setState({click : Number(number)})
-              }.bind(this)
-            }
-          />
-          <Select
-            click = {this.state.click}
-            onClickCancel = {
-              function(){
-                this.props.hiddenOff();
-              }.bind(this)
-            }
-          /> 
+      <div className={`game_mode-container ${this.props.hidden ? 'hidden' : ''}`}>
+        <div className='game_mode-background'>
+          <div className='game_mode'>
+            <div className='mode-container'>
+              <Text
+                click_title= {
+                  click_content.title
+                }
+                click_explain = {
+                  click_content.explain
+                }
+              />
+              <Modes 
+                hover = {this.state.hover} 
+                click = {this.state.click}
+                onHover = {
+                  function(number){
+                    this.setState({hover : Number(number)})
+                  }.bind(this)
+                }
+                onClick = {
+                  function(number){
+                    this.setState({click : Number(number)})
+                  }.bind(this)
+                }
+              />
+              <div className='side-block'></div>
+            </div>
+            <Select
+              click = {this.state.click}
+              onClickCancel = {
+                function(){
+                  this.props.hiddenOff();
+                }.bind(this)
+              }
+            /> 
+          </div>
         </div>
       </div>
     )

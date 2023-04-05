@@ -1,49 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500&display=swap');
-@font-face {
-    font-family: 'ChosunGs';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+*{
+    box-sizing: border-box;
+}
+@keyframes selectPageOpen {
+	0% {
+		opacity: 0;
+		transform: scale(0.2);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
-.game_mode-background{
-    position :fixed;
-    width : 100%;
-    height : 100%;
+.game_mode-container{
+    position: fixed;
     top : 0;
     left : 0;
-    background-color: black;
-    opacity: 0.8;
+    right : 0;
+    bottom: 0;
+    margin : auto;
+    width : 100%;
+    height : 100%;
+}
+
+
+.game_mode-background{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width : 100%;
+    height : 100%;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .game_mode{
-    position :fixed;
-    width : 110vh;
-    height : 50vh;
-    top : 20vh;
-    left : 0;
-    right : 0;
-    margin : 0 auto;
-    background-color: #D8D8D8;
-    border: 10px groove rgba(0,0,0,0.9);
+    width : 100%;
+    height : 525px;
 
-    border-radius: 4px;
+    background-color: var(--main-white);
+    border-image: url(../../styles/image/mainBorderTop.svg) round;
+    border-image-slice: 90% 90% fill;
+    border-image-width: 100px 100%;
+
+
     font-size: 12px;
 
-    display: grid;
-    grid-template-columns: 30% 70%;
-    grid-template-rows: 85% 15%;
+    display: flex;
+    flex-direction: column;
+    animation: selectPageOpen 0.2s ease-out 0s 1 normal forwards;
+}
 
+.mode-container{
+    display: flex;
+    height: 450px;
+    justify-content: space-between;
+}
+
+.side-block{
+    width: 25%;
+    height: 100%;
 }
 
 .game_mode-text{
-    grid-column : 1/2;
-    grid-row: 1/1;
-    
+
     display: flex;
     flex-direction: column;
-    padding-top : 10px;
-    padding-left : 20px;
 }
 
 .game_mode-text div{
@@ -51,19 +73,10 @@
 }
 
 .game_mode-modes{
-    grid-column : 2/3;
-    grid-row: 1/1;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
-    padding : 0px 20px;
 }
 
 .game_mode-select_button{
-    grid-column : 1/-1;
-    grid-row: 2/2;
     border-top: 1px solid black;
 
     display: flex;
@@ -82,11 +95,10 @@
 .game_mode-modes-element{
     display: flex;
     flex-direction: column;
-    border : 5px double gray;
-    
+    border : 5px solid gray;
+    width: 250px;
+    height: 280px;
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
     text-align: center;
     background-color: aliceblue;
     opacity: 0.8;
@@ -95,11 +107,9 @@
 .game_mode-modes-element.hover{
     display: flex;
     flex-direction: column;
-    border : 5px double gray;
+    border : 5px solid gray;
     
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
     text-align: center;
     background-color: aliceblue;
     opacity: 1;
@@ -108,36 +118,28 @@
 .game_mode-modes-element.click{
     display: flex;
     flex-direction: column;
-    border : 5px groove black;
+    border : 5px solid black;
     
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
     text-align: center;
     background-color: aliceblue;
     opacity: 1;
 }
 
-.game_mode-modes-element img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom: 5px double gray;
+.game_mode-modes-element .genre-img{
+    width : 250px;
+    height : 250px;
+    background-image: url('./img/mode-apo.png');
+    background-size: cover;
+    border-bottom: 5px solid gray;
 }
 
-.game_mode-modes-element.hover img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom : 5px double gray;
+.game_mode-modes-element.hover .genre-img{
+    border-bottom : 5px solid gray;
 }
 
-.game_mode-modes-element.click img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom : 5px groove black;
-}
-
-.game_mode-modes-element div{
-    padding : 5px 0px;
+.game_mode-modes-element.click .genre-img{
+    border-bottom : 5px solid black;
 }
 
 .title_font{
@@ -151,14 +153,6 @@
 .subtitle_font{
     font-size : 18px;
     font-weight: bold;
-}
-
-.font-Hahmet{
-    font-family: 'Hahmlet', serif;
-}
-
-.font-josun{
-    font-family: 'ChosunGs';
 }
 
 .text_center{
