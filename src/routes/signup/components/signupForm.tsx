@@ -7,10 +7,11 @@ type SignupForm_props = {
     closeForm() : void,
     submitForm(e : any) : void,
     emailDefault : string,
-}
+};
+
 type SignupForm_states={
 
-}
+};
 
 class SignupForm extends Component<SignupForm_props, SignupForm_states>{
 

@@ -9,17 +9,17 @@ type Text_props = {
 class Game_mode_text extends Component<Text_props>{
   render() {
     return(
-        <div className='game_mode-text side-block'>
-            <div className='title_font text_center font-game-thick'>
+        <div className='game_mode-text'>
+            <h1 className='title_font text_center font-game-thick'>
               {
                 this.props.click_title
               }
-            </div>
-            <div className='content_font font-game-thin'>
+            </h1>
+            <h2 className='content_font font-game-thin'>
               {
                 this.props.click_explain
               }
-            </div>
+            </h2>
         </div>
     )
   }
