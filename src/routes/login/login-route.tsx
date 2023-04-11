@@ -15,12 +15,11 @@ export const LoginRoute: React.FC = () => {
     const onChangeEmail = React.useCallback((e) => setEmail(e.target.value), []);
     const onChangePwd = React.useCallback((e) => setPwd(e.target.value), []);
 
-    const user = {
-        providerId: String,
+    const authorizedUser = {
         email: String,
-        name: String,
+        nickname: String,
         accessToken: String
-    }
+    };
 
     function login() {
         axios({
@@ -30,19 +29,31 @@ export const LoginRoute: React.FC = () => {
                 email: email,
                 password: pwd,
             },
-        });
-        
-        history.push("/");
-    }
-
-    function googleLogin() {
-        axios({
-            method: "POST",
-            url: `http://localhost:3001/auth/googleAuth`
         })
         .then((res) => {
-            console.log(res.data);
-        })
+            if(res.data.errorMsg == 14) {
+                // 존재하지 않는 사용자라는 알림창 띄우기 필요
+                console.log('존재하지 않는 사용자입니다.');
+            }
+            else if(res.data.errorMsg == 15) {
+                // 비밀번호가 잘못됐다는 알림창 띄우기 필요
+                console.log('잘못된 비밀번호입니다.');
+            }
+
+            if(res.data.msg.successMsg == 12) {
+                authorizedUser.email = res.data.email;
+                authorizedUser.nickname = res.data.nickname;
+                authorizedUser.accessToken = res.data.access_token;
+
+                // 홈화면으로 유저 데이터 전달 필요
+                history.push("/");
+            }
+        });
+    }
+
+    function googleLogin(e) {
+        e.preventDefault();
+        window.location.href = 'http://localhost:3001/auth/googleAuth';
     }
 
     return(
