@@ -225,7 +225,7 @@
     background-size: 0 0;
 }
 
-button:hover,
+.mode_select_btn:hover,
 .mode_select_btn:active {
     background-size: 100% 100%;
     color: black;

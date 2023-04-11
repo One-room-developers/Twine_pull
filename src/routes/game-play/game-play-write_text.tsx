@@ -62,7 +62,7 @@ function main() {
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
   //db_episode_num = Math.floor(Math.random() * 6) + 3;
 
-  db_episode_num = 60;
+  db_episode_num = 1;
   // 에피소드 가져오기
   axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
   .then((res) => {
