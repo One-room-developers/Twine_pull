@@ -256,8 +256,16 @@ function typing() {
     }
     else {
       clearInterval(tyInt); //끝나면 반복종료
-      makeOptionDiv();
-      moveScrollBottom();
+      if(db_episode_num !== 11){
+        makeOptionDiv();
+        moveScrollBottom();
+      }
+      else{
+        result_option_class.classList.remove("hidden");
+        makeResultDiv();
+        moveScrollBottom();
+        height_multiple++;
+      }
     }
   }
 }
@@ -368,8 +376,8 @@ function clickOptionEvent(optionId: number) {
       current_status.mental += input_result[current_episode_num].mental;
 
       makeResultDiv();
-      resetRightUI();
-      makeRightUI();
+      // resetRightUI();
+      // makeRightUI();
       result_text_class.style.height = `${(text_view.clientHeight) - (result_option_class.clientHeight)}px`;
       moveScrollBottom();
       height_multiple++;
@@ -378,7 +386,6 @@ function clickOptionEvent(optionId: number) {
 
 function makeResultDiv() {
   var resultDiv: any;
-
   resultDiv = document.createElement('div');
   resultDiv.className = "result_div font-game-thick";
 
