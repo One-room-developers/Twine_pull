@@ -216,14 +216,26 @@ function click_on() {
 function typing() {
   //클릭을 했다면 탈출
   if (click === true) {
-    clearInterval(tyInt);
-    input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\t/g, "&nbsp;");
-    input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\n/g, "<br><br>");
-    episode_text.innerHTML = input_text[current_episode_num].text;
-    makeOptionDiv();
-    moveScrollBottom();
-    text_view.removeEventListener("click", click_on);
-    click = false;
+    if(db_episode_num !== 11){
+      clearInterval(tyInt);
+      input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\t/g, "&nbsp;");
+      input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\n/g, "<br><br>");
+      episode_text.innerHTML = input_text[current_episode_num].text;
+      makeOptionDiv();
+      moveScrollBottom();
+      text_view.removeEventListener("click", click_on);
+      click = false;
+    }
+    else{
+      clearInterval(tyInt); //끝나면 반복종료
+      input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\t/g, "&nbsp;");
+      input_text[current_episode_num].text = input_text[current_episode_num].text.replace(/\n/g, "<br><br>");
+      episode_text.innerHTML = input_text[current_episode_num].text;
+      result_option_class.classList.remove("hidden");
+      makeResultDiv();
+      moveScrollBottom();
+      height_multiple++;
+    }
   }
   //클릭을 안했다면 수행
   else {
