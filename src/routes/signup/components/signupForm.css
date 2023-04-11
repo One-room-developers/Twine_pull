@@ -1,3 +1,15 @@
+@keyframes formEnter {
+	0% {
+		transform: translateY(60px);
+        opacity: 0.5;
+	}
+
+	100% {
+		transform: translateY(0);
+        opacity: 1;
+	}
+}
+
 .signup-background{
     z-index: 10;
     position :fixed;
@@ -19,6 +31,7 @@
     background-color: var(--main-white);
     border-radius: 5px;
     align-items: center;
+    animation: formEnter 0.3s ease-in-out forwards;
 }
 
 .signup-header{
@@ -79,7 +92,7 @@
 
 .signup-line input{
     background-color: var(--main-white);
-    font-size: 18px;
+    font-size: 16px;
     width: 70%;
     height: 28px;
     border: 1px solid rgba(58, 62, 69, 0.5);

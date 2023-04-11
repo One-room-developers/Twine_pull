@@ -1,164 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500&display=swap');
-@font-face {
-    font-family: 'ChosunGs';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+*{
+    box-sizing: border-box;
 }
 
-.game_mode-background{
-    position :fixed;
-    width : 100%;
-    height : 100%;
+
+.game_mode-container{
+    position: fixed;
     top : 0;
     left : 0;
-    background-color: black;
-    opacity: 0.8;
+    right : 0;
+    bottom: 0;
+    margin : auto;
+    width : 100%;
+    height : 100%;
+}
+
+
+.game_mode-background{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width : 100%;
+    height : 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.line{
+    width: 100%;
+    height: 8px;
 }
 
 .game_mode{
-    position :fixed;
-    width : 110vh;
-    height : 50vh;
-    top : 20vh;
-    left : 0;
-    right : 0;
-    margin : 0 auto;
-    background-color: #D8D8D8;
-    border: 10px groove rgba(0,0,0,0.9);
+    width : 100%;
+    height : 525px;
 
-    border-radius: 4px;
+    background: linear-gradient(to left,#393E46, #000000, #393E46);
+
     font-size: 12px;
 
-    display: grid;
-    grid-template-columns: 30% 70%;
-    grid-template-rows: 85% 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
+.mode-container{
+    display: flex;
+    height: 450px;
+    justify-content: space-between;
+}
+
+.side-block{
+    width: 15%;
+    height: 100%;
 }
 
 .game_mode-text{
-    grid-column : 1/2;
-    grid-row: 1/1;
-    
+    width: 25%;
+    height: 100%;
+    position: fixed;
+    z-index: 10;
     display: flex;
     flex-direction: column;
-    padding-top : 10px;
-    padding-left : 20px;
+    align-items: center;
+    color: #ffe4a5;
+    padding-top: 48px;
 }
 
-.game_mode-text div{
-    margin : 20px 0px;
-}
 
 .game_mode-modes{
-    grid-column : 2/3;
-    grid-row: 1/1;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
-    padding : 0px 20px;
-}
-
-.game_mode-select_button{
-    grid-column : 1/-1;
-    grid-row: 2/2;
-    border-top: 1px solid black;
-
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 70%;
 }
-
-.game_mode-select_button button{
-    margin : 0px 10px;
-    width : 100px;
-    font-size: 15px;
-}
-
 
 .game_mode-modes-element{
     display: flex;
     flex-direction: column;
-    border : 5px double gray;
-    
+    border : 3px solid gray;
+    width: 230px;
+    height: 280px;
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
-    text-align: center;
-    background-color: aliceblue;
+    margin: 0 15px 0 15px;
     opacity: 0.8;
+    position: relative;
 }
 
-.game_mode-modes-element.hover{
+.game_mode-select_button{
+    border-top: 2px solid var(--main-white);
+    background-color: #000000;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.game_mode-modes-element:hover{
     display: flex;
     flex-direction: column;
-    border : 5px double gray;
+    border : 3px solid white;
     
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
-    text-align: center;
-    background-color: aliceblue;
     opacity: 1;
 }
 
 .game_mode-modes-element.click{
     display: flex;
     flex-direction: column;
-    border : 5px groove black;
+    border : 3px solid #FFD369;
     
     border-radius: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
-    text-align: center;
-    background-color: aliceblue;
     opacity: 1;
 }
 
-.game_mode-modes-element img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom: 5px double gray;
+.genre-img{
+    width : 100%;
+    height : 226px;
 }
 
-.game_mode-modes-element.hover img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom : 5px double gray;
-}
 
-.game_mode-modes-element.click img{
-    width : 30vh;
-    height : 25vh;
-    border-bottom : 5px groove black;
+.game_mode-modes-element:hover .subtitle{
+    border-top : 4px solid white;
 }
-
-.game_mode-modes-element div{
-    padding : 5px 0px;
+.game_mode-modes-element:hover .btn_deco{
+    fill: white;
+}
+.game_mode-modes-element.click .subtitle{
+    border-top : 4px solid #FFD369;
+}
+.click .btn_deco g{
+    fill: #FFD369;
 }
 
 .title_font{
-    font-size: 30px;
+    font-size: 32px;
+    text-shadow: 0 0 16px var(--main-orange);
+    margin-bottom: 96px;
 }
 
 .content_font{
-    font-size: 15px;
+    font-size: 18px;
+    color: #FFD369;
 }
 
-.subtitle_font{
+.subtitle{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size : 18px;
-    font-weight: bold;
-}
-
-.font-Hahmet{
-    font-family: 'Hahmlet', serif;
-}
-
-.font-josun{
-    font-family: 'ChosunGs';
+    border-top : 4px solid gray;
+    background-color: var(--main-dark);
+    color: var(--main-white);
 }
 
 .text_center{
@@ -167,4 +163,75 @@
 
 .hidden{
     display : none;
+}
+
+.btn_deco{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    fill: gray;
+}
+.deco1{
+    left: 0;
+    top: 0;
+}
+.deco2{
+    right: 0;
+    top: 0;
+    transform: rotate(90deg);
+}
+.deco3{
+    left: 0;
+    bottom: 0;
+    transform: rotate(270deg);
+}
+.deco4{
+    right: 0;
+    bottom: 0;
+    transform: rotate(180deg);
+}
+
+.mode_select_btn{
+    font-size: 18px;
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    margin: 0 10px 0 10px;
+    background-color: #EEEEEE;
+
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #FFD369;
+    background: 
+        linear-gradient(to bottom left,#FFD369  50%,#0000 50.1%) top right,
+        linear-gradient(to top   right,#FFD369  50%,#0000 50.1%) bottom left;
+    background-size: calc(7px + 1.3* 5px) calc(7px + 1.3* 5px);
+    background-repeat: no-repeat;
+    box-shadow:
+        0 0 0 200px inset var(--s,#0000),
+        0 0 0  2px inset #FFD369;
+    clip-path: 
+        polygon(0 0, calc(100% - .5em) 0, 100% .5em,
+                100% 100%, .5em 100%,0 calc(100% - .5em)
+                );
+    transition: color 0.2s, background-size 0.2s;
+}
+
+.mode_select_btn:focus-visible {
+    outline-offset: calc(-1 * 2px);
+    outline: 2px solid #000c;
+    clip-path: none;
+    background-size: 0 0;
+}
+
+.mode_select_btn:hover,
+.mode_select_btn:active {
+    background-size: 100% 100%;
+    color: black;
+}
+
+.mode_select_btn:active {
+    --s: #0005;
+    transition: none;
 }

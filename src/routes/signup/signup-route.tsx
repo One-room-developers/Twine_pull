@@ -1,16 +1,11 @@
 import * as React from 'react';
 import './signup-route.css';
 import googleLogo from '../../styles/image/google-logo.png';
-import axios from 'axios';
 import EmailContainer from './components/email-container';
+import { CreatePlayerDTO } from '../../../../server/src/player/dto/signup.dto';
+
 
 export const SignupRoute: React.FC = () => {
-
-    const [email, setEmail] = React.useState("");
-
-    function signup() {
-        axios.get(`http:localhost:3001/auth/signup`)
-    }
 
     return(
         <body>
