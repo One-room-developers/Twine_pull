@@ -14,7 +14,9 @@ class Game_mode_select extends Component<Select_props>{
           className='font-game-thin mode_select_btn'
           onClick={
               function(){
-                window.location.replace("./#/game-play")
+                window.location.replace("./#/game-play");
+                //axios 써서 데이터 가져오기 : this.props.click 데이터. 숫자1 아포칼립스 2 판타지 등.
+                
               }.bind(this)
             }
         >
