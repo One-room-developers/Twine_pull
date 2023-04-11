@@ -4,7 +4,6 @@ import googleLogo from '../../styles/image/google-logo.png';
 import EmailContainer from './components/email-container';
 import { CreatePlayerDTO } from '../../../../server/src/player/dto/signup.dto';
 
-
 export const SignupRoute: React.FC = () => {
 
     return(

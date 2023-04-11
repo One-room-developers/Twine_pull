@@ -15,12 +15,11 @@ export const LoginRoute: React.FC = () => {
     const onChangeEmail = React.useCallback((e) => setEmail(e.target.value), []);
     const onChangePwd = React.useCallback((e) => setPwd(e.target.value), []);
 
-    const user = {
-        providerId: String,
+    const authorizedUser = {
         email: String,
-        name: String,
+        nickname: String,
         accessToken: String
-    }
+    };
 
     function login() {
         axios({
@@ -30,9 +29,31 @@ export const LoginRoute: React.FC = () => {
                 email: email,
                 password: pwd,
             },
+        })
+        .then((res) => {
+            if(res.data.errorMsg == 14) {
+                // 존재하지 않는 사용자라는 알림창 띄우기 필요
+                console.log('존재하지 않는 사용자입니다.');
+            }
+            else if(res.data.errorMsg == 15) {
+                // 비밀번호가 잘못됐다는 알림창 띄우기 필요
+                console.log('잘못된 비밀번호입니다.');
+            }
+
+            if(res.data.msg.successMsg == 12) {
+                authorizedUser.email = res.data.email;
+                authorizedUser.nickname = res.data.nickname;
+                authorizedUser.accessToken = res.data.access_token;
+
+                // 홈화면으로 유저 데이터 전달 필요
+                history.push("/");
+            }
         });
-        
-        history.push("/");
+    }
+
+    function googleLogin(e) {
+        e.preventDefault();
+        window.location.href = 'http://localhost:3001/auth/googleAuth';
     }
 
     return(
@@ -58,8 +79,8 @@ export const LoginRoute: React.FC = () => {
                         <input type="email" placeholder="계정 이메일" required onChange={onChangeEmail}/>
                         <input type="password" placeholder="비밀번호" required onChange={onChangePwd}/>
                         
-                        <form className='google-login-form' action="http://localhost:3001/auth/googleAuth" method="post">
-                                <button className="google-login"> <img src={googleLogo} />구글 로그인</button>
+                        <form className='google-login-form'>
+                                <button className="google-login" onClick={googleLogin}> <img src={googleLogo} />구글 로그인</button>
                         </form>
 
                         <div className="autoLogin-container">

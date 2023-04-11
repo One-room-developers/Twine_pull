@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '../Game_mode.css';
 import apoImg from '../img/mode-apo.png';
 import fantasyImg from '../img/mode-fantasy.png';
-import btnDeco from '../img/btn_deco.svg';
 
 type Modes_props = {
   click : any,
