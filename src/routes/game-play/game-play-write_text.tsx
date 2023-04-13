@@ -43,6 +43,7 @@ var input_option: any;
 var input_result: any;
 
 var current_episode_num: number;
+var main_episode_num: number = 0;
 
 var split_txt: string[];
 var hot_point: number;
@@ -63,6 +64,11 @@ function main() {
   //db_episode_num = Math.floor(Math.random() * 6) + 3;
 
   db_episode_num = 1;
+
+  input_text = [];
+  input_option = [];
+  input_result = [];
+
   // 에피소드 가져오기
   axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
   .then((res) => {
@@ -70,14 +76,6 @@ function main() {
     episode_title_div.innerText = res.data.title;
     input_text.push({ text : res.data.mainText });
   });
-
-  debugger;
-
-  input_text = [];
-  input_option = [];
-  input_result = [];
-  
-  debugger;
   
   // 선택지 가져오기
   axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
@@ -86,7 +84,7 @@ function main() {
     input_option.push([]);
     for(let i = 0; i < res.data.length; i++) {
       input_option[0].push({ text: res.data[i].text });
-    };
+  };
 
     // 캐릭터 스테이터스 가져오기
     axios.get('http://localhost:3001/game_play/character/3')
@@ -95,7 +93,6 @@ function main() {
       });
     });
 
-    debugger;
   setTimeout(function () { typing_episode(0) }, 3000);
 };
 
