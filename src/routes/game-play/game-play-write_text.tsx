@@ -115,15 +115,11 @@ function main() {
     }
   });
 
-  debugger;
-
   input_text = [];
   input_option = [];
   input_result = [];
   
-  debugger;
-  
-  // 선택지 가져오기
+  // 스테이터스 가져오기
   axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
   .then((res) => {
     current_status = res.data;
@@ -481,8 +477,6 @@ function clickResultEvent() {
     for(let i = 0; i < option_result.length; i++) {
       input_option[current_episode_num].push({ text: option_result[i].text });
     }
-    
-    debugger;
   }
   else{
     // 에피소드 가져오기
