@@ -4,6 +4,8 @@ import googleLogo from '../../styles/image/google-logo.png';
 import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
 import axios from 'axios';
 import { useHistory } from "react-router";
+import SessionStorageAPI from "./session";
+
 
 export const LoginRoute: React.FC = () => {
 
@@ -45,7 +47,12 @@ export const LoginRoute: React.FC = () => {
                 authorizedUser.nickname = res.data.nickname;
                 authorizedUser.accessToken = res.data.access_token;
 
-                // 홈화면으로 유저 데이터 전달 필요
+                const sesstionStorage = new SessionStorageAPI();
+
+                //seesion에 토큰을 저장해도 되는가?
+                sesstionStorage.setItem("userToken", authorizedUser.accessToken);
+                sesstionStorage.setItem("userNickname", authorizedUser.nickname );
+
                 history.push("/");
             }
         });
