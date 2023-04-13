@@ -44,7 +44,6 @@ export const LoginRoute: React.FC = () => {
                 authorizedUser.email = res.data.email;
                 authorizedUser.nickname = res.data.nickname;
                 authorizedUser.accessToken = res.data.access_token;
-
                 // 홈화면으로 유저 데이터 전달 필요
                 history.push("/");
             }
