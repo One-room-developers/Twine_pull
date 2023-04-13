@@ -121,10 +121,8 @@ function main() {
   input_option = [];
   input_result = [];
   
-  debugger;
-  
-  // 선택지 가져오기
-  axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
+  // 캐릭터 스테이터스 가져오기
+  axios.get('http://localhost:3001/game_play/character/1')
   .then((res) => {
     current_status = res.data;
     });
