@@ -105,9 +105,13 @@ function main() {
     input_text.push({ text : res.data.mainText });
   });
 
+  debugger;
+
   input_text = [];
   input_option = [];
   input_result = [];
+  
+  debugger;
   
   // 선택지 가져오기
   axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
@@ -125,7 +129,7 @@ function main() {
       });
     });
 
-    
+    debugger;
   setTimeout(function () { typing_episode(0) }, 3000);
 };
 
@@ -150,18 +154,22 @@ function typing_episode(indexNum: number) {
   split_txt = input_text[current_episode_num].text.split(""); // 한글자씩 잘라 배열로 저장한다.
   text_view.addEventListener("click", click_on);
 
-  resetRightUI()
-  makeRightUI();
+  
+  upDateRightUI();
 
   tyInt = setInterval(typing, 20);
 }
 
-function resetRightUI() {
+function upDateRightUI(){
+  clearRightUI();
+  addImgToRightUI();
+}
+function clearRightUI() {
   health_class.innerHTML = "";
   hungry_class.innerHTML = "";
   money_class.innerHTML = "";
 }
-function makeRightUI() {
+function addImgToRightUI() {
   if (current_status.health < 0)
     current_status.health = 0;
   else if(current_status.health > maxHealth)
@@ -422,8 +430,8 @@ function clickOptionEvent(optionId: number) {
       current_status.mental += input_result[current_episode_num].mental;
 
       makeResultDiv();
-      // resetRightUI();
-      // makeRightUI();
+      // clearRightUI();
+      // addImgToRightUI();
       result_text_class.style.height = `${(text_view.clientHeight) - (result_option_class.clientHeight)}px`;
       moveScrollBottom();
       height_multiple++;
