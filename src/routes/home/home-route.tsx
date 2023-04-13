@@ -1,13 +1,25 @@
 import * as React from 'react';
 import './home-route.css';
 import SessionStorageAPI from "../login/session";
+import IfLogin from "./ifLogin";
+import IfLogout from "./ifLogout";
 import useIntersectionObserver from './useIntersectionObserver';
 
 export const HomeRoute: React.FC = () => {
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
 
+    let whetherLoginComponent = <IfLogout></IfLogout>;
+
     const sessionStorage = new SessionStorageAPI();
+    let nickName_ : string | null = sessionStorage.getItem("userNickname");
+
+    if(sessionStorage.getItem("userToken") === null){
+        whetherLoginComponent = <IfLogout></IfLogout>;
+    }
+    else{
+        whetherLoginComponent = <IfLogin nickname={nickName_}></IfLogin>;
+    }
 
     const opacityObj = {
         backgroundColor: `rgba(34, 40, 49, ${scrollY / 400})`
@@ -15,19 +27,9 @@ export const HomeRoute: React.FC = () => {
     const handleScroll = () => {
         setScrollY(window.scrollY);
     };
-
-    const loginCheck = () =>{
-        if(sessionStorage.getItem("userToken") === null){
-            console.log("로그인 안됨");
-        }
-        else{
-            console.log(`닉네임 ${sessionStorage.getItem("userNickname")}`);
-        }
-    }
+    
 
     window.addEventListener("scroll", handleScroll);
-
-    window.addEventListener("load", loginCheck);
 
     // const title1 = () => {
 
@@ -110,14 +112,7 @@ export const HomeRoute: React.FC = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="btn__container">
-                            <a href="/#/login">
-                                <div className="font-hambak login-btn">LOGIN</div>
-                            </a>
-                            <a href="/#/signup">
-                                <div className="font-hambak sign-btn">SIGN UP</div>
-                            </a>
-                        </div>
+                        {whetherLoginComponent}
                     </div>
                 </div>
             </header>
