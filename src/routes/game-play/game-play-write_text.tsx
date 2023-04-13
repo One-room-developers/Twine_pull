@@ -12,6 +12,29 @@ import moneyLogo from "../../styles/image/money.png"
 import money5Logo from "../../styles/image/money5.png"
 import axios from 'axios';
 
+interface MainEpisode {
+  id: number,
+  mode: number,
+  title: string,
+  main_text:string
+}
+
+interface MainEpisodeOption {
+  episode_id: number,
+  text: string,
+  result_text: string,
+  health_change: number,
+  money_change: number,
+  hungry_change: number,
+  strength_change: number,
+  agility_change: number,
+  armour_change: number,
+  mental_change: number
+}
+
+let main_episode: MainEpisode[];
+let main_episode_options: MainEpisodeOption[];
+
 interface Status {
   health: number,
   money: number,
@@ -57,10 +80,21 @@ export let current_status : Status;
 let db_episode_num
 
 function main() {
-  console.log("main");
   episode_title_div = document.querySelector('.episode_name') as HTMLDivElement;
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
   //db_episode_num = Math.floor(Math.random() * 6) + 3;
+
+  axios.get(`http://localhost:3001/game_play/mainepisode`)
+  .then((res) => {
+    main_episode = res.data;
+    console.log(main_episode);
+  });
+
+  axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
+  .then((res) => {
+    main_episode_options = res.data;
+    console.log(main_episode_options);
+  });
 
   db_episode_num = 1;
   // 에피소드 가져오기
