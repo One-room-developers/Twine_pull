@@ -20,7 +20,8 @@ interface MainEpisode {
 }
 
 interface MainEpisodeOption {
-  episode_id: number,
+  id: number,
+  episode : MainEpisode,
   text: string,
   result_text: string,
   health_change: number,
@@ -43,7 +44,6 @@ interface Status {
   agility: number,
   armour: number,
   mental: number,
-  
 };
 
 var maxHealth : number = 5;
@@ -66,7 +66,7 @@ var input_option: any;
 var input_result: any;
 
 var current_episode_num: number;
-var main_episode_num: number = 0;
+var main_episode_num: number = 1;
 
 var split_txt: string[];
 var hot_point: number;
@@ -76,7 +76,7 @@ var height_multiple: number;
 var typingBool: boolean;
 var main_text_view_basic_size: number;
 var tyInt: ReturnType<typeof setInterval>;
-let option_result = new Object();
+let option_result = new Array();
 export let current_status : Status;
 let db_episode_num
 
@@ -85,46 +85,41 @@ function main() {
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
   //db_episode_num = Math.floor(Math.random() * 6) + 3;
 
+  db_episode_num = 1;
+
+  input_text = [];
+  input_option = [];
+  input_result = [];
+  
   axios.get(`http://localhost:3001/game_play/mainepisode`)
   .then((res) => {
     main_episode = res.data;
     console.log(main_episode);
+    var current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))
+    // 메인 에피소드 가져오기 
+    episode_number_div.innerText = '#'+current_episode[0].id;
+    episode_title_div.innerText = current_episode[0].title;
+    input_text.push({ text : current_episode[0].main_text });
   });
 
   axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
   .then((res) => {
     main_episode_options = res.data;
     console.log(main_episode_options);
-  });
 
-  db_episode_num = 1;
-
-  input_text = [];
-  input_option = [];
-  input_result = [];
-
-  // 에피소드 가져오기
-  axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
-  .then((res) => {
-    episode_number_div.innerText = '#'+res.data.id;
-    episode_title_div.innerText = res.data.title;
-    input_text.push({ text : res.data.mainText });
-  });
-  
-  // 선택지 가져오기
-  axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
-  .then((res) => {
-    option_result = res.data;
+    // 메인 에피소드 선택지 가져오기
+    option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
     input_option.push([]);
-    for(let i = 0; i < res.data.length; i++) {
-      input_option[0].push({ text: res.data[i].text });
-  };
+    for(let i = 0; i < option_result.length; i++) {
+      input_option[0].push({ text: option_result[i].text });
+    }
+  });
 
-    // 캐릭터 스테이터스 가져오기
-    axios.get('http://localhost:3001/game_play/character/3')
-    .then((res) => {
-      current_status = res.data;
-      });
+
+  // 캐릭터 스테이터스 가져오기
+  axios.get('http://localhost:3001/game_play/character/1')
+  .then((res) => {
+    current_status = res.data;
     });
 
   setTimeout(function () { typing_episode(0) }, 3000);
@@ -375,9 +370,8 @@ function clickOptionEvent(optionId: number) {
 
       result_text_class.innerHTML += "<br>" + input_result[current_episode_num].text + "<br><br>";
 
-      console.log(input_result);
       for(let key in option_result[optionId]) {
-        if(key == 'id' || key == 'text' || key == 'result_text') {
+        if(key == 'id' || key == 'text' || key == 'result_text' || key == 'episode') {
           continue;
         }
         else {
@@ -412,6 +406,7 @@ function clickOptionEvent(optionId: number) {
             else
             result_text_class.innerHTML += keyName + option_result[optionId][key] + "만큼 늘었습니다\n";
         }
+
         result_text_class.innerHTML = result_text_class.innerHTML.replace(/\t/g, "&nbsp;");
         result_text_class.innerHTML = result_text_class.innerHTML.replace(/\n/g, "<br>");
       
@@ -458,28 +453,51 @@ function clickResultEvent() {
   
   current_episode_num += 1;
 
-  //db_episode_num = Math.floor(Math.random() * 6) + 3;
+  // db_episode_num = Math.floor(Math.random() * 6)+1;
   db_episode_num = 60
   if(current_status.health <= 0 || current_status.hungry <= 0)
     db_episode_num = 11
 
-  // 에피소드 가져오기
-  axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
-  .then((res) => {
-    episode_number_div.innerText = '#'+res.data.id;
-    episode_title_div.innerText = res.data.title;
-    input_text.push({ text : res.data.mainText });
-  });
+  
+  //만약 지금이 1,4,7...번째 에피소드라면 메인 에피소드 출력
+  if((db_episode_num != 11 && (current_episode_num+1) % 3) === 1){
+  // 메인 에피소드 가져오기 전에 넘버 증가
+    main_episode_num += 1;
+    //다음 메인 에피소드 가져오기
+    var current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))
+    episode_number_div.innerText = '#'+current_episode[0].id;
+    episode_title_div.innerText = current_episode[0].title;
+    input_text.push({ text : current_episode[0].main_text });
+    //다음 선택지 가져오기
+    option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
+      input_option.push([]);
+    for(let i = 0; i < option_result.length; i++) {
+      input_option[current_episode_num].push({ text: option_result[i].text });
+    }
+    
+    debugger;
+  }
+  else{
+    // 에피소드 가져오기
+    axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
+    .then((res) => {
+      episode_number_div.innerText = '#'+res.data.id;
+      episode_title_div.innerText = res.data.title;
+      input_text.push({ text : res.data.mainText });
+    });
 
-  // 선택지 가져오기
-  axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
-  .then((res) => {
-    option_result = res.data;
-    input_option.push([]);
-    for(let i = 0; i < res.data.length; i++) {
-      input_option[current_episode_num].push({ text: res.data[i].text });
-    };
-  })
+    // 선택지 가져오기
+    axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
+    .then((res) => {
+      option_result = res.data;
+      input_option.push([]);
+      for(let i = 0; i < res.data.length; i++) {
+        input_option[current_episode_num].push({ text: res.data[i].text });
+      };
+    })
+  }
+
+
   
     setTimeout(function () { typing_episode(current_episode_num) }, 1500)
 }
