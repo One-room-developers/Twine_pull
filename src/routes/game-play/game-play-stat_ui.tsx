@@ -1,17 +1,12 @@
 import * as React from 'react';
 import './game-play-route.css';
 import { current_status } from './game-play-write_text'
-import { GamePlayRoute } from './game-play-route';
+import GamePlayRoute from './game-play-route';
 import cristal from "../../styles/image/cristal.png"
 import cristalB from "../../styles/image/cristal_b.png"
 import './game-play-route.css';
 
 
-// function StatIconPusher(){
-//     return(
-//         <img src={cristal} width='30px'/>
-//     )
-// }
 function StatIconPusher(maxWidth : number, currentWidth : number){
     var cristal_arr = [];
     for(var i = 0; i< currentWidth; i++){
@@ -22,8 +17,7 @@ function StatIconPusher(maxWidth : number, currentWidth : number){
     }
     return cristal_arr
 }
-export const GamePlayStatUI: React.FC = (
-) => {
+export default function GamePlayStatUI(){
     return (
     <div className="stat-ui font-game-thick">
 

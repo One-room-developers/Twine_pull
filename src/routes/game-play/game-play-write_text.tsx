@@ -1,9 +1,3 @@
-/* global history */
-/* global location */
-/* global window */
-
-/* eslint no-restricted-globals: ["off"] */
-
 import heartLogo from "../../styles/image/heart.png"
 import heartBLogo from "../../styles/image/heart_b.png"
 import hungryLogo from "../../styles/image/hungry.png"
@@ -142,6 +136,7 @@ function typing_episode(indexNum: number) {
   health_class = document.querySelector(".health") as HTMLDivElement;
   hungry_class = document.querySelector(".hungry") as HTMLDivElement;
   money_class = document.querySelector(".money") as HTMLDivElement;
+  debugger;
   hot_point = 0;
   click = false;
   typingIdx = 0;
