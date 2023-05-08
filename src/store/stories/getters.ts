@@ -4,6 +4,9 @@ import {createRegExp} from '../../util/regexp';
 import {parseLinks} from '../../util/parse-links';
 import { StoryImportDialogProps } from '../../dialogs';
 
+
+//외부로 내보내는 함수.
+//
 export function passageWithId(
 	stories: Story[],
 	storyId: string,
@@ -46,6 +49,7 @@ export function passageWithName(
  * Connections are divided between draggable and fixed, depending on whether
  * either of their passages are selected (and could be dragged by the user).
  */
+//passage 사이에 연결고리를 만들어주는 함수이듯함.
 export function passageConnections(
 	passages: Passage[],
 	connectionParser?: (text: string) => string[]
@@ -176,6 +180,7 @@ export function storyTags(stories: Story[]) {
 	).sort();
 }
 
+//story id로 story 배열을 받아오는 함수. passage 배열이 아닌, story 배열인게 의아함.
 export function storyWithId(stories: Story[], storyId: string) {
 	const result = stories.find(s => s.id === storyId);
 

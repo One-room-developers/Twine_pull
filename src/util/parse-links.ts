@@ -6,9 +6,11 @@ e.g. those pointing to other passages in a story, not to an external web site.
 import uniq from 'lodash/uniq';
 
 // The top level regular expression to catch links -- i.e. [[link]].
+//모든 일치 항목의 배열을 반환하며, 없으면 빈 배열을 반환함.
 const extractLinkTags = (text: string) => text.match(/\[\[.*?\]\]/g) || [];
 
 // Links _not_ starting with a protocol, e.g. abcd://.
+// http:// 와 같이 링크 형식인지 확인하는 것 같음.
 const internalLinks = (link: string) => !/^\w+:\/\/\/?\w/i.test(link);
 
 // Links with some text in them.
@@ -63,12 +65,13 @@ const extractLink = (tagContent: string) => {
 export function parseLinks(text: string, internalOnly?: boolean) {
 	// Link matching regexps ignore setter components, should they exist.
 
+	//map함수는 배열의 각 요소에 모두 접근하여 인자로 주는 함수를 적용하는 함수.
 	let result = uniq(
 		extractLinkTags(text)
 			.map(removeEnclosingBrackets)
 			.map(removeSetters)
 			.map(extractLink)
-			.filter(nonEmptyLinks)
+			.filter(nonEmptyLinks)//filter는 배열중 인자로 주어진 조건을 만족하는 애들만 추출해서 얕은 복사를 함.
 	);
 
 	if (internalOnly) {
