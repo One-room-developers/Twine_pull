@@ -1,5 +1,4 @@
-import { main } from './game-play-write_text'
-import Stat_UI from './game-play-stat_ui'
+import Stat_Window from './component/stat_window'
 import Main from './component/main'
 import Left_Ui from './component/left_ui'
 import Right_Ui from './component/right_ui'
@@ -10,31 +9,29 @@ import './game-play-route.css';
 
 export default function GamePlayRoute(){
     var [statUIOn, setStatUIOn] = React.useState(false);
+    var body = React.useRef(null);
 
-    function StatUi(){
+    function stat_window(){
         if(statUIOn){
-            document.querySelector("body").addEventListener('click', StatUiEvent);
-            return <Stat_UI/>
+            return <Stat_Window/>
         }
         else{
-            document.querySelector("body").removeEventListener('click', StatUiEvent);
             return
         }
     }
 
-    function StatUiEvent(){
+    function stat_window_event(){
         setStatUIOn((statUIOn ? false : true))
     }
-
-    React.useEffect(main, [])
+    
+    // React.useEffect(game_start, [])
     return (
-        <body className="game_play_body" >
-            
+        <div className="game_play_body" >
             <Left_Ui></Left_Ui>
-            <Main></Main>
+            <Main stat_window_event = {function(){stat_window_event()} }></Main>
             <Right_Ui></Right_Ui>
-            
-            {StatUi()};
-        </body>
+
+            {stat_window()}
+        </div>
     );
 };

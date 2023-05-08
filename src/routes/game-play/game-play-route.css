@@ -98,7 +98,7 @@ body{
     display:none;
   }
 
-.text_view-header{
+.header_text_view{
     grid-row: 1/1;
     width: 100%;
     display: grid;
@@ -121,7 +121,7 @@ body{
     padding: 10px;
 }
 
-.episode_name{
+.episode_title{
     text-align: center;
     grid-column : 2/5;
     font-size: max(2vw,30px);

@@ -1,10 +1,8 @@
 import * as React from 'react';
-import './game-play-route.css';
-import { current_status } from './game-play-write_text'
-import GamePlayRoute from './game-play-route';
-import cristal from "../../styles/image/cristal.png"
-import cristalB from "../../styles/image/cristal_b.png"
-import './game-play-route.css';
+import { current_status } from './main'
+import cristal from "../../../styles/image/cristal.png"
+import cristalB from "../../../styles/image/cristal_b.png"
+import '../game-play-route.css';
 
 
 function StatIconPusher(maxWidth : number, currentWidth : number){
@@ -17,7 +15,7 @@ function StatIconPusher(maxWidth : number, currentWidth : number){
     }
     return cristal_arr
 }
-export default function GamePlayStatUI(){
+export default function BottomStatUI(){
     return (
     <div className="stat-ui font-game-thick">
 
