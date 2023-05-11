@@ -192,7 +192,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 			//배열에 들어있는 선택지 수많큼 반복 출력
 
-			axios.post('http://localhost:3001/game_play/episode', {
+			axios.post('http://localhost:3001/game_play/', {
 				genre: 1,
 				title: extractFirstEpsiodeTitle(story),
 				mainText: sentences[0]

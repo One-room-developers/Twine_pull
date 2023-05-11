@@ -83,9 +83,7 @@ let db_episode_num
 function main() {
   episode_title_div = document.querySelector('.episode_name') as HTMLDivElement;
   episode_number_div = document.querySelector('.episode_number_text') as HTMLDivElement;
-  //db_episode_num = Math.floor(Math.random() * 6) + 3;
-
-  db_episode_num = 1;
+  db_episode_num = Math.floor(Math.random() * 6) + 3;
 
   input_text = [];
   input_option = [];
@@ -93,8 +91,9 @@ function main() {
   
   axios.get(`http://localhost:3001/game_play/mainepisode`)
   .then((res) => {
+    console.log(res.data);
+    debugger;
     main_episode = res.data;
-    console.log(main_episode);
     var current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))
     // 메인 에피소드 가져오기 
     episode_number_div.innerText = '#'+current_episode[0].id;
@@ -105,8 +104,6 @@ function main() {
   axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
   .then((res) => {
     main_episode_options = res.data;
-    console.log(main_episode_options);
-
     // 메인 에피소드 선택지 가져오기
     option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
     input_option.push([]);
@@ -114,8 +111,6 @@ function main() {
       input_option[0].push({ text: option_result[i].text });
     }
   });
-
-  debugger;
 
   input_text = [];
   input_option = [];
@@ -458,8 +453,7 @@ function clickResultEvent() {
   
   current_episode_num += 1;
 
-  // db_episode_num = Math.floor(Math.random() * 6)+1;
-  db_episode_num = 60
+  db_episode_num = Math.floor(Math.random() * 6) + 3;
   if(current_status.health <= 0 || current_status.hungry <= 0)
     db_episode_num = 11
 
@@ -479,8 +473,6 @@ function clickResultEvent() {
     for(let i = 0; i < option_result.length; i++) {
       input_option[current_episode_num].push({ text: option_result[i].text });
     }
-    
-    debugger;
   }
   else{
     // 에피소드 가져오기
