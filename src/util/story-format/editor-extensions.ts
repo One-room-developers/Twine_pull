@@ -6,6 +6,8 @@ import {satisfies} from 'semver';
  * If none are available, then this returns undefined.
  */
 export function formatEditorExtensions(
+	//StoryFormat타입은 BaseStoryFormat 이라는 id, name 등등의 정보가 담긴 인터페이스랑,
+	//로딩 상태를 나타내는 정보를 담는 게 같이 있음.
 	format: StoryFormat,
 	twineVersion: string
 ) {

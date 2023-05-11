@@ -17,7 +17,7 @@ body{
     display: flex;
 }
 
-.game_play-main{
+.main{
     height : 100vh;
     width: 50vw;
     display: flex;
@@ -98,7 +98,7 @@ body{
     display:none;
   }
 
-.text_view-header{
+.header_text_view{
     grid-row: 1/1;
     width: 100%;
     display: grid;
@@ -121,7 +121,7 @@ body{
     padding: 10px;
 }
 
-.episode_name{
+.episode_title{
     text-align: center;
     grid-column : 2/5;
     font-size: max(2vw,30px);
@@ -190,7 +190,7 @@ body{
 .option_div:hover{
     animation: hover_line 0.3s forwards; 
 }
-.game_play-main_ui{
+.main_ui{
     opacity: 0;
     animation: logo-opacity 0.3s forwards;
     animation-delay: 0.3s;
@@ -205,7 +205,7 @@ body{
     align-items: center;
 }
 
-.game_play-left_ui{
+.left_ui{
     width: 25vw;
 }
 
@@ -239,16 +239,16 @@ body{
     color: var(--main-orange);
 }
 
-.game_play-right_ui{
+.right_ui{
     width: 25vw;
     padding-top: 25vh;
 }
 
-.game_play-right_ui > div{
+.right_ui > div{
     padding-bottom: 5px;
 }
 
-.game_play-right_ui > div > img{
+.right_ui > div > img{
     margin-right: 2px;
 }
 

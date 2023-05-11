@@ -9,7 +9,7 @@ import {StoryProofRoute} from './story-proof';
 import {StoryTestRoute} from './story-test';
 import { HomeRoute } from './home';
 import { SelectRoute } from './select/select-route';
-import { GamePlayRoute } from './game-play';
+import GamePlayRoute from './game-play/game-play-route';
 import { LoginRoute } from './login';
 import { SignupRoute } from './signup';
 
