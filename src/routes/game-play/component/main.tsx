@@ -54,20 +54,19 @@ var body_text: any = {};
 var input_option: any = [];
 var input_result: any = [];
 
-var current_episode_num: number;
+var current_episode_num: number = 0;
 var main_episode_num: number = 1;
 
 var split_txt: string[];
-var hot_point: number;
+var stop_typing_time: number;
 var click: boolean;
 var typingIdx: number;
 var height_multiple: number;  
-var typingBool: boolean;
 var main_text_view_basic_size: number;
-var tyInt: ReturnType<typeof setInterval>;
 let option_result = new Array();
 let db_episode_num;
 const end_episode_num = 11;
+let typing_end;
 
 export let current_status : Status;
 
@@ -85,38 +84,60 @@ export default function Main(props){
 
     
     function game_start() {
-        getMainEpisodeFromDB();
-        
-        setTimeout(function () { typing_episode(0) }, 3000);
+        getMainEpisodeDataFromDB();
+
+        setTimeout(start_episode, 3000);
     };
         
-    function typing_episode(indexNum: number) {
-        current_episode_num = indexNum;
-        hot_point = 0;
+    function start_episode() {
+        stop_typing_time = 0;
         click = false;
         typingIdx = 0;
         height_multiple = 1;
-        typingBool = false;
         main_text_view_basic_size = main_text_view.current.clientHeight;
         split_txt = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view.current.addEventListener("click", click_on);
         
-        upDateRightUI();
-        tyInt = setInterval(typing, 20);
+        update_rightUI();
+        debugger;
+        
+        var promise = async function(){
+            for(typing_end=false; typing_end===false; ){
+                await new Promise<void>((resolve, reject) => {
+                    //episode 타이핑 시작
+                    setTimeout(function(){
+                        typing_episode();
+                        resolve();
+                    }, 20);
+                })
+            }
+            //episode 타이핑이 끝난 후
+            if(db_episode_num !== end_episode_num){
+                makeOptionDiv();
+            }
+            else{
+                makeResultOptionDiv();
+            }
+        }
+        promise();
+
+        
+        
+        
     }
     
-    function typing() {
+    function typing_episode() {
         //클릭을 안했다면 수행
         if(click !== true) {
             if (typingIdx < split_txt.length) {
                 // 타이핑될 텍스트 길이만큼 반복
-                if (hot_point !== 0) {
-                    hot_point -= 1;
+                if (stop_typing_time !== 0) {
+                    stop_typing_time -= 1;
                 }
                 else {
                     episode_text.current.innerHTML += (split_txt[typingIdx])
                     if (split_txt[typingIdx] === ".") {
-                        hot_point = 10; //온점이 나오면 10번의 반복 기간동안 쉼
+                        stop_typing_time = 10; //온점이 나오면 10번의 반복 기간동안 쉼
                     }
                     typingIdx++;
             
@@ -126,35 +147,22 @@ export default function Main(props){
                         episode_text.current.innerText = episode_text.current.innerText.slice(0, -1);
                         main_text_view.current.style.height = `${(text_view.current.clientHeight * height_multiple + main_text_view_basic_size)}px`;
                         moveScrollBottom();
-                        hot_point = 30;
+                        stop_typing_time = 30;
                         height_multiple++;
                     }
                 }
             }
             else {
-                clearInterval(tyInt); //끝나면 반복종료
-                if(db_episode_num !== end_episode_num){
-                    makeOptionDiv();
-                }
-                else{
-                    makeResultDiv();
-                }
+                typing_end = true;
             }
         }
         //클릭을 했다면 탈출
         else{
-            clearInterval(tyInt);
+            typing_end = true;
             body_text = body_text.replace(/\t/g, "&nbsp;");
             body_text = body_text.replace(/\n/g, "<br><br>");
             episode_text.current.innerHTML = body_text;
             text_view.current.removeEventListener("click", click_on);
-            click = false;
-            if(db_episode_num !== end_episode_num){
-                makeOptionDiv();
-            }
-            else{
-                makeResultDiv();
-            }
         }
     }
     
@@ -167,38 +175,14 @@ export default function Main(props){
             optionDiv[i].className = "option_div"
             optionDiv[i].id = `${i}`;
             optionDiv[i].innerText = input_option[current_episode_num][i].text;
-            optionDiv[i].addEventListener('click', (e: any) => { clickOptionEvent(e.target.id) });
+            optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
             episode_option.current.appendChild(optionDiv[i]);
         }
         
         episode_option.current.classList.remove("hidden");
-        moveScrollBottom();
     }
 
-    function makeResultDiv() {
-        var resultDiv: any;
-        resultDiv = document.createElement('div');
-        resultDiv.className = "result_div font-game-thick";
-        
-        if(db_episode_num !== end_episode_num){
-            resultDiv.innerText += "다음으로 . . .";
-            resultDiv.addEventListener('click', (e: any) => { clickResultEvent() });
-        }
-        else{
-            resultDiv.innerText += "로비로 . . .";
-            resultDiv.addEventListener('click', function onClick() {
-            window.location.href = 'http://localhost:3000/#/select';
-            });
-        }
-        episode_result_option.current.appendChild(resultDiv);
-
-        episode_result_option.current.classList.remove("hidden");
-        
-        height_multiple++;
-        moveScrollBottom();
-    }
-
-    function clickOptionEvent(optionId: number) {
+    function makeResultText(optionId: number) {
         episode_result_text.current.classList.remove("hidden");
         
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
@@ -262,10 +246,6 @@ export default function Main(props){
                     else
                     episode_result_text.current.innerHTML += keyName + option_result[optionId][key] + "만큼 늘었습니다\n";
                 }
-        
-                // episode_result_text.current.innerHTML = episode_result_text.current.innerHTML.replace(/\t/g, "&nbsp;");
-                // episode_result_text.current.innerHTML = episode_result_text.current.innerHTML.replace(/\n/g, "<br>");
-            
                 }
             }
         
@@ -277,17 +257,40 @@ export default function Main(props){
             current_status.armour += input_result[current_episode_num].armour;
             current_status.mental += input_result[current_episode_num].mental;
         
-            makeResultDiv();
+            makeResultOptionDiv();
             episode_result_text.current.style.height = `${(text_view.current.clientHeight) - (episode_result_option.current.clientHeight)}px`;
+            moveScrollBottom();
         })
     }
     
-    function clickResultEvent() {
+    function makeResultOptionDiv() {
+        var resultDiv: any;
+        resultDiv = document.createElement('div');
+        resultDiv.className = "result_div font-game-thick";
+        
+        if(db_episode_num !== end_episode_num){
+            resultDiv.innerText += "다음으로 . . .";
+            resultDiv.addEventListener('click', (e: any) => { episodeEnd() });
+        }
+        else{
+            resultDiv.innerText += "로비로 . . .";
+            resultDiv.addEventListener('click', function onClick() {
+            window.location.href = 'http://localhost:3000/#/select';
+            });
+        }
+        episode_result_option.current.appendChild(resultDiv);
+
+        episode_result_option.current.classList.remove("hidden");
+        
+        moveScrollBottom();
+        height_multiple++;
+    }
+
+    function episodeEnd() {
         resetTextDiv();
         
         current_episode_num += 1;
         
-        // db_episode_num = Math.floor(Math.random() * 6)+1;
         db_episode_num = 60
         if(current_status.health <= 0 || current_status.hungry <= 0)
             db_episode_num = end_episode_num
@@ -295,51 +298,36 @@ export default function Main(props){
         
         //만약 지금이 1,4,7...번째 에피소드라면 메인 에피소드 출력
         if((db_episode_num != end_episode_num && (current_episode_num+1) % 3) === 1){
-        // 메인 에피소드 가져오기 전에 넘버 증가
-            var current_episode;
+            // 메인 에피소드 가져오기 전에 넘버 증가
             main_episode_num += 1;
-            //다음 메인 에피소드 가져오기
-            current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))[0]
-            //episode_number
-            episode_number_text.current.innerText = '#'+current_episode.id;
-            //episode_title
-            episode_title.current.innerText = current_episode.title;
-
-            body_text = current_episode.main_text;
-            //다음 선택지 가져오기
-            option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
-            input_option.push([]);
-            for(let i = 0; i < option_result.length; i++) {
-            input_option[current_episode_num].push({ text: option_result[i].text });
-            }
-            
+            updateEpisodeValue();
         }
         //그 외라면 일반 에피소드 출력
         else{
             // 에피소드 가져오기
             axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
             .then((res) => {
-            episode_number_text.current.innerText = '#'+res.data.id;
-            episode_title.current.innerText = res.data.title;
-            body_text = res.data.mainText
+                episode_number_text.current.innerText = '#'+res.data.id;
+                episode_title.current.innerText = res.data.title;
+                body_text = res.data.mainText
             });
         
             // 선택지 가져오기
             axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
             .then((res) => {
-            option_result = res.data;
-            input_option.push([]);
-            for(let i = 0; i < res.data.length; i++) {
-                input_option[current_episode_num].push({ text: res.data[i].text });
-            };
+                option_result = res.data;
+                input_option.push([]);
+                for(let i = 0; i < res.data.length; i++) {
+                    input_option[current_episode_num].push({ text: res.data[i].text });
+                };
             })
         }
         
         
-        setTimeout(function () { typing_episode(current_episode_num) }, 1500)
+        setTimeout(function () { start_episode() }, 1500)
     }
 
-    function upDateRightUI(){
+    function update_rightUI(){
         health_class.current.innerHTML = "";
         hungry_class.current.innerHTML = "";
         money_class.current.innerHTML = "";
@@ -446,37 +434,42 @@ export default function Main(props){
         episode_result_option.current.classList.add("hidden");
     }
 
-    function getMainEpisodeFromDB(){
-        
-        axios.get(`http://localhost:3001/game_play/mainepisode`)
+    async function getMainEpisodeDataFromDB(){
+        await axios.get(`http://localhost:3001/game_play/mainepisode`)
         .then((res) => {
-            var current_episode;
             //main_episode
             main_episode = res.data;
-            current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))[0]
-            //episode_number
-            episode_number_text.current.innerText = '#'+current_episode.id;
-            //episode_title
-            episode_title.current.innerText = current_episode.title;
-            
-            body_text= current_episode.main_text ;
         });
-        axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
+        await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
         .then((res) => {
             main_episode_options = res.data;
-        
-            // 메인 에피소드 선택지 가져오기
-            option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
-            input_option.push([]);
-            for(let i = 0; i < option_result.length; i++) {
-            input_option[0].push({ text: option_result[i].text });
-            }
         });
         // 캐릭터 스테이터스 가져오기
-        axios.get('http://localhost:3001/game_play/character/1')
+        await axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
             current_status = res.data;
         });
+        
+        updateEpisodeValue();
+    }
+
+    function updateEpisodeValue(){
+        //메인 에피소드 업데이트
+        var current_episode;
+        current_episode = main_episode.filter((episode)=>(episode.id === main_episode_num))[0]
+        //episode_number
+        episode_number_text.current.innerText = '#'+current_episode.id;
+        //episode_title
+        episode_title.current.innerText = current_episode.title;
+        
+        body_text= current_episode.main_text ;
+
+         // 메인 에피소드 선택지 업데이트
+        option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
+        input_option.push([]);
+        for(let i = 0; i < option_result.length; i++) {
+            input_option[0].push({ text: option_result[i].text });
+        }
     }
 
     React.useEffect(game_start, [])
