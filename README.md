@@ -167,5 +167,13 @@ file = 파일 이름, 마지막 수정날짜 사이즈가 저장되어 있는 �
 reader = 파일 읽는 변수 fileReader
 onChange() -> file-input의 onChange()로 넘어감 -> 여기 html text를 넣어주면 됨
 2. file-chooser
-onChange() -> 이 함수가 끝나면 dialog가 생성됨
-3. import-stories
+file-input을 호출하는 컴포넌트
+3. story-import 
+file-chooser을 호출하는 컴포넌트, file-input에서 사용하는 onChange함수의 원형
+4. import-story-button
+story-import를 호출하는 컴포넌트, onclose를 props로 전달
+
+
+# 변경해야되는 파일
+1. StoryListLoute
+에피소드 제작 페이지의 시작, 스토리를 만드는 부분

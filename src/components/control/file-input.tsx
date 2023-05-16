@@ -35,9 +35,7 @@ export const FileInput: React.FC<FileInputProps> = props => {
 					onError(reader.error);
 				}
 			} else {
-				debugger;
 				onChange(file, reader.result as string);
-				debugger;
 			}
 		});
 

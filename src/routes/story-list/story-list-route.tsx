@@ -14,12 +14,15 @@ import {
 	deselectAllStories,
 	deselectStory,
 	selectStory,
-	useStoriesContext
+	useStoriesContext,
+	importStories as importStoriesByStories, Story
 } from '../../store/stories';
 import {UndoableStoriesContextProvider} from '../../store/undoable-stories';
 import {StoryListToolbar} from './toolbar/story-list-toolbar';
 import {StoryCards} from './story-cards';
 import {ClickAwayListener} from '../../components/click-away-listener';
+import {importStories as importStoriesByImport} from '../../util/import'; 
+import {testHtml} from './testHTml'
 
 export const InnerStoryListRoute: React.FC = () => {
 	const {dispatch: dialogsDispatch} = useDialogsContext();
@@ -27,12 +30,17 @@ export const InnerStoryListRoute: React.FC = () => {
 	const {prefs} = usePrefsContext();
 	const {shouldShowDonationPrompt} = useDonationCheck();
 	const {t} = useTranslation();
+	let data :string = testHtml;
 
+	//db와 스토리를 연동하기 위해 제작한 함수 - 이지원
+	function handleImport(getStory: Story[]) {
+		storiesDispatch(importStoriesByStories(getStory, stories)); //dispatch : useState 대신 사용하는 redux같은 것
+	}
 	const selectedStories = React.useMemo(
 		() => stories.filter(story => story.selected),
 		[stories]
 	);
-
+	
 	const visibleStories = React.useMemo(() => {
 		const filteredStories =
 			prefs.storyListTagFilter.length > 0
@@ -65,6 +73,10 @@ export const InnerStoryListRoute: React.FC = () => {
 		}
 	}, [dialogsDispatch, shouldShowDonationPrompt]);
 
+	//제작 페이지 실행시 스토리를 불러오기 위해 쓴 코드 - 이지원
+	React.useEffect(()=>{
+		handleImport(importStoriesByImport(data));
+	}, [])
 	return (
 		<div className="story-list-route">
 			<StoryListToolbar selectedStories={selectedStories} />

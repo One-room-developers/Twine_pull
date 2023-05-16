@@ -21,11 +21,13 @@ export const StoryImportDialog: React.FC<StoryImportDialogProps> = props => {
 	const [stories, setStories] = React.useState<Story[]>([]);
 
 	function handleImport(stories: Story[]) {
-		dispatch(importStories(stories, existingStories));
+		debugger;
+		dispatch(importStories(stories, existingStories)); //dispatch : useState 대신 사용하는 redux같은 것
 		onClose();
 	}
 
 	function handleFileChange(file: File, stories: Story[]) {
+		debugger;
 		// If there are no conflicts in the stories, import them now. Otherwise, set
 		// them in state and let the user choose via <StoryChooser>.
 
