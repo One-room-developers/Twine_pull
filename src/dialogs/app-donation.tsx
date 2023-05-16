@@ -9,6 +9,7 @@ import {IconLink} from '../components/control/icon-link';
 import {setPref, usePrefsContext} from '../store/prefs';
 import {DialogComponentProps} from './dialogs.types';
 
+//import 파일을 집어넣는 상자(추정)
 export const AppDonationDialog: React.FC<DialogComponentProps> = props => {
 	const {dispatch} = usePrefsContext();
 	const {t} = useTranslation();

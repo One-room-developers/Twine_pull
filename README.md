@@ -158,3 +158,14 @@ src/route/story-edit/zoom-buttons.css 삭제
 src/route/story-edit/zoom-buttons.tsx 삭제
 
 3. component/route-toolbar/route-toolbar.css 변환
+
+
+## 이지원
+# 스토리 import와 관련된 파일
+1. file-input
+file = 파일 이름, 마지막 수정날짜 사이즈가 저장되어 있는 변수
+reader = 파일 읽는 변수 fileReader
+onChange() -> file-input의 onChange()로 넘어감 -> 여기 html text를 넣어주면 됨
+2. file-chooser
+onChange() -> 이 함수가 끝나면 dialog가 생성됨
+3. import-stories
