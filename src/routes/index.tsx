@@ -14,7 +14,7 @@ import { LoginRoute } from './login';
 import { SignupRoute } from './signup';
 
 export const Routes: React.FC = () => {
-	const {prefs} = usePrefsContext();
+	const {prefs} = usePrefsContext(); //store, 리덕스를 대체기기 위해 만든 훅
 
 	// A <HashRouter> is used to make our lives easier--to load local story
 	// formats, we need the document HREF to reflect where the HTML file is.

@@ -9,7 +9,7 @@ export function movePassages(
 	xChange: number,
 	yChange: number
 ): UpdatePassagesAction {
-	const passageUpdates: Record<string, Partial<Passage>> = {};
+	const passageUpdates: Record<string, Partial<Passage>> = {}; //record는 타입. 키가 Key이고 값이 Type
 
 	if (!Number.isFinite(xChange) || !Number.isFinite(yChange)) {
 		throw new Error('Offset must be a finite number.');
@@ -33,7 +33,7 @@ export function movePassages(
 			top = Math.round(top / 100) * 100;
 		}
 
-		passageUpdates[passage.id] = {left, top};
+		passageUpdates[passage.id] = {left, top}; //하지만 이새끼 뭔지 모름
 	});
 
 	return {type: 'updatePassages', passageUpdates, storyId: story.id};
