@@ -16,12 +16,12 @@ interface MainEpisode {
     id: number,
     mode: number,
     title: string,
-    body_text:string
+    body_text:string,
+    options: MainEpisodeOption[]
 }
 
 interface MainEpisodeOption {
     id: number,
-    episode : MainEpisode,
     text: string,
     result_text: string,
     health_change: number,
@@ -32,8 +32,8 @@ interface MainEpisodeOption {
     armour_change: number,
     mental_change: number
 }
-  
-  interface Status {
+
+interface Status {
     health: number,
     money: number,
     hungry: number,
@@ -44,14 +44,14 @@ interface MainEpisodeOption {
 };
 
 let main_episode: MainEpisode[];
-let main_episode_options: MainEpisodeOption[];
+let main_episode_options: MainEpisodeOption[] = [];
 
 var maxHealth : number = 5;
 var maxHungry : number = 5;
 
 
 var body_text: any = {};
-var input_option: any = [];
+var option_text: any = [];
 var input_result: any = [];
 
 var current_episode_num: number = 0;
@@ -71,7 +71,7 @@ let typing_end;
 export let current_status : Status;
 
 export default function Main(props){
-
+    
     var episode_text = React.useRef(null);
     var text_view = React.useRef(null);
     var main_text_view = React.useRef(null);
@@ -81,25 +81,25 @@ export default function Main(props){
     var header_text_view = React.useRef(null);
     var episode_title = React.useRef(null);
     var episode_number_text = React.useRef(null);
-
+    
     
     function game_start() {
         getMainEpisodeDataFromDB();
-
+        
         setTimeout(start_episode, 3000);
     };
-        
+    
     function start_episode() {
         stop_typing_time = 0;
         click = false;
         typingIdx = 0;
         height_multiple = 1;
         main_text_view_basic_size = main_text_view.current.clientHeight;
+        debugger;
         split_txt = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view.current.addEventListener("click", click_on);
         
         update_rightUI();
-        debugger;
         
         var promise = async function(){
             for(typing_end=false; typing_end===false; ){
@@ -120,10 +120,6 @@ export default function Main(props){
             }
         }
         promise();
-
-        
-        
-        
     }
     
     function typing_episode() {
@@ -169,12 +165,12 @@ export default function Main(props){
     function makeOptionDiv() {
         var optionDiv = [];
         let i = 0;
-    
-        for (i = 0; i < input_option[current_episode_num].length; i++) {
+        
+        for (i = 0; i < option_text.length; i++) {
             optionDiv[i] = document.createElement('div');
             optionDiv[i].className = "option_div"
             optionDiv[i].id = `${i}`;
-            optionDiv[i].innerText = input_option[current_episode_num][i].text;
+            optionDiv[i].innerText = option_text[i];
             optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
             episode_option.current.appendChild(optionDiv[i]);
         }
@@ -198,7 +194,7 @@ export default function Main(props){
         })
         .then((res) => {
             input_result.push(
-            {   
+                {   
                 text: option_result[optionId].result_text,
                 health: option_result[optionId].health_change,
                 hungry: option_result[optionId].hungry_change,
@@ -209,12 +205,12 @@ export default function Main(props){
                 mental : option_result[optionId].mental_change
             });
             episode_result_text.current.innerHTML += "<br>" + input_result[current_episode_num].text + "<br><br>";
-        
+            
             for(let key in option_result[optionId]) {
                 if(key == 'id' || key == 'text' || key == 'result_text' || key == 'episode') {
                 continue;
-                }
-                else {
+            }
+            else {
                 if(option_result[optionId][key] != 0) {
                     var keyName : string;
                     
@@ -222,17 +218,17 @@ export default function Main(props){
                     case 'money_change' :
                         keyName = '돈이';
                         break;
-                    case 'health_change' :
-                        keyName = '체력이';
-                        break;
-                    case 'hungry_change' :
+                        case 'health_change' :
+                            keyName = '체력이';
+                            break;
+                            case 'hungry_change' :
                         keyName = '허기가';
                         break;
                     case 'strength_change' :
                         keyName = '힘이';
                         break;
-                    case 'armour_change' :
-                        keyName = '방어력이'
+                        case 'armour_change' :
+                            keyName = '방어력이'
                         break;
                     case 'agility_change' :
                         keyName = '민첩이'
@@ -248,7 +244,7 @@ export default function Main(props){
                 }
                 }
             }
-        
+            
             current_status.health += input_result[current_episode_num].health;
             current_status.hungry += input_result[current_episode_num].hungry;
             current_status.money += input_result[current_episode_num].money;
@@ -256,7 +252,7 @@ export default function Main(props){
             current_status.agility += input_result[current_episode_num].agility;
             current_status.armour += input_result[current_episode_num].armour;
             current_status.mental += input_result[current_episode_num].mental;
-        
+            
             makeResultOptionDiv();
             episode_result_text.current.style.height = `${(text_view.current.clientHeight) - (episode_result_option.current.clientHeight)}px`;
             moveScrollBottom();
@@ -275,11 +271,11 @@ export default function Main(props){
         else{
             resultDiv.innerText += "로비로 . . .";
             resultDiv.addEventListener('click', function onClick() {
-            window.location.href = 'http://localhost:3000/#/select';
+                window.location.href = 'http://localhost:3000/#/select';
             });
         }
         episode_result_option.current.appendChild(resultDiv);
-
+        
         episode_result_option.current.classList.remove("hidden");
         
         moveScrollBottom();
@@ -294,7 +290,7 @@ export default function Main(props){
         db_episode_num = 60
         if(current_status.health <= 0 || current_status.hungry <= 0)
             db_episode_num = end_episode_num
-        
+            
         
         //만약 지금이 1,4,7...번째 에피소드라면 메인 에피소드 출력
         if((db_episode_num != end_episode_num && (current_episode_num+1) % 3) === 1){
@@ -304,43 +300,27 @@ export default function Main(props){
         }
         //그 외라면 일반 에피소드 출력
         else{
-            // 에피소드 가져오기
-            axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
-            .then((res) => {
-                episode_number_text.current.innerText = '#'+res.data.id;
-                episode_title.current.innerText = res.data.title;
-                body_text = res.data.mainText
-            });
-        
-            // 선택지 가져오기
-            axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
-            .then((res) => {
-                option_result = res.data;
-                input_option.push([]);
-                for(let i = 0; i < res.data.length; i++) {
-                    input_option[current_episode_num].push({ text: res.data[i].text });
-                };
-            })
+            getNormalEpisodeDataFromDBAndUpdate();
         }
         
         
         setTimeout(function () { start_episode() }, 1500)
     }
-
+    
     function update_rightUI(){
         health_class.current.innerHTML = "";
         hungry_class.current.innerHTML = "";
         money_class.current.innerHTML = "";
 
         if (current_status.health < 0)
-            current_status.health = 0;
+        current_status.health = 0;
         else if(current_status.health > maxHealth)
             current_status.health = maxHealth
         
         if (current_status.hungry < 0)
             current_status.hungry = 0;
         else if(current_status.hungry > maxHungry)
-            current_status.hungry = maxHungry
+        current_status.hungry = maxHungry
         
         var health = current_status.health;
         var hungry = current_status.hungry;
@@ -356,7 +336,7 @@ export default function Main(props){
         let i = 0;
         //helath의 개수가 0보다 작거나 current_status.maxHealth보다 클 수 없게 설정
         
-            
+        
         for (i = 0; i < health; i++) {
             helathImg[i] = new Image();
             helathImg[i].className = "right-ui-img"
@@ -394,24 +374,24 @@ export default function Main(props){
             moneyImg[money5 + i].src = moneyLogo;
             moneyImg[money5 + i].width = 30;
             money_class.current.appendChild(moneyImg[money5 + i]);
-            }
         }
-        else {
-            for (i = 0; i < money5; i++) {
+    }
+    else {
+        for (i = 0; i < money5; i++) {
             moneyImg[i] = new Image();
             moneyImg[i].className = "money5_img"
             moneyImg[i].src = money5Logo;
             moneyImg[i].width = 30;
             money_class.current.appendChild(moneyImg[i]);
-            }
-            for (i = 0; i < money % 5; i++) {
+        }
+        for (i = 0; i < money % 5; i++) {
             moneyImg[money5 + i] = new Image();
             moneyImg[money5 + i].className = "money_img"
             moneyImg[money5 + i].src = moneyLogo;
             moneyImg[money5 + i].width = 30;
             money_class.current.appendChild(moneyImg[money5 + i]);
-            }
         }
+    }
     }
     
     function click_on() {
@@ -437,20 +417,50 @@ export default function Main(props){
     async function getMainEpisodeDataFromDB(){
         await axios.get(`http://localhost:3001/game_play/mainepisode`)
         .then((res) => {
-            //main_episode
+            let temp_options: any = [];
             main_episode = res.data;
+            
+            for(let i = 0; i < main_episode.length; i++) {
+                temp_options.push(main_episode[i].options);
+            }
+
+            // main_episode_option 초기화
+            main_episode_options = temp_options;
+            console.log(main_episode_options);
+            debugger;
         });
-        await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
+        /*await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
         .then((res) => {
             main_episode_options = res.data;
-        });
+        });*/
+        
         // 캐릭터 스테이터스 가져오기
         await axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
             current_status = res.data;
         });
-        
         updateEpisodeValue();
+    }
+
+    function getNormalEpisodeDataFromDBAndUpdate(){
+         // 에피소드 가져오기
+        axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
+        .then((res) => {
+            episode_number_text.current.innerText = '#'+res.data.id;
+            episode_title.current.innerText = res.data.title;
+            body_text = res.data.mainText
+        });
+    
+         // 선택지 가져오기
+        axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
+        .then((res) => {
+            option_result = res.data;
+            var dummy_option = [];
+            for(let i = 0; i < res.data.length; i++) {
+                dummy_option.push(res.data[i].text);
+            };
+            option_text = dummy_option;
+        })
     }
 
     function updateEpisodeValue(){
@@ -465,11 +475,13 @@ export default function Main(props){
         body_text= current_episode.main_text ;
 
          // 메인 에피소드 선택지 업데이트
-        option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
-        input_option.push([]);
+         // 아래 코드 수정 필요
+         // option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
+        var dummy_option = [];
         for(let i = 0; i < option_result.length; i++) {
-            input_option[0].push({ text: option_result[i].text });
+            dummy_option.push(option_result[i].text);
         }
+        option_text = dummy_option;
     }
 
     React.useEffect(game_start, [])
