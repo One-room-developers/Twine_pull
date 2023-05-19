@@ -16,12 +16,12 @@ interface MainEpisode {
     id: number,
     mode: number,
     title: string,
-    body_text:string
+    body_text:string,
+    options: MainEpisodeOption[]
 }
 
 interface MainEpisodeOption {
     id: number,
-    episode : MainEpisode,
     text: string,
     result_text: string,
     health_change: number,
@@ -32,8 +32,8 @@ interface MainEpisodeOption {
     armour_change: number,
     mental_change: number
 }
-  
-  interface Status {
+
+interface Status {
     health: number,
     money: number,
     hungry: number,
@@ -44,7 +44,8 @@ interface MainEpisodeOption {
 };
 
 let main_episode: MainEpisode[];
-let main_episode_options: MainEpisodeOption[];
+let main_episode_options: MainEpisodeOption[] = [];
+let temp_options: any = [];
 
 var maxHealth : number = 5;
 var maxHungry : number = 5;
@@ -439,11 +440,23 @@ export default function Main(props){
         .then((res) => {
             //main_episode
             main_episode = res.data;
+            
+            // 이중 반복 쓰기 싫어서 임시 배열에 선택지 push
+            for(let i = 0; i < main_episode.length; i++) {
+                temp_options.push(main_episode[i].options);
+            }
+            
+            //main_episode_option 초기화
+            main_episode_options = temp_options;
+            console.log(main_episode_options);
+            debugger;
         });
-        await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
+
+        // 아래 코드는 지워도 됨
+        /*await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
         .then((res) => {
             main_episode_options = res.data;
-        });
+        });*/
         // 캐릭터 스테이터스 가져오기
         await axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
@@ -465,7 +478,8 @@ export default function Main(props){
         body_text= current_episode.main_text ;
 
          // 메인 에피소드 선택지 업데이트
-        option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
+         // 여기 코드 수정 필요
+        //option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
         input_option.push([]);
         for(let i = 0; i < option_result.length; i++) {
             input_option[0].push({ text: option_result[i].text });
