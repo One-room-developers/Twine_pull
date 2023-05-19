@@ -51,7 +51,7 @@ var maxHungry : number = 5;
 
 
 var body_text: any = {};
-var input_option: any = [];
+var option_text: any = [];
 var input_result: any = [];
 
 var current_episode_num: number = 0;
@@ -84,7 +84,7 @@ export default function Main(props){
 
     
     function game_start() {
-        getMainEpisodeDataFromDB();
+            getMainEpisodeDataFromDB();
 
         setTimeout(start_episode, 3000);
     };
@@ -95,11 +95,11 @@ export default function Main(props){
         typingIdx = 0;
         height_multiple = 1;
         main_text_view_basic_size = main_text_view.current.clientHeight;
+        debugger;
         split_txt = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view.current.addEventListener("click", click_on);
         
         update_rightUI();
-        debugger;
         
         var promise = async function(){
             for(typing_end=false; typing_end===false; ){
@@ -120,10 +120,6 @@ export default function Main(props){
             }
         }
         promise();
-
-        
-        
-        
     }
     
     function typing_episode() {
@@ -170,11 +166,11 @@ export default function Main(props){
         var optionDiv = [];
         let i = 0;
     
-        for (i = 0; i < input_option[current_episode_num].length; i++) {
+        for (i = 0; i < option_text.length; i++) {
             optionDiv[i] = document.createElement('div');
             optionDiv[i].className = "option_div"
             optionDiv[i].id = `${i}`;
-            optionDiv[i].innerText = input_option[current_episode_num][i].text;
+            optionDiv[i].innerText = option_text[i];
             optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
             episode_option.current.appendChild(optionDiv[i]);
         }
@@ -304,23 +300,7 @@ export default function Main(props){
         }
         //그 외라면 일반 에피소드 출력
         else{
-            // 에피소드 가져오기
-            axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
-            .then((res) => {
-                episode_number_text.current.innerText = '#'+res.data.id;
-                episode_title.current.innerText = res.data.title;
-                body_text = res.data.mainText
-            });
-        
-            // 선택지 가져오기
-            axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
-            .then((res) => {
-                option_result = res.data;
-                input_option.push([]);
-                for(let i = 0; i < res.data.length; i++) {
-                    input_option[current_episode_num].push({ text: res.data[i].text });
-                };
-            })
+           getNormalEpisodeDataFromDBAndUpdate();
         }
         
         
@@ -435,9 +415,9 @@ export default function Main(props){
     }
 
     async function getMainEpisodeDataFromDB(){
+        
         await axios.get(`http://localhost:3001/game_play/mainepisode`)
         .then((res) => {
-            //main_episode
             main_episode = res.data;
         });
         await axios.get(`http://localhost:3001/game_play/mainepisodeoptions`)
@@ -449,8 +429,28 @@ export default function Main(props){
         .then((res) => {
             current_status = res.data;
         });
-        
         updateEpisodeValue();
+    }
+
+    function getNormalEpisodeDataFromDBAndUpdate(){
+         // 에피소드 가져오기
+         axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
+         .then((res) => {
+             episode_number_text.current.innerText = '#'+res.data.id;
+             episode_title.current.innerText = res.data.title;
+             body_text = res.data.mainText
+         });
+     
+         // 선택지 가져오기
+         axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
+         .then((res) => {
+             option_result = res.data;
+             var dummy_option = [];
+             for(let i = 0; i < res.data.length; i++) {
+                 dummy_option.push(res.data[i].text);
+             };
+             option_text = dummy_option;
+         })
     }
 
     function updateEpisodeValue(){
@@ -466,10 +466,11 @@ export default function Main(props){
 
          // 메인 에피소드 선택지 업데이트
         option_result = main_episode_options.filter((option)=>(option.episode.id === main_episode_num));
-        input_option.push([]);
+        var dummy_option = [];
         for(let i = 0; i < option_result.length; i++) {
-            input_option[0].push({ text: option_result[i].text });
+            dummy_option.push(option_result[i].text);
         }
+        option_text = dummy_option;
     }
 
     React.useEffect(game_start, [])
