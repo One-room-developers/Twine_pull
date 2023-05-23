@@ -9,9 +9,10 @@ import {StoryProofRoute} from './story-proof';
 import {StoryTestRoute} from './story-test';
 import { HomeRoute } from './home';
 import { SelectRoute } from './select/select-route';
-import GamePlayRoute from './game-play/game-play-route';
+import { GamePlayRoute } from './game-play/game-play-route';
 import { LoginRoute } from './login';
 import { SignupRoute } from './signup';
+import { UserBoardRoute } from './user-board';
 
 export const Routes: React.FC = () => {
 	const {prefs} = usePrefsContext(); //store, 리덕스를 대체기기 위해 만든 훅
@@ -45,6 +46,9 @@ export const Routes: React.FC = () => {
 					<Route exact path="/story-list">
 						<StoryListRoute />
 					</Route>
+					<Route exact path="/user-board">
+						<UserBoardRoute />
+					</Route>
 					<Route path="/stories/:storyId">
 						<StoryEditRoute />
 					</Route>
@@ -63,6 +67,7 @@ export const Routes: React.FC = () => {
 					<Route path="/stories/:storyId/test">
 						<StoryTestRoute />
 					</Route>
+					
 					
 					<Route
 						path="*"

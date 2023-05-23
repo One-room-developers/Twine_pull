@@ -7,7 +7,7 @@ import './game-play-route.css';
 
 
 
-export default function GamePlayRoute(){
+export const GamePlayRoute: React.FC = () => {
     var [statUIOn, setStatUIOn] = React.useState(false);
     var body = React.useRef(null);
 
