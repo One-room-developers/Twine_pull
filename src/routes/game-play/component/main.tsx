@@ -434,6 +434,7 @@ export default function Main(props){
             main_episode_options = res.data;
         });*/
         
+        
         // 캐릭터 스테이터스 가져오기
         await axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
