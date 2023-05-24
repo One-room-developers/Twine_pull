@@ -12,11 +12,17 @@ import { health_class } from './right_ui';
 import { money_class } from './right_ui';
 import { hungry_class } from './right_ui';
 
-interface MainEpisode {
-    mainEpisodeText : EpisodeText[],
-    mainEpisodeOptionTexts : EpisodeOptionTexts[],
-    mainEpisodeOptionStatChange : EpisodeOptionStatChange[]
-}
+// interface Episode {
+//     Episode_Text : EpisodeText,
+//     Option_Texts : EpisodeOptionTexts,
+//     Option_Stat_Changes : EpisodeOptionStatChange
+// }
+
+interface Episodes {
+    Episode_Text: any,
+    Option_Texts: any,
+    Option_Stat_Changes: any
+   };
 
 interface EpisodeText{
     id : number,
@@ -50,7 +56,7 @@ interface Status {
 };
 
 
-let main_episode: MainEpisode;
+let main_episode: Episodes[];
 
 let maxHealth : number = 5;
 let maxHungry : number = 5;
@@ -93,7 +99,7 @@ export default function Main(props){
     function game_start() {
         getMainEpisodeDataFromDB();
 
-        setTimeout(start_episode, 3000);
+        // setTimeout(start_episode, 3000);
     };
         
     function start_episode() {
@@ -107,25 +113,25 @@ export default function Main(props){
         
         update_rightUI();
         
-        let promise = async function(){
-            for(typing_end=false; typing_end===false; ){
-                await new Promise<void>((resolve, reject) => {
-                    //episode 타이핑 시작
-                    setTimeout(function(){
-                        typing_episode();
-                        resolve();
-                    }, 20);
-                })
-            }
-            //episode 타이핑이 끝난 후
-            if(db_episode_num !== end_episode_num){
-                makeOptionDiv();
-            }
-            else{
-                makeResultOptionDiv();
-            }
-        }
-        promise();
+        // let promise = async function(){
+        //     for(typing_end=false; typing_end===false; ){
+        //         await new Promise<void>((resolve, reject) => {
+        //             //episode 타이핑 시작
+        //             setTimeout(function(){
+        //                 typing_episode();
+        //                 resolve();
+        //             }, 20);
+        //         })
+        //     }
+        //     //episode 타이핑이 끝난 후
+        //     if(db_episode_num !== end_episode_num){
+        //         makeOptionDiv();
+        //     }
+        //     else{
+        //         makeResultOptionDiv();
+        //     }
+        // }
+        // promise();
     }
     
     function typing_episode() {
@@ -420,31 +426,29 @@ export default function Main(props){
         episode_result_option.current.classList.add("hidden");
     }
 
-    async function getMainEpisodeDataFromDB(){
-        await axios.get(`http://localhost:3001/game_play/mainepisode`)
+    function getMainEpisodeDataFromDB(){
+        axios.get(`http://localhost:3001/game_play/mainepisode`)
         .then((res) => {
-            let temp_options: any = [];
             main_episode = res.data;
             debugger;
-            
         });
         
         // 캐릭터 스테이터스 가져오기
-        await axios.get('http://localhost:3001/game_play/character/1')
+        axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
             current_status = res.data;
         });
-        updateEpisodeValue('main');
+        // updateEpisodeValue('main');
     }
 
     function getNormalEpisodeDataFromDBAndUpdate(){
          // 에피소드 가져오기
-         axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
-         .then((res) => {
-             episode_number_text.current.innerText = '#'+res.data.id;
-             episode_title.current.innerText = res.data.title;
-             body_text = res.data.mainText
-         });
+        //  axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
+        //  .then((res) => {
+        //      episode_number_text.current.innerText = '#'+res.data.id;
+        //      episode_title.current.innerText = res.data.title;
+        //      body_text = res.data.mainText
+        //  });
     
          // 선택지 가져오기
          axios.get(`http://localhost:3001/game_play/options/${db_episode_num}`)
@@ -466,9 +470,9 @@ export default function Main(props){
         let current_episode_option_texts : EpisodeOptionTexts;
         let current_episode_option_stat_change : EpisodeOptionStatChange;
         if(episode_type === 'main'){
-            current_episode_text = main_episode.mainEpisodeText[main_episode_num];
-            current_episode_option_texts = main_episode.mainEpisodeOptionTexts[main_episode_num];
-            current_episode_option_stat_change = main_episode.mainEpisodeOptionStatChange[main_episode_num];
+            // current_episode_text = main_episode.mainEpisodeText[main_episode_num];
+            // current_episode_option_texts = main_episode.mainEpisodeOptionTexts[main_episode_num];
+            // current_episode_option_stat_change = main_episode.mainEpisodeOptionStatChange[main_episode_num];
         }
         else{
         }
