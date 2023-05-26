@@ -46,7 +46,7 @@ interface Status {
 
 interface Option_Texts {
     text: string,
-    resultText: string
+    result_text: string
 };
 
 let main_episode: Episode[];
@@ -69,8 +69,9 @@ let click: boolean;
 let typingIdx: number;
 let height_multiple: number;
 let main_text_view_basic_size: number;
-let db_episode_num = 1;
+let normal_episode_num = 1;
 const end_episode_num = 11;
+let isEnd = false;
 let typing_end;
 let status_change: Option_Stat_Changes[];
 
@@ -92,8 +93,7 @@ export default function Main(props) {
     function game_start() {
         console.log('게임 스타트 함수 진입');
 
-        // getMainEpisodeDataFromDB();
-        getNormalEpisodeDataFromDB();
+        getMainEpisodeDataFromDB();
         getCurrentStatusFromDB();
 
         setTimeout(start_episode, 3000);
@@ -109,7 +109,6 @@ export default function Main(props) {
         split_txt = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view.current.addEventListener("click", click_on);
 
-        update_rightUI();
 
         let promise = async function () {
             for (typing_end = false; typing_end === false;) {
@@ -122,7 +121,7 @@ export default function Main(props) {
                 })
             }
             //episode 타이핑이 끝난 후
-            if (db_episode_num !== end_episode_num) {
+            if (!isEnd) {
                 makeOptionDiv();
             }
             else {
@@ -193,78 +192,68 @@ export default function Main(props) {
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
         axios.patch('http://localhost:3001/game_play/changestatus/3',
             {
+                //db에 스탯 변화량 기록
                 "changed_health": status_change[optionId].health_change,
                 "changed_money": status_change[optionId].money_change,
                 "changed_hungry": status_change[optionId].hungry_change,
                 "changed_strength": status_change[optionId].strength_change,
                 "changed_agility": status_change[optionId].agility_change,
                 "changed_armour": status_change[optionId].armour_change,
-                "changed_mental": status_change[optionId].mental_change,
+                "changed_mental": status_change[optionId].mental_change
             })
-            .then((res) => {
-                input_result.push(
-                    {
-                        // text: option_text[optionId].result_text,
-                        // health: option_text[optionId].health_change,
-                        // hungry: option_text[optionId].hungry_change,
-                        // money: option_text[optionId].money_change,
-                        // strength: option_text[optionId].strength_change,
-                        // agility: option_text[optionId].agility_change,
-                        // armour: option_text[optionId].armour_change,
-                        // mental: option_text[optionId].mental_change
-                    });
-                episode_result_text.current.innerHTML += "<br>" + input_result[current_episode_num].text + "<br><br>";
-
-                for (let key in option_text[optionId]) {
-                    if (key == 'id' || key == 'text' || key == 'result_text' || key == 'episode') {
-                        continue;
-                    }
-                    else {
-                        if (option_text[optionId][key] != 0) {
-                            let keyName: string;
-
-                            switch (key) {
-                                case 'money_change':
-                                    keyName = '돈이';
-                                    break;
-                                case 'health_change':
-                                    keyName = '체력이';
-                                    break;
-                                case 'hungry_change':
-                                    keyName = '허기가';
-                                    break;
-                                case 'strength_change':
-                                    keyName = '힘이';
-                                    break;
-                                case 'armour_change':
-                                    keyName = '방어력이'
-                                    break;
-                                case 'agility_change':
-                                    keyName = '민첩이'
-                                    break;
-                                case 'mental_change':
-                                    keyName = '정신력이'
-                                    break;
-                            }
-                            if (option_text[optionId][key] < 0)
-                                episode_result_text.current.innerHTML += keyName + " " + option_text[optionId][key] + "만큼 줄었습니다\n";
-                            else
-                                episode_result_text.current.innerHTML += keyName + option_text[optionId][key] + "만큼 늘었습니다\n";
+            .then((res) => 
+            {
+                episode_result_text.current.innerHTML += "<br>" + option_text[optionId].result_text + "<br><br>";
+                let isStatChanged = false;
+                //stat 증가량 텍스트 입력
+                for (let statName in status_change[optionId]) {
+                    if (status_change[optionId][statName] != 0) {
+                        isStatChanged = true;
+                        let statMessage;
+                        switch(statName){
+                            case 'health_change':
+                                statMessage="체력이"
+                                break;
+                            case 'money_change':
+                                statMessage="돈이"
+                                break;
+                            case 'hungry_change':
+                                statMessage="허기가"
+                                break;
+                            case 'strength_change':
+                                statMessage="근력이"
+                                break;
+                            case 'agility_change':
+                                statMessage="민첩이"
+                                break;
+                            case 'armour_change':
+                                statMessage="방어가"
+                                break;
+                            case 'mental_change':
+                                statMessage="정신력이"
+                                break;
                         }
+                        if (status_change[optionId][statName] < 0)
+                            episode_result_text.current.innerHTML += statMessage + " " + status_change[optionId][statName] + "만큼 줄었습니다\n";
+                        else
+                            episode_result_text.current.innerHTML += statMessage + status_change[optionId][statName] + "만큼 늘었습니다\n";
                     }
                 }
 
-                current_status.health += input_result[current_episode_num].health;
-                current_status.hungry += input_result[current_episode_num].hungry;
-                current_status.money += input_result[current_episode_num].money;
-                current_status.strength += input_result[current_episode_num].strength;
-                current_status.agility += input_result[current_episode_num].agility;
-                current_status.armour += input_result[current_episode_num].armour;
-                current_status.mental += input_result[current_episode_num].mental;
+                current_status.health += status_change[optionId].health_change;
+                current_status.hungry += status_change[optionId].hungry_change;
+                current_status.money += status_change[optionId].money_change;
+                current_status.strength += status_change[optionId].strength_change;
+                current_status.agility += status_change[optionId].agility_change;
+                current_status.armour += status_change[optionId].armour_change;
+                current_status.mental += status_change[optionId].mental_change;
 
                 makeResultOptionDiv();
                 episode_result_text.current.style.height = `${(text_view.current.clientHeight) - (episode_result_option.current.clientHeight)}px`;
                 moveScrollBottom();
+                //ui 업데이트
+                if(isStatChanged)
+                    update_rightUI();
             })
     }
 
@@ -273,7 +262,7 @@ export default function Main(props) {
         resultDiv = document.createElement('div');
         resultDiv.className = "result_div font-game-thick";
 
-        if (db_episode_num !== end_episode_num) {
+        if (!isEnd) {
             resultDiv.innerText += "다음으로 . . .";
             resultDiv.addEventListener('click', (e: any) => { episodeEnd() });
         }
@@ -296,22 +285,24 @@ export default function Main(props) {
 
         current_episode_num += 1;
 
-        db_episode_num = 1
-        if (current_status.health <= 0 || current_status.hungry <= 0)
-            db_episode_num = end_episode_num
-
-
+        if (current_status.health <= 0 || current_status.hungry <= 0){
+            isEnd = true;
+        }
+        
+        //게임 끝 판별
+        if(isEnd){
+            normal_episode_num = end_episode_num;
+        }
         //만약 지금이 1,4,7...번째 에피소드라면 메인 에피소드 출력
-        if ((db_episode_num != end_episode_num && (current_episode_num + 1) % 3) === 1) {
-            // 메인 에피소드 가져오기 전에 넘버 증가
+        else if (((current_episode_num + 1) % 3) === 1) {
             main_episode_num += 1;
             updateEpisodeValue('main');
         }
         //그 외라면 일반 에피소드 출력
         else {
+            normal_episode_num = 1
             getNormalEpisodeDataFromDB();
         }
-
 
         setTimeout(function () { start_episode() }, 1500)
     }
@@ -320,7 +311,8 @@ export default function Main(props) {
         health_class.current.innerHTML = "";
         hungry_class.current.innerHTML = "";
         money_class.current.innerHTML = "";
-
+        
+        //helath의 개수가 0보다 작거나 current_status.maxHealth보다 클 수 없게 설정
         if (current_status.health < 0)
             current_status.health = 0;
         else if (current_status.health > maxHealth)
@@ -343,7 +335,6 @@ export default function Main(props) {
         let money5 = Math.floor(money / 5);
 
         let i = 0;
-        //helath의 개수가 0보다 작거나 current_status.maxHealth보다 클 수 없게 설정
 
 
         for (i = 0; i < health; i++) {
@@ -438,12 +429,13 @@ export default function Main(props) {
         axios.get('http://localhost:3001/game_play/character/1')
         .then((res) => {
             current_status = res.data;
+            update_rightUI();
         });
     }
 
     async function getNormalEpisodeDataFromDB() {
         // 에피소드 가져오기
-        await axios.get(`http://localhost:3001/game_play/episode/${db_episode_num}`)
+        await axios.get(`http://localhost:3001/game_play/episode/${normal_episode_num}`)
             .then((res) => {
                 console.log('노말 에피소드 가져오기 성공');
                 normal_episode = res.data;
