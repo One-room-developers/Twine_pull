@@ -33,9 +33,10 @@ export const InnerStoryListRoute: React.FC = () => {
 	let data :string = testHtml;
 
 	//db와 스토리를 연동하기 위해 제작한 함수 - 이지원
-	function handleImport(getStory: Story[]) {
-		storiesDispatch(importStoriesByStories(getStory, stories)); //dispatch : useState 대신 사용하는 redux같은 것
-	}
+	// function handleImport(getStory: Story[]) {
+	// 	storiesDispatch(importStoriesByStories(getStory, stories)); //dispatch : useState 대신 사용하는 redux같은 것
+	// }
+
 	const selectedStories = React.useMemo(
 		() => stories.filter(story => story.selected),
 		[stories]
@@ -74,9 +75,9 @@ export const InnerStoryListRoute: React.FC = () => {
 	}, [dialogsDispatch, shouldShowDonationPrompt]);
 
 	//제작 페이지 실행시 스토리를 불러오기 위해 쓴 코드 - 이지원
-	React.useEffect(()=>{
-		handleImport(importStoriesByImport(data));
-	}, [])
+	// React.useEffect(()=>{
+	// 	handleImport(importStoriesByImport(data));
+	// }, [])
 	return (
 		<div className="story-list-route">
 			<StoryListToolbar selectedStories={selectedStories} />

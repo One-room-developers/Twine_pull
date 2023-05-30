@@ -14,7 +14,6 @@ export const AppPrefsDialog: React.FC<
 > = props => {
 	const {dispatch, prefs} = usePrefsContext();
 	const {t} = useTranslation();
-
 	return (
 		<DialogCard
 			{...props}

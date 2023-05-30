@@ -173,6 +173,50 @@ file-chooser을 호출하는 컴포넌트, file-input에서 사용하는 onChang
 4. import-story-button
 story-import를 호출하는 컴포넌트, onclose를 props로 전달
 
+# 에피소드 수정 페이지와 관련된 기능
+1. dialogs.tsx
+TransitionGroup을 사용하는 파일
+*dialog dispatch를 통해 값이 달라지면 재실행 되는 것으로 보임* => dispatch, 그리고 usecontex란? https://www.zerocho.com/category/React/post/5fa63fc6301d080004c4e32b
+
+2. react-transition-group
+transition 파일이 시작되는 장소
+
+3. dialog-card 
+텍스트 변경 카드
+안에 있는 IconButton이 개발자 도구에서 Anonymous로 표기되는 컴포넌트임
+
+4. passage-edit
+dialog-card를 호출하는 컴포넌트
+dialogs에서 호출됨
+
+5. Transition 
+**핵심 기능이 담겨 있는 것 같음. 찾아보기.**
+
+6. dialogs-context.tsx
+dialogs.tsx에서 사용하는 dialogs-contex를 만드는 파일
+reducer에 dispatch 함수가 정의되어 있음
+
+thunk에 대한 참고 : https://velog.io/@mokyoungg/Redux-Redux-thunk
+
+7. selectable-card
+double click 리스너가 있는 파일
+onDoubleClick이 리스너이다
+
+double click 함수는 상위 부모에게 props를 통해 전달받는다
+'Passage Card -> PassageCardGroup -> PassageMap -> MarqueeablePassageMap -> 
+InnerStoryEditRoute -> StoryEditRoute'를 이동해 마지막 StoryEditRoute에 double click 함수가 있다
+
+8. story-edit-route
+double click 함수의 코드가 있는 파일
+
+handleEditPassage()함수에서 dialogsDispatch를 하여 dialog 창을 여는 것으로 추정
+dialogDispatch는 dialog-context에 정의됨
+
+9. react-codemirror2 / code-area
+value에 dialog 창의 텍스트가 담겨있음
+passage-text에서 value가 내려옴
+
+10. passage-text.tsx
 
 # 변경해야되는 파일
 1. StoryListLoute

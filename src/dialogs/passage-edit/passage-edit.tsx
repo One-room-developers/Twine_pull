@@ -43,7 +43,7 @@ export const InnerPassageEditDialog: React.FC<
 		story.storyFormatVersion
 	);
 	const {t} = useTranslation();
-
+	const [ezoneButton, setEzoneButton] = React.useState(false);
 	React.useEffect(() => {
 		if (error) {
 			if (storyFormatExtensionsEnabled) {
@@ -85,18 +85,19 @@ export const InnerPassageEditDialog: React.FC<
 
 		Promise.resolve().then(() => cmEditor.setSelections(selections));
 	}
-
 	return (
 		<DialogCard
 			{...other}
 			className="passage-edit-dialog"
-			headerLabel={passage.name}
+			headerLabel={passage.name}	
 			maximizable
+			setEzoneButton={setEzoneButton}
 		>
 			{editorCrashed ? (
 				<ErrorMessage>{t('dialogs.passageEdit.editorCrashed')}</ErrorMessage>
-			) : (
-				<>
+			) 
+			: (//빈 컴포넌트는 아무 것도 없는 것으로 취급된다
+				<> 
 					<PassageToolbar editor={cmEditor} passage={passage} story={story} />
 					{storyFormatExtensionsEnabled && (
 						<StoryFormatToolbar
@@ -114,6 +115,7 @@ export const InnerPassageEditDialog: React.FC<
 							story={story}
 							storyFormat={storyFormat}
 							storyFormatExtensionsDisabled={!storyFormatExtensionsEnabled}
+							ezoneButton={ezoneButton}
 						/>
 					</ErrorBoundary>
 				</>
@@ -134,6 +136,5 @@ export const PassageEditDialog: React.FC<PassageEditDialogProps> = props => {
 		props.onClose();
 		return null;
 	}
-
 	return <InnerPassageEditDialog {...props} />;
 };

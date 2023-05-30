@@ -107,13 +107,13 @@ export const InnerStoryEditRoute: React.FC = () => {
 		[selectedPassages.length, story, undoableStoriesDispatch]
 	);
 
-	const handleEditPassage = React.useCallback(
-		(passage: Passage) =>
+	const handleEditPassage = React.useCallback( //dialog 창(스토리 편집 창)을 띄우는 함수
+		(passage: Passage) => {
 			dialogsDispatch({
 				type: 'addDialog',
 				component: PassageEditDialog,
 				props: {passageId: passage.id, storyId: story.id}
-			}),
+			})},
 		[dialogsDispatch, story.id]
 	);
 

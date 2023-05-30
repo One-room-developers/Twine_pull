@@ -7,7 +7,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import {useTranslation} from 'react-i18next';             // 언어 번역할 때 쓰는 라이브러리 여기서 정확히 어떻게 쓰인 건지는 모르겠음
+import { useTranslation } from 'react-i18next';             // 언어 번역할 때 쓰는 라이브러리 여기서 정확히 어떻게 쓰인 건지는 모르겠음
 import {
 	IconArrowsDiagonal,
 	IconArrowsDiagonalMinimize,
@@ -15,11 +15,11 @@ import {
 	IconChevronUp,
 	IconX
 } from '@tabler/icons';
-import {Card} from '../card';
-import {IconButton} from '../../control/icon-button';
+import { Card } from '../card';
+import { IconButton } from '../../control/icon-button';
 import './dialog-card.css';
 import useErrorBoundary from 'use-error-boundary';      // 컴포넌트에서 에러가 나는지 추적하는 라이브러리
-import {ErrorMessage} from '../../error';
+import { ErrorMessage } from '../../error';
 
 export interface DialogCardProps {
 	className?: string;
@@ -33,11 +33,12 @@ export interface DialogCardProps {
 	onChangeHighlighted: (value: boolean) => void;
 	onChangeMaximized: (value: boolean) => void;
 	onClose: () => void;
+	setEzoneButton : any;
 }
 
 export const DialogCard: React.FC<DialogCardProps> = props => {
 	const {
-		children,
+		children, //props.children은 이 컴포넌트를 부른 부모 태그에서 DialogCard안에 쓴 컴포넌트들을 자식으로 불러옴
 		className,
 		collapsed,
 		fixedSize,
@@ -50,8 +51,8 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 		onChangeMaximized,
 		onClose
 	} = props;
-	const {didCatch, ErrorBoundary, error} = useErrorBoundary();
-	const {t} = useTranslation();
+	const { didCatch, ErrorBoundary, error } = useErrorBoundary();
+	const { t } = useTranslation();
 
 	React.useEffect(() => {
 		if (error) {
@@ -85,24 +86,20 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 			aria-label={headerLabel}
 			role="dialog"
 			className={calcdClassName}
-			onKeyDown={handleKeyDown}               
-		>                              
-			<Card floating>              
-				<h2>            
-					<div className="dialog-card-header">    
-						<IconButton                                                     /** dialog card의 헤더부분. 
-						 * 																																	dialog card 상단의 아이콘 버튼들
-						 * 																																	제목과 최대화,닫기 버튼 구성
-						 * 																																	*/                       
+			onKeyDown={handleKeyDown}
+		>
+			<Card floating>
+				<h2>
+					<div className="dialog-card-header">
+						<IconButton         
 							icon={collapsed ? <IconChevronUp /> : <IconChevronDown />}   // dialog card가 접혔는지 여부에 따라 아이콘 표시 여부 결정
 							label={headerLabel}                                          // dialog card 제목
 							onClick={() => onChangeCollapsed(!collapsed)}                // 카드 접기&펼치기 기능
 						/>
 					</div>
-					<div className="dialog-card-header-controls">       
-						{maximizable && (                                 /**
-						 																											Iconbutton들의 기능
-																																	최대화 버튼 */
+					<div className="dialog-card-header-controls">
+						{maximizable && (                                 				//Iconbutton들의 기능
+																						//최대화 버튼 
 							<IconButton
 								icon={
 									maximized ? (
@@ -115,7 +112,8 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 								label={
 									maximized ? t('common.unmaximize') : t('common.maximize')
 								}
-								onClick={() => onChangeMaximized(!maximized)}
+								// onClick={() => onChangeMaximized(!maximized)}
+								onClick={()=>props.setEzoneButton(true)}	
 								tooltipPosition="bottom"
 							/>
 						)}
@@ -133,7 +131,7 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 						{t('components.dialogCard.contentsCrashed')}
 					</ErrorMessage>
 				) : (
-					<ErrorBoundary>{!collapsed && children}</ErrorBoundary>
+					<ErrorBoundary>{!collapsed && children }</ErrorBoundary> //여기 children에 마지막 anonymous 
 				)}
 			</Card>
 		</div>

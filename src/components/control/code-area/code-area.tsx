@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react';
 import {
 	Controlled as CodeMirror,
 	IControlledCodeMirror
@@ -27,7 +28,6 @@ export interface CodeAreaProps extends IControlledCodeMirror {
 	labelHidden?: boolean;
 	value: string;
 }
-
 export const CodeArea: React.FC<CodeAreaProps> = props => {
 	const {fontFamily, fontScale, label, ...otherProps} = props;
 	const style: React.CSSProperties = {};

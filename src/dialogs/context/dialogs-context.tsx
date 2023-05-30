@@ -19,7 +19,8 @@ DialogsContext.displayName = 'Dialogs';
 export const useDialogsContext = () => React.useContext(DialogsContext);
 
 export const DialogsContextProvider: React.FC = props => {
-	const [dialogs, dispatch] = useThunkReducer(reducer, []);
+	const [dialogs, dispatch] = useThunkReducer(reducer, []); //thunkreducer는 객체 대신 함수를 반환할 수 있게 해주는 것 같다. useState대신에 사용했다.
+															  //dispatch에 reducer.ts의 함수가 들어간다
 
 	return (
 		<DialogsContext.Provider value={{dispatch, dialogs}}>
