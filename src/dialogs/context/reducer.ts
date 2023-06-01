@@ -36,7 +36,7 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 			}
 
 			return [
-				...state,
+				//...state,
 				{
 					collapsed: false,
 					component: action.component,
@@ -57,7 +57,6 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 					? {...dialog, collapsed: action.collapsed}
 					: dialog
 			);
-			debugger;
 			return state.map((dialog, index) =>
 				index === action.index
 					? {...dialog, collapsed: action.collapsed}

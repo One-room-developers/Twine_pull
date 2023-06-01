@@ -57,7 +57,7 @@ export const StoryJavaScriptDialog: React.FC<StoryJavaScriptDialogProps> = props
 						mode: 'javascript',
 						placeholder: t('dialogs.storyJavaScript.explanation')
 					}}
-					value={story.script}
+					value={story.script}//스토리의 자바스크립트가 들어가서 적용되는듯??
 				/>
 			</DialogEditor>
 		</DialogCard>

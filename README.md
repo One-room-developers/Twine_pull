@@ -221,3 +221,8 @@ passage-text에서 value가 내려옴
 # 변경해야되는 파일
 1. StoryListLoute
 에피소드 제작 페이지의 시작, 스토리를 만드는 부분
+
+
+# 임종훈- 찾은 기능
+1. CodeArea 컴포넌트에 props를 보면 prefixTrigger 함수가 있음.
+또 prefix 배열도 있는데 여기서 트래킹하는 듯 함.

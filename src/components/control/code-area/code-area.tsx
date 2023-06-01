@@ -26,7 +26,7 @@ export interface CodeAreaProps extends IControlledCodeMirror {
 	fontScale?: number;
 	label: string;
 	labelHidden?: boolean;
-	value: string;
+	value: string;//textarea에 적는 모든 string을 저장하는 value이다.? script인가?
 }
 export const CodeArea: React.FC<CodeAreaProps> = props => {
 	const {fontFamily, fontScale, label, ...otherProps} = props;
