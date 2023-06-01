@@ -9,7 +9,7 @@ import './dialogs.css';
 const DialogTransition: React.FC = props => (
 	//이곳에 DialogTransition의 css를 적용함
 	//classNames는 뒤에 '-enter-done'이라는 문장이 붙음. 아마 CSSTranstion.d.ts 파일에서 후처리를 해줌. 거기에 주석으로 설명되어 있음
-	<CSSTransition classNames="pop" timeout={200} {...props}>
+	<CSSTransition classNames="hidden pop" timeout={200} {...props}>
 		{props.children}
 	</CSSTransition>
 );
