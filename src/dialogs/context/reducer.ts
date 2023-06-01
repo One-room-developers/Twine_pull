@@ -12,28 +12,28 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 			// If the dialog has been previously added, expand and/or highlight it.
 			// Otherwise, add it to the end.
 
-			let exists = false;
-			const editedState = state.map(stateDialog => { //창이 없으면 state에 값이 없어서 editStaet는 그냥 공배열
-				if (
-					isEqual(stateDialog, {
-						// Ignore collapsed, highlighted, and maximized properties for comparison.
-						collapsed: stateDialog.collapsed,
-						component: action.component,
-						highlighted: stateDialog.highlighted,
-						maximized: stateDialog.maximized,
-						props: action.props
-					})
-				) {
-					exists = true;
-					return {...stateDialog, collapsed: false, highlighted: true};
-				}
+			// let exists = false;
+			// const editedState = state.map(stateDialog => { //창이 없으면 state에 값이 없어서 editStaet는 그냥 공배열
+			// 	if (
+			// 		isEqual(stateDialog, {
+			// 			// Ignore collapsed, highlighted, and maximized properties for comparison.
+			// 			collapsed: stateDialog.collapsed,
+			// 			component: action.component,
+			// 			highlighted: stateDialog.highlighted,
+			// 			maximized: stateDialog.maximized,
+			// 			props: action.props
+			// 		})
+			// 	) {
+			// 		exists = true;
+			// 		return {...stateDialog, collapsed: false, highlighted: true};
+			// 	}
 
-				return stateDialog;
-			});
+			// 	return stateDialog;
+			// });
 
-			if (exists) {
-				return editedState;
-			}
+			// if (exists) {
+			// 	return editedState;
+			// }
 
 			return [
 				// ...state,
