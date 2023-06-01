@@ -173,7 +173,7 @@ file-chooser을 호출하는 컴포넌트, file-input에서 사용하는 onChang
 4. import-story-button
 story-import를 호출하는 컴포넌트, onclose를 props로 전달
 
-# 에피소드 수정 페이지와 관련된 기능
+# 다이아로그 수정 페이지와 관련된 기능
 1. dialogs.tsx
 TransitionGroup을 사용하는 파일
 *dialog dispatch를 통해 값이 달라지면 재실행 되는 것으로 보임* => dispatch, 그리고 usecontex란? https://www.zerocho.com/category/React/post/5fa63fc6301d080004c4e32b
@@ -217,6 +217,15 @@ value에 dialog 창의 텍스트가 담겨있음
 passage-text에서 value가 내려옴
 
 10. passage-text.tsx
+
+11. prompt-button.tsx
+제목을 변경하는 파일이 담겨있는 파일
+onSubmit 함수를 통해 제목을 변경한다
+passage-toolbar에 onSumit 함수의 원형이 적혀있다
+
+12. passage-toolbar.tsx
+제목을 변경하는 함수의 원형
+handleRename()함수로 제목을 변경한다
 
 # 변경해야되는 파일
 1. StoryListLoute

@@ -9,6 +9,7 @@ import {StoryFormat} from '../../store/story-formats';
 import {useCodeMirrorPassageHints} from '../../store/use-codemirror-passage-hints';
 import {useFormatCodeMirrorMode} from '../../store/use-format-codemirror-mode';
 import {codeMirrorOptionsFromPrefs} from '../../util/codemirror-options';
+import { UserDialog } from '../context/components/UserDialog';
 
 export interface PassageTextProps {
 	onChange: (value: string) => void;
@@ -42,6 +43,8 @@ export const PassageText: React.FC<PassageTextProps> = props => {
 	// This is because updating global context causes re-rendering in the story
 	// map, which can be time-intensive.
 
+
+	//텍스트 입력 기능을 위해 잠시 주석처리
 	React.useEffect(() => {
 		// A change to passage text has occurred externally, e.g. through a find and
 		// replace. We ignore this if a change is pending so that users don't see

@@ -3,6 +3,7 @@ import './select-route.css';
 import swordLogo from '../../styles/image/sword-svgrepo-com.svg';
 import writeLogo from '../../styles/image/write-svgrepo-com.svg';
 import GameMode from './game_mode'
+import UserDialog from './components copy/UserDialog';
 
 export const SelectRoute: React.FC = () => {
     var [modeHidden, setmodeHidden] = React.useState(true);
@@ -51,6 +52,7 @@ export const SelectRoute: React.FC = () => {
                 </div>
             </main>
             <footer className="select-footer"></footer>
+            
             <GameMode hidden = {modeHidden}
                 hiddenOff = {
                     function(){

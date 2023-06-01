@@ -25,7 +25,6 @@ textarea:focus{
 }
 .making-all-container{
     position: relative;
-    pointer-events: auto;
 }
 .making-window{
     overflow: scroll;

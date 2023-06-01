@@ -1,77 +1,83 @@
 import React from "react";
 import { Component } from "react";
 import DialogOptions from "./DialogOptions";
+import { useEffect , useState} from "react";
 import './option_window.css'
+import { useUndoableStoriesContext } from "../../../store/undoable-stories";
+import { updatePassage } from "../../../store/stories";
 
-type Modes_props = {
+type Modes_props = {    
+    passage : any
+    story : any
+    onWrite : any
 }
 
-type State_type = {
-    title:string;
-    context:string;
-    options_title: string[];
-}
 
-class UserDialog extends Component<Modes_props, State_type>{
-    constructor(props){
-        super(props);
+export const UserDialog: React.FC<Modes_props> = (props) => {
 
-        this.state = {
-            title: "",
-            context: "",
-            options_title: [],
-            //isFriendly:"complex", //friendly, complex, hostile 중 하나.
-        }
-        this.convertedString = ""
-    }
+    const [title, setTitle] = useState(props.passage.name);
+    const [context, setContext] = useState(props.passage.text);
+    const [optionsTitle, setOptionsTitle] = useState([]);
+    const {dispatch, stories} = useUndoableStoriesContext();
+    //isFriendly:"complex", //friendly, complex, hostile 중 하나.
+    useEffect(()=>{
+        setTitle(props.passage.name);
+        setContext(props.passage.text);
+        
+    },[props.passage.name, props.passage.text])
+    
+    let convertedString:string = "";
 
-    convertedString:string;
+    //제목 변경 함수
+    function handleRename(name: string) {
+		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
+	}
 
     //main과 options에 this.updateContext()로 추가해주기
-    updateContext(length:number):void{
+    function updateContext():void{
         //값 초기화.
-        this.convertedString = this.state.context;
-        for(let i = 0; i< length; i++){
-            this.convertedString = this.convertedString + "\n" + "[[" + this.state.options_title[i] + "]]";
+        convertedString = context;
+        for(let i = 0; i< optionsTitle.length; i++){
+            convertedString = convertedString + "\n" + "[[" + optionsTitle[i] + "]]";
         }
     }
 
-    render(){
-        return(
-            <div className="making-all-container">
-                <div className="making-window">
-                    <div className="making-window-header">
-                        <div className="title-info-icon info-icon">제목</div>
-                        <input value={this.state.title} onChange={function(e){
-                            this.setState({title: e.target.value});
-                        }.bind(this)} />
-                    </div>
-                    <div className="making-window-main">
-                        <div className="main-info-icon info-icon">본문</div>
-                        <textarea value={this.state.context} name="" id="" cols={30} rows={10} onChange={async function(e){
-                            await this.setState({context: e.target.value});
-                            if(Array.isArray(this.state.options_title)){
-                                await this.updateContext(this.state.options_title.length);
-                            }
-                        }.bind(this)}></textarea>
-                    </div>
-                    <DialogOptions onTrackingOption={async function(optionTitleArr){
-                        let _options_title = await optionTitleArr.concat();
-                        await this.setState({options_title : _options_title});
-                        
-                        if(Array.isArray(_options_title)){
-                            await this.updateContext(_options_title.length);
-                        }
-                        console.log(this.state.options_title);
-                        console.log(this.convertedString);
-                    }.bind(this)}></DialogOptions>
-                    <div className="save-btn-container">
-                        <button>작성완료</button>
-                    </div>
+    return(
+        <div className="making-all-container">
+            <div className="making-window">
+                <div className="making-window-header">
+                    <div className="title-info-icon info-icon">제목</div>
+                    <input value={title} onChange={function(e){
+                        setTitle(e.target.value)
+                    }} />
+                </div>
+                <div className="making-window-main">
+                    <div className="main-info-icon info-icon">본문</div>
+                    <textarea value={context} name="" id="" cols={30} rows={10} onChange={function(e){
+                        setContext(e.target.value)
+                        // if(Array.isArray(optionsTitle)){
+                        //     updateContext(optionsTitle.length);
+                        // }
+                    }}></textarea>
+                </div>
+                <DialogOptions onTrackingOption={function(optionTitleArr){
+                    let _optionsTitle = optionTitleArr.concat();
+                    
+                    setOptionsTitle(_optionsTitle);
+                    // if(Array.isArray(_optionsTitle)){
+                    //     updateContext(_optionsTitle);
+                    // }
+                }}></DialogOptions>
+                <div className="save-btn-container">
+                    <button onClick={function(e){
+                        updateContext();
+                        handleRename(title)
+                        props.onWrite(convertedString)
+                    }}
+                    >작성완료</button>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
 
-export default UserDialog;
+}

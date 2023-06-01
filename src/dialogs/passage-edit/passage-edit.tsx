@@ -18,10 +18,13 @@ import {PassageToolbar} from './passage-toolbar';
 import {StoryFormatToolbar} from './story-format-toolbar';
 import {TagToolbar} from './tag-toolbar';
 
+
 export interface PassageEditDialogProps
 	extends Omit<DialogCardProps, 'headerLabel'> {
 	passageId: string;
 	storyId: string;
+	userDialogText:any;
+	onClose :any;
 }
 
 export const InnerPassageEditDialog: React.FC<
@@ -59,12 +62,22 @@ export const InnerPassageEditDialog: React.FC<
 		}
 	}, [error, resetError, storyFormatExtensionsEnabled]);
 
+	
+
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
 			dispatch(updatePassage(story, passage, {text}));
 		},
 		[dispatch, passage, story]
 	);
+
+	React.useEffect(()=>{
+		debugger;
+		if(other.userDialogText){
+			handlePassageTextChange(other.userDialogText);
+			props.onClose();
+		}
+	}, [other.userDialogText])
 
 	function handleExecCommand(name: string) {
 		// A format toolbar command probably will affect the editor content. It
@@ -85,7 +98,8 @@ export const InnerPassageEditDialog: React.FC<
 		Promise.resolve().then(() => cmEditor.setSelections(selections));
 	}
 	return (
-		<DialogCard
+			
+			<DialogCard
 			{...other}
 			className="passage-edit-dialog"
 			headerLabel={passage.name}	
@@ -118,6 +132,7 @@ export const InnerPassageEditDialog: React.FC<
 				</>
 			)}
 		</DialogCard>
+		
 	);
 };
 

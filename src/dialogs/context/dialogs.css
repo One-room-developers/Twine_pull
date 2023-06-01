@@ -13,7 +13,7 @@
 }
 
 .dialogs {
-	align-items: flex-end;
+	align-items: flex-start;
 	bottom: var(--grid-size);
 	display: flex;
 	flex-direction: column;

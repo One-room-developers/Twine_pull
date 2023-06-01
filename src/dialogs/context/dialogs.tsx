@@ -3,39 +3,78 @@ import {useScrollbarSize} from 'react-scrollbar-size';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {useDialogsContext} from '.';
 import {usePrefsContext} from '../../store/prefs';
-import { useEffect } from 'react';
+import { passageWithId } from '../../store/stories';
+import { useUndoableStoriesContext } from '../../store/undoable-stories';
+import { storyWithId } from '../../store/stories';
+import { useState} from "react";
 import './dialogs.css';
+import {UserDialog} from './components/UserDialog';
 
-const DialogTransition: React.FC = props => (
+let story;
+let passage;
+
+const DialogTransition: React.FC = props =>{ 
+	
+	const [userDialogText, setUserDialogText] = useState();
+
+	return (
 	//이곳에 DialogTransition의 css를 적용함
 	//classNames는 뒤에 '-enter-done'이라는 문장이 붙음. 아마 CSSTranstion.d.ts 파일에서 후처리를 해줌. 거기에 주석으로 설명되어 있음
-	<CSSTransition classNames="hidden pop" timeout={200} {...props}>
-		{props.children}
-	</CSSTransition>
-);
+		
+		<div>
+			<UserDialog passage={passage} story={story} onWrite={function(value){
+											setUserDialogText(value)
+										}}></UserDialog>
+			<CSSTransition classNames="hidden pop" timeout={200} {...props} userDialogText={userDialogText} >
+				{props.children}
+			</CSSTransition>
+		</div>
+	);
+}
 
-export const Dialogs: React.FC = () => { //텍스트 편집 창
+
+export const Dialogs: React.FC = props => { //텍스트 편집 창
 	const {height, width} = useScrollbarSize();
 	const {prefs} = usePrefsContext();
 	const {dispatch, dialogs} = useDialogsContext();
+	const [userDialogText, setUserDialogText] = useState();
 	
 	const hasUnmaximized = dialogs.some(dialog => !dialog.maximized);
+	// const containerStyle: React.CSSProperties = {
+	// 	paddingLeft: `calc(100% - (${prefs.dialogWidth}px + 2 * (var(--grid-size))))`,
+	// 	marginBottom: height,
+	// 	marginRight: width
+	// };
+	// const maximizedStyle: React.CSSProperties = {
+	// 	marginRight: hasUnmaximized
+	// 		? `calc(${prefs.dialogWidth}px + var(--grid-size))`
+	// 		: 0
+	// };
+
 	const containerStyle: React.CSSProperties = {
-		paddingLeft: `calc(100% - (${prefs.dialogWidth}px + 2 * (var(--grid-size))))`,
+		paddingLeft: `calc(100% - (850px + 2 * (var(--grid-size))))`,
 		marginBottom: height,
 		marginRight: width
 	};
 	const maximizedStyle: React.CSSProperties = {
 		marginRight: hasUnmaximized
-			? `calc(${prefs.dialogWidth}px + var(--grid-size))`
+			? `calc(850px + var(--grid-size))`
 			: 0
 	};
 
+	//dialog 변경을 위해 추가한 코드
+	const {stories} = useUndoableStoriesContext();
+	
 	return (
 		<div className="dialogs" style={containerStyle}>
 			<TransitionGroup component={null}>
 				{dialogs.map((dialog, index) => {
-					debugger;
+					//dialog 변경을 위해 추가한 코드
+					passage = passageWithId(stories, dialogs[0].props.storyId, dialogs[0].props.passageId)
+					story = storyWithId(stories, dialogs[0].props.storyId);
+					
+					
+
 					const managementProps = {
 						collapsed: dialog.collapsed,
 						highlighted: dialog.highlighted,
@@ -46,7 +85,7 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 							dispatch({type: 'setDialogHighlighted', highlighted, index}),
 						onChangeMaximized: (maximized: boolean) =>
 							dispatch({type: 'setDialogMaximized', maximized, index}),
-						onClose: () => dispatch({type: 'removeDialog', index}),
+						onClose: () => dispatch({type: 'removeDialog', index})
 					};
 					return (
 						//결국 실행되는 dialog창은 아래의 값
@@ -59,10 +98,10 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 						<DialogTransition key={index}> 
 							{dialog.maximized ? (
 								<div className="maximized " style={maximizedStyle}>
-									<dialog.component {...dialog.props} {...managementProps}/>
+									<dialog.component {...dialog.props} {...managementProps} />
 								</div>
 							) : (
-									<dialog.component {...dialog.props} {...managementProps}/>
+									<dialog.component {...dialog.props} {...managementProps} />
 							)}
 						</DialogTransition>
 					);

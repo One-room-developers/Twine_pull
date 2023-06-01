@@ -21,6 +21,7 @@ import './dialog-card.css';
 import useErrorBoundary from 'use-error-boundary';      // 컴포넌트에서 에러가 나는지 추적하는 라이브러리
 import { ErrorMessage } from '../../error';
 
+
 export interface DialogCardProps {
 	className?: string;
 	collapsed: boolean;
@@ -89,7 +90,7 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 			onKeyDown={handleKeyDown}
 		>
 			<Card floating>
-				<h2>
+				<h2 className='hidden'>
 					<div className="dialog-card-header">
 						<IconButton         
 							icon={collapsed ? <IconChevronUp /> : <IconChevronDown />}   // dialog card가 접혔는지 여부에 따라 아이콘 표시 여부 결정
