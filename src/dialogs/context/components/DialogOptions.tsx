@@ -1,9 +1,24 @@
 import React from 'react';
 import { Component } from 'react';
 import './option.css'
-import CreateOption from './TwineCreateOption';
+import CreateOption from './CreateOption';
 
-class Twine_options extends Component{
+type Modes_props = {
+    onTrackingOption : any;
+}
+type State_type = {
+    mode:string;
+    options_id:string[],
+    options_title: string[],
+    options_status1: string[],
+    options_amount_change1: string[],
+    options_status2:string[],
+    options_amount_change2: string[],
+    options_after_story: string[],
+    selected_modify_optionNum: number
+}
+
+class DialogOptions extends Component<Modes_props, State_type>{
     constructor(props){
         super(props);
 
@@ -23,6 +38,8 @@ class Twine_options extends Component{
             selected_modify_optionNum: 0,
         }
     }
+
+    max_option_num:number;
     
     render(){
 
@@ -35,10 +52,10 @@ class Twine_options extends Component{
             //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
             if(this.state.mode === "optionModify" &&  this.state.selected_modify_optionNum === i){
                 lists.push(
-                    <div key={i} id={i} className="option-list-div option-list-div-onmodify">
+                    <div key={i} id={i.toString()} className="option-list-div option-list-div-onmodify">
                         <div className='info-icon-onmodify'>선택지{i+1}</div>
                         <div className='options-making__container'>
-                            <form action='' method='post' key={i} id={i} onSubmit={function(e){//인자로 id까지 받아서 배열에 넣기
+                            <form action='' method='post' key={i} id={i.toString()} onSubmit={function(e){//인자로 id까지 받아서 배열에 넣기
                                 e.preventDefault();
                                 this.setState({ mode: "default"});
                             }.bind(this)}>
@@ -210,7 +227,7 @@ class Twine_options extends Component{
                         status2 ="없음";
                 }
                 lists.push(
-                    <div key={i} id={i} className="option-list-div">
+                    <div key={i} id={i.toString()} className="option-list-div">
                         <div className='info-icon'>선택지{i+1}</div>
                         <div className='option-info-container'>
                             <div className='option-info-title'>{this.state.options_title[i]}</div>
@@ -357,4 +374,4 @@ class Twine_options extends Component{
     }
 }
 
-export default Twine_options;
+export default DialogOptions;

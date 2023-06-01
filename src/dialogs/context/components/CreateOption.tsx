@@ -9,7 +9,12 @@ import { Component } from 'react';
 5. 선택지 클릭시 결과 스토리 - string
 
 + 에피소드가 적대적인지 복합적인지 친화적인지 판단할 정보*/
-class CreateOption extends Component {
+
+type Modes_props = {
+    onCreate:any;
+}
+
+class CreateOption extends Component<Modes_props> {
     constructor(props){
         super(props);
     }
@@ -72,7 +77,7 @@ class CreateOption extends Component {
                     <div className='mini-line'></div>
 
                     
-                    <textarea placeholder='플레이어가 선택지 선택 후에 등장하는 결과 이야기' className='option-mini-textarea' name="after_story" id="" cols="30" rows="10" required></textarea>
+                    <textarea placeholder='플레이어가 선택지 선택 후에 등장하는 결과 이야기' className='option-mini-textarea' name="after_story" id="" cols={30} rows={10} required></textarea>
                     
                     <input className='option-submit-btn' type="submit" value="생성하기"></input>
                 </form>
