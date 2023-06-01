@@ -11,7 +11,6 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 		case 'addDialog': //story-edit-route에서 실행하는 dialogDispatch 
 			// If the dialog has been previously added, expand and/or highlight it.
 			// Otherwise, add it to the end.
-
 			let exists = false;
 			const editedState = state.map(stateDialog => { //창이 없으면 state에 값이 없어서 editStaet는 그냥 공배열
 				if (
@@ -34,7 +33,6 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 			if (exists) {
 				return editedState;
 			}
-
 			return [
 				...state,
 				{

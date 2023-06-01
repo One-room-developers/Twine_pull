@@ -43,7 +43,6 @@ export const InnerPassageEditDialog: React.FC<
 		story.storyFormatVersion
 	);
 	const {t} = useTranslation();
-	const [ezoneButton, setEzoneButton] = React.useState(false);
 	React.useEffect(() => {
 		if (error) {
 			if (storyFormatExtensionsEnabled) {
@@ -91,7 +90,6 @@ export const InnerPassageEditDialog: React.FC<
 			className="passage-edit-dialog"
 			headerLabel={passage.name}	
 			maximizable
-			setEzoneButton={setEzoneButton}
 		>
 			{editorCrashed ? (
 				<ErrorMessage>{t('dialogs.passageEdit.editorCrashed')}</ErrorMessage>
@@ -115,7 +113,6 @@ export const InnerPassageEditDialog: React.FC<
 							story={story}
 							storyFormat={storyFormat}
 							storyFormatExtensionsDisabled={!storyFormatExtensionsEnabled}
-							ezoneButton={ezoneButton}
 						/>
 					</ErrorBoundary>
 				</>
