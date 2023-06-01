@@ -1,0 +1,169 @@
+@font-face{
+    src: url("./HeirofLightBold.ttf");
+    font-family: "gameBold";
+}
+
+.option-ui__container{
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-option{
+    width: 100px;
+}
+/* create component 만들기 */
+.options-making__container{
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    bottom: 10px;
+    left: 510px;
+    padding-left: 10px;
+    border-left: 4px ridge rgba(0,0,0, 0.6);
+    margin-bottom: 5px;
+
+}
+.options-making__container form{
+    display: flex;
+    flex-direction: column;
+}
+
+.option-list-div{
+    width: 100%;
+    height: 80px;
+    box-shadow: 0 0 2px black;
+    display: flex;
+    align-items: center;
+    
+    margin-bottom: 5px;
+    background-color: rgb(238, 238, 238);
+}
+.option-info-container{
+    width: 250px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.option-info-title{
+    font-family: gameBold;
+    height: 25px;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(57, 62, 70);
+    padding-bottom: 3px;
+    margin-bottom: 7px;
+}
+.option-info-main{
+    height: 25px;
+}
+.option-info-container span{
+    font-family: gameBold;
+    font-size: 15px;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.after-story-preview-btn{
+    position: relative;
+    border-radius: 5px;
+    padding: 0 3px 3px 5px;
+    background-color: rgb(57, 62, 70);
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.after-story-preview-btn div{
+    display: none;
+}
+.after-story-preview-btn:hover div{
+    display: block;
+    position: absolute;
+    width: 250px;
+    height: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+    background-color: #FFFFFF;
+    color: rgb(57, 62, 70);
+    overflow: scroll;
+}
+
+.option-list-m-btn{
+    border: none;
+    background-color: rgb(0, 173, 181);
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 6px 11px 6px 11px;
+    border-radius: 3px;
+    margin-left:10px;
+}
+.option-list-d-btn{
+    border: 1px solid rgb(57, 62, 70);
+    font-size: 14px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 3px;
+    margin-left:10px;
+}
+
+
+.option-mini-title{
+    width: 100%;
+    height: 35px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 2px solid rgb(57, 62, 70);
+}
+.option-mini-title:focus{
+    border: 2px solid rgb(2, 146, 154);
+}
+
+.select-dropdown{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #FFFFFF;
+    color: #000000;
+    margin-right: 10px;
+    border: 2px solid rgb(57, 62, 70);
+    font-family: gameBold;
+}
+.select-dropdown:focus{
+    border: 2px solid rgb(0, 173, 181);
+}
+.select-dropdown option{
+    background-color: #FFFFFF;
+    color: rgb(34, 40, 49);
+    border-radius: 5px;
+}
+
+.option-mini-textarea{
+    border: 2px solid rgb(57, 62, 70);
+    width: 100%;
+    height: 180px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 14px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.option-submit-btn{
+    font-size: 14px;
+    padding: 5px;
+    font-family: gameBold;
+    color: rgb(238, 238, 238);
+    border-radius: 5px;
+
+    background-color: rgb(34, 40, 49);
+}
+
+.mini-line{
+    width: 100%;
+
+    border-bottom: 1px solid #000000;
+    margin: 10px 0 10px 0;
+    opacity: 0.3;
+}
