@@ -3,6 +3,7 @@ import {useScrollbarSize} from 'react-scrollbar-size';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {useDialogsContext} from '.';
 import {usePrefsContext} from '../../store/prefs';
+import { useEffect } from 'react';
 import './dialogs.css';
 
 const DialogTransition: React.FC = props => (
@@ -17,7 +18,7 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 	const {height, width} = useScrollbarSize();
 	const {prefs} = usePrefsContext();
 	const {dispatch, dialogs} = useDialogsContext();
-
+	
 	const hasUnmaximized = dialogs.some(dialog => !dialog.maximized);
 	const containerStyle: React.CSSProperties = {
 		paddingLeft: `calc(100% - (${prefs.dialogWidth}px + 2 * (var(--grid-size))))`,
@@ -34,6 +35,7 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 		<div className="dialogs" style={containerStyle}>
 			<TransitionGroup component={null}>
 				{dialogs.map((dialog, index) => {
+					debugger;
 					const managementProps = {
 						collapsed: dialog.collapsed,
 						highlighted: dialog.highlighted,
@@ -45,7 +47,6 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 						onChangeMaximized: (maximized: boolean) =>
 							dispatch({type: 'setDialogMaximized', maximized, index}),
 						onClose: () => dispatch({type: 'removeDialog', index}),
-						onEzione: "벌레"
 					};
 					return (
 						//결국 실행되는 dialog창은 아래의 값
@@ -57,11 +58,11 @@ export const Dialogs: React.FC = () => { //텍스트 편집 창
 						아래 함수가 다시 실행 된다*/
 						<DialogTransition key={index}> 
 							{dialog.maximized ? (
-								<div className="maximized" style={maximizedStyle}>
+								<div className="maximized " style={maximizedStyle}>
 									<dialog.component {...dialog.props} {...managementProps}/>
 								</div>
 							) : (
-								<dialog.component {...dialog.props} {...managementProps}/>
+									<dialog.component {...dialog.props} {...managementProps}/>
 							)}
 						</DialogTransition>
 					);

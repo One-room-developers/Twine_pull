@@ -112,8 +112,8 @@ export const DialogCard: React.FC<DialogCardProps> = props => {
 								label={
 									maximized ? t('common.unmaximize') : t('common.maximize')
 								}
-								// onClick={() => onChangeMaximized(!maximized)}
-								onClick={()=>props.setEzoneButton(true)}	
+								onClick={() => onChangeMaximized(!maximized)}
+								// onClick={()=>props.setEzoneButton(true)}	
 								tooltipPosition="bottom"
 							/>
 						)}

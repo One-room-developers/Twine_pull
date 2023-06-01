@@ -36,7 +36,7 @@ export const reducer: React.Reducer<DialogsState, DialogsAction> = (
 			}
 
 			return [
-				//...state,
+				// ...state,
 				{
 					collapsed: false,
 					component: action.component,

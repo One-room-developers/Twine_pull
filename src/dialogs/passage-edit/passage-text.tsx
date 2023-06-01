@@ -17,7 +17,6 @@ export interface PassageTextProps {
 	story: Story;
 	storyFormat: StoryFormat;
 	storyFormatExtensionsDisabled?: boolean;
-	ezoneButton : boolean;
 }
 
 export const PassageText: React.FC<PassageTextProps> = props => {
@@ -28,7 +27,6 @@ export const PassageText: React.FC<PassageTextProps> = props => {
 		story,
 		storyFormat,
 		storyFormatExtensionsDisabled,
-		ezoneButton
 	} = props;
 	const [changePending, setChangePending] = React.useState(false);
 	const [localText, setLocalText] = React.useState(passage.text);
@@ -44,20 +42,14 @@ export const PassageText: React.FC<PassageTextProps> = props => {
 	// This is because updating global context causes re-rendering in the story
 	// map, which can be time-intensive.
 
-	//이지원이 추가한 함수
-	React.useEffect(()=>{
-		if(ezoneButton === true)
-			setLocalText("벌레같은 twine 굴복시키기")
-			
-	}, [ezoneButton])
-	// React.useEffect(() => {
-	// 	// A change to passage text has occurred externally, e.g. through a find and
-	// 	// replace. We ignore this if a change is pending so that users don't see
-	// 	// things they've typed in disappear or be replaced.
-	// 	if (!changePending && localText !== passage.text) {
-	// 		setLocalText(passage.text);
-	// 	}
-	// }, [changePending, localText, passage.text]);
+	React.useEffect(() => {
+		// A change to passage text has occurred externally, e.g. through a find and
+		// replace. We ignore this if a change is pending so that users don't see
+		// things they've typed in disappear or be replaced.
+		if (!changePending && localText !== passage.text) {
+			setLocalText(passage.text);
+		}
+	}, [changePending, localText, passage.text]);
 
 	// The code below handles user changes in the text field. 1 second is a
 	// guesstimate.
