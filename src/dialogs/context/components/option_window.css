@@ -178,6 +178,7 @@ textarea:focus{
 }
 .add-option-btn:visited{
     text-decoration: none;
+    color: rgb(238, 238, 238);
 }
 .add-option-btn:hover{
     background-color: rgb(0, 173, 181);

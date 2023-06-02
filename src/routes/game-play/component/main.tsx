@@ -61,7 +61,7 @@ let option_text: Option_Texts[];
 let input_result: any = [];
 
 let current_episode_num: number = 0;
-let main_episode_num: number = 1;
+let main_episode_num: number = 0;
 
 let split_txt: string[];
 let stop_typing_time: number;
@@ -288,10 +288,10 @@ export default function Main(props) {
         if (current_status.health <= 0 || current_status.hungry <= 0){
             isEnd = true;
         }
-        
         //게임 끝 판별
         if(isEnd){
             normal_episode_num = end_episode_num;
+            getNormalEpisodeDataFromDB();
         }
         //만약 지금이 1,4,7...번째 에피소드라면 메인 에피소드 출력
         else if (((current_episode_num + 1) % 3) === 1) {
@@ -300,7 +300,7 @@ export default function Main(props) {
         }
         //그 외라면 일반 에피소드 출력
         else {
-            normal_episode_num = 1
+            normal_episode_num = Math.floor(Math.random() * 9) + 2;
             getNormalEpisodeDataFromDB();
         }
 
@@ -450,7 +450,7 @@ export default function Main(props) {
         let current_episode : Episode
         
         if (episode_type === 'main') {
-            current_episode = main_episode[current_episode_num];
+            current_episode = main_episode[main_episode_num];
         }
         else if(episode_type === 'normal'){
             current_episode = normal_episode;
