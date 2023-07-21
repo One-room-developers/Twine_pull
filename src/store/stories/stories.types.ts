@@ -56,6 +56,12 @@ export interface Passage {
 	 * Width of the passage in pixels.
 	 */
 	width: number;
+
+	/**
+	 * 선택지
+	 * story_user:string;
+	 */
+	optionTitle: string;
 }
 
 /* story 이거 안에 보면 passage들의 배열이 있음.

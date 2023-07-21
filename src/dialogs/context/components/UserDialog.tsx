@@ -19,6 +19,10 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
     const [context, setContext] = useState(props.passage.text);
     const [optionsTitle, setOptionsTitle] = useState([]);
     const {dispatch, stories} = useUndoableStoriesContext();
+    let regex = /\[\[.*\]\]/g
+    useEffect(()=>{
+        console.log(context.match(regex))
+    }, [])   
     //isFriendly:"complex", //friendly, complex, hostile 중 하나.
     useEffect(()=>{
         setTitle(props.passage.name);

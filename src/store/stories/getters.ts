@@ -6,7 +6,7 @@ import { StoryImportDialogProps } from '../../dialogs';
 
 
 //외부로 내보내는 함수.
-//
+//passage.선택지 = "";
 export function passageWithId(
 	stories: Story[],
 	storyId: string,

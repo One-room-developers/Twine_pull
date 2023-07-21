@@ -10,7 +10,8 @@ export const passageDefaults = (): Omit<Passage, 'id' | 'story'> => ({
 	tags: [],
 	text: '',
 	top: 0,
-	width: 100
+	width: 100,
+	optionTitle:"none"
 });
 
 export const storyDefaults = (): Omit<Story, 'id'> => ({
