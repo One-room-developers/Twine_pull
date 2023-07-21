@@ -32,6 +32,7 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
     
     let convertedString:string = "";
 
+    
     //제목 변경 함수
     function handleRename(name: string) {
 		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));

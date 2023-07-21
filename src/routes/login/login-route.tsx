@@ -42,19 +42,17 @@ export const LoginRoute: React.FC = () => {
                 console.log('잘못된 비밀번호입니다.');
             }
 
-            if(res.data.msg.successMsg == 12) {
-                authorizedUser.email = res.data.email;
-                authorizedUser.nickname = res.data.nickname;
-                authorizedUser.accessToken = res.data.access_token;
+            authorizedUser.email = res.data.email;
+            authorizedUser.nickname = res.data.nickname;
+            authorizedUser.accessToken = res.data.access_token;
 
-                const sesstionStorage = new SessionStorageAPI();
+            const sesstionStorage = new SessionStorageAPI();
 
-                //seesion에 토큰을 저장해도 되는가?
-                sesstionStorage.setItem("userToken", authorizedUser.accessToken);
-                sesstionStorage.setItem("userNickname", authorizedUser.nickname );
+            //seesion에 토큰을 저장해도 되는가?
+            sesstionStorage.setItem("userToken", authorizedUser.accessToken);
+            sesstionStorage.setItem("userNickname", authorizedUser.nickname );
 
-                history.push("/");
-            }
+            history.push("/");
         });
     }
 
