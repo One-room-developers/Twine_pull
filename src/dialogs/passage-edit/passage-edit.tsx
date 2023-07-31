@@ -72,7 +72,7 @@ export const InnerPassageEditDialog: React.FC<
 	);
 
 	React.useEffect(()=>{
-		debugger;
+		
 		if(other.userDialogText){
 			handlePassageTextChange(other.userDialogText);
 			props.onClose();

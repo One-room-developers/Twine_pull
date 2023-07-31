@@ -26,6 +26,8 @@ export function fakePassage(props?: Partial<Passage>): Passage {
 		name: lorem.words(Math.ceil(Math.random() * 10)), // At least 1
 		selected: random.boolean(),
 		text: lorem.words(Math.round(Math.random() * 500)), // Might be 0
+		options:[],
+		text_user:"",
 		...props
 	};
 }

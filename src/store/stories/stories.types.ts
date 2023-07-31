@@ -56,6 +56,31 @@ export interface Passage {
 	 * Width of the passage in pixels.
 	 */
 	width: number;
+
+	/**
+	 * 선택지
+	 */
+	options: option[];
+
+	//유저에게 보이는 본문
+	text_user:string;
+}
+
+export interface option{
+	//선택지 제목(출력되는 부분)
+	title: string;
+
+	//선택지 입력후 나오는 결과 이야기
+	after_stroy: string;
+
+	//능력치 1
+	status1: string;
+	//능력치 1 수치
+	status1_num: number;
+	//능력치 2
+	status2: string;
+	//능력치 2 수치
+	status2_num: number;
 }
 
 /* story 이거 안에 보면 passage들의 배열이 있음.
