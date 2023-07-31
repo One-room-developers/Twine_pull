@@ -196,7 +196,7 @@ export interface UpdatePassagesAction {
 	passageUpdates: Record<string, Partial<Passage>>;
 	storyId: string;
 }
-
+	
 export interface DeletePassageAction {
 	type: 'deletePassage';
 	passageId: string;
