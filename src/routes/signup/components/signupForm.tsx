@@ -10,7 +10,7 @@ type SignupForm_props = {
 };
 
 type SignupForm_states={
-
+    id:string;
 };
 
 class SignupForm extends Component<SignupForm_props, SignupForm_states>{
@@ -18,7 +18,7 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
     constructor(props){
         super(props);
         this.state = {
-
+            id: this.props.emailDefault,
         };
     }
 
@@ -39,7 +39,11 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                     </div>
                     <div className='signup-line font-game-thin'>
                         <label htmlFor='email'>아이디(이메일)</label>
-                        <input type="email" id="email" name='email' value={this.props.emailDefault} required/>
+                        <input type="email" id="email" name='email' value={this.state.id} onChange={
+                            function(e){
+                                this.setState({id: e.target.value})
+                            }.bind(this)}
+                        required/>
                     </div>
                     <div className='signup-line font-game-thin'>
                         <label htmlFor='pw'>비밀번호</label>
