@@ -25,7 +25,7 @@ body{
 
 .index-header{
     width: 100%;
-    height: 108px;
+    height: 88px;
     background-color: rgba(34, 40, 49, 0);
     border-bottom: 1px solid #AAAAAA;
 }
@@ -180,14 +180,13 @@ body{
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: calc(45px + 18vh) 0 0 45px;
+    padding: 65px 0 0 45px;
 }
 .explain-game-title{
     color: var(--main-gray);
-    font-size: 2.5vw;
+    font-size: 32px;
     line-height: 150%;
-    padding: 3vh 0 3vh 0;
-
+    padding: 20px 0 20px 0;
 }
 
 .play-game-title-container{
@@ -198,7 +197,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 7vh;
+    margin-bottom: 35px;
 
 }
 
@@ -211,14 +210,12 @@ body{
 }
 .go-to-select-btn{
     opacity: 1;
-    transform: translateY(50px);
     transition: all 0.4s;
-
 
     border: 1px solid var(--main-dark);
 
-    width: 11vw;
-    height: 5vw;
+    width: 150px;
+    height: 55px;
     justify-content: center;
     align-items: center;
     color: var(--main-white);
@@ -250,7 +247,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 7vh;
+    margin-bottom: 35px;
 }
 .make-game-main-text{
     transform: translateY(50px);
@@ -263,7 +260,8 @@ body{
 
 .explain-main-text{
     color: var(--main-gray);
-    font-size: 1vw;
+    font-size: 24px;
+    padding-right: 160px;
 }
 
 
@@ -296,14 +294,14 @@ body{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 7vh;
+    margin-bottom: 45px;
 }
 .block-chain-title{
     text-align: end;
     color: var(--main-white);
-    font-size: 2.5vw;
+    font-size: 32px;
     line-height: 150%;
-    padding: 3vh 0 3vh 0;
+    padding: 20px 0 20px 0;
 }
 .title-line2{
     width: 120px;
@@ -319,20 +317,19 @@ body{
 }
 .block-chain-main-text{
     color: var(--main-white);
-    font-size: 1vw;
+    font-size: 20px;
 }
 
 .index-elements-fadein{
     animation: elementFadeIn 0.5s ease-in-out forwards;
 }
 .description-size{
-    font-size: 1.4em;
+    font-size: 20px;
     font-weight: 600;
     line-height: 150%;
 }
 
 .empty{
-    width: 11vw;
-    height: 5.5vw;
-    margin-bottom: 12vh;
+    width: 160px;
+    margin: 40px 0 20px 0;
 }
