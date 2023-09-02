@@ -1,6 +1,6 @@
 import CodeMirror from 'codemirror';
 import * as React from 'react';
-import {version as twineVersion} from '../../package.json';
+import packageInfo from '../../package.json';
 import {formatEditorExtensions, namespaceForFormat} from '../util/story-format';
 import {formatEditorExtensionsDisabled, usePrefsContext} from './prefs';
 import {
@@ -54,7 +54,7 @@ export function useFormatCodeMirrorToolbar(
 			!loaded[namespaceForFormat(format)]
 		) {
 			const namespace = namespaceForFormat(format);
-			const editorExtensions = formatEditorExtensions(format, twineVersion);
+			const editorExtensions = formatEditorExtensions(format, packageInfo.version);
 
 			if (editorExtensions?.codeMirror?.commands) {
 				for (const commandName in editorExtensions.codeMirror.commands) {
