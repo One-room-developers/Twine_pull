@@ -48,7 +48,7 @@ body{
 }
 .title{
     color: #FFFFFF;
-    font-size: 1.6em;
+    font-size: 25px;
     line-height: 28px;
 }
 
@@ -68,7 +68,7 @@ body{
 }
 .category-span{
     color:#FFFFFF;
-    font-size: 1.4em;
+    font-size: 22px;
 }
 .selected{
     color: var(--main-blue);
@@ -77,7 +77,7 @@ body{
     color: #FFFFFF;
     width: 120px;
     height: 48px;
-    font-size: 1em;
+    font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,7 +93,7 @@ body{
     color: aqua;
     width: 120px;
     height: 48px;
-    font-size: 1em;
+    font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -229,7 +229,7 @@ body{
     
 }
 .go-to-select-btn span{
-    font-size: 1.5em;
+    font-size: 20px;
     margin: 0;
 }
 

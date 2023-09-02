@@ -3,6 +3,7 @@ import './home-route.css';
 import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
+import Link from "react-router-dom"
 import useIntersectionObserver from './useIntersectionObserver';
 
 export const HomeRoute: React.FC = () => {
@@ -89,7 +90,7 @@ export const HomeRoute: React.FC = () => {
                     <div className="header__right">
                         <div className="category__container">
                             <div className="category">
-                                <a href="">
+                                <a href="/">
                                     <span className="font-game-thick category-span">게임소개</span>
                                 </a>
                             </div>

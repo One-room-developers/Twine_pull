@@ -78,7 +78,7 @@
     opacity: 0;
     animation: fadeIn 1s ease-in-out forwards;
     animation-delay: 2.4s;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 .game-start-btn{
     width: 280px;
@@ -165,7 +165,7 @@
     opacity: 0;
     animation: fadeIn2 0.8s ease-in-out forwards;
     animation-delay: 3.1s;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 
 }
 .episode-make-btn{
@@ -230,14 +230,14 @@
 }
 
 .center-line1{
-    height: 2.5vh;
+    height: 20px;
     border-left: 1px solid var(--main-dark);
-    margin-bottom: 2vh;
+    margin-bottom: 30px;
 }
 .center-line2{
-    height: 2.5vh;
+    height: 20px;
     border-left: 1px solid var(--main-white);
-    margin-bottom: 2.5vh;
+    margin-bottom: 30px;
 }
 
 .display-flex{
