@@ -91,13 +91,14 @@ export default function Main(props) {
     let episode_number_text = React.useRef(null);
 
 
-    function game_start() {
+    async function game_start() {
         console.log('게임 스타트 함수 진입');
 
-        getMainEpisodeDataFromDB();
-        getCurrentStatusFromDB();
-
+        await getMainEpisodeDataFromDB();
+        await getCurrentStatusFromDB();
+        //debugger;
         setTimeout(start_episode, 3000);
+        //start_episode();
     };
 
     function start_episode() {
@@ -440,7 +441,6 @@ export default function Main(props) {
             .then((res) => {
                 console.log('노말 에피소드 가져오기 성공');
                 normal_episode = res.data;
-                debugger;
             });
         updateEpisodeValue('normal');
     }
@@ -468,10 +468,12 @@ export default function Main(props) {
         option_text = current_episode.Option_Texts; 
 
         status_change = current_episode.Option_Stat_Changes;
-        debugger;
     }
 
-    React.useEffect(game_start, [])
+    function start_action(){
+        game_start();
+    }
+    React.useEffect(start_action, [])
 
     return (
         <main className="main">
@@ -484,10 +486,12 @@ export default function Main(props) {
                     <div className="episode_number font-game-thick">
                         <span className="episode_number_text" ref={episode_number_text}>
                             {/* #n */}
+                            #0
                         </span>
                     </div>
                     <div className="episode_title font-game-thick" ref={episode_title}>
                         {/* 제목 */}
+                        불러오는 중...
                     </div>
                 </div>
                 <div className="main_text_view" ref={main_text_view}>

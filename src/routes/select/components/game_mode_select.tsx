@@ -5,7 +5,7 @@ import '../Game_mode.css';
 type Select_props = {
   click : any,
   onClickCancel : any,
-  genre: number
+  genre: string
 }
 
 class Game_mode_select extends Component<Select_props>{
