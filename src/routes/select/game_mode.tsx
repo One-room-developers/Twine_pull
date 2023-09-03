@@ -46,6 +46,7 @@ export default function Game_mode(props){
             </div>
             <Select
               click = {click}
+              genre = {click_content.id}
               onClickCancel = {
                 function(){
                   props.hiddenOff();
