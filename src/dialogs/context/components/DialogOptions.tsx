@@ -340,6 +340,8 @@ class DialogOptions extends Component<Modes_props, State_type>{
         else{
             option_creator='';
         }
+        console.log("Id: ", this.state.options_id);
+        console.log("AfterStory: ", this.state.options_after_story);
 
         //선택지 제거하기
         //if(this.state.mode === '')

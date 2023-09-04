@@ -1,3 +1,9 @@
+@import "../../styles/components/reset.css";
+@import "../../styles/components/variables.css";
+
+@import "../../styles/components/header.css";
+@import "../../styles/components/font.css";
+
 *{
     box-sizing: border-box;
 }
@@ -89,12 +95,12 @@
 .game_mode-select_button{
     border-top: 2px solid var(--main-white);
     background-color: #000000;
+    color: #FFD369;
     height: 75px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
 }
 
 .game_mode-modes-element:hover{
@@ -197,7 +203,9 @@
     height: 30px;
     cursor: pointer;
     margin: 0 10px 0 10px;
-    background-color: #EEEEEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     border: none;
     cursor: pointer;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {version as twineVersion} from '../../package.json';
+import packageInfo from '../../package.json';
 import {formatEditorExtensions} from '../util/story-format';
 import {
 	formatWithNameAndVersion,
@@ -34,7 +34,7 @@ export function useFormatReferenceParser(
 		if (format.loadState === 'unloaded') {
 			dispatch(loadFormatProperties(format));
 		} else if (format.loadState === 'loaded') {
-			setEditorExtensions(formatEditorExtensions(format, twineVersion));
+			setEditorExtensions(formatEditorExtensions(format, packageInfo.version));
 		}
 	}, [dispatch, extensionsDisabled, format]);
 

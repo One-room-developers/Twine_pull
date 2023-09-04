@@ -1,27 +1,20 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import '../Game_mode.css';
 
 type Select_props = {
   click : any,
-  onClickCancel : any
+  onClickCancel : any,
+  genre: string
 }
 
 class Game_mode_select extends Component<Select_props>{
   render() {
     return(
       <div className='game_mode-select_button'>
-        <button 
-          className='font-game-thin mode_select_btn'
-          onClick={
-              function(){
-                window.location.replace("./#/game-play");
-                //axios 써서 데이터 가져오기 : this.props.click 데이터. 숫자1 아포칼립스 2 판타지 등.
-                
-              }.bind(this)
-            }
-        >
+        <Link className='font-game-thin mode_select_btn' to={`gameplay/${this.props.genre}`}>
           선택
-        </button>
+        </Link>
         <button
           className='font-game-thin mode_select_btn'
           onClick={

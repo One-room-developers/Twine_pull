@@ -219,6 +219,8 @@ class Game_mode_modes extends Component<Modes_props>{
                   </h1>
                 </div>
             </div>
+
+            
         </div>
     )
   }
