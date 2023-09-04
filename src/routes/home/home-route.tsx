@@ -3,6 +3,7 @@ import './home-route.css';
 import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
+import Link from "react-router-dom"
 import useIntersectionObserver from './useIntersectionObserver';
 
 export const HomeRoute: React.FC = () => {
@@ -89,7 +90,7 @@ export const HomeRoute: React.FC = () => {
                     <div className="header__right">
                         <div className="category__container">
                             <div className="category">
-                                <a href="">
+                                <a href="/">
                                     <span className="font-game-thick category-span">게임소개</span>
                                 </a>
                             </div>
@@ -148,13 +149,12 @@ export const HomeRoute: React.FC = () => {
                             <br/>
                         </p>
                     </div>
-                    <div className="empty">
-                        <button className="go-to-select-btn display-none" onClick={() => window.location.href = '/#/select'}>
-                            <span className="font-game-thick">
-                                게임 시작하기
-                            </span>
-                        </button>
-                    </div>
+                    <button className="go-to-select-btn display-none" onClick={() => window.location.href = '/#/select'}>
+                        <span className="font-game-thick">
+                            게임 시작하기
+                        </span>
+                    </button>
+                    
 
                     <div className="make-game-title-container">
                         <div className="title-line1"></div>

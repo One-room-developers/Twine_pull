@@ -15,6 +15,7 @@
 
 .passage-card .card {
 	padding: calc(var(--grid-size) / 2);
+	border: 1px solid var(--main-blue);
 }
 
 .passage-card .card-content {
@@ -61,6 +62,33 @@
 .passage-card.empty.selected .card {
 	background: rgba(34, 40, 49, 0.1);
 	border: 1px dashed var(--main-blue);
+	box-shadow: none;
+}
+
+.passage-card.option-passage .card {
+	border: 1px solid var(--main-orange);
+	box-shadow: none;
+}
+.passage-card.option-passage .card h2{
+	color: gray;
+}
+.passage-card.empty.option-passage .card {
+	border: 1px dashed var(--main-gray);
+	background: rgba(250, 230, 207, 0.2);
+	box-shadow: none;
+}
+.passage-card.option-passage.selected .card{
+	border: 1px solid var(--main-dark);
+	background: var(--main-orange);
+	box-shadow: none;
+}
+.passage-card.option-passage.selected .card h2{
+	color: var(--main-dark);
+}
+
+.passage-card.empty.option-passage.selected .card{
+	border: 1px dashed rgb(206, 121, 25);
+	background: rgba(250, 230, 207, 0.6);
 	box-shadow: none;
 }
 

@@ -3,6 +3,7 @@ import Main from './component/main'
 import Left_Ui from './component/left_ui'
 import Right_Ui from './component/right_ui'
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 import './game-play-route.css';
 
 
@@ -23,6 +24,13 @@ export const GamePlayRoute: React.FC = () => {
     function stat_window_event(){
         setStatUIOn((statUIOn ? false : true))
     }
+
+    //url의 값 긁어오기
+    interface IGenre{
+        genre: string;
+    }
+    const { genre } = useParams<IGenre>();
+    console.log(genre);
     
     // React.useEffect(game_start, [])
     return (

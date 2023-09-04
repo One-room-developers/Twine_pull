@@ -151,7 +151,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 				await axios.post(`http://localhost:3001/game_play/option`, {
 				episode: episode_id,
 				text: option_text[i],
-				result_text: option_data[2],
+				result_text: option_data[2],//값이 안 들어감
 				health_change: health_change,
 				money_change: money_change,
 				hungry_change: hungry_change,

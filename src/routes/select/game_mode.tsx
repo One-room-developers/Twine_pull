@@ -11,8 +11,8 @@ export default function Game_mode(props){
   var [click, setClick] = useState(1);
   var [contents, setContents] = useState(
       [
-        {id : 1, title : '아포칼립스', explain : '멸망한 세계에서 살아남으세요.'},
-        {id : 2, title : '판타지', explain : '마법과 검의 세계에서 당신을 증명하세요.'}
+        {id : 1, title : '아포칼립스', explain : '멸망한 세계에서 살아남으세요.', url : "apocalypse"},
+        {id : 2, title : '판타지', explain : '마법과 검의 세계에서 당신을 증명하세요.', url : "fantasy"}
       ]
     );
   
@@ -46,6 +46,7 @@ export default function Game_mode(props){
             </div>
             <Select
               click = {click}
+              genre = {click_content.url}
               onClickCancel = {
                 function(){
                   props.hiddenOff();

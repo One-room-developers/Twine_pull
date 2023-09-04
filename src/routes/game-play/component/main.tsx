@@ -12,6 +12,7 @@ import { health_class } from './right_ui';
 import { money_class } from './right_ui';
 import { hungry_class } from './right_ui';
 
+//clientHeight 오류 파일
 interface Episode {
     Episode_Text: EpisodeText,
     Option_Stat_Changes: Option_Stat_Changes[],
@@ -90,13 +91,14 @@ export default function Main(props) {
     let episode_number_text = React.useRef(null);
 
 
-    function game_start() {
+    async function game_start() {
         console.log('게임 스타트 함수 진입');
 
-        getMainEpisodeDataFromDB();
-        getCurrentStatusFromDB();
-
+        await getMainEpisodeDataFromDB();
+        await getCurrentStatusFromDB();
+        //debugger;
         setTimeout(start_episode, 3000);
+        //start_episode();
     };
 
     function start_episode() {
@@ -269,7 +271,7 @@ export default function Main(props) {
         else {
             resultDiv.innerText += "로비로 . . .";
             resultDiv.addEventListener('click', function onClick() {
-                window.location.href = 'http://localhost:3000/#/select';
+                window.location.href = '/select';
             });
         }
         episode_result_option.current.appendChild(resultDiv);
@@ -439,7 +441,6 @@ export default function Main(props) {
             .then((res) => {
                 console.log('노말 에피소드 가져오기 성공');
                 normal_episode = res.data;
-                debugger;
             });
         updateEpisodeValue('normal');
     }
@@ -467,10 +468,12 @@ export default function Main(props) {
         option_text = current_episode.Option_Texts; 
 
         status_change = current_episode.Option_Stat_Changes;
-        debugger;
     }
 
-    React.useEffect(game_start, [])
+    function start_action(){
+        game_start();
+    }
+    React.useEffect(start_action, [])
 
     return (
         <main className="main">
@@ -482,17 +485,21 @@ export default function Main(props) {
                 <div className="header_text_view" ref={header_text_view}>
                     <div className="episode_number font-game-thick">
                         <span className="episode_number_text" ref={episode_number_text}>
-                            #0 서막
+                            {/* #n */}
+                            #0
                         </span>
                     </div>
                     <div className="episode_title font-game-thick" ref={episode_title}>
-                        모험의 시작
+                        {/* 제목 */}
+                        불러오는 중...
                     </div>
                 </div>
                 <div className="main_text_view" ref={main_text_view}>
                     <div className="episode_text" ref={episode_text}>
+                        {/* 내용 */}
                     </div>
                     <div className="episode_option hidden font-game-thick" ref={episode_option}>
+                        {/* 선택지 */}
                     </div>
                     <div className="episode_result_text hidden" ref={episode_result_text}>
                     </div>

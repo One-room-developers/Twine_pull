@@ -6,4 +6,9 @@
 
 3. ~-route.tsx파일 생성
 
-4. 
+
+
+## GamePlay에 대한 주소
+필요한 정보
+
+localhost:3000/#/game-play/:genre
