@@ -98,7 +98,7 @@
 	},
 	"scripts": {
 		"analyze": "run-s build:web build:analyze",
-		"build": "run-s clean build:web build:electron",
+		"build": "react-scripts build",
 		"build:analyze": "source-map-explorer 'dist/web/static/js/*.js'",
 		"build:docs": "cd docs/en && mdbook build",
 		"build:web": "BUILD_PATH=dist/web react-scripts build",

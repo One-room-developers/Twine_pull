@@ -190,7 +190,7 @@ export default function Main(props) {
         episode_result_text.current.classList.remove("hidden");
 
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
-        axios.patch('http://localhost:3001/game_play/changestatus/3',
+        axios.patch(`${process.env.REACT_APP_API_URL}/game_play/changestatus/3`,
             {
                 //db에 스탯 변화량 기록
                 "changed_health": status_change[optionId].health_change,
@@ -416,7 +416,7 @@ export default function Main(props) {
 
     async function getMainEpisodeDataFromDB() {
         console.log('메인 에피소드 가져오기 함수 진입');
-        await axios.get(`http://localhost:3001/game_play/mainepisode`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/game_play/mainepisode`)
             .then((res) => {
                 console.log('메인 에피소드 가져오기 성공');
                 main_episode = res.data.mainEpisodes;
@@ -426,7 +426,7 @@ export default function Main(props) {
 
     function getCurrentStatusFromDB(){
         // 캐릭터 스테이터스 가져오기
-        axios.get('http://localhost:3001/game_play/character/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/game_play/character/1`)
         .then((res) => {
             current_status = res.data;
             update_rightUI();
@@ -435,7 +435,7 @@ export default function Main(props) {
 
     async function getNormalEpisodeDataFromDB() {
         // 에피소드 가져오기
-        await axios.get(`http://localhost:3001/game_play/episode/${normal_episode_num}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/game_play/episode/${normal_episode_num}`)
             .then((res) => {
                 console.log('노말 에피소드 가져오기 성공');
                 normal_episode = res.data;

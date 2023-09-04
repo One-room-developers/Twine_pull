@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useHistory } from "react-router";
 import SessionStorageAPI from "./session";
 
-
 export const LoginRoute: React.FC = () => {
 
     const history = useHistory();
@@ -26,7 +25,7 @@ export const LoginRoute: React.FC = () => {
     function login() {
         axios({
             method: "POST",
-            url: `http://localhost:3001/auth/login`,
+            url: `${process.env.REACT_APP_API_URL}/auth/login`,
             data: {
                 email: email,
                 password: pwd,
@@ -50,7 +49,7 @@ export const LoginRoute: React.FC = () => {
 
             //seesion에 토큰을 저장해도 되는가?
             sesstionStorage.setItem("userToken", authorizedUser.accessToken);
-            sesstionStorage.setItem("userNickname", authorizedUser.nickname );
+            sesstionStorage.setItem("userNickname", authorizedUser.nickname);
 
             history.push("/");
         });
@@ -58,7 +57,7 @@ export const LoginRoute: React.FC = () => {
 
     function googleLogin(e) {
         e.preventDefault();
-        window.location.href = 'http://localhost:3001/auth/googleAuth';
+        window.location.href = `${process.env.REACT_APP_API_URL}/auth/googleAuth`;
     }
 
     return(
