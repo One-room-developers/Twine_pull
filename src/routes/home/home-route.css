@@ -212,7 +212,7 @@ body{
     transition: all 0.4s;
 
     border: 1px solid var(--main-dark);
-
+    margin: 40px 0 20px 0;
     width: 150px;
     height: 55px;
     justify-content: center;
@@ -326,9 +326,4 @@ body{
     font-size: 20px;
     font-weight: 600;
     line-height: 150%;
-}
-
-.empty{
-    width: 160px;
-    margin: 40px 0 20px 0;
 }

@@ -13,6 +13,7 @@ import { GamePlayRoute } from './game-play/game-play-route';
 import { LoginRoute } from './login';
 import { SignupRoute } from './signup';
 import { UserBoardRoute } from './user-board';
+import { GameUploadRoute } from './game-upload'
 
 export const Routes: React.FC = () => {
 	const {prefs} = usePrefsContext(); //store, 리덕스를 대체기기 위해 만든 훅
@@ -45,6 +46,9 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/user-board">
 						<UserBoardRoute />
+					</Route>
+					<Route exact path="/game-upload">
+						<GameUploadRoute />
 					</Route>
 					<Route path="/gameplay/:genre">
 						<GamePlayRoute />
@@ -98,6 +102,9 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route exact path="/story-list">
 						<StoryListRoute />
+					</Route>
+					<Route exact path="/game-upload">
+						<GameUploadRoute />
 					</Route>
 					<Route path="/story-formats">
 						<StoryFormatListRoute />
