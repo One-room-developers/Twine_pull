@@ -1,28 +1,56 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import { HeaderBar } from '../home';
+import {useQuery} from "react-query";
+import { fetchStoryList } from './api';
 
-const Body = styled.div`
-    width: 100vw;
-    height: 100vh;
-`;
-const Header = styled.div`
-    
+const Container = styled.body`
+    height: 200vh;
 `
-const Container = styled.div`
-    padding: 0px 10px;
-    max-width: 480px;
-    height: 100vh;
-    margin: 0 auto;
-    background-color: black;
+const Header = styled.div`
+    width: 100%;
+    height: 250px;
+    background-color: var(--main-gray);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+`
+const Title = styled.h1`
+  color: var(--main-white);
+  font-size: 55px;
+  font-family: "gameBold";
 `;
+const Main = styled.div`
+    padding: 0px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid var(--main-gray);
+`
+const StoryList = styled.li`   
+`
 
-export const GameUploadRoute: React.FC = () => {
+
+interface IStory {
     
+}
+//path="/game-upload/:writerId"
+export const GameUploadRoute: React.FC = () => {
+    //const {isLoading, data} = useQuery<IStory>("storyListData", fetchStoryList);
+    const data= [{storyId: "1", title:"첫번째 게임"}, {storyId: "2", title:"두번째 게임"}];
     return (
-        <Body>
-            <Container>
-
-            </Container>
-        </Body>
+        <Container>
+            <HeaderBar />
+            <Header>
+                <Title>게임 업로드 목록</Title>
+            </Header>
+            <Main>
+                <StoryList>
+                    {data?.map( story=>
+                    <Link to={"/"}>{story.storyId}</Link>
+                    )}
+                </StoryList>
+            </Main>
+        </Container>
     );
 };

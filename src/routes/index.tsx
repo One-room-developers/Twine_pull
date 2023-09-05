@@ -28,6 +28,7 @@ export const Routes: React.FC = () => {
 
 	return (//라우터 변경시 위아래 둘 다 바꿔줘야됨!!!
 		<HashRouter>
+			
 			{prefs.welcomeSeen ? (
 				<Switch>
 					<Route exact path="/">
@@ -56,10 +57,10 @@ export const Routes: React.FC = () => {
 						<BoardRoute />
 					</Route>
 
-					<Route path="/game-upload/:storyDbId">
+					<Route path="/game-upload/storyInfo/:storyDbId">
 						<StoryInfoRoute />
 					</Route>
-					<Route path="/game-upload">
+					<Route path="/game-upload/:writerId">
 						<GameUploadRoute />
 					</Route>
 					
@@ -127,10 +128,10 @@ export const Routes: React.FC = () => {
 						<BoardRoute />
 					</Route>
 
-					<Route path="/game-upload/:storyDbId">
+					<Route path="/game-upload/storyInfo/:storyDbId">
 						<StoryInfoRoute />
 					</Route>
-					<Route path="/game-upload">
+					<Route path="/game-upload/:writerId">
 						<GameUploadRoute />
 					</Route>
 					<Route path="/story-formats">

@@ -24,7 +24,7 @@ export const HeaderBar: React.FC = () =>{
     }
 
     const opacityObj = {
-        backgroundColor: `rgba(34, 40, 49, ${scrollY / 400})`
+        backgroundColor: `rgba(34, 40, 49, ${scrollY / 300})`
     };
     const handleScroll = () => {
         setScrollY(window.scrollY);
