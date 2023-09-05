@@ -12,6 +12,8 @@ export interface UpdatePassageOptions {
 /**
  * General update of a passage.
  */
+
+//updatePassage가 dispatch함수를 만들어서 뿌려주는 느낌
 export function updatePassage(
 	story: Story,
 	passage: Passage,
@@ -36,7 +38,7 @@ export function updatePassage(
 
 		const oldName = passage.name;
 		const oldText = passage.text;
-
+		//thunk-reducer.js의 dispatch
 		dispatch({
 			props,
 			type: 'updatePassage',

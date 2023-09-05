@@ -21,8 +21,10 @@ export const UndoableStoriesContext = React.createContext<UndoableStoriesContext
 	}
 );
 
+
 UndoableStoriesContext.displayName = 'UndoableStories';
 
+//dialog를 업데이트할때 사용하는 함수
 export const useUndoableStoriesContext = () =>
 	React.useContext(UndoableStoriesContext);
 
@@ -32,6 +34,8 @@ export const UndoableStoriesContextProvider: React.FC = props => {
 		changes: [],
 		currentChange: -1
 	});
+	
+	//passage-edit 등에서 실제로 사용되는 dispatch
 	const dispatchAndRecordStoryAction = React.useCallback(
 		(action: StoriesActionOrThunk, description?: string) => {
 			if (description) {

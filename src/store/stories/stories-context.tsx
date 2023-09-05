@@ -33,7 +33,7 @@ export const StoriesContextProvider: React.FC = props => {
 	> = React.useMemo(
 		() => (state, action) => {
 			const newState = reducer(state, action);
-
+			
 			try {
 				storiesPersistence.saveMiddleware(newState, action, formats);
 			} catch (error) {

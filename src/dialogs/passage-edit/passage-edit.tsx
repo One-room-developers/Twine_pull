@@ -63,19 +63,21 @@ export const InnerPassageEditDialog: React.FC<
 	}, [error, resetError, storyFormatExtensionsEnabled]);
 
 	
-
+	//userdialogtext를 받아 dialog의 저장된 텍스트를 변경하는 부분
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
-			dispatch(updatePassage(story, passage, {text}));
+			dispatch(updatePassage(story, passage, {text})); 
+			console.log("updatePassage : "+updatePassage(story, passage, {text}));
 		},
-		[dispatch, passage, story]
+		[dispatch, passage, story] //usecallback에 의해 passage와 story 혹은 dispatch가 변경되면 이 함수가 실행됨
 	);
 
+	//userDialogText가 변경되면 passageText를 변경하는 부분
 	React.useEffect(()=>{
 		
 		if(other.userDialogText){
 			handlePassageTextChange(other.userDialogText);
-			props.onClose();
+			props.onClose(); //dialog 창 닫기
 		}
 	}, [other.userDialogText])
 

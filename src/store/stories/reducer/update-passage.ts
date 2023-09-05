@@ -1,5 +1,6 @@
 import {Passage, Story, StoriesState} from '../stories.types';
 import {isPersistablePassageChange} from '../../persistence/persistable-changes';
+import { passageWithId } from '../getters';
 
 export function updatePassage(
 	state: StoriesState,
@@ -9,11 +10,13 @@ export function updatePassage(
 ) {
 	let storyExists = false;
 	let updated = false;
+	debugger;
+	let passage;
 	const newState = state.map(story => {
 		if (story.id !== storyId) {
 			return story;
 		}
-
+		passage = passageWithId(state, storyId, passageId);
 		storyExists = true;
 
 		if (
@@ -37,7 +40,8 @@ export function updatePassage(
 				}
 
 				updated = true;
-				return {...passage, ...passageProps};
+				const text_user = {text_user : "오하이오"}
+				return {...passage, ...passageProps, ...text_user};
 			})
 		};
 
@@ -65,5 +69,6 @@ export function updatePassage(
 		return state;
 	}
 
+	passage = passageWithId(state, storyId, passageId);
 	return newState;
 }

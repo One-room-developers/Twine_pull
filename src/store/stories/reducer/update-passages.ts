@@ -8,7 +8,6 @@ export function updatePassages(
 ) {
 	return Object.keys(passageUpdates).reduce(
 		(state, passageId) =>
-			updatePassage(state, storyId, passageId, passageUpdates[passageId]),
-		state
+			updatePassage(state, storyId, passageId, passageUpdates[passageId]), state
 	);
 }

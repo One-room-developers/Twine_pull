@@ -26,7 +26,7 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
     //isFriendly:"complex", //friendly, complex, hostile 중 하나.
     useEffect(()=>{
         setTitle(props.passage.name);
-        setContext(props.passage.text);
+        setContext(props.passage.text_user);
         
     },[props.passage.name, props.passage.text])
     
@@ -38,7 +38,7 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
 		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
 	}
 
-    //main과 options에 this.updateContext()로 추가해주기
+    //본문 + [[선택지]] 로 된 문자열 생성
     function updateContext():void{
         //값 초기화.
         convertedString = context;
@@ -76,8 +76,8 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
                 <div className="save-btn-container">
                     <button onClick={function(e){
                         updateContext();
-                        handleRename(title)
-                        props.onWrite(convertedString)
+                        handleRename(title);
+                        props.onWrite(convertedString);
                     }}
                     >작성완료</button>
                 </div>

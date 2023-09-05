@@ -125,13 +125,15 @@ export function saveMiddleware(state: StoriesState, action: StoriesAction) {
 
 		case 'updatePassage':
 			if (isPersistablePassageChange(action.props)) {
-				const story = storyWithId(state, action.storyId);
-				const passage = passageWithId(state, action.storyId, action.passageId);
+				let story = storyWithId(state, action.storyId);
+				let passage = passageWithId(state, action.storyId, action.passageId);
 
 				doUpdateTransaction(transaction => {
 					saveStory(transaction, story);
 					savePassage(transaction, passage);
 				});
+				story = storyWithId(state, action.storyId);
+				passage = passageWithId(state, action.storyId, action.passageId);
 				break;
 			}
 			break;

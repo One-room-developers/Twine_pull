@@ -22,10 +22,8 @@ const DialogTransition: React.FC = props =>{
 	//classNames는 뒤에 '-enter-done'이라는 문장이 붙음. 아마 CSSTranstion.d.ts 파일에서 후처리를 해줌. 거기에 주석으로 설명되어 있음
 		
 		<div>
-			<UserDialog passage={passage} story={story} onWrite={function(value){
-											setUserDialogText(value)
-										}}></UserDialog>
-			<CSSTransition classNames="hidden pop" timeout={200} {...props} userDialogText={userDialogText} >
+			<UserDialog passage={passage} story={story} onWrite={function(value){setUserDialogText(value)}}></UserDialog>
+			<CSSTransition classNames="hidden pop" timeout={200} {...props} userDialogText={userDialogText}>
 				{props.children}
 			</CSSTransition>
 		</div>
@@ -37,7 +35,6 @@ export const Dialogs: React.FC = props => { //텍스트 편집 창
 	const {height, width} = useScrollbarSize();
 	const {prefs} = usePrefsContext();
 	const {dispatch, dialogs} = useDialogsContext();
-	const [userDialogText, setUserDialogText] = useState();
 	
 	const hasUnmaximized = dialogs.some(dialog => !dialog.maximized);
 	// const containerStyle: React.CSSProperties = {
@@ -101,7 +98,7 @@ export const Dialogs: React.FC = props => { //텍스트 편집 창
 									<dialog.component {...dialog.props} {...managementProps} />
 								</div>
 							) : (
-									<dialog.component {...dialog.props} {...managementProps} />
+									<dialog.component {...dialog.props} {...managementProps} /> //passageedit dialog 이 시삐ㅏ녀석 여기에 있었구나
 							)}
 						</DialogTransition>
 					);
