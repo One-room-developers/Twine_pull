@@ -3,12 +3,13 @@ import './home-route.css';
 import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
-import Link from "react-router-dom"
+import {Link} from "react-router-dom"
 import useIntersectionObserver from './useIntersectionObserver';
 
-export const HomeRoute: React.FC = () => {
+export const HeaderBar: React.FC = () =>{
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
+    
 
     let whetherLoginComponent = <IfLogout></IfLogout>;
 
@@ -32,53 +33,8 @@ export const HomeRoute: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // const title1 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const text1 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const title2 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const text2 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const title3 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const text3 = () => {
-
-    //     return (
-
-    //     );
-    // };
-    // const btn1 = () => {
-
-    //     return (
-
-    //     );
-    // };
-
     return(
-        <body>
-        <main className="index-main">
-            <header ref={targetRef} className="index-header header-position" style={opacityObj}>
+        <header ref={targetRef} className="index-header header-position" style={opacityObj}>
                 <div className="header-container">
                     <div className="header__left">
                         <span className="font-hambak title">
@@ -90,33 +46,42 @@ export const HomeRoute: React.FC = () => {
                     <div className="header__right">
                         <div className="category__container">
                             <div className="category">
-                                <a href="/">
+                                <Link to={`/`}>
                                     <span className="font-game-thick category-span">게임소개</span>
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="category">
-                                <a href="/#/select">
+                                <Link to={`/select`}>
                                     <span className="font-game-thick category-span">시작하기</span>
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="category">
-                                <a href="">
+                                <Link to={`/board`}>
                                     <span className="font-game-thick category-span">커뮤니티</span>
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="category">
-                                <a href="">
+                                <Link to={`/board`}>
                                     <span className="font-game-thick category-span">버그제보</span>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         {whetherLoginComponent}
                     </div>
                 </div>
             </header>
+    );
+};
+
+export const HomeRoute: React.FC = () => {
+    
+    return(
+        <body>
+        <main className="index-main">
+            <HeaderBar />
             <div className="first-section">
                 <div>
                     <p className="intro font-game-thick">유저가 만들어가는 텍스트 어드벤쳐 게임</p>
