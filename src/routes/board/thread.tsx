@@ -35,16 +35,17 @@ interface Post {
 };
 
 export const ThreadRoute: React.FC = () => {
+    const [content, setContent] = React.useState([]);
+    const post_id = 2;
 
-    function getPost() {
-         // board-route에서 게시물을 클릭할 때 게시물 아이디를 받아서 저장
-        const post_id = 2;
-        axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)
-        .then((res) => {
-            const post: Post = res.data;
-            console.log(post);
-        });
+    const getPost = async () => {
+        const post = await (await axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)).data;
+        setContent(post.data);
     }
+
+    React.useEffect(() => {
+        getPost();
+    }, []);
 
     return(
         <Container>
@@ -54,8 +55,11 @@ export const ThreadRoute: React.FC = () => {
             </Header>
             
             <Main>
-                <button onClick={getPost}>나를 눌러라</button>
-
+                <ul>
+                    {content && content.map((post) => (
+                        <li key={post.post_id}>{post.writer} {post.title} {post.createdAt} {post.view} {post.like}</li>
+                    ))}
+                </ul>
             </Main>
         
         </Container>

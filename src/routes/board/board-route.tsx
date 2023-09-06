@@ -46,6 +46,7 @@ const TableBody = styled.td`
     text-align: center;
 `
 
+// 일단 만들어둔 인터페이스. 필요하면 사용
 interface PostInfo {
     post_id: number,
     writer: string,
@@ -60,15 +61,19 @@ interface PostList {
 };
 
 export const BoardRoute: React.FC = () => {
+    const [board, setBoard] = React.useState([]);
     const post_id = 3;
 
-    function getPostList() {
-        axios.get(`http://localhost:3001/post/getPostList/${post_id}`)
-        .then((res) => {
-            const post_list: PostList = res.data;
-            console.log(post_list);
-        });
+    const getPostList = async () => {
+        const post_list = await (await axios.get(`http://localhost:3001/post/getPostList/${post_id}`)).data;
+        setBoard(post_list.data);
     }
+
+    // axios에 pagination이라는 기능이 있는데 페이지 구현할 때 참고하면 좋을듯
+
+    React.useEffect(() => {
+        getPostList();
+    }, []);
 
     return (
         <Container>
@@ -76,7 +81,6 @@ export const BoardRoute: React.FC = () => {
             <Header>
                 <Title>커뮤니티</Title>
             </Header>
-
                 <TestBtn>
                     <Link to={`/board/write`}>전체글</Link>
                 </TestBtn>
@@ -107,18 +111,12 @@ export const BoardRoute: React.FC = () => {
                                     <TableHead>추천</TableHead>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <TableBody>이이잉</TableBody>
-                                    <TableBody>이이잉</TableBody>
-                                    <TableBody>이이잉</TableBody>
-                                    <TableBody>이이잉</TableBody>
-                                    <TableBody>이이잉</TableBody>
-                                    <TableBody>이이잉</TableBody>
-                                </tr>
-                            </tbody>
                         </table>
-                        <button onClick={getPostList}>눌러</button>
+                        <ul>
+                            {board && board.map((post) => (
+                            <li key={post.post_id}>{post.title}</li>
+                            ))}
+                        </ul>
                     </TableContainer>
                 </Main>
             </Route>
