@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
+import axios from 'axios';
 
 const Container = styled.body`
     height: 200vh;
@@ -15,9 +16,9 @@ const Header = styled.div`
     align-items: flex-end;
 `
 const Title = styled.h1`
-  color: var(--main-white);
-  font-size: 55px;
-  font-family: "gameBold";
+    color: var(--main-white);
+    font-size: 55px;
+    font-family: "gameBold";
 `;
 const TestBtn = styled.div`
     width: 100px;
@@ -40,7 +41,35 @@ const TableHead = styled.th`
     text-align: center;
 `
 
+const TableBody = styled.td`
+    background-color: #eeeeee;
+    text-align: center;
+`
+
+interface PostInfo {
+    post_id: number,
+    writer: string,
+    title: string,
+    created_at: Date,
+    view: number,
+    like: number,
+};
+
+interface PostList {
+    post_info: PostInfo[],
+};
+
 export const BoardRoute: React.FC = () => {
+    const post_id = 3;
+
+    function getPostList() {
+        axios.get(`http://localhost:3001/post/getPostList/${post_id}`)
+        .then((res) => {
+            const post_list: PostList = res.data;
+            console.log(post_list);
+        });
+    }
+
     return (
         <Container>
             <HeaderBar />
@@ -68,15 +97,28 @@ export const BoardRoute: React.FC = () => {
                 <Main>
                     <TableContainer >
                         <table>
-                            <tr>
-                                <TableHead>번호</TableHead>
-                                <TableHead>제목</TableHead>
-                                <TableHead>작성자</TableHead>
-                                <TableHead>작성일</TableHead>
-                                <TableHead>조회</TableHead>
-                                <TableHead>추천</TableHead>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <TableHead>번호</TableHead>
+                                    <TableHead>제목</TableHead>
+                                    <TableHead>작성자</TableHead>
+                                    <TableHead>작성일</TableHead>
+                                    <TableHead>조회</TableHead>
+                                    <TableHead>추천</TableHead>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <TableBody>이이잉</TableBody>
+                                    <TableBody>이이잉</TableBody>
+                                    <TableBody>이이잉</TableBody>
+                                    <TableBody>이이잉</TableBody>
+                                    <TableBody>이이잉</TableBody>
+                                    <TableBody>이이잉</TableBody>
+                                </tr>
+                            </tbody>
                         </table>
+                        <button onClick={getPostList}>눌러</button>
                     </TableContainer>
                 </Main>
             </Route>

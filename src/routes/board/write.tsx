@@ -70,19 +70,21 @@ export const WriteRoute: React.FC = () => {
             </Header>
 
             <Main>
-                <div className="grid-1">
-                    <tbody>
-                        <tr>
-                            <td><input className="nickname" type="text" placeholder="닉네임" defaultValue="ㅇㅇ" required onChange={onChangeNickname}></input></td>
-                            <td><input className="title" type="text" placeholder="제목" name="title" required onChange={onChangeTitle}></input></td>
-                            <td><textarea className="content" required onChange={onChangeContent}></textarea></td>
-                        </tr>
-                    </tbody>
-                </div>
-                <div className="grid-2">
-                    <button className="post-btn"  onClick={cancle}>취소</button>
-                    <button className="post-btn" onClick={regist}>등록</button>
-                </div>
+                <form className="write-form-grid">
+                    <div className="grid-1">
+                        <tbody>
+                            <tr>
+                                <td><input className="nickname" type="text" placeholder="닉네임" defaultValue="ㅇㅇ" required onChange={onChangeNickname}></input></td>
+                                <td><input className="title" type="text" placeholder="제목" name="title" required onChange={onChangeTitle}></input></td>
+                                <td><textarea className="content" required onChange={onChangeContent}></textarea></td>
+                            </tr>
+                        </tbody>
+                    </div>
+                    <div className="grid-2">
+                        <button className="post-btn" onClick={cancle}>취소</button>
+                        <button className="post-btn" onClick={regist}>등록</button>
+                    </div>
+                </form>
             </Main>
 
         </Container>

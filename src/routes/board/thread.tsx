@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
+import axios from 'axios';
 
 const Container = styled.body`
     height: 200vh;
@@ -22,12 +23,27 @@ const Main = styled.div`
     
 `
 
+interface Post {
+    post_id: number,
+    writer: string,
+    category: number,
+    title: string,
+    content: string,
+    created_at: Date,
+    view: number,
+    like: number,
+};
+
 export const ThreadRoute: React.FC = () => {
 
-    const data = async function() {
-        const post_id = 1;             // board-route에서 게시물을 클릭할 때 게시물 아이디를 받아서 저장
-        
-        // axios로 board_id를 보내서 게시물 데이터 받아옴
+    function getPost() {
+         // board-route에서 게시물을 클릭할 때 게시물 아이디를 받아서 저장
+        const post_id = 2;
+        axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)
+        .then((res) => {
+            const post: Post = res.data;
+            console.log(post);
+        });
     }
 
     return(
@@ -38,7 +54,7 @@ export const ThreadRoute: React.FC = () => {
             </Header>
             
             <Main>
-                {/* 이 Main에 글 읽는 HTML을 만들면 됨*/}
+                <button onClick={getPost}>나를 눌러라</button>
 
             </Main>
         
