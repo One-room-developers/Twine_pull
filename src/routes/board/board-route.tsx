@@ -91,6 +91,15 @@ export const BoardRoute: React.FC = () => {
                     <Link to={`/board/write`}>공지</Link>
                 </TestBtn>
                 <TestBtn>
+                    <Link to={`/board/write`}>전체글</Link>
+                </TestBtn>
+                <TestBtn>
+                    <Link to={`/board/write`}>인기글</Link>
+                </TestBtn>
+                <TestBtn>
+                    <Link to={`/board/write`}>공지</Link>
+                </TestBtn>
+                <TestBtn>
                     <Link to={`/board/thread/1`}>첫번째글</Link>
                 </TestBtn>
                 <TestBtn>
