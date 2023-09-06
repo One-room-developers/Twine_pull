@@ -30,7 +30,14 @@ const TestBtn = styled.div`
     align-items: center;
 `
 const Main = styled.div`
-    
+`
+const TableContainer = styled.table`
+    text-align: center;
+    border: 1px solid #dddddd;
+`
+const TableHead = styled.th`
+    background-color: #eeeeee;
+    text-align: center;
 `
 
 export const BoardRoute: React.FC = () => {
@@ -42,6 +49,15 @@ export const BoardRoute: React.FC = () => {
             </Header>
 
                 <TestBtn>
+                    <Link to={`/board/write`}>전체글</Link>
+                </TestBtn>
+                <TestBtn>
+                    <Link to={`/board/write`}>인기글</Link>
+                </TestBtn>
+                <TestBtn>
+                    <Link to={`/board/write`}>공지</Link>
+                </TestBtn>
+                <TestBtn>
                     <Link to={`/board/thread/1`}>첫번째글</Link>
                 </TestBtn>
                 <TestBtn>
@@ -50,10 +66,19 @@ export const BoardRoute: React.FC = () => {
             <Switch>
             <Route path={"/board"}>
                 <Main>
-                    {/* 이 Main에 글 목록 HTML을 만들면 됨*/}
-
+                    <TableContainer >
+                        <table>
+                            <tr>
+                                <TableHead>번호</TableHead>
+                                <TableHead>제목</TableHead>
+                                <TableHead>작성자</TableHead>
+                                <TableHead>작성일</TableHead>
+                                <TableHead>조회</TableHead>
+                                <TableHead>추천</TableHead>
+                            </tr>
+                        </table>
+                    </TableContainer>
                 </Main>
-
             </Route>
 
             <Route path={"/board/recommend"}></Route>

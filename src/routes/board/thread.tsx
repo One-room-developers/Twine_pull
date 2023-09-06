@@ -14,15 +14,21 @@ const Header = styled.div`
     align-items: flex-end;
 `
 const Title = styled.h1`
-  color: var(--main-white);
-  font-size: 55px;
-  font-family: "gameBold";
+    color: var(--main-white);
+    font-size: 55px;
+    font-family: "gameBold";
 `;
 const Main = styled.div`
     
 `
 
 export const ThreadRoute: React.FC = () => {
+
+    const data = async function() {
+        const post_id = 1;             // board-route에서 게시물을 클릭할 때 게시물 아이디를 받아서 저장
+        
+        // axios로 board_id를 보내서 게시물 데이터 받아옴
+    }
 
     return(
         <Container>
