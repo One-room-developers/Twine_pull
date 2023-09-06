@@ -37,11 +37,13 @@ export const HeaderBar: React.FC = () =>{
         <header ref={targetRef} className="index-header header-position" style={opacityObj}>
                 <div className="header-container">
                     <div className="header__left">
-                        <span className="font-hambak title">
-                            TEXT ADVENTURE
-                            <br />
-                            PROJECT
-                        </span>
+                        <Link to={"/"}>
+                            <span className="font-hambak title">
+                                TEXT ADVENTURE
+                                <br />
+                                PROJECT
+                            </span>
+                        </Link>
                     </div>
                     <div className="header__right">
                         <div className="category__container">

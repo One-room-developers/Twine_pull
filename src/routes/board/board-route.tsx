@@ -117,6 +117,11 @@ export const BoardRoute: React.FC = () => {
                             <li key={post.post_id}>{post.title}</li>
                             ))}
                         </ul>
+                        <ul>
+                            {board && board.map((post) => (
+                            <li key={post.post_id}>{post.title}</li>
+                            ))}
+                        </ul>
                     </TableContainer>
                 </Main>
             </Route>
