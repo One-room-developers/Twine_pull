@@ -51,7 +51,7 @@ export const BoardRoute: React.FC = () => {
             <Route path={"/board"}>
                 <Main>
                     {/* 이 Main에 글 목록 HTML을 만들면 됨*/}
-
+                    
                 </Main>
 
             </Route>

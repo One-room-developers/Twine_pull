@@ -33,7 +33,7 @@ export const WriteRoute: React.FC = () => {
 
             <Main>
             {/* 이 Main에 글 작성 HTML을 만들면 됨*/}
-
+            
             </Main>
 
         </Container>
