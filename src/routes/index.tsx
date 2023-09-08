@@ -17,7 +17,7 @@ import { GameUploadRoute } from './game-upload'
 import { StoryInfoRoute } from './game-upload'
 
 export const Routes: React.FC = () => {
-	const {prefs} = usePrefsContext(); //store, 리덕스를 대체기기 위해 만든 훅
+	const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
 
 	// A <HashRouter> is used to make our lives easier--to load local story
 	// formats, we need the document HREF to reflect where the HTML file is.
