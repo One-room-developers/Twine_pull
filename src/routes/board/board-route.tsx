@@ -65,8 +65,11 @@ export const BoardRoute: React.FC = () => {
     const post_id = 3;
 
     const getPostList = async () => {
-        const post_list = await (await axios.get(`http://localhost:3001/post/getPostList/${post_id}`)).data;
-        setBoard(post_list.data);
+        axios.get(`http://localhost:3001/post/getPostList/${post_id}`)
+            .then((res) => {
+                const post_list: PostList = res.data;
+                console.log(res.data);
+            });
     }
 
     // axios에 pagination이라는 기능이 있는데 페이지 구현할 때 참고하면 좋을듯

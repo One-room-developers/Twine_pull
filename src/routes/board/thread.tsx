@@ -36,11 +36,14 @@ interface Post {
 
 export const ThreadRoute: React.FC = () => {
     const [content, setContent] = React.useState([]);
-    const post_id = 2;
+    const post_id = 1;
 
     const getPost = async () => {
-        const post = await (await axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)).data;
-        setContent(post.data);
+        axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)
+            .then((res) => {
+                const post: Post = res.data;
+                console.log(post);
+            })
     }
 
     React.useEffect(() => {
