@@ -67,6 +67,8 @@ export const InnerPassageEditDialog: React.FC<
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
 			dispatch(updatePassage(story, passage, {text}));
+			// debugger;
+			// console.log(updatePassage(story, passage, {text}))
 		},
 		[dispatch, passage, story]
 	);

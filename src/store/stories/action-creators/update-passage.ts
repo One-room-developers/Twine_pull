@@ -30,7 +30,7 @@ export function updatePassage(
 	) {
 		throw new Error(`There is already a passage named "${props.name}".`);
 	}
-
+    //함수 리턴?
 	return (dispatch, getState) => {
 		// Do the passage update itself.
 

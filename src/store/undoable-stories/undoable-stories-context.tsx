@@ -27,11 +27,12 @@ export const useUndoableStoriesContext = () =>
 	React.useContext(UndoableStoriesContext);
 
 export const UndoableStoriesContextProvider: React.FC = props => {
-	const {dispatch: storiesDispatch, stories} = useStoriesContext();
-	const [state, dispatch] = React.useReducer(reducer, {
-		changes: [],
-		currentChange: -1
-	});
+	const {dispatch: storiesDispatch, stories} = useStoriesContext(); //구조분해 할당
+	const [state, dispatch] = //구조분해 배열	
+		React.useReducer(reducer, { 
+			changes: [],
+			currentChange: -1
+		});
 	const dispatchAndRecordStoryAction = React.useCallback(
 		(action: StoriesActionOrThunk, description?: string) => {
 			if (description) {
@@ -43,6 +44,7 @@ export const UndoableStoriesContextProvider: React.FC = props => {
 				});
 			}
 
+			console.log()
 			return storiesDispatch(action);
 		},
 		[stories, storiesDispatch]

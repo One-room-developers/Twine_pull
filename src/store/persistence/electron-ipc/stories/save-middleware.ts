@@ -24,6 +24,8 @@ let lastState: StoriesState;
  * This has an extra argument: functions to archive and publish a story. This is
  * because the Electron app saves stories in published format.
  */
+
+//로컬에 데이터 저장
 export function saveMiddleware(
 	state: StoriesState,
 	action: StoriesAction,
