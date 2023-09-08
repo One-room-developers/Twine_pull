@@ -17,18 +17,15 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
 
     const [title, setTitle] = useState(props.passage.name);
     const [context, setContext] = useState(props.passage.text);
+    const [text, setText] = useState(props.passage.text_user)
+    const [options, setOptions] = useState(props.passage.options);
     const [optionsTitle, setOptionsTitle] = useState([]);
     const {dispatch, stories} = useUndoableStoriesContext();
     let regex = /\[\[.*\]\]/g
-    useEffect(()=>{
-        console.log(context.match(regex))
-    }, [])   
+
+    console.log("Log : UserDialog() - "); 
+    console.log(props.passage);
     //isFriendly:"complex", //friendly, complex, hostile 중 하나.
-    useEffect(()=>{
-        setTitle(props.passage.name);
-        setContext(props.passage.text_user);
-        
-    },[props.passage.name, props.passage.text])
     
     let convertedString:string = "";
 
@@ -72,9 +69,10 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
                     // if(Array.isArray(_optionsTitle)){
                     //     updateContext(_optionsTitle);
                     // }
-                }}></DialogOptions>
+                }} ></DialogOptions>
                 <div className="save-btn-container">
                     <button onClick={function(e){
+                        console.log("Log : onclick()");
                         updateContext();
                         handleRename(title);
                         props.onWrite(convertedString);

@@ -35,7 +35,6 @@ export function updatePassage(
 
 	return (dispatch, getState) => {
 		// Do the passage update itself.
-
 		const oldName = passage.name;
 		const oldText = passage.text;
 		//thunk-reducer.js의 dispatch

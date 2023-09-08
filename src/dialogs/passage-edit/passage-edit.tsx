@@ -31,7 +31,7 @@ export const InnerPassageEditDialog: React.FC<
 	PassageEditDialogProps
 > = props => {
 	const {passageId, storyId, ...other} = props;
-	const [storyFormatExtensionsEnabled, setStoryFormatExtensionsEnabled] =
+		const [storyFormatExtensionsEnabled, setStoryFormatExtensionsEnabled] =
 		React.useState(true);
 	const [editorCrashed, setEditorCrashed] = React.useState(false);
 	const [cmEditor, setCmEditor] = React.useState<CodeMirror.Editor>();
@@ -66,8 +66,19 @@ export const InnerPassageEditDialog: React.FC<
 	//userdialogtext를 받아 dialog의 저장된 텍스트를 변경하는 부분
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
-			dispatch(updatePassage(story, passage, {text})); 
-			console.log("updatePassage : "+updatePassage(story, passage, {text}));
+			console.log("Log : handlePassageTextChange()");
+			//text_user와 options 속성을 여기서 변경
+			let options = passage.text.match(/\[\[.*\]\]/g);
+			// for(let option in options){
+			// 	option.replace("[[", "").replace("]]", "")
+			// }
+			const text_user = passage.text.replace(/\[\[.*\]\]/g,'');
+			////
+			/// text가 문제
+			///
+			
+
+			dispatch(updatePassage(story, passage, {text, options})); 
 		},
 		[dispatch, passage, story] //usecallback에 의해 passage와 story 혹은 dispatch가 변경되면 이 함수가 실행됨
 	);

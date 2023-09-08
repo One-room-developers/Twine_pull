@@ -32,6 +32,7 @@ const DialogTransition: React.FC = props =>{
 
 
 export const Dialogs: React.FC = props => { //텍스트 편집 창
+	console.log("Log : Dialogs()");
 	const {height, width} = useScrollbarSize();
 	const {prefs} = usePrefsContext();
 	const {dispatch, dialogs} = useDialogsContext();

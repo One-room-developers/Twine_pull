@@ -10,7 +10,6 @@ export function updatePassage(
 ) {
 	let storyExists = false;
 	let updated = false;
-	debugger;
 	let passage;
 	const newState = state.map(story => {
 		if (story.id !== storyId) {
@@ -40,8 +39,12 @@ export function updatePassage(
 				}
 
 				updated = true;
-				const text_user = {text_user : "오하이오"}
-				return {...passage, ...passageProps, ...text_user};
+				
+
+				//option에서 [[ ]]을 제외하고 추출하여 options 변수에 넣기
+				
+				return {...passage, ...passageProps};
+				
 			})
 		};
 

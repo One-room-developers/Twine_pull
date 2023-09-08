@@ -60,7 +60,8 @@ export interface Passage {
 	/**
 	 * 선택지
 	 */
-	options: option[];
+	// options: option[];
+	options : string[];
 
 	//유저에게 보이는 본문
 	text_user:string;

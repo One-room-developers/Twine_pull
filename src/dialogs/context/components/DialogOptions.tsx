@@ -24,7 +24,6 @@ class DialogOptions extends Component<Modes_props, State_type>{
 
         this.max_option_num = 0; //선택지 갯수. 이만큼 반복출력
         this.state = {
-
             mode:'default',//default, optionCreate, optionModify, optionDelete
             //{id:1, _option_title:"", _status1: "", _amount_change1: 0, _status2: "", _amount_change2: 0, _after_story}
             options_id:[],
@@ -340,8 +339,6 @@ class DialogOptions extends Component<Modes_props, State_type>{
         else{
             option_creator='';
         }
-        console.log("Id: ", this.state.options_id);
-        console.log("AfterStory: ", this.state.options_after_story);
 
         //선택지 제거하기
         //if(this.state.mode === '')
