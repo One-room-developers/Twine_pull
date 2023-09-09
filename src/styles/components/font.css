@@ -14,6 +14,14 @@
     src: url("../fonts/HBIOS-SYS.ttf");
     font-family: "dot";
 }
+@font-face{
+    src: url("../fonts/NotoSansKR-Medium.ttf");
+    font-family: "godicM";
+}
+@font-face{
+    src: url("../fonts/NotoSansKR-VariableFont_wght.ttf");
+    font-family: "godicThin";
+}
 
 .font-hambak{
     font-family: "hambak";
@@ -26,4 +34,10 @@
 }
 .font-dot{
     font-family: "dot";
+}
+.font-godic-thin{
+    font-family:"godicThin";
+}
+.font-godic-mid{
+    font-family:"godicM";
 }

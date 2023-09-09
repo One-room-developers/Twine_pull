@@ -15,6 +15,7 @@ import { SignupRoute } from './signup';
 import { BoardRoute, ThreadRoute, WriteRoute } from './board';
 import { GameUploadRoute } from './game-upload'
 import { StoryInfoRoute } from './game-upload'
+import { ExceptionRoute } from './exception';
 
 export const Routes: React.FC = () => {
 	const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
@@ -93,7 +94,7 @@ export const Routes: React.FC = () => {
 							console.warn(
 								`No route for path "${path.location.pathname}", rendering story list`
 							);
-							return <StoryListRoute />;
+							return <ExceptionRoute />;
 						}}
 					></Route>
 				</Switch>
@@ -158,7 +159,7 @@ export const Routes: React.FC = () => {
 							console.warn(
 								`No route for path "${path.location.pathname}", rendering story list`
 							);
-							return <StoryListRoute />;
+							return <ExceptionRoute />;
 						}}
 					></Route>
 				</Switch>

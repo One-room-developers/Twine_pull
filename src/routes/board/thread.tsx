@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
+import axios from 'axios';
 
 const Container = styled.body`
     height: 200vh;
@@ -14,15 +15,40 @@ const Header = styled.div`
     align-items: flex-end;
 `
 const Title = styled.h1`
-  color: var(--main-white);
-  font-size: 55px;
-  font-family: "gameBold";
+    color: var(--main-white);
+    font-size: 55px;
+    font-family: "gameBold";
 `;
 const Main = styled.div`
     
 `
 
+interface Post {
+    post_id: number,
+    writer: string,
+    category: number,
+    title: string,
+    content: string,
+    created_at: Date,
+    view: number,
+    like: number,
+};
+
 export const ThreadRoute: React.FC = () => {
+    const [content, setContent] = React.useState([]);
+    const post_id = 1;
+
+    const getPost = async () => {
+        axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)
+            .then((res) => {
+                const post: Post = res.data;
+                console.log(post);
+            })
+    }
+
+    React.useEffect(() => {
+        getPost();
+    }, []);
 
     return(
         <Container>
@@ -32,8 +58,11 @@ export const ThreadRoute: React.FC = () => {
             </Header>
             
             <Main>
-                {/* 이 Main에 글 읽는 HTML을 만들면 됨*/}
-
+                <ul>
+                    {content && content.map((post) => (
+                        <li key={post.post_id}>{post.writer} {post.title} {post.createdAt} {post.view} {post.like}</li>
+                    ))}
+                </ul>
             </Main>
         
         </Container>

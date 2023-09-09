@@ -25,6 +25,7 @@ interface EpisodeText {
     mode: number,
     title: string
 }
+
 interface Option_Stat_Changes {
     health_change: number,
     money_change: number,
