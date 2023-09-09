@@ -39,7 +39,7 @@ export const WriteRoute: React.FC = () => {
     function regist() {
         axios({
             method: "POST",
-            url: `http://localhost:3001/post/create`,
+            url: `${process.env.REACT_APP_API_URL}/post/create`,
             data: {
                 writer: nickname,
                 title: title,
