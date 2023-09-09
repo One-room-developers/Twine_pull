@@ -66,31 +66,10 @@ export const InnerPassageEditDialog: React.FC<
 	//userdialogtext를 받아 dialog의 저장된 텍스트를 변경하는 부분
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
-			console.log("Log : handlePassageTextChange()");
-			//text_user와 options 속성을 여기서 변경
-			let options = passage.text.match(/\[\[.*\]\]/g);
-			// for(let option in options){
-			// 	option.replace("[[", "").replace("]]", "")
-			// }
-			const text_user = passage.text.replace(/\[\[.*\]\]/g,'');
-			////
-			/// text가 문제
-			///
-			
-
-			dispatch(updatePassage(story, passage, {text, options})); 
+			console.log("Log : handlePassageTextChange() - ");
 		},
 		[dispatch, passage, story] //usecallback에 의해 passage와 story 혹은 dispatch가 변경되면 이 함수가 실행됨
 	);
-
-	//userDialogText가 변경되면 passageText를 변경하는 부분
-	React.useEffect(()=>{
-		
-		if(other.userDialogText){
-			handlePassageTextChange(other.userDialogText);
-			props.onClose(); //dialog 창 닫기
-		}
-	}, [other.userDialogText])
 
 	function handleExecCommand(name: string) {
 		// A format toolbar command probably will affect the editor content. It

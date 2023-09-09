@@ -37,9 +37,7 @@ export function updatePassage(
 				if (passage.id !== passageId) {
 					return passage;
 				}
-
 				updated = true;
-				
 
 				//option에서 [[ ]]을 제외하고 추출하여 options 변수에 넣기
 				

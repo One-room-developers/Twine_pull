@@ -6,20 +6,19 @@ import './option_window.css'
 import { useUndoableStoriesContext } from "../../../store/undoable-stories";
 import { updatePassage } from "../../../store/stories";
 
-type Modes_props = {    
+type UserDialogProps = {    
     passage : any
     story : any
-    onWrite : any
+    onClose : any
 }
 
 
-export const UserDialog: React.FC<Modes_props> = (props) => {
+export const UserDialog: React.FC<UserDialogProps> = (props) => {
 
     const [title, setTitle] = useState(props.passage.name);
-    const [context, setContext] = useState(props.passage.text);
-    const [text, setText] = useState(props.passage.text_user)
+    const [text, setText] = useState(props.passage.text)
+    const [textUser, setTextUser] = useState(props.passage.text_user);
     const [options, setOptions] = useState(props.passage.options);
-    const [optionsTitle, setOptionsTitle] = useState([]);
     const {dispatch, stories} = useUndoableStoriesContext();
     let regex = /\[\[.*\]\]/g
 
@@ -27,22 +26,22 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
     console.log(props.passage);
     //isFriendly:"complex", //friendly, complex, hostile 중 하나.
     
-    let convertedString:string = "";
-
-    
     //제목 변경 함수
     function handleRename(name: string) {
 		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
 	}
 
-    //본문 + [[선택지]] 로 된 문자열 생성
-    function updateContext():void{
-        //값 초기화.
-        convertedString = context;
-        for(let i = 0; i< optionsTitle.length; i++){
-            convertedString = convertedString + "\n" + "[[" + optionsTitle[i] + "]]";
+    function handlePassageTextChange(text_user, options){
+        console.log("Log : handlePassageTextChange() - ");
+        
+        let text = text_user.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
+        for(let i = 0; i< options.length; i++){
+            text = text + "\n" + "[[" + options[i] + "]]";
         }
+        dispatch(updatePassage(props.story, props.passage, {text, text_user, options}));
     }
+
+    //본문 + [[선택지]] 로 된 문자열 생성
 
     return(
         <div className="making-all-container">
@@ -55,27 +54,22 @@ export const UserDialog: React.FC<Modes_props> = (props) => {
                 </div>
                 <div className="making-window-main">
                     <div className="main-info-icon info-icon">본문</div>
-                    <textarea value={context} name="" id="" cols={30} rows={10} onChange={function(e){
-                        setContext(e.target.value)
-                        // if(Array.isArray(optionsTitle)){
-                        //     updateContext(optionsTitle.length);
-                        // }
+                    <textarea value={textUser} name="" id="" cols={30} rows={10} onChange={function(e){
+                        setTextUser(e.target.value)
                     }}></textarea>
                 </div>
-                <DialogOptions onTrackingOption={function(optionTitleArr){
-                    let _optionsTitle = optionTitleArr.concat();
+                <DialogOptions onTrackingOption={function(optionArr){
+                    console.log("Log : onTrackingOption");
+                    let _options = optionArr.concat();
                     
-                    setOptionsTitle(_optionsTitle);
-                    // if(Array.isArray(_optionsTitle)){
-                    //     updateContext(_optionsTitle);
-                    // }
-                }} ></DialogOptions>
+                    setOptions( _options);
+                }} options = {options}></DialogOptions>
                 <div className="save-btn-container">
                     <button onClick={function(e){
                         console.log("Log : onclick()");
-                        updateContext();
                         handleRename(title);
-                        props.onWrite(convertedString);
+                        handlePassageTextChange(textUser, options);
+                        props.onClose();
                     }}
                     >작성완료</button>
                 </div>

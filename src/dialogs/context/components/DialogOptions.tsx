@@ -5,6 +5,7 @@ import CreateOption from './CreateOption';
 
 type Modes_props = {
     onTrackingOption : any;
+    options : string[];
 }
 type State_type = {
     mode:string;
@@ -22,12 +23,21 @@ class DialogOptions extends Component<Modes_props, State_type>{
     constructor(props){
         super(props);
 
-        this.max_option_num = 0; //선택지 갯수. 이만큼 반복출력
+        let dummyOptionsTitle;
+        if(props.options != null){
+            this.max_option_num = props.options.length; //선택지 갯수. 이만큼 반복출력    
+            dummyOptionsTitle = props.options;
+        }
+        else{
+            this.max_option_num = 0;
+            dummyOptionsTitle = [];
+        }
+        
+
         this.state = {
             mode:'default',//default, optionCreate, optionModify, optionDelete
-            //{id:1, _option_title:"", _status1: "", _amount_change1: 0, _status2: "", _amount_change2: 0, _after_story}
             options_id:[],
-            options_title: [],
+            options_title: dummyOptionsTitle,
             options_status1: [],
             options_amount_change1: [],
             options_status2: [],
