@@ -10,7 +10,7 @@ export {};
 // }
 
 export async function fetchPostList(post_id:number){
-    const response = await axios.get(`http://localhost:3001/post/getPostList/${post_id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/getPostList/${post_id}`);
     const data = await response.data;
     console.log(data);
     return data;

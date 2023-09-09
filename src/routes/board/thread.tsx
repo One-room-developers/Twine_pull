@@ -39,7 +39,7 @@ export const ThreadRoute: React.FC = () => {
     const post_id = 1;
 
     const getPost = async () => {
-        axios.get(`http://localhost:3001/post/search_by_id/${post_id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_id/${post_id}`)
             .then((res) => {
                 const post: Post = res.data;
                 console.log(post);
