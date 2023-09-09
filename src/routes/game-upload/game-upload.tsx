@@ -83,13 +83,13 @@ const SubInfo = styled.h3`
 `
 const ImgContainer = styled.div`
     display: none;
+    width: 140px;
     height: 100%;
 `
 const CateroryImg = styled.img.attrs({src: apoImg})`
-    width: 128px;
-    height: 128px;
+    width: 120px;
+    height: 120px;
     border: 1px solid var(--main-white);
-    margin: 5px 0 0 5px;
 `
 const StoryTitle = styled.h2`
     font-size: 20px;
@@ -158,6 +158,7 @@ const Story = styled.li`
         }
         ${ImgContainer}{
             display: flex;
+            justify-content: center;
             align-items: center;
         }
         ${StoryInfoContainer}{
