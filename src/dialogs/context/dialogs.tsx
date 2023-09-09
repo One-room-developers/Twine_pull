@@ -60,8 +60,8 @@ export const Dialogs: React.FC = props => { //텍스트 편집 창
 			<TransitionGroup component={null}>
 				{dialogs.map((dialog, index) => {
 					//dialog 변경을 위해 추가한 코드
-					passage = passageWithId(stories, dialogs[0].props.storyId, dialogs[0].props.passageId)
-					story = storyWithId(stories, dialogs[0].props.storyId);
+					passage = passageWithId(stories, dialogs[index].props.storyId, dialogs[index].props.passageId)
+					story = storyWithId(stories, dialogs[index].props.storyId);
 					console.log(passage);
 					const managementProps = {
 						collapsed: dialog.collapsed,
