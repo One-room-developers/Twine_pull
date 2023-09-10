@@ -21,6 +21,7 @@ export interface PassageCardProps {
 	onSelect: (passage: Passage, exclusive: boolean) => void;  // Passage 타입과 boolean을 인자로 보내서 void를 반환하는 함수 타입
 	passage: Passage;
 	tagColors: TagColors;
+	passageStructureArr:any;
 }
 
 // Needs to fill a large-sized passage card.
@@ -35,7 +36,8 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 		onEdit,
 		onSelect,
 		passage,
-		tagColors
+		tagColors,
+		passageStructureArr
 	} = props;
 	const {t} = useTranslation();                  // t('...') 형식의 문자열을 번역해줌.
 	/**
@@ -45,11 +47,14 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 	 * empty는 passage.text가 공백이며, passage.tags.length가 0일 때 추가.
 	 * selected는 passage.selected가 true일 때 추가
 	 */
+	
 	const className = React.useMemo(                                 
 		() =>
 			classNames('passage-card', {
 				empty: passage.text === '' && passage.tags.length === 0,
-				selected: passage.selected
+				selected: passage.selected,
+				normalPass : passageStructureArr.normalPassage.includes(passage.name),
+				optionPass : passageStructureArr.optionPassage.includes(passage.name)
 			}),
 		[passage.selected, passage.tags.length, passage.text]
 	);

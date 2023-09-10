@@ -19,6 +19,7 @@ export interface PassageMapProps {
 	tagColors: Story['tagColors'];
 	visibleZoom: number;
 	zoom: number;
+	passageStructureArr : any;
 }
 
 interface DragState {
@@ -81,7 +82,8 @@ export const PassageMap: React.FC<PassageMapProps> = props => {
 		startPassageId,
 		tagColors,
 		visibleZoom,
-		zoom
+		zoom,
+		passageStructureArr
 	} = props;
 	const [compactCards, setCompactCards] = React.useState(
 		visibleZoom <= compactCardZoom
@@ -207,6 +209,7 @@ export const PassageMap: React.FC<PassageMapProps> = props => {
 				onSelect={handleSelect}
 				passages={passages}
 				tagColors={tagColors}
+				passageStructureArr={passageStructureArr}
 			/>
 		</div>
 	);

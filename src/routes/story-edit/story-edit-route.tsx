@@ -13,7 +13,8 @@ import {
 	Passage,
 	selectPassage,
 	selectPassagesInRect,
-	storyWithId
+	storyWithId,
+	passageStructure
 } from '../../store/stories';
 import {
 	UndoableStoriesContextProvider,
@@ -166,6 +167,9 @@ export const InnerStoryEditRoute: React.FC = () => {
 
 	const visibleZoom = useZoomTransition(story.zoom, mainContent.current);
 
+	//이지원 자체 제작
+	//normalPassage와 optionPassage 구별 함수
+	const passageStructureArr = passageStructure(story.passages)
 	return (
 		<div className="story-edit-route">
 			<DocumentTitle title={story.name} />
@@ -185,6 +189,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 					tagColors={story.tagColors}
 					visibleZoom={visibleZoom}
 					zoom={story.zoom}
+					passageStructureArr={passageStructureArr}
 				/>
 			</MainContent>
 		</div>

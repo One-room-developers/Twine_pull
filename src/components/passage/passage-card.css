@@ -92,6 +92,18 @@
 	box-shadow: none;
 }
 
+/* 이지원 자체구현 */
+/* 노말 passage인지 선택지 passage인지에 따라 색 다르게 구현  */
+.passage-card.normalPass .card{
+	/* 따로 적지 않는다 */
+}
+.passage-card.optionPass .card{ /* 가장 하위 속성이 card에 배경색 적용*/
+	background: rgba(218, 123, 15, 0.6);
+}
+.passage-card.optionPass .card .card-content{ /* 가장 하위 속성에 글자색 적용 */
+	color: white;
+}
+
 .compact-passage-cards .passage-card h2 {
 	align-items: center;
 	display: flex;
@@ -118,3 +130,4 @@
 [data-app-theme='dark'] .passage-card.empty.selected .card {
 	background: hsla(212, 90%, 60%, 0.2);
 }
+
