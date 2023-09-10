@@ -21,7 +21,8 @@ const GameIllustContainer = styled.div`
     border-radius: 3px;
     display: flex;
     position: relative;
-    border: 2px solid var(--main-dark);
+    border-top: 3px solid var(--main-dark);
+    border-bottom: 3px solid var(--main-dark);
     margin-left: 40px;
     margin-bottom: 150px;
 `;
