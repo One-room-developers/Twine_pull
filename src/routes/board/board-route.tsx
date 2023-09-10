@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { fetchPostList } from '../api';
 import { useQuery } from 'react-query';
+import starImg from './img/star.png';
+import upImg from './img/up.png';
 
 
 const Container = styled.body`
@@ -157,11 +159,11 @@ const PostFooter = styled.div`
     justify-content: space-between;
     align-items: center;
 `
-const StarImg = styled.img.attrs({src: ""})`
+const StarImg = styled.img.attrs({src: starImg})`
     width: 20px;
     height: 20px;
 `
-const LikesImg = styled.img.attrs({src: ""})`
+const LikesImg = styled.img.attrs({src: upImg})`
     width: 20px;
     height: 20px;
 `
