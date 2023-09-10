@@ -24,6 +24,16 @@ export function passageWithId(
 	);
 }
 
+//이지원 자체제작 함수!
+//passage 출력하기
+export function passagesConsole(
+	stories: Story[],
+	storyId: string,
+) {
+	const story = storyWithId(stories, storyId);
+	console.log(story.passages)
+}
+
 //Story 배열과 StoryId 와 passage 이름을 인자로 넣으면 
 //find함수는 배열의 특정 값을 찾는 함수이다.
 //passages는 Passage의 배열이므로 값 하나는 passage하나이다.
@@ -49,15 +59,19 @@ export function passageWithName(
  * Connections are divided between draggable and fixed, depending on whether
  * either of their passages are selected (and could be dragged by the user).
  */
-//passage 사이에 연결고리를 만들어주는 함수이듯함.
+/*
+*렌더링에 최적화된 구조의 'passage(통로)' 사이의 연결을 반환합니다. 
+연결은 'passage' 중 하나가 선택되었는지(그리고 사용자가 드래그할 수 있는지)에 따라 드래그 가능과 고정으로 나뉩니다.
+*/
+//passage 사이의 연결을 result 변수로 반환하는 함수(이 함수는 passage 사이를 잇는 화살표의 생성에 정보를 제공하기 위한 함수로 보인다)
 export function passageConnections(
 	passages: Passage[],
 	connectionParser?: (text: string) => string[]
 ) {
-	const parser = connectionParser ?? ((text: string) => parseLinks(text, true));
+	const parser = connectionParser ?? ((text: string) => parseLinks(text, true)); //passage의 text에서 [[]] 안에 들어 있는 값을 배열 형식으로 parsing 해주는 함수
 	const passageMap = new Map(passages.map(p => [p.name, p]));
 	const result = {
-		draggable: {
+		draggable: {  //아마 현재 선택된 passage는 drag가 가능하니까 draggable 같음
 			broken: new Set<Passage>(),
 			connections: new Map<Passage, Set<Passage>>(),
 			self: new Set<Passage>()
@@ -69,9 +83,10 @@ export function passageConnections(
 		}
 	};
 
+	
 	passages.forEach(passage =>
-		parser(passage.text).forEach(targetName => {
-			if (targetName === passage.name) {
+		parser(passage.text).forEach(targetName => { //targetName은 [[ ]] 안에 들어 있는 다음 passage
+			if (targetName === passage.name) { // 자기 참조 passage
 				(passage.selected ? result.draggable : result.fixed).self.add(passage);
 			} else {
 				const targetPassage = passageMap.get(targetName);
@@ -99,10 +114,39 @@ export function passageConnections(
 	return result;
 }
 
+//이지원 자체 제작 함수
+//passage의 
+export function passageStructure(
+	passages: Passage[]
+) {
+	let result = {
+		normalPassage:[],
+		optionPassage:[]
+	}
+	passages.forEach((passage) => {
+			if(result.optionPassage.includes(passage.name) == false){
+				if(result.normalPassage.includes(passage.name) == false)
+					result.normalPassage.push(passage.name);
+				passage.options.forEach(option => 
+					result.optionPassage.push(option))
+			}
+			else{
+				passage.options.forEach(option => 
+					result.normalPassage.push(option))
+			}
+		}
+	);
+	return result;
+}
+
 /**
  * Returns all passages matching a search criteria. Use
  * `highlightPassageMatches()` to highlight exactly what matched.
  */
+/* 
+검색 조건과 일치하는 모든 구절을 반환합니다. 
+일치하는 구절을 정확히 강조 표시하려면 `highlightPassageMatches()`를 사용합니다.
+*/
 export function passagesMatchingSearch(
 	passages: Passage[],
 	search: string,
