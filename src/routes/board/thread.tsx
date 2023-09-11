@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
-import axios from 'axios';
+import { useQuery } from 'react-query';
+import { getPost } from '../api';
 
 const Container = styled.body`
     height: 200vh;
@@ -20,7 +21,21 @@ const Title = styled.h1`
     font-family: "gameBold";
 `;
 const Main = styled.div`
+    display: flex;
+    flex-direction: column;
     
+`
+const PostContainer = styled.div`
+`
+const CommentContainer = styled.div`
+`
+const PostTitle = styled.h1`
+    font-family: "godicM";
+    font-size: 20px;
+`
+const Loader = styled.h2`
+    font-size: 24px;
+    font-weight: 500;
 `
 
 interface Post {
@@ -38,18 +53,8 @@ export const ThreadRoute: React.FC = () => {
     const [content, setContent] = React.useState([]);
     const post_id = 1;
 
-    const getPost = async () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_id/${post_id}`)
-            .then((res) => {
-                const post: Post = res.data;
-                console.log(post);
-            })
-    }
-
-    React.useEffect(() => {
-        getPost();
-    }, []);
-
+    const {isLoading:isPostLoading, data:postData} = useQuery<Post>("post", ()=> getPost(post_id));
+    
     return(
         <Container>
             <HeaderBar />
@@ -58,11 +63,16 @@ export const ThreadRoute: React.FC = () => {
             </Header>
             
             <Main>
-                <ul>
-                    {content && content.map((post) => (
-                        <li key={post.post_id}>{post.writer} {post.title} {post.createdAt} {post.view} {post.like}</li>
-                    ))}
-                </ul>
+                <PostContainer>
+                    {isPostLoading ? (<Loader>불러오는 중...</Loader>) : (
+                        <PostTitle>
+                            {postData.title}
+                        </PostTitle>
+                    )}
+                </PostContainer>
+                <CommentContainer>
+
+                </CommentContainer>
             </Main>
         
         </Container>

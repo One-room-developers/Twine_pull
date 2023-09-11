@@ -15,3 +15,10 @@ export async function fetchPostList(post_id:number){
     console.log(data);
     return data;
 }
+
+export async function getPost(post_id:number){
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_id/${post_id}`);
+    const data = await response.data;
+    console.log(data);
+    return data;
+}

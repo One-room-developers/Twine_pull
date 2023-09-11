@@ -49,11 +49,11 @@ const PopularGameListContainer = styled.div`
     width: 100%;
     min-height: 470px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     background-color: var(--main-white);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
     margin-bottom: 20px;
+    padding: 18px;
 `
 const AdContainer = styled.div`
     width: 100%;
@@ -102,6 +102,9 @@ const PostSearchContainer = styled.div`
     background-color: var(--main-white);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
 `
 const PostContainer = styled.li`
     width: 100%;
@@ -180,6 +183,51 @@ const PostList = styled.ul`
     width: 100%;
 `
 
+const SidePostHeader = styled.h2`
+    font-size: 21px;
+    font-family: "godicM";
+    margin-bottom: 21px;
+`
+const SidePostContentsContainer = styled.ul`
+
+`
+const SidePostContents = styled.li`
+    width: 100%;
+    height: 25px;
+`
+const SidePostTitle = styled.h2`
+    font-family: "godicThin";
+    font-size: 16px;
+`
+const SearchForm = styled.form`
+    display: flex;
+    align-items: center;
+`
+const SearchPost = styled.input`
+    width: 184px;
+    height: 28px;
+    padding: 3px 12px 3px 12px;
+    background-color: var(--main-white);
+    border: 1px solid #848484;
+    z-index: 2;
+    &:focus{
+        box-shadow: 0 0 4px var(--main-blue);
+    }
+`
+const SearchButton = styled.button`
+    height: 28px;
+    background-color: var(--main-white);
+    border: 1px solid #848484;
+    &:hover{
+        background-color: #b0b0b0;
+        cursor: pointer;
+    }
+    &:active{
+        z-index: 3;
+        box-shadow: 0 0 4px var(--main-blue);
+    }
+`
+
 interface PostInfo {
     post_id: number,
     writer: string,
@@ -196,6 +244,9 @@ export const BoardRoute: React.FC = () => {
     
     const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(post_id));
 
+    //더미데이터
+    const likeEpisode = [{id:1, title: "피를 마시는 새", userName: "이영도",}];
+
     const category = "일반";
     // axios에 pagination이라는 기능이 있는데 페이지 구현할 때 참고하면 좋을듯
 
@@ -211,7 +262,23 @@ export const BoardRoute: React.FC = () => {
             <Main>
                 <LeftSide>
                     <PopularGameListContainer>
-                        최근 추천수가 높은 게임 리스트
+                        <SidePostHeader>
+                            최신 인기 에피소드
+                        </SidePostHeader>
+                        
+                        <SidePostContentsContainer>
+                        {
+                            likeEpisode?.map(episode =>
+                                <SidePostContents key={episode.id}>
+                                    <SidePostTitle>
+                                        <Link to={"/"}>
+                                            {episode.title}
+                                        </Link>
+                                    </SidePostTitle>
+                                </SidePostContents>
+                            )
+                        }
+                        </SidePostContentsContainer>
                     </PopularGameListContainer>
                     <AdContainer>
                         광고
@@ -268,7 +335,15 @@ export const BoardRoute: React.FC = () => {
 
                 <RightSide>
                     <PostSearchContainer>
-                        카테고리 모음
+                        <SidePostHeader>
+                            작성글 검색
+                        </SidePostHeader>
+                        <SearchForm>
+                            <SearchPost></SearchPost>
+                            <SearchButton>검색</SearchButton>
+                        </SearchForm>
+                        <SidePostContentsContainer>
+                        </SidePostContentsContainer>
                     </PostSearchContainer>
                     <AdContainer>
                         광고
