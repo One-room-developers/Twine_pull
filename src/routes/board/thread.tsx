@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
 import { getPost } from '../api';
+//Component
+import {AdContainer} from './components/AdContainer';
+import { PopularEpi } from './components/PopularEpi';
+import { PopularPost } from './components/PopularPost';
 
 const Container = styled.body`
-    height: 200vh;
+    height: 100vh;
 `
 const Header = styled.div`
     width: 100%;
@@ -21,13 +25,44 @@ const Title = styled.h1`
     font-family: "gameBold";
 `;
 const Main = styled.div`
+    width: 100%;
+    min-height: 470px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, var(--main-gray) 40px, var(--main-white) 41px, var(--main-white) 100%);
+    padding: 0 80px;
+`
+const LeftSide = styled.div`
+    width: 300px;
+`
+const RightSide = styled.div`
+    width: 300px;
+`
+const Mid = styled.div`
+    width: 720px;
+`
+const ThreadContainer = styled.div`
+    width: 100%;
+    height: 100px;
+    background-color: var(--main-white);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
+`
+const ThreadInfoHeader = styled.div`
+    
+`
+const TitleContainer = styled.div`
     
 `
 const PostContainer = styled.div`
 `
 const CommentContainer = styled.div`
+`
+const SemiInfoContainer = styled.div`
+    
+`
+const LikeBtnContainer = styled.div``
+
+const PostContent = styled.div`
 `
 const PostTitle = styled.h1`
     font-family: "godicM";
@@ -59,22 +94,44 @@ export const ThreadRoute: React.FC = () => {
         <Container>
             <HeaderBar />
             <Header>
-                <Title>커뮤니티(게시글보기)</Title>
+                <Title>커뮤니티</Title>
             </Header>
             
             <Main>
-                <PostContainer>
-                    {isPostLoading ? (<Loader>불러오는 중...</Loader>) : (
-                        <PostTitle>
-                            {postData.title}
-                        </PostTitle>
-                    )}
-                </PostContainer>
-                <CommentContainer>
+                <LeftSide>
+                    <PopularEpi />
+                    <AdContainer />
+                </LeftSide>
+                <Mid>
+                    <ThreadContainer>
+                        <ThreadInfoHeader>
+                            {isPostLoading ? (<Loader>불러오는 중...</Loader>) : (
+                                <PostTitle>
+                                    {postData.title}
+                                </PostTitle>
+                            )}
+                        </ThreadInfoHeader>
+                        <TitleContainer></TitleContainer>
+                        <SemiInfoContainer></SemiInfoContainer>
+                        <PostContainer>
+                            {isPostLoading ? (<></>) : (
+                                <PostContent>
+                                    {postData.content}
+                                </PostContent>
+                            )}
+                        </PostContainer>
+                        <LikeBtnContainer></LikeBtnContainer>
+                        
+                        <CommentContainer>
 
-                </CommentContainer>
+                        </CommentContainer>
+                    </ThreadContainer>
+                </Mid>
+                <RightSide>
+                    <PopularPost />
+                    <AdContainer />
+                </RightSide>
             </Main>
-        
         </Container>
     );
 };

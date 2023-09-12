@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { fetchPostList } from '../api';
 import { useQuery } from 'react-query';
+//Component
+import {AdContainer} from './components/AdContainer';
+import { PopularEpi } from './components/PopularEpi';
+//이미지
 import starImg from './img/star.png';
 import upImg from './img/up.png';
 
@@ -24,16 +28,40 @@ const Title = styled.h1`
     font-size: 55px;
     font-family: "gameBold";
 `;
-const TestBtn = styled.div`
-    width: 100px;
-    height: 30px;
-    background-color: black;
-    color: var(--main-white);
-    border: 1px solid var(--main-blue);
+const Btn = styled.div`
+    width: 264px;
+    height: 35px;
+    font-size: 17px;
+    font-weight:600;
+    margin-top: 10px;
+    border: 1px solid var(--main-dark);
     display: flex;
     justify-content: center;
     align-items: center;
+    &:hover{
+        cursor: pointer;
+    }
 `
+const LikeBtn = styled(Btn)`
+    background-color: var(--main-blue);
+    color: white;
+    border: none;
+`
+const WriteBtn = styled(Btn)`
+    margin: 0;
+    width: 120px;
+    height: 32px;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+    border-radius: 3px;
+    &:hover{
+        background-color: #b0b0b0;
+        color: black;
+    }
+`
+
+
 const Main = styled.div`
     width: 100%;
     min-height: 470px;
@@ -45,25 +73,6 @@ const Main = styled.div`
 const LeftSide = styled.div`
     width: 300px;
 `
-const PopularGameListContainer = styled.div`
-    width: 100%;
-    min-height: 470px;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--main-white);
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
-    margin-bottom: 20px;
-    padding: 18px;
-`
-const AdContainer = styled.div`
-    width: 100%;
-    min-height: 470px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--main-white);
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
-`
 const Mid = styled.div`
     width: 720px;
 `
@@ -73,8 +82,30 @@ const PostCategoryHeader = styled.div`
     background-color: var(--main-white);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
     margin-bottom: 20px;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px 0 18px;
 `
+const CategoryContainer = styled.ul`
+    display: flex;
+`
+const CategoryTag = styled.li`
+    height: 30px;
+    padding: 0 3px 3px 3px;
+    margin-left: 15px;
+    border-bottom: 2px solid var(--main-gray);
+    color: var(--main-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-family: "godicM";
+`
+const CategoryTagSelected = styled(CategoryTag)`
+`
+
+
 const PageNumContainer = styled.div`
     width: 100%;
     height: 40px;
@@ -98,7 +129,7 @@ const RightSide = styled.div`
     width: 300px;
 `
 const PostSearchContainer = styled.div`
-    min-height: 470px;
+    height: 230px;
     background-color: var(--main-white);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
     margin-bottom: 20px;
@@ -188,20 +219,10 @@ const SidePostHeader = styled.h2`
     font-family: "godicM";
     margin-bottom: 21px;
 `
-const SidePostContentsContainer = styled.ul`
-
-`
-const SidePostContents = styled.li`
-    width: 100%;
-    height: 25px;
-`
-const SidePostTitle = styled.h2`
-    font-family: "godicThin";
-    font-size: 16px;
-`
 const SearchForm = styled.form`
     display: flex;
     align-items: center;
+    margin-bottom: 15px;
 `
 const SearchPost = styled.input`
     width: 184px;
@@ -239,13 +260,14 @@ interface PostInfo {
 };
 
 export const BoardRoute: React.FC = () => {
-    const [board, setBoard] = React.useState([]);
-    const post_id = 31;
+    //const [board, setBoard] = React.useState([]);
+    const [page, setPage] = React.useState(1);
+    const post_id = page*30 + 1;
     
     const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(post_id));
 
-    //더미데이터
-    const likeEpisode = [{id:1, title: "피를 마시는 새", userName: "이영도",}];
+    //카테고리 더미 데이터
+    const categoryArr = [{name: "일반", url:"/board", id:1}, {name: "버그제보", url:"", id:2}];
 
     const category = "일반";
     // axios에 pagination이라는 기능이 있는데 페이지 구현할 때 참고하면 좋을듯
@@ -257,37 +279,28 @@ export const BoardRoute: React.FC = () => {
                 <Title>커뮤니티</Title>
             </Header>
             
-
-
             <Main>
                 <LeftSide>
-                    <PopularGameListContainer>
-                        <SidePostHeader>
-                            최신 인기 에피소드
-                        </SidePostHeader>
-                        
-                        <SidePostContentsContainer>
-                        {
-                            likeEpisode?.map(episode =>
-                                <SidePostContents key={episode.id}>
-                                    <SidePostTitle>
-                                        <Link to={"/"}>
-                                            {episode.title}
-                                        </Link>
-                                    </SidePostTitle>
-                                </SidePostContents>
-                            )
-                        }
-                        </SidePostContentsContainer>
-                    </PopularGameListContainer>
-                    <AdContainer>
-                        광고
-                    </AdContainer>
+                    <PopularEpi />
+                    <AdContainer />
                 </LeftSide>
 
                 <Mid>
                     <PostCategoryHeader>
-
+                        <CategoryContainer>
+                            {
+                                categoryArr?.map( cat => 
+                                    <Link to={cat.url}>
+                                        <CategoryTag key={cat.id}>
+                                            {cat.name}
+                                        </CategoryTag>
+                                    </Link>
+                                )
+                            }
+                        </CategoryContainer>
+                        <WriteBtn>
+                            <Link to={`/board/write`}>글쓰기</Link>
+                        </WriteBtn>
                     </PostCategoryHeader>
                     <PageNumContainer>
 
@@ -339,33 +352,23 @@ export const BoardRoute: React.FC = () => {
                             작성글 검색
                         </SidePostHeader>
                         <SearchForm>
-                            <SearchPost></SearchPost>
+                            <SearchPost />
                             <SearchButton>검색</SearchButton>
                         </SearchForm>
-                        <SidePostContentsContainer>
-                        </SidePostContentsContainer>
+                        <Btn>
+                            <Link to={"/board"}>
+                                전체글
+                            </Link>
+                        </Btn>
+                        <LikeBtn>
+                            <Link to={"./"}>
+                                인기글
+                            </Link>
+                        </LikeBtn>
                     </PostSearchContainer>
-                    <AdContainer>
-                        광고
-                    </AdContainer>
+                    <AdContainer />
                 </RightSide>
             </Main>
-            <TestBtn>
-                <Link to={`/board/write`}>전체글</Link>
-            </TestBtn>
-            <TestBtn>
-                <Link to={`/board/write`}>인기글</Link>
-            </TestBtn>
-            <TestBtn>
-                <Link to={`/board/write`}>공지</Link>
-            </TestBtn>
-            <TestBtn>
-                <Link to={`/board/thread/1`}>첫번째글</Link>
-            </TestBtn>
-            <TestBtn>
-                <Link to={`/board/write`}>글쓰기</Link>
-            </TestBtn>
-            <Route path={"/board/recommend"}></Route>
         </Container>
     );
 };
