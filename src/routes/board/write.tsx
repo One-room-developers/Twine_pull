@@ -195,8 +195,8 @@ export const WriteRoute: React.FC = () => {
             else {
                 alert("오류");
             }
-
-            history.push("/");
+            
+            history.push('/board');
         });
     }
 
