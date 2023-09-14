@@ -178,7 +178,9 @@ export const WriteRoute: React.FC = () => {
     const onChangeCoategory = React.useCallback((e) => setCategory(e.target.value), []);
 
     // 데이터가 입력되지 않은 상태에서 실행 안 되게 바꾸고 alert 뜨게 변경해야함
-    function regist() {
+    function regist(e:React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
         axios({
             method: "POST",
             url: `${process.env.REACT_APP_API_URL}/post/create`,
@@ -196,7 +198,7 @@ export const WriteRoute: React.FC = () => {
                 alert("오류");
             }
 
-            history.push("/");
+            history.push("/board");
         });
     }
 
@@ -214,7 +216,7 @@ export const WriteRoute: React.FC = () => {
                 </LeftSide>
                 <Mid>
                     <WriteContainer>
-                        <WriteFrom>
+                        <WriteFrom method='POST' onSubmit={regist}>
                             <CategoryHeader>
                                 <CategoryContainer>
                                     <BoxName>태그</BoxName>
@@ -230,15 +232,15 @@ export const WriteRoute: React.FC = () => {
                             </CategoryHeader>
                             <WriterInputContainer>
                                 <BoxName>제목</BoxName>
-                                <WriteInput type="text" required onChange={onChangeNickname}/>
+                                <WriteInput type="text" required onChange={onChangeTitle}/>
                             </WriterInputContainer>
                             <ContentsCotainer>
                                 <BoxName>작성자</BoxName>
-                                <Contents type="text" name="title" required onChange={onChangeTitle}/>
+                                <Contents type="text" required onChange={onChangeNickname}/>
                             </ContentsCotainer>
                             <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent}/>
                             <PostBtnContainer>
-                                <PostBtn onClick={regist}>등록</PostBtn>
+                                <PostBtn>등록</PostBtn>
                             </PostBtnContainer>
                         </WriteFrom>
                     </WriteContainer>
