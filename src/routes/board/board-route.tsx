@@ -299,9 +299,9 @@ export const BoardRoute: React.FC = () => {
                                 )
                             }
                         </CategoryContainer>
-                        <WriteBtn>
-                            <Link to={`/board/write`}>글쓰기</Link>
-                        </WriteBtn>
+                            <Link to={`/board/write`}>
+                                <WriteBtn>글쓰기</WriteBtn>
+                            </Link>
                     </PostCategoryHeader>
                     <PageNumContainer>
 
