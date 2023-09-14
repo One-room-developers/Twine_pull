@@ -66,7 +66,7 @@ const Main = styled.div`
     width: 100%;
     min-height: 470px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     background: linear-gradient(to bottom, var(--main-gray) 40px, var(--main-white) 41px, var(--main-white) 100%);
     padding: 0 80px;
 `
@@ -75,6 +75,7 @@ const LeftSide = styled.div`
 `
 const Mid = styled.div`
     width: 720px;
+    margin: 0 23px;
 `
 const PostCategoryHeader = styled.div`
     width: 100%;
