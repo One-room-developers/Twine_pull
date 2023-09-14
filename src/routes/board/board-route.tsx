@@ -317,7 +317,7 @@ export const BoardRoute: React.FC = () => {
                                             
                                             <PostMain>
                                                 <PostMainTop>
-                                                    <Link to={`/board/thread/${post_id}`}>{post.title}</Link>
+                                                    <Link to={`/board/thread/${post.post_id}`}>{post.title}</Link>
                                                 </PostMainTop>
                                                 <PostMainBottom>
                                                     <PostBottomInfo>{post.writer}</PostBottomInfo>
