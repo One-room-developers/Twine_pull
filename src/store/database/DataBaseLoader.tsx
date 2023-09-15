@@ -47,7 +47,8 @@ export const DataBaseLoader: React.FC = () => {
                 })
 
                 //local storage 값 삭제
-                window.localStorage.clear();
+                // window.localStorage.clear();
+                
                 //db의 값 변수에 저장
                 const dbStoriesState :StoriesState = null;
                 //변수 값 local storage에 저장하기
