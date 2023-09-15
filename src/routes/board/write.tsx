@@ -175,9 +175,8 @@ export const WriteRoute: React.FC = () => {
     const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
-    const onChangeCoategory = React.useCallback((e) => setCategory(e.target.value), []);
+    const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
-    // 데이터가 입력되지 않은 상태에서 실행 안 되게 바꾸고 alert 뜨게 변경해야함
     function regist(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -188,6 +187,7 @@ export const WriteRoute: React.FC = () => {
                 writer: nickname,
                 title: title,
                 content: content,
+                category: category,
             },
         })
         .then((res) => {
@@ -220,7 +220,7 @@ export const WriteRoute: React.FC = () => {
                             <CategoryHeader>
                                 <CategoryContainer>
                                     <BoxName>태그</BoxName>
-                                    <CategorySelect required onChange={onChangeCoategory}>
+                                    <CategorySelect required onChange={onChangeCategory}>
                                         <option value={""}>카테고리 선택</option>
                                         <option value={1}>일반</option>
                                         <option value={2}>버그제보</option>
