@@ -7,7 +7,6 @@ export async function load(): Promise<Partial<PrefsState>> {
 	if (!serialized) {
 		return {};
 	}
-
 	serialized.split(',').forEach(id => {
 		try {
 			const serializedPref = window.localStorage.getItem(`twine-prefs-${id}`);

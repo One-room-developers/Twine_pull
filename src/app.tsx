@@ -9,9 +9,11 @@ import {StoryFormatsContextProvider} from './store/story-formats';
 import {StateLoader} from './store/state-loader';
 import {ThemeSetter} from './store/theme-setter';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import { DataBaseLoader } from './store/database/DataBaseLoader';
 import 'focus-visible';
 import './styles/typography.css';
 import './styles/focus-visible-shim.css';
+
 
 const queryClient = new QueryClient()
 
@@ -21,15 +23,16 @@ export const App: React.FC = () => {
 			<PrefsContextProvider>
 				<LocaleSwitcher />
 				<ThemeSetter />
+				<DataBaseLoader />
 				<StoryFormatsContextProvider>
 					<StoriesContextProvider>
-						<StateLoader>
-							<React.Suspense fallback={<LoadingCurtain />}>
-								<QueryClientProvider client={queryClient}>
-									<Routes />
-								</QueryClientProvider>
-							</React.Suspense>
-						</StateLoader>
+							<StateLoader>
+								<React.Suspense fallback={<LoadingCurtain />}>
+									<QueryClientProvider client={queryClient}>
+										<Routes />
+									</QueryClientProvider>
+								</React.Suspense>
+							</StateLoader>
 					</StoriesContextProvider>
 				</StoryFormatsContextProvider>
 			</PrefsContextProvider>

@@ -11,7 +11,6 @@ export async function load(): Promise<Story[]> {
 	if (!serializedStories) {
 		return [];
 	}
-
 	// First, deserialize stories. We index them by ID so that we can quickly add
 	// passages to them as they are deserialized.
 
