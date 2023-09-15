@@ -30,13 +30,14 @@ export async function getPost(post_id:number){
     return data;
 }
 
+//념글 아이디만큼 긁어오는거
 export async function fetchPopularPostList(post_id:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post/${post_id}`);
     const data = await response.data;
     console.log(data);
     return data;
 }
-
+//념글 전체갯수
 export async function getPopularPostCount() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post_count`);
     const data = await response.data;
