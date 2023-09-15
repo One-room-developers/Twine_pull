@@ -19,7 +19,6 @@ export const DataBaseLoader: React.FC = () => {
                         return locPassageState;
                     })
                 });
-                
                 //변수 값 db에 저장
                 locStoriesState.forEach((storyState)=>{
                     axios({
@@ -45,6 +44,31 @@ export const DataBaseLoader: React.FC = () => {
                         console.log(error);
                     });
                 })
+
+                // axios({
+                //     method: "POST",
+                //     url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
+                //     data: {
+                //         id: locPassagesState[0].id,
+                //         name: locPassagesState[0].name,
+                //         passage_type: ,
+                //         story: ,
+                //         text: ,
+                //         text_user: ,
+                //         height: ,
+                //         highlighted: ,
+                //         left: ,
+                //         selected: ,
+                //         top: ,
+                //         width: 
+                //     }
+                // })
+                // .then((res) => {
+                //     console.log(res.data);
+                // })
+                // .catch((error) => {
+                //     console.log(error);
+                // });
 
                 //local storage 값 삭제
                 // window.localStorage.clear();
