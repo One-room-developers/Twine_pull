@@ -2,9 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { getPost } from '../api';
+import { fetchCommentList, getPost, createComment } from '../api';
 import { useHistory, useParams } from 'react-router-dom';
 import likeSvg from './img/like.svg';
+import messageSvg from './img/message.svg';
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
@@ -40,7 +41,7 @@ const CategoryHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     padding:0 10px 0 0;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 `
 const BoxName = styled.div`
     padding: 8px 10px;
@@ -153,7 +154,136 @@ const Loader = styled.h2`
     font-size: 24px;
     font-weight: 500;
 `
+const Div1 = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-family: "godicM";
+    margin-bottom: 10px;
+`
+const MessageIcon = styled.img.attrs({src: messageSvg})`
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+`
+const CommentList = styled.ul`
+    border-bottom: 3px solid rgba(0, 173, 181, 0.3);
+    width: 100%;
+    margin-bottom: 20px;
+`
+const Comment = styled.li`
+    border-top: 3px solid rgba(0, 173, 181, 0.3);
+    width: 100%;
+    min-height: 81px;
+    padding: 0 0 5px 0;
+`
+const CommentHeader = styled.div`
+    width: 100%;
+    height: 28px;
+    background-color: rgba(57, 62, 70, 0.2);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+`
+const Div2 = styled.div`
+    display:flex;
+    align-items: center;
+    font-size: 15px;
+    font-family: "godicM";
+    padding-left: 12px;
+`
+const Div3 = styled.div`
+    display:flex;
+    align-items: center;
+    font-size: 14px;
+    font-family: "godicThin";
+`
+const CommentWriter = styled.h3`
+    margin-right: 8px;
+`
+const CommentDate = styled.h3`
+    font-family: "godicThin";
+    font-size: 13px;
+`
+const ChangeBtn = styled.button`
+    border: none;
+    background-color: transparent;
+    &:hover{
+        cursor: pointer;
+    }
+`
 
+const CommentMain = styled.div`
+    width:100%;
+    font-family: "godicThin";
+    font-size: 16px;
+    padding: 12px;
+`
+const CommentPageNum = styled.div`
+`
+
+const CommentWriteContainer = styled.form`
+    
+`
+const Div4 = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+`
+const IdInput = styled.input`
+    background-color: whitesmoke;
+    border: 1px solid var(--main-dark);
+    width: 120px;
+    height: 30px;
+    margin-bottom: 8px;
+    font-family: "godicThin";
+    padding-left: 8px;
+`
+const PwInput = styled.input`
+    background-color: whitesmoke;
+    border: 1px solid var(--main-dark);
+    width: 120px;
+    height: 30px;
+    padding-left: 8px;
+    font-family: "godicThin";
+`
+const Div5 = styled.div`
+    display: flex;
+    margin-bottom: 8px;
+`
+const Div6 = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`
+const CommentContensInput= styled.input`
+    width: calc(100% - 130px);
+    padding: 8px;
+    font-family: "godicThin";
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    background-color: whitesmoke;
+    border: 1px solid var(--main-dark);
+`
+const CommentSubmintBtn = styled.button`
+    background-color: rgba(0, 173, 181, 1);
+    color: var(--main-white);
+    border: none;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    font-family: "godicM";
+    font-size: 15px;
+    font-weight: 500;
+    width: 50px;
+    height: 24px;
+    &:hover{
+        cursor: pointer;
+    }
+`
+    
 interface Post {
     post_id: number,
     writer: string,
@@ -166,11 +296,20 @@ interface Post {
 };
 interface RouteParams {
     viewId: string;
-}
+};
+interface IComment{
+    comment_id: number,
+    post_id: number,
+    writer: string,
+    comment: string,
+    createdAt: Date,
+    like: number,
+};
 
 export const ThreadRoute: React.FC = () => {
     const history = useHistory();
     const {viewId} = useParams<RouteParams>();
+    const {isLoading, data} = useQuery<IComment[]>(["comment", viewId], ()=> fetchCommentList(parseInt(viewId)));//고유해야 하는 id
 
     const toBack = () => {
         history.goBack();
@@ -178,6 +317,19 @@ export const ThreadRoute: React.FC = () => {
 
     //좋아요 버튼 누르면 실행되는 함수
     const clickLikeBtn = () => {
+
+    }
+
+    //댓글 수정
+    const modifyComment = (commentId: number) =>{
+
+    }
+    //댓글 삭제
+    const deleteComment = (commentId: number) =>{
+
+    }
+    //댓글 게시시
+    const commentPost = () =>{
 
     }
 
@@ -249,7 +401,65 @@ export const ThreadRoute: React.FC = () => {
                     </ThreadContainer>
                     
                     <CommentContainer>
-                        댓글
+                        <Div1>
+                            <MessageIcon />
+                            댓글
+                        </Div1>
+                        {
+                            isLoading ? (<Loader>불러오는 중...</Loader>) :
+                            (
+                                <CommentList>
+                                    <Comment>
+                                        <CommentHeader>
+                                            <Div2>
+                                                <CommentWriter>작성자</CommentWriter>
+                                                <CommentDate>2023.09.15.18.14</CommentDate>
+                                            </Div2>
+                                            <Div3>
+                                                <ChangeBtn onClick={()=>modifyComment(1)}>수정</ChangeBtn>
+                                                |
+                                                <ChangeBtn onClick={()=>deleteComment(1)}>삭제</ChangeBtn>
+                                                </Div3>
+                                        </CommentHeader>
+                                        <CommentMain>
+                                            댓글 내용이 출력됨
+                                        </CommentMain>
+                                    </Comment>
+                                {
+                                    data?.map(comment =>
+                                        <Comment key={comment.comment_id}>
+                                            <CommentHeader>
+                                                <Div2>
+                                                    <CommentWriter>{comment.writer}</CommentWriter>
+                                                    <CommentDate>{comment.createdAt}</CommentDate>
+                                                </Div2>
+                                                <Div3>
+                                                    <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>
+                                                    |
+                                                    <ChangeBtn onClick={()=>deleteComment(comment.comment_id)}>삭제</ChangeBtn>
+                                                </Div3>
+                                            </CommentHeader>
+                                            <CommentMain>
+                                                {comment.comment}
+                                            </CommentMain>
+                                        </Comment>)
+                                }
+                                </CommentList> 
+                            )
+                        }           
+                        <CommentPageNum></CommentPageNum>
+                        <CommentWriteContainer onSubmit={commentPost}>
+                            <Div5>
+                                <Div4>
+                                    <IdInput required type="text" placeholder='익명 닉네임'/>
+                                    <PwInput required type="password" placeholder='임시 비밀번호'/>
+                                </Div4>
+                                <CommentContensInput required type="text" placeholder='댓글로 의견을 전달하세요!'/>
+                            </Div5>
+                            <Div6>
+                                <CommentSubmintBtn>작성</CommentSubmintBtn>
+                            </Div6>
+                        </CommentWriteContainer>
                     </CommentContainer>
                 </Mid>
                 <RightSide>
