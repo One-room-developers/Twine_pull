@@ -1,8 +1,10 @@
 import uniq from 'lodash/uniq';
-import {Passage, StorySearchFlags, Story} from './stories.types';
+import {Passage, StorySearchFlags, Story, StoriesState} from './stories.types';
 import {createRegExp} from '../../util/regexp';
 import {parseLinks} from '../../util/parse-links';
 import { StoryImportDialogProps } from '../../dialogs';
+import { StoriesActionOrThunk } from '../undoable-stories';
+import { updatePassages } from './reducer/update-passages';
 
 
 //외부로 내보내는 함수.
@@ -115,28 +117,53 @@ export function passageConnections(
 }
 
 //이지원 자체 제작 함수
-//passage의 
-export function passageStructure(
-	passages: Passage[]
+//passage를 분석하여 normalPassage와 optionPassage를 구별한 result 반환
+export function setPassageType(
+	passages : Passage[],
+	startPassageId: String,
+	dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void,
+	story : Story,
+	stories : StoriesState
 ) {
-	let result = {
-		normalPassage:[],
-		optionPassage:[]
+	console.log("Log : setPassageType - ");
+	const startPassage = passages.find(passage => passage.id === startPassageId)
+
+	const passageUpdates: Record<string, Partial<Passage>> = passageUpdatedList(startPassage, stories, story, "normalPassage")
+
+	dispatch({
+		type: 'updatePassages',
+		passageUpdates,
+		storyId: story.id
+	});
+
+	console.log(passages);
+}
+function passageUpdatedList(passage : Passage, stories, story, passageType : string){
+	let passageUpdates : Record<string, Partial<Passage>> = {};
+
+	passageUpdates[passage.id] = {passageType};
+	if(passageType === 'optionPassage'){
+		const width = 75;
+		const height = 75;
+		passageUpdates[passage.id] = {...passageUpdates[passage.id], width, height};
 	}
-	passages.forEach((passage) => {
-			if(result.optionPassage.includes(passage.name) == false){
-				if(result.normalPassage.includes(passage.name) == false)
-					result.normalPassage.push(passage.name);
-				passage.options.forEach(option => 
-					result.optionPassage.push(option))
+
+	passage.options.forEach(optionPassageName => 
+		{
+			const optionPassage : Passage = passageWithName(stories, story.id, optionPassageName);
+			let dummyPsUpdatedList;
+			switch(passageType){
+				case "normalPassage" :
+					dummyPsUpdatedList = passageUpdatedList(optionPassage, stories, story, "optionPassage")
+					break;
+				case "optionPassage" :
+					dummyPsUpdatedList = passageUpdatedList(optionPassage, stories, story, "normalPassage")
+					break;
 			}
-			else{
-				passage.options.forEach(option => 
-					result.normalPassage.push(option))
-			}
-		}
-	);
-	return result;
+			passageUpdates = {...passageUpdates, ...dummyPsUpdatedList} //재귀함수
+		})
+	
+	return passageUpdates;
 }
 
 /**

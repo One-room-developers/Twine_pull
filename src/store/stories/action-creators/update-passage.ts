@@ -33,7 +33,7 @@ export function updatePassage(
 		throw new Error(`There is already a passage named "${props.name}".`);
 	}
 
-	return (dispatch, getState) => {
+	return (dispatch, getState) => { //thunk-reducer이라는 node.js 파일에 dispatch와 getState를 넣어 실행하는 코드가 있음
 		// Do the passage update itself.
 		const oldName = passage.name;
 		const oldText = passage.text;

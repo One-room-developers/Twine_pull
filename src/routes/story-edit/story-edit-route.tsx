@@ -14,7 +14,7 @@ import {
 	selectPassage,
 	selectPassagesInRect,
 	storyWithId,
-	passageStructure
+	setPassageType
 } from '../../store/stories';
 import {
 	UndoableStoriesContextProvider,
@@ -31,6 +31,7 @@ import {MarqueeablePassageMap} from './marqueeable-passage-map';
 
 
 export const InnerStoryEditRoute: React.FC = () => {
+	console.log("Log : InnerStoryEditRoute")
 	const [inited, setInited] = React.useState(false);
 	const {dispatch: dialogsDispatch} = useDialogsContext();
 	const mainContent = React.useRef<HTMLDivElement>(null);
@@ -40,9 +41,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 	const {dispatch: undoableStoriesDispatch, stories} =
 		useUndoableStoriesContext();
 	const story = storyWithId(stories, storyId);
-
-
-
 	useZoomShortcuts(story);
 
 	const selectedPassages = React.useMemo(
@@ -169,7 +167,12 @@ export const InnerStoryEditRoute: React.FC = () => {
 
 	//이지원 자체 제작
 	//normalPassage와 optionPassage 구별 함수
-	const passageStructureArr = passageStructure(story.passages)
+	React.useEffect(()=>{
+		console.log("Log : story-edit-route/setPassageType");
+		setPassageType(story.passages, story.startPassage, undoableStoriesDispatch, story, stories);
+	}, [])
+	
+	
 	return (
 		<div className="story-edit-route">
 			<DocumentTitle title={story.name} />
@@ -189,7 +192,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 					tagColors={story.tagColors}
 					visibleZoom={visibleZoom}
 					zoom={story.zoom}
-					passageStructureArr={passageStructureArr}
+					// passageStructureArr={passageStructureArr}
 				/>
 			</MainContent>
 		</div>

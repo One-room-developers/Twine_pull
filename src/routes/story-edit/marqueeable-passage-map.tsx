@@ -14,7 +14,7 @@ export interface MarqueeablePassageMapProps
 		Omit<
 			MarqueeSelectionProps,
 			'ignoreEventsOnSelector' | 'onTemporarySelectRect'
-		> {passageStructureArr : any}
+		> {}
 
 /**
  * Marries a MarqueeSelection with a PassageMap. This handles displaying a
