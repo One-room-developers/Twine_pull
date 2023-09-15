@@ -87,3 +87,10 @@ export async function fetchCommentList(post_id:number){
     console.log(data);
     return data;
 }
+
+export async function getCommentCount(post_id:number){
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/comment/get_comment_count/${post_id}`);
+    const data = await response.data;
+    console.log(data);
+    return data;
+}

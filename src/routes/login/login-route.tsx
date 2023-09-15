@@ -41,9 +41,9 @@ export const LoginRoute: React.FC = () => {
                 console.log('잘못된 비밀번호입니다.');
             }
 
-            authorizedUser.email = res.data.email;
-            authorizedUser.nickname = res.data.nickname;
-            authorizedUser.accessToken = res.data.access_token;
+            authorizedUser.email = res.data.user.email;
+            authorizedUser.nickname = res.data.user.nickname;
+            authorizedUser.accessToken = res.data.accessToken;
 
             const sesstionStorage = new SessionStorageAPI();
 

@@ -33,7 +33,7 @@ export function movePassages(
 			top = Math.round(top / 100) * 100;
 		}
 
-		passageUpdates[passage.id] = {left, top}; //하지만 이새끼 뭔지 모름
+		passageUpdates[passage.id] = {left, top}; // {passage.id : {left : left, top : top}}
 	});
 
 	return {type: 'updatePassages', passageUpdates, storyId: story.id};

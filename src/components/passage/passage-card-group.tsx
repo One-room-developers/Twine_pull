@@ -7,7 +7,6 @@ import '../../styles/animations.css';
 export interface PassageCardGroupProps
 	extends Omit<PassageCardProps, 'passage'> {
 	passages: Passage[];
-	passageStructureArr:any;
 }
 
 export const PassageCardGroup: React.FC<PassageCardGroupProps> = React.memo(

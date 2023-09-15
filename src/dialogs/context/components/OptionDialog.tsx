@@ -6,14 +6,14 @@ import './option_window.css'
 import { useUndoableStoriesContext } from "../../../store/undoable-stories";
 import { updatePassage } from "../../../store/stories";
 
-type UserDialogProps = {    
+type OptionDialogProps = {    
     passage : any
     story : any
     onClose : any
 }
 
 
-export const UserDialog: React.FC<UserDialogProps> = (props) => {
+export const OptionDialog: React.FC<OptionDialogProps> = (props) => {
 
     const [title, setTitle] = useState(props.passage.name); 
     const [textUser, setTextUser] = useState(props.passage.text_user);
@@ -45,24 +45,12 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     return(
         <div className="making-all-container">
             <div className="making-window">
-                <div className="making-window-header">
-                    <div className="title-info-icon info-icon">제목</div>
-                    <input value={title} onChange={function(e){
-                        setTitle(e.target.value)
-                    }} />
-                </div>
                 <div className="making-window-main">
                     <div className="main-info-icon info-icon">본문</div>
                     <textarea value={textUser} name="" id="" cols={30} rows={10} onChange={function(e){
                         setTextUser(e.target.value)
                     }}></textarea>
                 </div>
-                <DialogOptions onTrackingOption={function(optionArr){
-                    console.log("Log : onTrackingOption");
-                    let _options = optionArr.concat();
-                    
-                    setOptions( _options);
-                }} options = {options}></DialogOptions>
                 <div className="save-btn-container">
                     <button onClick={function(e){
                         console.log("Log : onclick()");

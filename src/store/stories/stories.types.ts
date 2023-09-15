@@ -65,6 +65,8 @@ export interface Passage {
 
 	//유저에게 보이는 본문
 	text_user:string;
+
+	passageType : string; //"normalPassage" "optionPassage"
 }
 
 export interface option{
@@ -152,6 +154,7 @@ export interface Story {
 	 * Zoom level the story is displayed at.
 	 */
 	zoom: number;
+
 }
 
 /* 내 스토리들 모아놓는 화면에서 아마 작동하는 스토리 배열일거임 */

@@ -24,7 +24,6 @@ export function repairPassage(passage: Passage, parentStory: Story): Passage {
 	const repairs: Partial<Passage> = {};
 
 	// Give the passage an ID if it has none.
-
 	if (typeof passage.id !== 'string' || passage.id === '') {
 		const newId = uuid();
 

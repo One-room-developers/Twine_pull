@@ -34,8 +34,8 @@ export function usePersistence(): PersistenceHooks {
 	const localStoragePersistence = useLocalStoragePersistence();
 
 	return React.useMemo(
-		() =>
-			isElectronRenderer() ? electronIpcPersistence : localStoragePersistence,
+		() =>{
+			return isElectronRenderer() ? electronIpcPersistence : localStoragePersistence},
 		[electronIpcPersistence, localStoragePersistence]
 	);
 }
