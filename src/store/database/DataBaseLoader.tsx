@@ -23,19 +23,19 @@ export const DataBaseLoader: React.FC = () => {
                 });
                 //변수 값 db에 저장
                 await locStoriesState.forEach((storyState)=>{
-                     axios({
+                    axios({
                         method: "POST",
                         url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
                         data: {
                             id: storyState.id,
-                            if_id: storyState.ifid,
+                            ifid: storyState.ifid,
                             name: storyState.name,
-                            start_passage: storyState.startPassage,
+                            startPassage: storyState.startPassage,
                             script: storyState.script,
                             selected: storyState.selected,
-                            snap_to_grid: storyState.snapToGrid,
-                            story_format: storyState.storyFormat,
-                            story_format_version: storyState.storyFormatVersion,
+                            snapToGrid: storyState.snapToGrid,
+                            storyFormat: storyState.storyFormat,
+                            storyFormatVersion: storyState.storyFormatVersion,
                             zoom: storyState.zoom,
                         },
                     })
@@ -52,7 +52,7 @@ export const DataBaseLoader: React.FC = () => {
                         data: {
                             id: passageState.id,
                             name: passageState.name,
-                            passage_type: passageState.passageType,
+                            passageType: passageState.passageType,
                             story: passageState.story,
                             text: passageState.text,
                             text_user: passageState.text_user,
