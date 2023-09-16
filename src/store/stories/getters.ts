@@ -127,16 +127,15 @@ export function setPassageType(
 ) {
 	console.log("Log : setPassageType - ");
 	const startPassage = passages.find(passage => passage.id === startPassageId)
+	if(startPassage){
+		const passageUpdates: Record<string, Partial<Passage>> = passageUpdatedList(startPassage, stories, story, "normalPassage")
 
-	const passageUpdates: Record<string, Partial<Passage>> = passageUpdatedList(startPassage, stories, story, "normalPassage")
-
-	dispatch({
-		type: 'updatePassages',
-		passageUpdates,
-		storyId: story.id
-	});
-
-	console.log(passages);
+		dispatch({
+			type: 'updatePassages',
+			passageUpdates,
+			storyId: story.id
+		});
+	}
 }
 function passageUpdatedList(passage : Passage, stories, story, passageType : string){
 	let passageUpdates : Record<string, Partial<Passage>> = {};
