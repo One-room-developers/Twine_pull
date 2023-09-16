@@ -21,10 +21,9 @@ export const DataBaseLoader: React.FC = () => {
                         locPassagesState.push(locPassageState);
                     })
                 });
-                debugger;
                 //변수 값 db에 저장
-                locStoriesState.forEach((storyState)=>{
-                    axios({
+                await locStoriesState.forEach((storyState)=>{
+                     axios({
                         method: "POST",
                         url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
                         data: {
@@ -41,14 +40,12 @@ export const DataBaseLoader: React.FC = () => {
                         },
                     })
                     .then((res) => {
-                        console.log(res.data);
                     })
                     .catch((error) => {
                         console.log(error);
                     });
                 })
-
-                locPassagesState.forEach((passageState)=>{
+                await locPassagesState.forEach((passageState)=>{
                     axios({
                         method: "POST",
                         url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -68,34 +65,37 @@ export const DataBaseLoader: React.FC = () => {
                         }
                     })
                     .then((res) => {
-                        console.log(res.data);
                     })
                     .catch((error) => {
                         console.log(error);
                     });
                 })
-
                 //local storage 값 삭제
-                // window.localStorage.clear();
-                
+                window.localStorage.clear();
+                debugger;
                 //db의 값 변수에 저장
                 let dbStoriesState :StoriesState = null;
                 let dbPassagesState : Passage[] = null;
 
                 const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
                 dbStoriesState = res1.data;
-                console.log(dbStoriesState);
 
                 const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages`);
                 dbPassagesState = res2.data;
-                console.log(dbPassagesState);
-
+                debugger;
                 //변수 값 local storage에 저장하기
 
-                // doUpdateTransaction(transaction => {
-                //     saveStory(transaction, story);
-                //     savePassage(transaction, passage);
-                // });
+                dbStoriesState.forEach((story)=>{
+                    doUpdateTransaction(transaction => {
+                        saveStory(transaction, story);
+                    });
+                })
+                dbPassagesState.forEach((passage)=>{
+                    doUpdateTransaction(transaction => {
+                        savePassage(transaction, passage);
+                    });
+                })
+                debugger;
                 
 		}
 		run();
