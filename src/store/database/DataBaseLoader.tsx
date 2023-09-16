@@ -14,11 +14,13 @@ export const DataBaseLoader: React.FC = () => {
 		async function run() {
                 //local storage에서 값 변수에 불러오기
 				const locStoriesState = await stories.load();
-                const locPassagesState = locStoriesState.map(locStoryState => {
-                    return locStoryState.passages.map(locPassageState => {
-                        return locPassageState;
+                let locPassagesState = [];
+                locStoriesState.forEach(locStoryState => {
+                    locStoryState.passages.forEach(locPassageState => {
+                        locPassagesState.push(locPassageState);
                     })
                 });
+                debugger;
                 //변수 값 db에 저장
                 locStoriesState.forEach((storyState)=>{
                     axios({
@@ -45,30 +47,32 @@ export const DataBaseLoader: React.FC = () => {
                     });
                 })
 
-                // axios({
-                //     method: "POST",
-                //     url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
-                //     data: {
-                //         id: locPassagesState[0].id,
-                //         name: locPassagesState[0].name,
-                //         passage_type: ,
-                //         story: ,
-                //         text: ,
-                //         text_user: ,
-                //         height: ,
-                //         highlighted: ,
-                //         left: ,
-                //         selected: ,
-                //         top: ,
-                //         width: 
-                //     }
-                // })
-                // .then((res) => {
-                //     console.log(res.data);
-                // })
-                // .catch((error) => {
-                //     console.log(error);
-                // });
+                locPassagesState.forEach((passageState)=>{
+                    axios({
+                        method: "POST",
+                        url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
+                        data: {
+                            id: passageState.id,
+                            name: passageState.name,
+                            passage_type: passageState.passageType,
+                            story: passageState.story,
+                            text: passageState.text,
+                            text_user: passageState.text_user,
+                            height: passageState.height,
+                            highlighted: passageState.highlighted,
+                            left: passageState.left,
+                            selected: passageState.selected,
+                            top: passageState.top,
+                            width: passageState.width 
+                        }
+                    })
+                    .then((res) => {
+                        console.log(res.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                })
 
                 //local storage 값 삭제
                 // window.localStorage.clear();
