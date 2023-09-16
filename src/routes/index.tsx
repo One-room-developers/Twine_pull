@@ -48,10 +48,10 @@ export const Routes: React.FC = () => {
 						<StoryListRoute />
 					</Route>
 
-					<Route path={`/board/thread/:viewId`}>
+					<Route path={`/thread/:viewId`}>
                     	<ThreadRoute />    
 					</Route>
-					<Route path={"/board/write"}>
+					<Route path={"/write"}>
 						<WriteRoute />
 					</Route>
 					<Route path="/board">
@@ -119,10 +119,10 @@ export const Routes: React.FC = () => {
 						<StoryListRoute />
 					</Route>
 
-					<Route path={`/board/thread/:viewId`}>
+					<Route path={`/thread/:viewId`}>
                     	<ThreadRoute />    
 					</Route>
-					<Route path={"/board/write"}>
+					<Route path={"/write"}>
 						<WriteRoute />
 					</Route>
 					<Route path="/board">

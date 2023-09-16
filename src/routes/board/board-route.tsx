@@ -308,13 +308,15 @@ export const BoardRoute: React.FC = () => {
                                 )
                             }
                         </CategoryContainer>
-                            <Link to={`/board/write`}>
+                            <Link to={`/write`}>
                                 <WriteBtn>글쓰기</WriteBtn>
                             </Link>
                     </PostCategoryHeader>
-                    {
-                        
-                    }
+
+                    <Switch>
+                        <Route path={``}></Route>
+                    </Switch>
+
                     <PageNumContainer>
 
                     </PageNumContainer>
@@ -329,7 +331,7 @@ export const BoardRoute: React.FC = () => {
                                             
                                             <PostMain>
                                                 <PostMainTop>
-                                                    <Link to={`/board/thread/${post.post_id}`}>{post.title}</Link>
+                                                    <Link to={`/thread/${post.post_id}`}>{post.title}</Link>
                                                 </PostMainTop>
                                                 <PostMainBottom>
                                                     <PostBottomInfo>{post.writer}</PostBottomInfo>
