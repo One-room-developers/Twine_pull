@@ -3,6 +3,7 @@ import * as React from 'react';
 import { usePersistence } from '../persistence/use-persistence';
 import { Passage, StoriesState } from '../stories';
 import axios from 'axios';
+import {doUpdateTransaction,savePassage,saveStory } from '../persistence/local-storage/stories'; 
 
 export const DataBaseLoader: React.FC = () => {
     //꼼수로 지금 세션에 있는 값들을 분해해서 db에 저장하고, 그걸 불러와보기
@@ -82,6 +83,11 @@ export const DataBaseLoader: React.FC = () => {
                 let dbPassagesState : Passage[] = null;
 
                 //변수 값 local storage에 저장하기
+
+                // doUpdateTransaction(transaction => {
+                //     saveStory(transaction, story);
+                //     savePassage(transaction, passage);
+                // });
                 
 		}
 		run();
