@@ -37,7 +37,7 @@ export function saveMiddleware(state: StoriesState, action: StoriesAction) {
 
 			const story = storyWithId(state, action.storyId);
 			const passage = passageWithName(state, story.id, action.props.name);
-
+			
 			doUpdateTransaction(transaction => {
 				saveStory(transaction, story);
 				savePassage(transaction, passage);
