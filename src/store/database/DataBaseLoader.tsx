@@ -11,7 +11,7 @@ export const DataBaseLoader: React.FC = () => {
 
     React.useEffect(() => {
 		async function run() {
-                
+                debugger;
                 //db의 값 변수에 저장
                 let dbStoriesState :StoriesState = null;
                 let dbPassagesState : Passage[] = null;
@@ -33,6 +33,7 @@ export const DataBaseLoader: React.FC = () => {
                         savePassage(transaction, passage);
                     });
                 })
+                debugger;
                 
 		}
 		run();

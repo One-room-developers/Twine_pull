@@ -44,26 +44,22 @@ export const StoriesContextProvider: React.FC = props => {
 			//이지원 제작
 			//db에 데이터를 저장하는 코드
 			//local storage에서 값 변수에 불러오기
-			async function create(){
-				const storiesState = state;
-				let passagesState = [];
-				storiesState.forEach((storyState)=>{
-					passagesState.push(storyState.passages)
-				});
+			async function createStory(){
+				const storiesState = newState;
 				await storiesState.forEach((storyState)=>{
 					axios({
 						method: "POST",
 						url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
 						data: {
 							id: storyState.id,
-							if_id: storyState.ifid,
+							ifid: storyState.ifid,
 							name: storyState.name,
-							start_passage: storyState.startPassage,
+							startPassage: storyState.startPassage,
 							script: storyState.script,
 							selected: storyState.selected,
-							snap_to_grid: storyState.snapToGrid,
-							story_format: storyState.storyFormat,
-							story_format_version: storyState.storyFormatVersion,
+							snapToGrid: storyState.snapToGrid,
+							storyFormat: storyState.storyFormat,
+							storyFormatVersion: storyState.storyFormatVersion,
 							zoom: storyState.zoom,
 						},
 					})
@@ -73,53 +69,66 @@ export const StoriesContextProvider: React.FC = props => {
 						console.log(error);
 					});
 				})
-				// await passagesState.forEach((passageState)=>{
-				// 	axios({
-				// 		method: "POST",
-				// 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
-				// 		data: {
-				// 			id: passageState.id,
-				// 			name: passageState.name,
-				// 			passage_type: passageState.passageType,
-				// 			story: passageState.story,
-				// 			text: passageState.text,
-				// 			text_user: passageState.text_user,
-				// 			height: passageState.height,
-				// 			highlighted: passageState.highlighted,
-				// 			left: passageState.left,
-				// 			selected: passageState.selected,
-				// 			top: passageState.top,
-				// 			width: passageState.width 
-				// 		}
-				// 	})
-				// 	.then((res) => {
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 	});
-				// })
+				
+			}
+			async function createPassage(){
+				const storiesState = newState;
+				let passagesState = [];
+				storiesState.forEach((storyState)=>{
+					storyState.passages.forEach((passage)=>{
+						passagesState.push(passage)
+					})
+				});
+				
+				await passagesState.forEach((passageState)=>{
+					axios({
+						method: "POST",
+						url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
+						data: {
+							id: passageState.id,
+							name: passageState.name,
+							passageType: passageState.passageType,
+							story: passageState.story,
+							text: passageState.text,
+							text_user: passageState.text_user,
+							height: passageState.height,
+							highlighted: passageState.highlighted,
+							left: passageState.left,
+							selected: passageState.selected,
+							top: passageState.top,
+							width: passageState.width 
+						}
+					})
+					.then((res) => {
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				})
 			}
 
 			async function update() {
-				const storiesState = state;
+				const storiesState = newState;
 				let passagesState = [];
 				storiesState.forEach((storyState)=>{
-					passagesState.push(storyState.passages)
+					storyState.passages.forEach((passage)=>{
+						passagesState.push(passage)
+					})
 				});
 				await storiesState.forEach((storyState)=>{
 					axios({
-						method: "POST",
-						url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
+						method: "PATCH",
+						url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${storyState.id}`,
 						data: {
 							name: storyState.name,
-							start_passage: storyState.startPassage,
+							startPassage: storyState.startPassage,
 							script: storyState.script,
 							selected: storyState.selected,
-							snap_to_grid: storyState.snapToGrid,
-							story_format: storyState.storyFormat,
-							story_format_version: storyState.storyFormatVersion,
+							snapToGrid: storyState.snapToGrid,
+							storyFormat: storyState.storyFormat,
+							storyFormatVersion: storyState.storyFormatVersion,
 							zoom: storyState.zoom,
-						},
+						}
 					})
 					.then((res) => {
 					})
@@ -127,37 +136,40 @@ export const StoriesContextProvider: React.FC = props => {
 						console.log(error);
 					});
 				})
-				// await passagesState.forEach((passageState)=>{
-				// 	axios({
-				// 		method: "POST",
-				// 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
-				// 		data: {
-				// 			id: passageState.id,
-				// 			name: passageState.name,
-				// 			passage_type: passageState.passageType,
-				// 			story: passageState.story,
-				// 			text: passageState.text,
-				// 			text_user: passageState.text_user,
-				// 			height: passageState.height,
-				// 			highlighted: passageState.highlighted,
-				// 			left: passageState.left,
-				// 			selected: passageState.selected,
-				// 			top: passageState.top,
-				// 			width: passageState.width 
-				// 		}
-				// 	})
-				// 	.then((res) => {
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 	});
-				// })
+				await passagesState.forEach((passageState)=>{
+					axios({
+						method: "PATCH",
+						url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passageState.id}`,
+						data: {
+							name: passageState.name,
+							passageType: passageState.passageType,
+							text: passageState.text,
+							text_user: passageState.text_user,
+							height: passageState.height,
+							highlighted: passageState.highlighted,
+							left: passageState.left,
+							selected: passageState.selected,
+							top: passageState.top,
+							width: passageState.width 
+						}
+					})
+					.then((res) => {
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				})
 			}
-			if(action.type === 'createPassage'){
-				create()
+			if(action.type === 'createStory'){
+				createStory()
+			}
+			else if(action.type === 'createPassage'){
+				createPassage()
 			}
 			else if(action.type === 'updatePassage'){
 				update()
+			}
+			else{
 			}
 
 			return newState;

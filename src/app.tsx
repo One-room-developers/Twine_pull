@@ -23,7 +23,7 @@ export const App: React.FC = () => {
 			<PrefsContextProvider>
 				<LocaleSwitcher />
 				<ThemeSetter />
-				{/* <DataBaseLoader /> */}
+				<DataBaseLoader />
 				<StoryFormatsContextProvider>
 					<StoriesContextProvider>
 							<StateLoader>
