@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { usePersistence } from '../persistence/use-persistence';
-import { StoriesState } from '../stories';
+import { Passage, StoriesState } from '../stories';
 import axios from 'axios';
 
 export const DataBaseLoader: React.FC = () => {
@@ -78,7 +78,9 @@ export const DataBaseLoader: React.FC = () => {
                 // window.localStorage.clear();
                 
                 //db의 값 변수에 저장
-                const dbStoriesState :StoriesState = null;
+                let dbStoriesState :StoriesState = null;
+                let dbPassagesState : Passage[] = null;
+
                 //변수 값 local storage에 저장하기
                 
 		}
