@@ -82,6 +82,14 @@ export const DataBaseLoader: React.FC = () => {
                 let dbStoriesState :StoriesState = null;
                 let dbPassagesState : Passage[] = null;
 
+                const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
+                dbStoriesState = res1.data;
+                console.log(dbStoriesState);
+
+                const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages`);
+                dbPassagesState = res2.data;
+                console.log(dbPassagesState);
+
                 //변수 값 local storage에 저장하기
 
                 // doUpdateTransaction(transaction => {
