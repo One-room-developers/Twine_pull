@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, createComment } from '../api';
+import { fetchCommentList, getPost } from '../api';
 import { useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
 import likeSvg from './img/like.svg';
 import messageSvg from './img/message.svg';
 //Component
@@ -315,23 +316,98 @@ export const ThreadRoute: React.FC = () => {
         history.goBack();
     }
 
-    //좋아요 버튼 누르면 실행되는 함수
     const clickLikeBtn = () => {
 
     }
 
+    //좋아요 버튼 누르면 실행되는 함수
+    // const clickLikeBtn = (user_id: string, post_id: number, like_count: number) => {
+    //     axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`, {
+    //         "user_id": ,        // string
+    //         "post_id": ,        // number
+    //         "like_count": ,     // number, 현재 좋아요 수
+    //     })
+    //     .then((res) => {
+    //         // 좋아요 업데이트 실패 (서버 오류)
+    //         if(res.data.successMsg == 37) {
+                
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
+    // }
+
+    const modifyComment = (commentId: number) => {
+
+    }
     //댓글 수정
-    const modifyComment = (commentId: number) =>{
+    // const modifyComment = (commentId: number, password: string, comment: string) =>{
+    //     axios.patch(`${process.env.REACT_APP_API_URL}/comment/update`, {
+    //         "comment_id": commentId,
+    //         "password": password,
+    //         "comment": comment
+    //     })
+    //     .then((res) => {
+    //         if(res.data.errorMsg == 15) {
+    //             // 잘못된 비밀번호
+    //         }
+    //         else if(res.data.errorMsg == 33) {
+    //             // 업데이트 실패, 서버 에러
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
+    // }
+
+    const deleteComment = (commentId: number) => {
 
     }
     //댓글 삭제
-    const deleteComment = (commentId: number) =>{
+    // const deleteComment = (commentId: number, password: string) =>{
+    //     axios.patch(`${process.env.REACT_APP_API_URL}/comment/delete`. {
+    //         "comment_id": commentId,
+    //         "password": password
+    //     })
+    //     .then((res) => {
+    //         if(res.data.errorMsg == 15) {
+    //             // 잘못된 비밀번호
+    //         }
+    //         else if(res.data.errorMsg == 35) {
+    //             // 삭제 실패, 서버 혹은 디비 에러
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
+    // }
 
-    }
     //댓글 게시시
-    const commentPost = () =>{
+    const commentPost = () => {
 
     }
+    // const commentPost = (postId: number, writer: string, comment: string) =>{
+    //     axios({
+    //         method: "POST",
+    //         url: `${process.env.REACT_APP_API_URL}/comment/create`,
+    //         data: {
+    //             post_id: postId,
+    //             writer: writer,
+    //             comment: comment
+    //         }
+    //     })
+    //     .then((res) => {
+    //         if(res.data.successMsg == 31) {
+    //             alert('오류가 발생하였습니다.')
+    //         }
+
+    //         // 댓글 작성한 게시물로 새로고침
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     })
+    // }
 
     const [content, setContent] = React.useState([]);
     const post_id = 1;
