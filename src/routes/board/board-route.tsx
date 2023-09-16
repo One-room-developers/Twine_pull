@@ -262,10 +262,19 @@ interface PostInfo {
 
 export const BoardRoute: React.FC = () => {
     //const [board, setBoard] = React.useState([]);
-    const [page, setPage] = React.useState(1);
-    const post_id = page*30 + 1;
+    //실제로 뿌려지는 array
+    let postArr = [];
     
-    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(post_id));
+
+    let page = 1;//이걸 useQuery로 가져와야 함
+    const endPageNum = page*30 + 1;//최대 페이지
+    //url에 따라 componet를 다른걸 뿌리고, 그 component내부에 다 함수 써야될듯. 왜? if문으로 useParm에 따라 달리
+    //페이지를 불러오는게 안되기 때문. 그렇게 하지 않으면 모든 배열을 다 불러오게 되버림
+    //각각의 페이지도 같음.
+    
+    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
+
+    postArr = postsData;
 
     //카테고리 더미 데이터
     const categoryArr = [{name: "일반", url:"/board", id:1}, {name: "버그제보", url:"", id:2}];
@@ -303,6 +312,9 @@ export const BoardRoute: React.FC = () => {
                                 <WriteBtn>글쓰기</WriteBtn>
                             </Link>
                     </PostCategoryHeader>
+                    {
+                        
+                    }
                     <PageNumContainer>
 
                     </PageNumContainer>
@@ -311,7 +323,7 @@ export const BoardRoute: React.FC = () => {
                         (
                             <PostList>
                                 {
-                                    postsData?.map( post =>
+                                    postArr?.map( post =>
                                         <PostContainer key={post.post_id}>
                                             <PostHead>{category}</PostHead>
                                             
