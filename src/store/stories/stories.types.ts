@@ -230,12 +230,14 @@ export interface DeletePassageAction {
 	type: 'deletePassage';
 	passageId: string;
 	storyId: string;
+	passageName : string
 }
 
 export interface DeletePassagesAction {
 	type: 'deletePassages';
 	passageIds: string[];
 	storyId: string;
+	passageNames : string[];
 }
 
 // ??

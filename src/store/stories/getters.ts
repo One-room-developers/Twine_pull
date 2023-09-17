@@ -14,6 +14,8 @@ export function passageWithId(
 	storyId: string,
 	passageId: string
 ) {
+	console.log("Log:passageWithId - ")
+	console.log(stories);
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.id === passageId);
 
@@ -44,6 +46,8 @@ export function passageWithName(
 	storyId: string,
 	passageName: string
 ) {
+	console.log("Log:getters.ts - passageWithName -");
+	console.log(stories);
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.name === passageName);
 
@@ -55,6 +59,10 @@ export function passageWithName(
 		`There is no passage with name "${passageName}" in a story with ID "${storyId}".`
 	);
 }
+
+
+
+
 
 /**
  * Returns connections between passages in a structure optimized for rendering.
@@ -126,6 +134,7 @@ export function setPassageType(
 	stories : StoriesState
 ) {
 	console.log("Log : setPassageType - ");
+	console.log(stories);
 	const startPassage = passages.find(passage => passage.id === startPassageId)
 	if(startPassage){
 		const passageUpdates: Record<string, Partial<Passage>> = passageUpdatedList(startPassage, stories, story, "normalPassage")

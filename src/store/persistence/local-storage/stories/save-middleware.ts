@@ -83,21 +83,26 @@ export function saveMiddleware(state: StoriesState, action: StoriesAction) {
 			// We can't dig up the passage in question right now, because
 			// previousStories is only a shallow copy, and it's gone there at
 			// this point in time.
-
 			doUpdateTransaction(transaction => {
 				saveStory(transaction, story);
+				story.passages.forEach(passage=>{
+					savePassage(transaction, passage)
+				})
 				deletePassageById(transaction, action.passageId);
 			});
 			break;
 		}
 
 		case 'deletePassages': {
+			debugger;
 			const story = storyWithId(state, action.storyId);
-
 			// See above comment about passages.
-
 			doUpdateTransaction(transaction => {
 				saveStory(transaction, story);
+				story.passages.forEach(passage=>{
+						savePassage(transaction, passage)
+					}
+				)
 				action.passageIds.forEach(passageId =>
 					deletePassageById(transaction, passageId)
 				);

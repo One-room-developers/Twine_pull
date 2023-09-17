@@ -23,7 +23,8 @@ export function reverseAction(
 				return {
 					type: 'deletePassage',
 					passageId: action.props.id,
-					storyId: action.storyId
+					storyId: action.storyId,
+					passageName: action.props.name 
 				};
 			} else if (action.props.name) {
 				// This is dependant on the fact that we will only undo this action
@@ -43,7 +44,8 @@ export function reverseAction(
 							action.storyId,
 							action.props.name!
 						).id,
-						storyId: action.storyId
+						storyId: action.storyId,
+						passageName : action.props.name
 					});
 				};
 
@@ -69,7 +71,8 @@ export function reverseAction(
 						dispatch({
 							type: 'deletePassage',
 							passageId: props.id,
-							storyId: action.storyId
+							storyId: action.storyId,
+							passageName: props.name
 						});
 					} else if (props.name) {
 						// This is dependent on the fact that we will only undo this action
@@ -79,7 +82,8 @@ export function reverseAction(
 							type: 'deletePassage',
 							passageId: passageWithName(getState(), action.storyId, props.name)
 								.id,
-							storyId: action.storyId
+							storyId: action.storyId,
+							passageName: props.name
 						});
 					}
 				});
