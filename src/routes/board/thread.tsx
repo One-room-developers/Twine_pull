@@ -154,6 +154,11 @@ const PostTitle = styled.h1`
 const Loader = styled.h2`
     font-size: 24px;
     font-weight: 500;
+    font-weight: "godicM";
+`
+const NoComment = styled.h2`
+    font-size: 18px;
+    font-weight: "godicThin";
 `
 const Div1 = styled.div`
     display: flex;
@@ -502,23 +507,26 @@ export const ThreadRoute: React.FC = () => {
                                         </CommentMain>
                                     </Comment>
                                 {
-                                    data?.map(comment =>
-                                        <Comment key={comment.comment_id}>
-                                            <CommentHeader>
-                                                <Div2>
-                                                    <CommentWriter>{comment.writer}</CommentWriter>
-                                                    <CommentDate>{comment.createdAt}</CommentDate>
-                                                </Div2>
-                                                <Div3>
-                                                    <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>
-                                                    |
-                                                    <ChangeBtn onClick={()=>deleteComment(comment.comment_id)}>삭제</ChangeBtn>
-                                                </Div3>
-                                            </CommentHeader>
-                                            <CommentMain>
-                                                {comment.comment}
-                                            </CommentMain>
-                                        </Comment>)
+                                    (data?.length === 0) ? (<NoComment></NoComment>) :
+                                    (
+                                        data?.map(comment =>
+                                            <Comment key={comment.comment_id}>
+                                                <CommentHeader>
+                                                    <Div2>
+                                                        <CommentWriter>{comment.writer}</CommentWriter>
+                                                        <CommentDate>{comment.createdAt}</CommentDate>
+                                                    </Div2>
+                                                    <Div3>
+                                                        <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>
+                                                        |
+                                                        <ChangeBtn onClick={()=>deleteComment(comment.comment_id)}>삭제</ChangeBtn>
+                                                    </Div3>
+                                                </CommentHeader>
+                                                <CommentMain>
+                                                    {comment.comment}
+                                                </CommentMain>
+                                            </Comment>)
+                                    )
                                 }
                                 </CommentList> 
                             )

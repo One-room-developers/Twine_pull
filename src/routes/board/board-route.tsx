@@ -7,6 +7,10 @@ import { useQuery } from 'react-query';
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
+import AllPageNumContainer from './components/pageNum/AllPageNum';
+import BugPageNumContainer from './components/pageNum/AllPageNum';
+import AllPostList from './components/postList/AllPostList';
+import BugPostList from './components/postList/BugPostList';
 //이미지
 import starImg from './img/star.png';
 import upImg from './img/up.png';
@@ -115,6 +119,7 @@ const PageNumContainer = styled.div`
     margin-bottom: 10px;
 
 `
+//삭제
 const PostListWrapper = styled.div`
     min-height: 54px;
     background-color: var(--main-white);
@@ -138,6 +143,7 @@ const PostSearchContainer = styled.div`
     flex-direction: column;
     padding: 18px;
 `
+//삭제 시작
 const PostContainer = styled.li`
     width: 100%;
     height: 58px;
@@ -206,6 +212,7 @@ const LikesNumContainer = styled.div`
     font-family: "godicM";
     margin-bottom: 5px;
 `
+//삭제 끝
 
 const Loader = styled.h2`
     font-size: 20px;
@@ -213,6 +220,7 @@ const Loader = styled.h2`
     font-family: "godicM";
     margin-left: 10px;
 `
+//삭제
 const PostList = styled.ul`
     width: 100%;
 `
@@ -252,6 +260,7 @@ const SearchButton = styled.button`
     }
 `
 
+//삭제
 interface PostInfo {
     post_id: number,
     writer: string,
@@ -272,13 +281,10 @@ export const BoardRoute: React.FC = () => {
     //페이지를 불러오는게 안되기 때문. 그렇게 하지 않으면 모든 배열을 다 불러오게 되버림
     //각각의 페이지도 같음.
     
-    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
+    //const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
 
     //카테고리 더미 데이터
     const categoryArr = [{name: "일반", url:"/board", id:1}, {name: "버그제보", url:"", id:2}];
-
-    const category = "일반";
-    // axios에 pagination이라는 기능이 있는데 페이지 구현할 때 참고하면 좋을듯
 
     return (
         <Container>
@@ -311,60 +317,19 @@ export const BoardRoute: React.FC = () => {
                             </Link>
                     </PostCategoryHeader>
 
-                    {/* <Switch>
-                        <Route path={`/board`}>
-                            전체 작동?
-                        </Route>
+                    <Switch>
                         <Route path={`/board/all/:pageNum`}>
-                            페이지 출력?
+                            <AllPageNumContainer />
+                            <AllPostList />
+                            <AllPageNumContainer />
                         </Route>
-                    </Switch> */}
+                        <Route path={`/board/bugReport/:pageNum`}>
+                            <BugPageNumContainer />
+                            <BugPostList />
+                            <BugPageNumContainer />
+                        </Route>
+                    </Switch>
 
-                    <PageNumContainer>
-
-                    </PageNumContainer>
-                    <PostListWrapper>
-                        {isPostLoading ? (<Loader>불러오는 중...</Loader>) :
-                        (
-                            <PostList>
-                                {
-                                    (postsData?.length === 0) ? (<Loader>글이 없습니다.</Loader>) : 
-                                    (
-                                        postsData?.map( post =>
-                                            <PostContainer key={post.post_id}>
-                                                <PostHead>{category}</PostHead>
-                                                
-                                                <PostMain>
-                                                    <PostMainTop>
-                                                        <Link to={`/thread/${post.post_id}`}>{post.title}</Link>
-                                                    </PostMainTop>
-                                                    <PostMainBottom>
-                                                        <PostBottomInfo>{post.writer}</PostBottomInfo>
-                                                        <PostBottomInfo>{post.createdAt}</PostBottomInfo>
-                                                        <PostBottomInfo>조회수 {post.view}</PostBottomInfo>
-                                                    </PostMainBottom>
-                                                </PostMain>
-                                                
-                                                <PostFooter>
-                                                    {post.like > 10 ?
-                                                    (<StarImg />) :
-                                                    (<LikesImg />)
-                                                    }
-                                                    <LikesNumContainer>
-                                                        {post.like}
-                                                    </LikesNumContainer>
-                                                </PostFooter>
-                                            </PostContainer>
-                                        )
-                                    )
-                                }
-                            </PostList>
-                        )
-                        }
-                    </PostListWrapper>
-                    <PageNumContainer>
-
-                    </PageNumContainer>
                 </Mid>
 
                 <RightSide>
