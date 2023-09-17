@@ -11,30 +11,29 @@ export const DataBaseLoader: React.FC = () => {
 
     React.useEffect(() => {
 		async function run() {
-                debugger;
-                //db의 값 변수에 저장
-                let dbStoriesState :StoriesState = null;
-                let dbPassagesState : Passage[] = null;
+            debugger;
+            console.log("Log : DataBaseLoader - run()");
+            //db의 값 변수에 저장
+            let dbStoriesState :StoriesState = null;
+            let dbPassagesState : Passage[] = null;
 
-                const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
-                dbStoriesState = res1.data;
+            const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
+            dbStoriesState = res1.data;
 
-                const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages`);
-                dbPassagesState = res2.data;
-                //변수 값 local storage에 저장하기
+            const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages`);
+            dbPassagesState = res2.data;
+            //변수 값 local storage에 저장하기
 
-                dbStoriesState.forEach((story)=>{
-                    doUpdateTransaction(transaction => {
-                        saveStory(transaction, story);
-                    });
-                })
-                dbPassagesState.forEach((passage)=>{
-                    doUpdateTransaction(transaction => {
-                        savePassage(transaction, passage);
-                    });
-                })
-                debugger;
-                
+            dbStoriesState.forEach((story)=>{
+                doUpdateTransaction(transaction => {
+                    saveStory(transaction, story);
+                });
+            })
+            dbPassagesState.forEach((passage)=>{
+                doUpdateTransaction(transaction => {
+                    savePassage(transaction, passage);
+                });
+            })
 		}
 		run();
 	}, []);

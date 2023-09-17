@@ -1,12 +1,14 @@
+import { passageWithId } from '../getters';
 import {StoriesState} from '../stories.types';
 
 export function deletePassage(
 	state: StoriesState,
 	storyId: string,
-	passageId: string
+	passageId: string,
 ) {
 	let foundStory = false;
 	let deleted = false;
+	let passageName : string = passageWithId(state, storyId, passageId).name
 
 	const newState = state.map(story => {
 		if (story.id !== storyId) {
@@ -22,9 +24,22 @@ export function deletePassage(
 					deleted = true;
 					return false;
 				}
-
 				return true;
-			})
+			}).map(passage => {
+				let dummyPassage;
+				dummyPassage = {
+					...passage,
+					options : passage.options.filter(option => {
+						if(option === passageName)
+							return false;
+						else
+							return true;
+					})
+				}
+				return dummyPassage;
+				
+			})//이지원 추가코드 option passage가 제거되면 그 passage를 option 속성으로 갖는 것 모두 제거
+			
 		};
 
 		if (deleted) {

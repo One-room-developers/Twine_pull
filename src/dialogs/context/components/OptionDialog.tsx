@@ -51,6 +51,12 @@ export const OptionDialog: React.FC<OptionDialogProps> = (props) => {
                         setTextUser(e.target.value)
                     }}></textarea>
                 </div>
+                <DialogOptions onTrackingOption={function(optionArr){
+                    console.log("Log : onTrackingOption");
+                    let _options = optionArr.concat();
+                    
+                    setOptions( _options);
+                }} options = {options}></DialogOptions>
                 <div className="save-btn-container">
                     <button onClick={function(e){
                         console.log("Log : onclick()");
