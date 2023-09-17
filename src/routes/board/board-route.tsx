@@ -208,8 +208,10 @@ const LikesNumContainer = styled.div`
 `
 
 const Loader = styled.h2`
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
+    font-family: "godicM";
+    margin-left: 10px;
 `
 const PostList = styled.ul`
     width: 100%;
@@ -263,8 +265,6 @@ interface PostInfo {
 export const BoardRoute: React.FC = () => {
     //const [board, setBoard] = React.useState([]);
     //실제로 뿌려지는 array
-    let postArr = [];
-    
 
     let page = 1;//이걸 useQuery로 가져와야 함
     const endPageNum = page*30 + 1;//최대 페이지
@@ -273,8 +273,6 @@ export const BoardRoute: React.FC = () => {
     //각각의 페이지도 같음.
     
     const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
-
-    postArr = postsData;
 
     //카테고리 더미 데이터
     const categoryArr = [{name: "일반", url:"/board", id:1}, {name: "버그제보", url:"", id:2}];
@@ -313,9 +311,14 @@ export const BoardRoute: React.FC = () => {
                             </Link>
                     </PostCategoryHeader>
 
-                    <Switch>
-                        <Route path={``}></Route>
-                    </Switch>
+                    {/* <Switch>
+                        <Route path={`/board`}>
+                            전체 작동?
+                        </Route>
+                        <Route path={`/board/all/:pageNum`}>
+                            페이지 출력?
+                        </Route>
+                    </Switch> */}
 
                     <PageNumContainer>
 
@@ -325,31 +328,34 @@ export const BoardRoute: React.FC = () => {
                         (
                             <PostList>
                                 {
-                                    postArr?.map( post =>
-                                        <PostContainer key={post.post_id}>
-                                            <PostHead>{category}</PostHead>
-                                            
-                                            <PostMain>
-                                                <PostMainTop>
-                                                    <Link to={`/thread/${post.post_id}`}>{post.title}</Link>
-                                                </PostMainTop>
-                                                <PostMainBottom>
-                                                    <PostBottomInfo>{post.writer}</PostBottomInfo>
-                                                    <PostBottomInfo>{post.createdAt}</PostBottomInfo>
-                                                    <PostBottomInfo>조회수 {post.view}</PostBottomInfo>
-                                                </PostMainBottom>
-                                            </PostMain>
-                                            
-                                            <PostFooter>
-                                                {post.like > 10 ?
-                                                (<StarImg />) :
-                                                (<LikesImg />)
-                                                }
-                                                <LikesNumContainer>
-                                                    {post.like}
-                                                </LikesNumContainer>
-                                            </PostFooter>
-                                        </PostContainer>
+                                    (postsData?.length === 0) ? (<Loader>글이 없습니다.</Loader>) : 
+                                    (
+                                        postsData?.map( post =>
+                                            <PostContainer key={post.post_id}>
+                                                <PostHead>{category}</PostHead>
+                                                
+                                                <PostMain>
+                                                    <PostMainTop>
+                                                        <Link to={`/thread/${post.post_id}`}>{post.title}</Link>
+                                                    </PostMainTop>
+                                                    <PostMainBottom>
+                                                        <PostBottomInfo>{post.writer}</PostBottomInfo>
+                                                        <PostBottomInfo>{post.createdAt}</PostBottomInfo>
+                                                        <PostBottomInfo>조회수 {post.view}</PostBottomInfo>
+                                                    </PostMainBottom>
+                                                </PostMain>
+                                                
+                                                <PostFooter>
+                                                    {post.like > 10 ?
+                                                    (<StarImg />) :
+                                                    (<LikesImg />)
+                                                    }
+                                                    <LikesNumContainer>
+                                                        {post.like}
+                                                    </LikesNumContainer>
+                                                </PostFooter>
+                                            </PostContainer>
+                                        )
                                     )
                                 }
                             </PostList>
