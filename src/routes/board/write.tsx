@@ -189,6 +189,7 @@ export const WriteRoute: React.FC = () => {
                 title: title,
                 content: content,
                 category: category,
+                password: "1234"
             },
         })
         .then((res) => {
