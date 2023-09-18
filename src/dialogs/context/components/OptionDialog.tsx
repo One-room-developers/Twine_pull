@@ -5,7 +5,6 @@ import { useEffect , useState} from "react";
 import './option_window.css'
 import { useUndoableStoriesContext } from "../../../store/undoable-stories";
 import { updatePassage } from "../../../store/stories";
-
 type OptionDialogProps = {    
     passage : any
     story : any

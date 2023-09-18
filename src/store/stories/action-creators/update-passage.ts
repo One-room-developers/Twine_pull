@@ -61,7 +61,7 @@ export function updatePassage(
 			const updatedStory = storyWithId(getState(), story.id);
 
 			dispatch(
-				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText)
+				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, passage.passageType)
 			);
 		}
 
@@ -108,7 +108,7 @@ export function updatePassage(
 						'[[' + newNameEscaped + '$1$2]]'
 					);
 
-					updatePassage(
+					updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
 						story,
 						relinkedPassage,
 						{text: newText},

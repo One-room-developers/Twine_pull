@@ -22,9 +22,9 @@ const DialogTransition: React.FC<DialogTransitionProps> = props =>{
 	//classNames는 뒤에 '-enter-done'이라는 문장이 붙음. 아마 CSSTranstion.d.ts 파일에서 후처리를 해줌. 거기에 주석으로 설명되어 있음
 		
 		<div>
-			{props.passage.passageType === 'normalPassage' ?
-			<UserDialog passage={props.passage} story={props.story} onClose={props.onClose}></UserDialog> : 
-			<OptionDialog passage={props.passage} story={props.story} onClose={props.onClose}></OptionDialog>
+			{props.passage.passageType === 'optionPassage' ?
+			<OptionDialog passage={props.passage} story={props.story} onClose={props.onClose}></OptionDialog> :
+			<UserDialog passage={props.passage} story={props.story} onClose={props.onClose}></UserDialog>
 			}
 			<CSSTransition classNames="hidden pop" timeout={200} {...props}  >
 				{props.children}

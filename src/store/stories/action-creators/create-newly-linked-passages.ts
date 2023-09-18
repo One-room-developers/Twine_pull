@@ -14,11 +14,14 @@ import {parseLinks} from '../../../util/parse-links';
  * directly--it will be invoked automatically by updatePassage() if you change
  * the passage text.
  */
+
+// 구절에서 새로 연결된 구절을 생성합니다. 직접 호출할 필요는 없으며, 구절 텍스트를 변경하면 updatePassage()에 의해 자동으로 호출됩니다. 에 의해 자동으로 호출됩니다.
 export function createNewlyLinkedPassages(
 	story: Story,
 	passage: Passage,
 	newText: string,
-	oldText: string
+	oldText: string,
+	parentPassageType : string //자식에게 passagetype 추가를 위해
 ): Thunk<StoriesState, CreatePassagesAction> {
 	if (!story.passages.some(p => p.id === passage.id)) {
 		throw new Error('This passage does not belong to this story.');
@@ -36,6 +39,12 @@ export function createNewlyLinkedPassages(
 
 		const passageDefs = passageDefaults();
 		const passageGap = 25;
+		//이지원 추가 코드
+		//자식에게 전달할 passage type
+		const passageType = parentPassageType==='normalPassage' ? 'optionPassage' : 'normalPassage'
+		//자식에게 전달할 width
+		const width = parentPassageType==='normalPassage' ? 75 : 100
+		const height = parentPassageType==='normalPassage' ? 75 : 100
 
 		let top = passage.top + passage.height + passageGap;
 		const newPassagesWidth =
@@ -81,12 +90,12 @@ export function createNewlyLinkedPassages(
 		}
 
 		// Actually create them.
-
-		dispatch({
+		
+		dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
 			type: 'createPassages',
 			storyId: story.id,
 			props: toCreate.map(name => {
-				const result = {left, name, top};
+				const result = {left, name, top, passageType, width, height};
 
 				left += passageDefs.width + passageGap;
 				return result;
