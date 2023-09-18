@@ -200,7 +200,7 @@ export const WriteRoute: React.FC = () => {
                 alert("오류");
             }
 
-            history.push("/board");
+            history.push("/board/all/1");
         });
     }
 
