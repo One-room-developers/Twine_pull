@@ -284,7 +284,7 @@ export const BoardRoute: React.FC = () => {
     //const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
 
     //카테고리 더미 데이터
-    const categoryArr = [{name: "일반", url:"/board", id:1}, {name: "버그제보", url:"", id:2}];
+    const categoryArr = [{name: "일반", url:"/board/all/1", id:1}, {name: "버그제보", url:"/board/bugReport/1", id:2}];
 
     return (
         <Container>
