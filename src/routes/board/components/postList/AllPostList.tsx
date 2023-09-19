@@ -115,7 +115,19 @@ interface RouteParams{
 
 function AllPostList(){
     const { pageNum } = useParams<RouteParams>();
-    const endPageNum = parseInt(pageNum)*30 + 1;//최대 페이지
+    console.log(pageNum);
+    
+    let page = 1;
+
+    if(pageNum === undefined){
+        page = 1;
+    }
+    else{
+        page = parseInt(pageNum);
+    }
+
+    const endPageNum = page*30 + 1;//최대 페이지
+
     
     const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postList", ()=> fetchPostList(endPageNum));
 

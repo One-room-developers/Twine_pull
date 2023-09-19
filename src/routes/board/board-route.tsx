@@ -328,6 +328,11 @@ export const BoardRoute: React.FC = () => {
                             <BugPostList />
                             <BugPageNumContainer />
                         </Route>
+                        <Route path={`/board`}>
+                            <AllPageNumContainer />
+                            <AllPostList />
+                            <AllPageNumContainer />
+                        </Route>
                     </Switch>
 
                 </Mid>
