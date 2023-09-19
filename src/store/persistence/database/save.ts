@@ -15,6 +15,7 @@ export async function createPassage(passage:Passage){
 			passageType: passage.passageType,
 			story: passage.story,
 			text: passage.text,
+			options : passage.options,
 			text_user: passage.text_user,
 			height: passage.height,
 			highlighted: passage.highlighted,
@@ -22,7 +23,6 @@ export async function createPassage(passage:Passage){
 			selected: passage.selected,
 			top: passage.top,
 			width: passage.width,
-			options : passage.options
 		}
 	})
 	.then((res) => {
@@ -66,13 +66,13 @@ export async function updatePassage(passage:Passage) {
 			passageType: passage.passageType,
 			text: passage.text,
 			text_user: passage.text_user,
+			options : passage.options,
 			height: passage.height,
 			highlighted: passage.highlighted,
 			left: passage.left,
 			selected: passage.selected,
 			top: passage.top,
 			width: passage.width,
-			options : passage.options
 		}
 	})
 	.then((res) => {
