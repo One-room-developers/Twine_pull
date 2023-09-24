@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export {};
 
-export async function fetchPostList(post_id:number){
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_post_list/${post_id}`);
+export async function fetchPostList(page_num:number){
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_post_list/${page_num}`);
     const data = await response.data;
     console.log(data);
     return data;
@@ -24,8 +24,8 @@ export async function getPost(post_id:number){
 }
 
 // 카테고리별 게시물 리스트
-export async function fetchPostListByCategory(category:number){
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_category/${category}`)
+export async function fetchPostListByCategory(category:number, page_num:number){
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_category/${category}/$`)
     const data = await response.data;
     console.log(data);
     return data;
@@ -40,8 +40,8 @@ export async function getPostCountByCategory(category:number){
 }
 
 //념글 아이디만큼 긁어오는거
-export async function fetchPopularPostList(post_id:number){
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post/${post_id}`);
+export async function fetchPopularPostList(page_num:number){
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post/${page_num}`);
     const data = await response.data;
     console.log(data);
     return data;
