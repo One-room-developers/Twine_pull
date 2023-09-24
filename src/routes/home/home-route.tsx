@@ -60,7 +60,7 @@ export const HeaderBar: React.FC = () =>{
                             </div>
 
                             <div className="category">
-                                <Link to={`/board/all/1`}>
+                                <Link to={`/board`}>
                                     <span className="font-game-thick category-span">커뮤니티</span>
                                 </Link>
                             </div>
