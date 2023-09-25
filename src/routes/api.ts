@@ -25,7 +25,7 @@ export async function getPost(post_id:number){
 
 // 카테고리별 게시물 리스트
 export async function fetchPostListByCategory(category:number, page_num:number){
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_category/${category}/$`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_category/${category}/${page_num}`)
     const data = await response.data;
     console.log(data);
     return data;
