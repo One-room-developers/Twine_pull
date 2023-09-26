@@ -2,15 +2,21 @@ import * as React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
-import { fetchPostList } from '../api';
 import { useQuery } from 'react-query';
+import { useState } from "react";
+import {useParams} from 'react-router-dom'
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
 import AllPageNumContainer from './components/pageNum/AllPageNum';
-import BugPageNumContainer from './components/pageNum/AllPageNum';
+import BugPageNumContainer from './components/pageNum/BugPageNum';
+import NormalPageNumContainer from './components/pageNum/NormalPageNum';
+import PopularPageNumContainer from './components/pageNum/PopularPageNum';
+
 import AllPostList from './components/postList/AllPostList';
 import BugPostList from './components/postList/BugPostList';
+import NormalPostList from './components/postList/NormalPostList';
+import PopularPostList from './components/postList/PopularPostList';
 //이미지
 import starImg from './img/star.png';
 import upImg from './img/up.png';
@@ -107,28 +113,8 @@ const CategoryTag = styled.li`
     font-size: 18px;
     font-family: "godicM";
 `
-const CategoryTagSelected = styled(CategoryTag)`
-`
-
-
-const PageNumContainer = styled.div`
-    width: 100%;
-    height: 40px;
-    background-color: var(--main-white);
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
-    margin-bottom: 10px;
-
-`
-//삭제
-const PostListWrapper = styled.div`
-    min-height: 54px;
-    background-color: var(--main-white);
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+const CategoryTag_disabled = styled(CategoryTag)`
+    opacity: 0.5;
 `
 
 const RightSide = styled.div`
@@ -143,77 +129,6 @@ const PostSearchContainer = styled.div`
     flex-direction: column;
     padding: 18px;
 `
-//삭제 시작
-const PostContainer = styled.li`
-    width: 100%;
-    height: 58px;
-    padding: 9px 10px 8px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &:hover{
-        background-color: rgb(202, 209, 217);
-    }
-`
-const PostHead = styled.div`
-    width: 65px;
-    height: 26px;
-    background-color: var(--main-gray);
-    color: var(--main-white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    font-family: "godicM";
-    font-size: 14px;
-`
-const PostMain = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 540px;
-    height: 100%;
-`
-const PostMainTop = styled.div`
-    width: 100%;
-    font-family: "godicM";
-    font-size: 17px;
-`
-const PostMainBottom = styled.div`
-    width: 100%;
-    font-family: "godicThin";
-    font-size: 14px;
-    display: flex;
-    margin-bottom: 3px;
-    opacity: 0.8;
-`
-const PostBottomInfo = styled.div`
-    margin-right: 14px;
-`
-
-const PostFooter = styled.div`
-    width: 60px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-`
-const StarImg = styled.img.attrs({src: starImg})`
-    width: 20px;
-    height: 20px;
-`
-const LikesImg = styled.img.attrs({src: upImg})`
-    width: 20px;
-    height: 20px;
-`
-const LikesNumContainer = styled.div`
-    font-family: "godicM";
-    margin-bottom: 5px;
-`
-//삭제 끝
-
 const Loader = styled.h2`
     font-size: 20px;
     font-weight: 500;
@@ -260,31 +175,24 @@ const SearchButton = styled.button`
     }
 `
 
-//삭제
-interface PostInfo {
-    post_id: number,
-    writer: string,
-    title: string,
-    createdAt: Date,
-    view: number,
-    like: number,
-    category: string,
-};
+interface RouteParams {
+    category: string;
+}
 
 export const BoardRoute: React.FC = () => {
-    //const [board, setBoard] = React.useState([]);
-    //실제로 뿌려지는 array
 
-    let page = 1;//이걸 useQuery로 가져와야 함
-    const endPageNum = page*30 + 1;//최대 페이지
     //url에 따라 componet를 다른걸 뿌리고, 그 component내부에 다 함수 써야될듯. 왜? if문으로 useParm에 따라 달리
     //페이지를 불러오는게 안되기 때문. 그렇게 하지 않으면 모든 배열을 다 불러오게 되버림
     //각각의 페이지도 같음.
     
     //const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postLists", ()=> fetchPostList(endPageNum));
 
+    ///:category 써야겠는데?
+    const { category } = useParams<RouteParams>();
+
+
     //카테고리 더미 데이터
-    const categoryArr = [{name: "일반", url:"/board/all/1", id:1}, {name: "버그제보", url:"/board/bugReport/1", id:2}];
+    const categoryArr = [{name: "전체", url:"all", id:1},{name: "일반", url:"normal", id:2}, {name: "버그제보", url:"bugReport", id:3}];
 
     return (
         <Container>
@@ -304,10 +212,18 @@ export const BoardRoute: React.FC = () => {
                         <CategoryContainer>
                             {
                                 categoryArr?.map( cat => 
-                                    <Link to={cat.url}>
-                                        <CategoryTag key={cat.id}>
-                                            {cat.name}
-                                        </CategoryTag>
+                                    <Link to={`/board/${cat.url}/1`}>
+                                        {
+                                            (cat.url === category) ? (
+                                                <CategoryTag key={cat.id}>
+                                                    {cat.name}
+                                                </CategoryTag>
+                                            ) : (
+                                            <CategoryTag_disabled key={cat.id}>
+                                                {cat.name}
+                                            </CategoryTag_disabled>)
+                                        }
+                                        
                                     </Link>
                                 )
                             }
@@ -322,6 +238,16 @@ export const BoardRoute: React.FC = () => {
                             <AllPageNumContainer />
                             <AllPostList />
                             <AllPageNumContainer />
+                        </Route>
+                        <Route path={`/board/popular/:pageNum`}>
+                            <PopularPageNumContainer />
+                            <PopularPostList />
+                            <PopularPageNumContainer />
+                        </Route>
+                        <Route path={`/board/normal/:pageNum`}>
+                            <NormalPageNumContainer />
+                            <NormalPostList />
+                            <NormalPageNumContainer />
                         </Route>
                         <Route path={`/board/bugReport/:pageNum`}>
                             <BugPageNumContainer />
@@ -352,7 +278,7 @@ export const BoardRoute: React.FC = () => {
                             </Link>
                         </Btn>
                         <LikeBtn>
-                            <Link to={"./"}>
+                            <Link to={"/board/popular/1"}>
                                 인기글
                             </Link>
                         </LikeBtn>

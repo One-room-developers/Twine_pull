@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { fetchPostListByCategory } from '../../../api';
 import { useQuery } from 'react-query';
 import {useParams} from "react-router-dom";
-
+import { useState } from "react";
 //이미지
 import starImg from '../../img/star.png';
 import upImg from '../../img/up.png';
@@ -104,7 +104,7 @@ interface PostInfo {
     createdAt: Date,
     view: number,
     like: number,
-    category: string,
+    category: number,
 };
 interface PostProps{
     pageNum: number;
@@ -115,9 +115,16 @@ interface RouteParams{
 
 function BugPostList(){
     const { pageNum } = useParams<RouteParams>();
-    const endPageNum = parseInt(pageNum)*30 + 1;//최대 페이지
-    
-    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("BugPostList", ()=> fetchPostListByCategory(2));
+
+    const [page, setPage] = useState(1);
+
+    if(pageNum === undefined){
+    }
+    else if (parseInt(pageNum) !== page){
+        setPage(parseInt(pageNum));
+    }
+
+    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>(["BugPostList", page], ()=> fetchPostListByCategory(2, page));
 
     return(
         <PostListWrapper>
@@ -129,7 +136,10 @@ function BugPostList(){
                         (
                             postsData?.map( post =>
                                 <PostContainer key={post.post_id}>
-                                    <PostHead>전체</PostHead>
+                                    {post.category === 1 ? (<PostHead>일반</PostHead>) : 
+                                        post.category === 2 ? (<PostHead>버그제보</PostHead>):
+                                        (<></>)
+                                    }
                                     
                                     <PostMain>
                                         <PostMainTop>

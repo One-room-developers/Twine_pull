@@ -178,6 +178,32 @@ export const WriteRoute: React.FC = () => {
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
     const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
+    function test1000Post(){
+        for(let i=1; i<1000; i++){
+            axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/post/create`,
+                data: {
+                    writer: `사용자${i}`,
+                    title: `제목${i}`,
+                    content: `내용${i}`,
+                    category: (i%2) + 1,
+                    password: "1234"
+                },
+            })
+            .then((res) => {
+                if(res.data.successMsg === 20) {
+                    //alert("게시물이 등록되었습니다.");
+                }
+                else {
+                    alert("오류");
+                }
+    
+                //history.push("/board/all/1");
+            });
+        }
+    }
+
     function regist(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -209,6 +235,7 @@ export const WriteRoute: React.FC = () => {
             <HeaderBar />
             <Header>
                 <Title>글쓰기</Title>
+                <button onClick={test1000Post}>클릭</button>
             </Header>
 
             <Main>

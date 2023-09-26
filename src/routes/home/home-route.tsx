@@ -30,7 +30,6 @@ export const HeaderBar: React.FC = () =>{
         setScrollY(window.scrollY);
     };
     
-
     window.addEventListener("scroll", handleScroll);
 
     return(
@@ -60,7 +59,7 @@ export const HeaderBar: React.FC = () =>{
                             </div>
 
                             <div className="category">
-                                <Link to={`/board`}>
+                                <Link to={`/board/all`}>
                                     <span className="font-game-thick category-span">커뮤니티</span>
                                 </Link>
                             </div>

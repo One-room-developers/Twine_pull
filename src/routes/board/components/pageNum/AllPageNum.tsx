@@ -16,7 +16,6 @@ margin-bottom: 10px;
 display: flex;
 justify-content: center;
 align-items: center;
-
 `
 const MoveIcon = styled.img`
     width: 20px;
@@ -58,7 +57,7 @@ function AllPageNumContainer(){
     }
 
     //출력되는 페이지 시작 번호 (10단위)
-    let startPageNumber = Math.floor(page / 10);//1의자리 0, 10의자리 숫자 1...
+    let startPageNumber = Math.floor((page-1) / 10);//1의자리 0, 10의자리 숫자 1...
     console.log("startPageNumber: ", startPageNumber);
 
     //전체 페이지 정보 불러오면 이를 바탕으로 페이지 몇까지 만들어지는지 계산

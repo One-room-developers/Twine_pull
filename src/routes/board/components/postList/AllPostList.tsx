@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
-import { fetchPostList } from '../../../api';
+import { fetchPostList, getPostCount } from '../../../api';
 import { useQuery } from 'react-query';
 import {useParams} from "react-router-dom";
+import { useState } from "react";
 
 //이미지
 import starImg from '../../img/star.png';
@@ -104,7 +105,7 @@ interface PostInfo {
     createdAt: Date,
     view: number,
     like: number,
-    category: string,
+    category: number,
 };
 interface PostProps{
     pageNum: number;
@@ -116,20 +117,21 @@ interface RouteParams{
 function AllPostList(){
     const { pageNum } = useParams<RouteParams>();
     console.log(pageNum);
-    
-    let page = 1;
 
+    const [page, setPage] = useState(1);
+   // const [postsData, setPostsData] = useState<PostInfo[] | null>();
+
+    //컴포넌트가 마운트(처음나타났을 떄)되었을 때만 작동하도록 설계.
     if(pageNum === undefined){
-        page = 1;
     }
-    else{
-        page = parseInt(pageNum);
+    else if (parseInt(pageNum) !== page){
+        setPage(parseInt(pageNum));
     }
 
-    const endPageNum = page*20 + 1;//최대 페이지
+    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>(["postList", page], ()=> fetchPostList(page));
 
-    
-    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>("postList", ()=> fetchPostList(endPageNum));
+    console.log("page: ", page);
+
 
     return(
         <PostListWrapper>
@@ -141,7 +143,10 @@ function AllPostList(){
                         (
                             postsData?.map( post =>
                                 <PostContainer key={post.post_id}>
-                                    <PostHead>전체</PostHead>
+                                    {post.category === 1 ? (<PostHead>일반</PostHead>) : 
+                                        post.category === 2 ? (<PostHead>버그제보</PostHead>):
+                                        (<></>)
+                                    }
                                     
                                     <PostMain>
                                         <PostMainTop>
