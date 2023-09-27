@@ -18,7 +18,6 @@ import {
 export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 	console.log("Log:DBsaveMiddleware")
 	console.log(action.type);
-	debugger;
 	switch (action.type) {
 		case 'createPassage': {
 			const story = storyWithId(state, action.storyId);
@@ -79,7 +78,6 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 		case 'init':
 		case 'repair':
 		default :
-			// debugger;
 			break;
 	}
 }

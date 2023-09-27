@@ -156,9 +156,9 @@ function passageUpdatedList(passage : Passage, stories, story, passageType : str
 		passageUpdates[passage.id] = {...passageUpdates[passage.id], width, height};
 	}
 
-	passage.options.forEach(optionPassageName => 
+	passage.nextPassages.forEach(nextPassage => 
 		{
-			const optionPassage : Passage = passageWithName(stories, story.id, optionPassageName);
+			const optionPassage : Passage = passageWithName(stories, story.id, nextPassage);
 			let dummyPsUpdatedList;
 			switch(passageType){
 				case "normalPassage" :

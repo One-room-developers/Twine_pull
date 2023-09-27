@@ -9,11 +9,13 @@ export const passageDefaults = (): Omit<Passage, 'id' | 'story'> => ({
 	selected: false,
 	tags: [],
 	text: '',
+	text_user:"",
 	top: 0,
 	width: 100,
 	options:[],
-	text_user:"",
-	passageType:""
+	passageType:"normalPassage",
+	parentOfOption:"",
+	nextPassages:[]
 });
 
 export const storyDefaults = (): Omit<Story, 'id'> => ({

@@ -29,6 +29,8 @@ export function fakePassage(props?: Partial<Passage>): Passage {
 		options:[],
 		text_user:"",
 		passageType:"",
+		parentOfOption:"",
+		nextPassages:[],
 		...props
 	};
 }

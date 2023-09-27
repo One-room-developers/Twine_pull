@@ -13,7 +13,7 @@ export interface UpdatePassageOptions {
  * General update of a passage.
  */
 
-//updatePassage가 dispatch함수를 만들어서 뿌려주는 느낌
+//진짜 dispatch() 및 하위 passage 생성, 상위 passage의 텍스트 변경
 export function updatePassage(
 	story: Story,
 	passage: Passage,
@@ -60,8 +60,9 @@ export function updatePassage(
 
 			const updatedStory = storyWithId(getState(), story.id);
 
+			//하위 passage 생성
 			dispatch(
-				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, passage.passageType)
+				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText)
 			);
 		}
 
