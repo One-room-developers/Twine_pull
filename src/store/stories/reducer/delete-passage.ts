@@ -29,8 +29,8 @@ export function deletePassage(
 				let dummyPassage;
 				dummyPassage = {
 					...passage,
-					options : passage.options.filter(option => {
-						if(option === passageName)
+					options : passage.nextPassages.filter(nextPassage => {
+						if(nextPassage === passageName)
 							return false;
 						else
 							return true;

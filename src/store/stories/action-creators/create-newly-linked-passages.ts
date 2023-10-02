@@ -21,7 +21,6 @@ export function createNewlyLinkedPassages(
 	passage: Passage,
 	newText: string,
 	oldText: string,
-	parentPassageType : string //자식에게 passagetype 추가를 위해
 ): Thunk<StoriesState, CreatePassagesAction> {
 	if (!story.passages.some(p => p.id === passage.id)) {
 		throw new Error('This passage does not belong to this story.');
@@ -41,10 +40,16 @@ export function createNewlyLinkedPassages(
 		const passageGap = 25;
 		//이지원 추가 코드
 		//자식에게 전달할 passage type
-		const passageType = parentPassageType==='normalPassage' ? 'optionPassage' : 'normalPassage'
+		const passageType = passage.passageType==='normalPassage' ? 'optionPassage' : 'normalPassage'
 		//자식에게 전달할 width
-		const width = parentPassageType==='normalPassage' ? 75 : 100
-		const height = parentPassageType==='normalPassage' ? 75 : 100
+		const width = passage.passageType==='normalPassage' ? 75 : 100
+		const height = passage.passageType==='normalPassage' ? 75 : 100
+		//자식에게 전달할 parentPassage
+		let parentOfOption;
+		if(passage.passageType === 'normalPassage')
+			parentOfOption = passage.name
+		else
+			parentOfOption = ""
 
 		let top = passage.top + passage.height + passageGap;
 		const newPassagesWidth =
@@ -95,7 +100,7 @@ export function createNewlyLinkedPassages(
 			type: 'createPassages',
 			storyId: story.id,
 			props: toCreate.map(name => {
-				const result = {left, name, top, passageType, width, height};
+				const result = {left, name, top, passageType, parentOfOption, width, height};
 
 				left += passageDefs.width + passageGap;
 				return result;

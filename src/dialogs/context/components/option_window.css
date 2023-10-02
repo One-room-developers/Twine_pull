@@ -164,6 +164,18 @@ textarea:focus{
     background-color: rgb(238, 238, 238);
 
 }
+.add-option-btn-container > input{
+    border: none;
+    background-color: rgb(238, 238, 238);
+    width: 300px;
+    border-bottom: 2px solid rgb(57, 62, 70);
+    margin-right: 10px;
+    padding-left : 10px;
+    font-size: 14px;
+    font-weight: 400;
+    height: 30px;
+}
+
 
 .add-option-btn{
     text-decoration: none;
@@ -185,6 +197,9 @@ textarea:focus{
     color: rgb(34, 40, 49);
 }
 .add-option-btn-container:focus-within {
+    background-color: #FFFFFF;
+}
+.add-option-btn-container:focus-within > input {
     background-color: #FFFFFF;
 }
 

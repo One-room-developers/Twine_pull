@@ -60,8 +60,11 @@ export interface Passage {
 	/**
 	 * 선택지
 	 */
-	// options: option[];
-	options : string[];
+	nextPassages : string[];
+	
+	parentOfOption : string; //option passage의 부모 passage
+
+	options : option[];
 
 	//유저에게 보이는 본문
 	text_user:string;
