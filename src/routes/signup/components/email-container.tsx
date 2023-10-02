@@ -59,7 +59,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                     method: "POST",
                     url: `${process.env.REACT_APP_API_URL}/auth/signup`,
                     data: {
-                        email: this.state.email,
+                        id: this.state.email,
                         nickname: this.state.nickname,
                         password: this.state.password
                     },

@@ -46,9 +46,21 @@ export async function fetchPopularPostList(page_num:number){
     console.log(data);
     return data;
 }
+
 //념글 전체갯수
 export async function getPopularPostCount() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post_count`);
+    const data = await response.data;
+    console.log(data);
+    return data;
+}
+
+export async function updatePostLike(player_id:string, post_id:number) {
+    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`,
+        {
+            "player_id": player_id,
+            "post_id": post_id
+        });
     const data = await response.data;
     console.log(data);
     return data;

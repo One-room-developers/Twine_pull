@@ -27,7 +27,7 @@ export const LoginRoute: React.FC = () => {
             method: "POST",
             url: `${process.env.REACT_APP_API_URL}/auth/login`,
             data: {
-                email: email,
+                id: email,
                 password: pwd,
             },
         })
