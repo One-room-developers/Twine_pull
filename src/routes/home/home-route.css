@@ -308,11 +308,12 @@ body{
     background-color: var(--main-white);
 }
 .game-play-main-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-    
-    margin-bottom: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+    margin-top: 40px;
 }
 .game-play-main-text{
     color: var(--main-white);

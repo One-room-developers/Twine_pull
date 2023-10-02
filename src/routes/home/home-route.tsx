@@ -4,6 +4,7 @@ import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
 import {Link} from "react-router-dom"
+import SliderContainer from './SliderContainer';
 import useIntersectionObserver from './useIntersectionObserver';
 
 export const HeaderBar: React.FC = () =>{
@@ -162,9 +163,7 @@ export const HomeRoute: React.FC = () => {
                     </div>
 
                     <div className="game-play-main-container">
-                        <p className="game-play-main-text description-size">
-                            다음과 같은 분야에서 활용됩니다.
-                        </p>
+                        <SliderContainer />
                     </div>
 
                     <div className="game-play-title-container">
@@ -176,9 +175,7 @@ export const HomeRoute: React.FC = () => {
                     </div>
 
                     <div className="game-play-main-container">
-                        <p className="game-play-main-text description-size">
-                            다음과 같은 분야에서 활용됩니다.
-                        </p>
+                        <SliderContainer />
                     </div>
                 </div>
 
