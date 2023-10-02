@@ -121,26 +121,27 @@ export const HomeRoute: React.FC = () => {
                         </span>
                     </button>
                     
+                    <br/>
 
-                    <div className="make-game-title-container">
+                    <div className="game-term-title-container">
                         <div className="title-line1"></div>
                         <h1 className="font-game-thick explain-game-title">
-                            게임을 즐기는 방법
+                            게임 속 용어
                         </h1>
                         <div className="title-line1"></div>
                     </div>
 
-                    <div className="make-game-main-text">
+                    <div className="game-term-main-text">
                         <p className="explain-main-text description-size">
-                            '메인스토리'란 게임의 장르를 결정하는 시작 이야기입니다.
+                            '메인 스토리'란 게임의 장르를 결정하는 시작 이야기입니다.
                             <br/>
                             '에피소드'란 메인스토리에 맞추어 이후에 등장하게 되는 작은 사건들입니다. 
                             <br/>
                             <br/>
-                            에피소드는 유저가 만들 수 있습니다.
+                            이 게임은 '메인 스토리'에 유저들이 덧붙혀나가는 '에피소드'로 구성됩니다.
                             <br/>
                             <br/>
-                            
+                            앞으로는 이 용어들을 사용하여 게임을 소개할 것입니다.
                         </p>
 
                     </div>
@@ -151,23 +152,36 @@ export const HomeRoute: React.FC = () => {
 
             <div className="fourth-section">
                 <div></div>
-                <div className="block-chain-introduction">
-                    <div className="block-chain-title-container">
+                <div className="game-play-introduction">
+                    <div className="game-play-title-container">
                         <div className="title-line2"></div>
-                        <h1 className="font-game-thick block-chain-title">
-                            유저가 직접 컨텐츠를 추가해나가는
-                            <br/>
-                            텍스트 게임 개발 방법
+                        <h1 className="font-game-thick game-play-title">
+                            게임 플레이 튜토리얼
                         </h1>
                         <div className="title-line2"></div>
                     </div>
 
-                    <div className="block-chain-main-container">
-                        <p className="block-chain-main-text description-size">
+                    <div className="game-play-main-container">
+                        <p className="game-play-main-text description-size">
+                            다음과 같은 분야에서 활용됩니다.
+                        </p>
+                    </div>
+
+                    <div className="game-play-title-container">
+                        <div className="title-line2"></div>
+                        <h1 className="font-game-thick game-play-title">
+                            에피소드 제작 튜토리얼
+                        </h1>
+                        <div className="title-line2"></div>
+                    </div>
+
+                    <div className="game-play-main-container">
+                        <p className="game-play-main-text description-size">
                             다음과 같은 분야에서 활용됩니다.
                         </p>
                     </div>
                 </div>
+
                 <div className="fourth-section-line"></div>
             </div>
         </main>
