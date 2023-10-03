@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword } from '../api';
+import { fetchCommentList, getPost, checkPostPassword, deletePostApi } from '../api';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
@@ -373,9 +373,20 @@ export const ThreadRoute: React.FC = () => {
     const [targetComment, setTargetComment] = React.useState(-1);
 
     const [userPostPwd, setUserPostPwd] = React.useState("");
-    const [userCommentPwd, setUserCommentPwd] = React.useState("");
+    const [userCommentPwd, setUserCommentPwd] = React.useState("");//댓글 비번 검사하는 함수에 사용
     const onChangeUserPostPwd = React.useCallback((e) => setUserPostPwd(e.target.value), []);
     const onChangeUserCommentPwd = React.useCallback((e) => setUserCommentPwd(e.target.value), []);
+
+
+    //댓글 쓰기 관련
+    const [createCommentName, setCreateCommentName] = React.useState("");
+    const [createCommentPwd, setCreateCommentPwd] = React.useState("");
+    const [createCommentContent, setCreateCommentContent] = React.useState("");
+
+    const onChangeCommentName = React.useCallback((e) => setCreateCommentName(e.target.value), []);
+    const onChangeCommentPwd = React.useCallback((e) => setCreateCommentPwd(e.target.value), []);
+    const onChangeCommentContent = React.useCallback((e) => setCreateCommentContent(e.target.value), []);
+
 
 
     const toBack = () => {
@@ -400,13 +411,14 @@ export const ThreadRoute: React.FC = () => {
 
     async function deletePost(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+        let result = await deletePostApi(parseInt(viewId), userPostPwd);
 
-        if(result === true){
-            history.push("/");
-        }
-        else if(result === false) {
+        if(result.errorMsg === 15){
             alert("잘못된 비밀번호입니다.");
+        }
+        else {
+            alert("삭제되었습니다.");
+            history.push("/board/all");
         }
     }
 
@@ -433,33 +445,35 @@ export const ThreadRoute: React.FC = () => {
         setPostDeleteMode(true);
     }
 
-    const commentPost = () => {
-        
+    //댓글 게시시
+    const commentPostAPI = (postId: number, writer: string, password: string, comment: string) =>{
+        axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/comment/create`,
+            data: {
+                post_id: postId,
+                writer: writer,
+                password: password,
+                comment: comment
+            }
+        })
+        .then((res) => {
+            if(res.data.successMsg == 31) {
+                alert('오류가 발생하였습니다.')
+            }
+
+            // 댓글 작성한 게시물로 새로고침
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
-    //댓글 게시시
-    // const commentPost = (postId: number, writer: string, password: string, comment: string) =>{
-    //     axios({
-    //         method: "POST",
-    //         url: `${process.env.REACT_APP_API_URL}/comment/create`,
-    //         data: {
-    //             post_id: postId,
-    //             writer: writer,
-    //             password: password,
-    //             comment: comment
-    //         }
-    //     })
-    //     .then((res) => {
-    //         if(res.data.successMsg == 31) {
-    //             alert('오류가 발생하였습니다.')
-    //         }
-
-    //         // 댓글 작성한 게시물로 새로고침
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // }
+    async function commentPost(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        commentPostAPI(parseInt(viewId), createCommentName, createCommentPwd, createCommentContent);
+    }
 
     const [content, setContent] = React.useState([]);
     const post_id = 1;
@@ -483,7 +497,7 @@ export const ThreadRoute: React.FC = () => {
                         <CategoryHeader>
                             <BoxName>{isPostLoading ? (<></>) :
                             postData.category === 1 ? (<>일반</>) :
-                            postData.category === 2 ? (<>버그 리포트</>) : (<></>)}</BoxName>
+                            postData.category === 2 ? (<>버그제보</>) : (<></>)}</BoxName>
                             <BackBtn onClick={toBack}>이전으로</BackBtn>
                         </CategoryHeader>
                         <ThreadInfoHeader>
@@ -569,7 +583,7 @@ export const ThreadRoute: React.FC = () => {
                                                 {
                                                     (commentDeleteMode) ? (
                                                     <ConfirmPwdForm onSubmit={deleteComment}>
-                                                        <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required placeholder='삭제 비밀번호'/>
+                                                        <ConfirmPwdInput onChange={onChangeUserCommentPwd} type="password" required placeholder='삭제 비밀번호'/>
                                                         <ConfirmPwdButton>확인</ConfirmPwdButton>
                                                         <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
                                                     </ConfirmPwdForm>) : (<></>)
@@ -597,7 +611,7 @@ export const ThreadRoute: React.FC = () => {
                                                         {
                                                             (commentDeleteMode===true && targetComment === comment.comment_id) ? (
                                                             <ConfirmPwdForm onSubmit={deleteComment}>
-                                                                <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required />
+                                                                <ConfirmPwdInput onChange={onChangeUserCommentPwd} type="password" required />
                                                                 <ConfirmPwdButton>확인</ConfirmPwdButton>
                                                                 <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
                                                             </ConfirmPwdForm>) : (<></>)
@@ -614,13 +628,13 @@ export const ThreadRoute: React.FC = () => {
                             )
                         }           
                         <CommentPageNum></CommentPageNum>
-                        <CommentWriteContainer onSubmit={commentPost}>
+                        <CommentWriteContainer method='post' onSubmit={commentPost}>
                             <Div5>
                                 <Div4>
-                                    <IdInput required type="text" placeholder='익명 닉네임'/>
-                                    <PwInput required type="password" placeholder='임시 비밀번호'/>
+                                    <IdInput onChange={onChangeCommentName} required type="text" placeholder='익명 닉네임'/>
+                                    <PwInput onChange={onChangeCommentPwd} required type="password" placeholder='임시 비밀번호'/>
                                 </Div4>
-                                <CommentContensInput required type="text" placeholder='댓글로 의견을 전달하세요!'/>
+                                <CommentContensInput onChange={onChangeCommentContent} required type="text" placeholder='댓글로 의견을 전달하세요!'/>
                             </Div5>
                             <Div6>
                                 <CommentSubmintBtn>작성</CommentSubmintBtn>

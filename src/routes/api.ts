@@ -80,7 +80,7 @@ export async function checkPostPassword(post_id:number, password:string) {
     return data;
 }
 
-export async function deletePost(post_id:number, password:string) {
+export async function deletePostApi(post_id:number, password:string) {
     const response = await axios({
         method: "DELETE",
         url: `${process.env.REACT_APP_API_URL}/post/delete`,
