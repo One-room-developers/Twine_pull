@@ -76,6 +76,7 @@ export async function updatePassage(passage:Passage) {
 		}
 	})
 	.then((res) => {
+		console.log(res);
 	})
 	.catch((error) => {
 		console.log(error);

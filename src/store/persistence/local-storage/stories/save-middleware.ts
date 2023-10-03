@@ -94,7 +94,6 @@ export function saveMiddleware(state: StoriesState, action: StoriesAction) {
 		}
 
 		case 'deletePassages': {
-			debugger;
 			const story = storyWithId(state, action.storyId);
 			// See above comment about passages.
 			doUpdateTransaction(transaction => {

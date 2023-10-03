@@ -305,7 +305,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
 
                             max_option_num = max_option_num -1;
 
-                            debugger;
                             //options_id: optionsId,
                             setOptionsTitle(_optionsTitle);
                             setOptionsStatus1(_optionsStatus1)
@@ -349,7 +348,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     const _optionsAmountChange2 = optionsAmountChange2.concat(amount_change2);
                     const _options_after_story = optionsAfterStory.concat(after_story);
 
-                    debugger;
                     //배열 새로 저장. 원본을 바꾸지 않는 형태로 진행하기 위한 코드임.
                     //options_id: optionsId,
                     setOptionsTitle(_optionsTitle)
@@ -410,7 +408,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             }}></input>
                             <a className='add-option-btn' onClick={
                                 function(e){
-                                    const text = props.passage.text + "[[" + nextPassageName + "]]";
+                                    const text = props.passage.text + "\n" +"[[" + nextPassageName + "]]";
                                     const text_user = props.passage.text_user;
                                     let nextPassages = props.passage.nextPassages
                                     nextPassages.push(nextPassageName);
