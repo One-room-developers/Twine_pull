@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost } from '../api';
-import { useHistory, useParams } from 'react-router-dom';
+import { fetchCommentList, getPost, checkPostPassword } from '../api';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
 import messageSvg from './img/message.svg';
@@ -41,7 +41,6 @@ const CategoryHeader = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding:0 10px 0 0;
     margin-bottom: 15px;
 `
 const BoxName = styled.div`
@@ -106,7 +105,10 @@ const ThreadContainer = styled.div`
     margin-bottom: 20px;
 `
 const ThreadInfoHeader = styled.div`
-    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 5px 0;
 `
 const Divider = styled.div`
     font-family: "gameBold";
@@ -289,6 +291,53 @@ const CommentSubmintBtn = styled.button`
         cursor: pointer;
     }
 `
+
+const ConfirmPwdForm = styled.form`
+    width: 237px;
+    height: 36px;
+    padding: 5px 0 5px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: var(--main-blue);
+`
+const ConfirmPwdInput = styled.input`
+    width: 160px;
+    height: 26px;
+    border: none;
+    background-color:white;
+`
+const ConfirmPwdButton = styled.button`
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    padding: 0;
+    border: none;
+    font-family: "godicM";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:var(--main-blue);
+    color: white;
+    &:hover{
+        cursor: pointer;
+    }
+`
+const UndoButton = styled.div`
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    &:hover{
+        cursor: pointer;
+    }
+    font-family: "godicM";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(2, 134, 141);
+    color: var(--main-white);
+`
     
 interface Post {
     post_id: number,
@@ -317,6 +366,18 @@ export const ThreadRoute: React.FC = () => {
     const {viewId} = useParams<RouteParams>();
     const {isLoading, data} = useQuery<IComment[]>(["comment", viewId], ()=> fetchCommentList(parseInt(viewId)));//고유해야 하는 id
 
+    const [postEditMode, setPostEditMode] = React.useState(false);
+    const [postDeleteMode, setPostDeleteMode] = React.useState(false);
+    const [commentEditMode, setCommentEditMode] = React.useState(false);
+    const [commentDeleteMode, setCommentDeleteMode] = React.useState(false);
+    const [targetComment, setTargetComment] = React.useState(-1);
+
+    const [userPostPwd, setUserPostPwd] = React.useState("");
+    const [userCommentPwd, setUserCommentPwd] = React.useState("");
+    const onChangeUserPostPwd = React.useCallback((e) => setUserPostPwd(e.target.value), []);
+    const onChangeUserCommentPwd = React.useCallback((e) => setUserCommentPwd(e.target.value), []);
+
+
     const toBack = () => {
         history.goBack();
     }
@@ -325,68 +386,52 @@ export const ThreadRoute: React.FC = () => {
 
     }
 
-    //좋아요 버튼 누르면 실행되는 함수
-    // const clickLikeBtn = (user_id: string, post_id: number, like_count: number) => {
-    //     axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`, {
-    //         "user_id": ,        // string
-    //         "post_id": ,        // number
-    //         "like_count": ,     // number, 현재 좋아요 수
-    //     })
-    //     .then((res) => {
-    //         // 좋아요 업데이트 실패 (서버 오류)
-    //         if(res.data.successMsg == 37) {
-                
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-    // }
+    async function moveModifyPost(e:React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+
+        if(result === true){
+            history.push("/");
+        }
+        else if(result === false) {
+            alert("잘못된 비밀번호입니다.");
+        }
+    }
+
+    async function deletePost(e:React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+
+        if(result === true){
+            history.push("/");
+        }
+        else if(result === false) {
+            alert("잘못된 비밀번호입니다.");
+        }
+    }
+
+    async function deleteComment(e:React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        
+        //댓글 비번 검사 api
+        //let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+
+        // if(result === true){
+        //     history.push("/");
+        // }
+        // else if(result === false) {
+        //     alert("잘못된 비밀번호입니다.");
+        // }
+    }
 
     const modifyComment = (commentId: number) => {
 
     }
-    //댓글 수정
-    // const modifyComment = (commentId: number, password: string, comment: string) =>{
-    //     axios.patch(`${process.env.REACT_APP_API_URL}/comment/update`, {
-    //         "comment_id": commentId,
-    //         "password": password,
-    //         "comment": comment
-    //     })
-    //     .then((res) => {
-    //         if(res.data.errorMsg == 15) {
-    //             // 잘못된 비밀번호
-    //         }
-    //         else if(res.data.errorMsg == 33) {
-    //             // 업데이트 실패, 서버 에러
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-    // }
 
-    const deleteComment = (commentId: number) => {
-
+    const checkDeleteComment = (commentId: number) => {
+        setTargetComment(commentId);
+        setPostDeleteMode(true);
     }
-    //댓글 삭제
-    // const deleteComment = (commentId: number, password: string) =>{
-    //     axios.patch(`${process.env.REACT_APP_API_URL}/comment/delete`. {
-    //         "comment_id": commentId,
-    //         "password": password
-    //     })
-    //     .then((res) => {
-    //         if(res.data.errorMsg == 15) {
-    //             // 잘못된 비밀번호
-    //         }
-    //         else if(res.data.errorMsg == 35) {
-    //             // 삭제 실패, 서버 혹은 디비 에러
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-    // }
 
     //댓글 게시시
     const commentPost = () => {
@@ -417,7 +462,7 @@ export const ThreadRoute: React.FC = () => {
     const [content, setContent] = React.useState([]);
     const post_id = 1;
 
-    const {isLoading:isPostLoading, data:postData} = useQuery<Post>("post", ()=> getPost(parseInt(viewId)));
+    const {isLoading:isPostLoading, data:postData} = useQuery<Post>(["post", viewId], ()=> getPost(parseInt(viewId)));
     
     return(
         <Container>
@@ -443,6 +488,23 @@ export const ThreadRoute: React.FC = () => {
                                     {postData.title}
                                 </PostTitle>
                             )}
+                            <Div3>
+                                <Link to={`/modify/${viewId}`}>
+                                    <ChangeBtn>
+                                        수정
+                                    </ChangeBtn>
+                                </Link>
+                                |
+                                <ChangeBtn onClick={() => setPostDeleteMode(current => !current)}>삭제</ChangeBtn>
+                                {
+                                    postDeleteMode ? (
+                                    <ConfirmPwdForm onSubmit={deletePost}>
+                                        <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required placeholder='삭제 비밀번호' />
+                                        <ConfirmPwdButton>확인</ConfirmPwdButton>
+                                        <UndoButton onClick={() => setPostDeleteMode(current => !current)}>취소</UndoButton>
+                                    </ConfirmPwdForm>) : (<></>)
+                                }
+                            </Div3>
                         </ThreadInfoHeader>
 
                         <SemiInfoContainer>
@@ -497,10 +559,18 @@ export const ThreadRoute: React.FC = () => {
                                                 <CommentDate>2023.09.15.18.14</CommentDate>
                                             </Div2>
                                             <Div3>
-                                                <ChangeBtn onClick={()=>modifyComment(1)}>수정</ChangeBtn>
+                                                <ChangeBtn onClick={() => setCommentEditMode(current => !current)}>수정</ChangeBtn>
                                                 |
-                                                <ChangeBtn onClick={()=>deleteComment(1)}>삭제</ChangeBtn>
-                                                </Div3>
+                                                <ChangeBtn onClick={() => setCommentDeleteMode(current => !current)}>삭제</ChangeBtn>
+                                                {
+                                                    (commentDeleteMode) ? (
+                                                    <ConfirmPwdForm onSubmit={deleteComment}>
+                                                        <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required placeholder='삭제 비밀번호'/>
+                                                        <ConfirmPwdButton>확인</ConfirmPwdButton>
+                                                        <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
+                                                    </ConfirmPwdForm>) : (<></>)
+                                                }
+                                            </Div3>
                                         </CommentHeader>
                                         <CommentMain>
                                             댓글 내용이 출력됨
@@ -519,7 +589,15 @@ export const ThreadRoute: React.FC = () => {
                                                     <Div3>
                                                         <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>
                                                         |
-                                                        <ChangeBtn onClick={()=>deleteComment(comment.comment_id)}>삭제</ChangeBtn>
+                                                        <ChangeBtn onClick={()=>checkDeleteComment(comment.comment_id)}>삭제</ChangeBtn>
+                                                        {
+                                                            (commentDeleteMode===true && targetComment === comment.comment_id) ? (
+                                                            <ConfirmPwdForm onSubmit={deleteComment}>
+                                                                <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required />
+                                                                <ConfirmPwdButton>확인</ConfirmPwdButton>
+                                                                <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
+                                                            </ConfirmPwdForm>) : (<></>)
+                                                        }
                                                     </Div3>
                                                 </CommentHeader>
                                                 <CommentMain>
