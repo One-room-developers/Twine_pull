@@ -66,6 +66,20 @@ export async function updatePostLike(player_id:string, post_id:number) {
     return data;
 }
 
+export async function checkPostPassword(post_id:number, password:string) {
+    const response = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_API_URL}/post/check_password`,
+        data: {
+            id: post_id,
+            password: password,
+        }
+    });
+    const data = response.data;
+    console.log(data);
+    return data;
+}
+
 // 게시물 아이디로 댓글 가져오기
 /**
  * 반환값

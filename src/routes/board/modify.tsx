@@ -1,12 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { HeaderBar } from '../home';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { getPost } from '../api';
+import { useQuery } from 'react-query';
+
+import {useEffect} from 'react';
+
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
 import { PopularPost } from './components/PopularPost';
+import { count } from 'console';
 
 const Container = styled.body`
     height: 100vh;
@@ -165,7 +170,25 @@ const PostBtn = styled.button`
     }
 `
 
-export const WriteRoute: React.FC = () => {
+interface RouteParams {
+    viewId: string;
+};
+interface Post {
+    post_id: number,
+    writer: string,
+    category: number,
+    title: string,
+    content: string,
+    createdAt: Date,
+    view: number,
+    like: number,
+};
+
+export const ModifyRoute:React.FC = () => {
+
+    const {viewId} = useParams<RouteParams>();
+    let data;
+
     const history = useHistory();
 
     const [nickname, setNickname] = React.useState("");
@@ -173,68 +196,37 @@ export const WriteRoute: React.FC = () => {
     const [content, setContent] = React.useState("");
     const [category, setCategory] = React.useState("");
 
+    useEffect(()=>{
+        data = getPost(parseInt(viewId));
+    },
+    []);
+    useEffect(()=>{
+        setNickname(data.writer);
+        setTitle(data.title);
+        setContent(data.content);
+        setCategory(data.category);
+        console.log("nickname: ", nickname);
+        console.log("title: ", title);
+        console.log("content: ", content);
+        console.log("category: ", category);
+    },
+    [data]);
+
     const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
     const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
-    // function test1000Post(){
-    //     for(let i=1; i<1000; i++){
-    //         axios({
-    //             method: "POST",
-    //             url: `${process.env.REACT_APP_API_URL}/post/create`,
-    //             data: {
-    //                 writer: `사용자${i}`,
-    //                 title: `제목${i}`,
-    //                 content: `내용${i}`,
-    //                 category: (i%2) + 1,
-    //                 password: "1234"
-    //             },
-    //         })
-    //         .then((res) => {
-    //             if(res.data.successMsg === 20) {
-    //                 //alert("게시물이 등록되었습니다.");
-    //             }
-    //             else {
-    //                 alert("오류");
-    //             }
-    
-    //             //history.push("/board/all/1");
-    //         });
-    //     }
-    // }
-
-    function regist(e:React.FormEvent<HTMLFormElement>) {
+    function modify(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        axios({
-            method: "POST",
-            url: `${process.env.REACT_APP_API_URL}/post/create`,
-            data: {
-                writer: nickname,
-                title: title,
-                content: content,
-                category: category,
-                password: "1234"
-            },
-        })
-        .then((res) => {
-            if(res.data.successMsg === 20) {
-                alert("게시물이 등록되었습니다.");
-            }
-            else {
-                alert("오류");
-            }
-
-            history.push("/board/all/1");
-        });
     }
 
     return(
         <Container>
             <HeaderBar />
             <Header>
-                <Title>글쓰기</Title>
+                <Title>글 수정</Title>
             </Header>
 
             <Main>
@@ -244,7 +236,7 @@ export const WriteRoute: React.FC = () => {
                 </LeftSide>
                 <Mid>
                     <WriteContainer>
-                        <WriteFrom method='POST' onSubmit={regist}>
+                        <WriteFrom method='POST' onSubmit={modify}>
                             <CategoryHeader>
                                 <CategoryContainer>
                                     <BoxName>태그</BoxName>
@@ -281,5 +273,5 @@ export const WriteRoute: React.FC = () => {
             </Main>
 
         </Container>
-    );
-};
+    )
+}
