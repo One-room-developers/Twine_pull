@@ -39,7 +39,6 @@ export async function getPostCountByCategory(category:number){
     return data;
 }
 
-//념글 아이디만큼 긁어오는거
 export async function fetchPopularPostList(page_num:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post/${page_num}`);
     const data = await response.data;
@@ -47,10 +46,21 @@ export async function fetchPopularPostList(page_num:number){
     return data;
 }
 
-//념글 전체갯수
 export async function getPopularPostCount() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post_count`);
     const data = await response.data;
+    console.log(data);
+    return data;
+}
+
+export async function updatePost(post_id:number, title:string, content:string) {
+    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update`,
+    {
+        "post_id": post_id,
+        "title": title,
+        "content": content,
+    });
+    const data = response.data;
     console.log(data);
     return data;
 }
@@ -117,6 +127,42 @@ export async function fetchCommentList(post_id:number){
 export async function getCommentCount(post_id:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/comment/get_comment_count/${post_id}`);
     const data = await response.data;
+    console.log(data);
+    return data;
+}
+
+export async function updateComment(comment_id:number, comment:string) {
+    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/comment/update`,
+    {
+        "comment_id": comment_id,
+        "comment": comment,
+    });
+    const data = response.data;
+    console.log(data);
+    return data;
+}
+
+export async function checkCommentPassword(comment_id:number, password:string) {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/comment/check_password`,
+    {
+        "id": comment_id,
+        "password": password,
+    });
+    const data = response.data;
+    console.log(data);
+    return data;
+}
+
+export async function deleteComment(comment_id:number, password:string) {
+    const response = await axios({
+        method: "DELETE",
+        url: `${process.env.REACT_APP_API_URL}/comment/delete`,
+        data: {
+            id: comment_id,
+            password: password,
+        }
+    });
+    const data = response.data;
     console.log(data);
     return data;
 }
