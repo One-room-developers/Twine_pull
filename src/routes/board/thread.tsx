@@ -433,17 +433,19 @@ export const ThreadRoute: React.FC = () => {
         setPostDeleteMode(true);
     }
 
-    //댓글 게시시
     const commentPost = () => {
-
+        
     }
-    // const commentPost = (postId: number, writer: string, comment: string) =>{
+
+    //댓글 게시시
+    // const commentPost = (postId: number, writer: string, password: string, comment: string) =>{
     //     axios({
     //         method: "POST",
     //         url: `${process.env.REACT_APP_API_URL}/comment/create`,
     //         data: {
     //             post_id: postId,
     //             writer: writer,
+    //             password: password,
     //             comment: comment
     //         }
     //     })
