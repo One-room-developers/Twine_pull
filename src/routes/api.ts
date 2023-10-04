@@ -5,21 +5,18 @@ export {};
 export async function fetchPostList(page_num:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_post_list/${page_num}`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
 export async function getPostCount(){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_post_count`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
 export async function getPost(post_id:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_id/${post_id}`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -27,7 +24,6 @@ export async function getPost(post_id:number){
 export async function fetchPostListByCategory(category:number, page_num:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/search_by_category/${category}/${page_num}`)
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -35,21 +31,18 @@ export async function fetchPostListByCategory(category:number, page_num:number){
 export async function getPostCountByCategory(category:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_count_by_category/${category}`)
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
 export async function fetchPopularPostList(page_num:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post/${page_num}`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
 export async function getPopularPostCount() {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post_count`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -61,7 +54,12 @@ export async function updatePost(post_id:number, title:string, content:string) {
         "content": content,
     });
     const data = response.data;
-    console.log(data);
+    return data;
+}
+
+export async function updatePostViewApi(post_id:number) {
+    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_view/${post_id}`);
+    const data = response.data;
     return data;
 }
 
@@ -72,7 +70,6 @@ export async function updatePostLike(player_id:string, post_id:number) {
             "post_id": post_id
         });
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -86,7 +83,6 @@ export async function checkPostPassword(post_id:number, password:string) {
         }
     });
     const data = response.data;
-    console.log(data);
     return data;
 }
 
@@ -100,7 +96,6 @@ export async function deletePostApi(post_id:number, password:string) {
         }
     });
     const data = response.data;
-    console.log(data);
     return data;
 }
 
@@ -119,7 +114,6 @@ export async function deletePostApi(post_id:number, password:string) {
 export async function fetchCommentList(post_id:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/comment/search_by_post_id/${post_id}`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -127,7 +121,6 @@ export async function fetchCommentList(post_id:number){
 export async function getCommentCount(post_id:number){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/comment/get_comment_count/${post_id}`);
     const data = await response.data;
-    console.log(data);
     return data;
 }
 
@@ -138,7 +131,6 @@ export async function updateComment(comment_id:number, comment:string) {
         "comment": comment,
     });
     const data = response.data;
-    console.log(data);
     return data;
 }
 
@@ -149,7 +141,6 @@ export async function checkCommentPassword(comment_id:number, password:string) {
         "password": password,
     });
     const data = response.data;
-    console.log(data);
     return data;
 }
 
@@ -163,6 +154,5 @@ export async function deleteCommentApi(comment_id:number, password:string) {
         }
     });
     const data = response.data;
-    console.log(data);
     return data;
 }
