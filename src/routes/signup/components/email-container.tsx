@@ -74,7 +74,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                     }
 
                     if(res.data.successMsg == 10) {
-                        window.location.href=`${process.env.REACT_APP_HOME_URL}/#/login`;
+                        window.location.href=`${process.env.REACT_APP_API_URL}/#/login`;
                     }
                 });
 
