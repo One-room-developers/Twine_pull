@@ -13,10 +13,10 @@ class ifLogout extends Component<ifLogout_props>{
 
         return(
             <div className="btn__container">
-                <a href="/#/login">
+                <a href="/login">
                     <div className="font-hambak login-btn">LOGIN</div>
                 </a>
-                <a href="/#/signup">
+                <a href="/signup">
                     <div className="font-hambak sign-btn">SIGN UP</div>
                 </a>
             </div>

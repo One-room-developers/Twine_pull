@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword, deletePostApi } from '../api';
+import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi } from '../api';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
@@ -366,7 +366,6 @@ export const ThreadRoute: React.FC = () => {
     const {viewId} = useParams<RouteParams>();
     const {isLoading, data} = useQuery<IComment[]>(["comment", viewId], ()=> fetchCommentList(parseInt(viewId)));//고유해야 하는 id
 
-    const [postEditMode, setPostEditMode] = React.useState(false);
     const [postDeleteMode, setPostDeleteMode] = React.useState(false);
     const [commentEditMode, setCommentEditMode] = React.useState(false);
     const [commentDeleteMode, setCommentDeleteMode] = React.useState(false);
@@ -426,14 +425,14 @@ export const ThreadRoute: React.FC = () => {
         e.preventDefault();
         
         //댓글 비번 검사 api
-        //let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+        let result = await deleteCommentApi(parseInt(viewId), userCommentPwd);
 
-        // if(result === true){
-        //     history.push("/");
-        // }
-        // else if(result === false) {
-        //     alert("잘못된 비밀번호입니다.");
-        // }
+        if(result.errorMsg === 15 ){
+            alert("잘못된 비밀번호입니다.");
+        }
+        else{
+            window.location.reload();
+        }
     }
 
     const modifyComment = (commentId: number) => {

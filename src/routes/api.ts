@@ -153,7 +153,7 @@ export async function checkCommentPassword(comment_id:number, password:string) {
     return data;
 }
 
-export async function deleteComment(comment_id:number, password:string) {
+export async function deleteCommentApi(comment_id:number, password:string) {
     const response = await axios({
         method: "DELETE",
         url: `${process.env.REACT_APP_API_URL}/comment/delete`,

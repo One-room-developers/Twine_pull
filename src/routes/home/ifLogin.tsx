@@ -15,10 +15,10 @@ class ifLogin extends Component<ifLogin_props>{
 
         return(
             <div className="btn__container">
-                <a href="/#/select">
+                <a href="/select">
                     <div className="font-hambak sign-btn">Play Game</div>
                 </a>
-                <a href="/#/">
+                <a href="/">
                     <div className="font-hambak login-btn">MyPage</div>
                 </a>
             </div>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { getPost } from '../api';
+import { getPost, checkPostPassword } from '../api';
 import { useQuery } from 'react-query';
 
 import {useEffect} from 'react';
@@ -126,14 +126,15 @@ const RightSide = styled.div`
 `
 const Mid = styled.div`
     width: 720px;
+    min-height: 900px;
     margin: 0 23px;
-    height: 900px;
     background-color: var(--main-white);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0px;
+
 `
 const WriteContainer = styled.div`
     width: 100%;
-    height: 100%;
+    height: 900px;
     padding: 30px 50px;
 `
 const WriterTextArea = styled.textarea`
@@ -170,6 +171,52 @@ const PostBtn = styled.button`
     }
 `
 
+const ConfirmFormContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 130px;
+`
+const ConfirmTitle = styled.h2`
+    font-family: "godicM";
+    font-size: 20px;
+    margin-bottom: 9px;
+`
+const ConfirmPwdForm = styled.form`
+    width: 254px;
+    height: 44px;
+    padding: 5px 0 5px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-blue);
+`
+const ConfirmPwdInput = styled.input`
+    width: 205px;
+    height: 34px;
+    font-size: 16px;
+    padding-left: 8px;
+    border: none;
+    background-color:white;
+`
+const ConfirmPwdButton = styled.button`
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+    padding: 0;
+    border: none;
+    font-family: "godicM";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:var(--main-blue);
+    color: white;
+    &:hover{
+        cursor: pointer;
+    }
+`
+
 interface RouteParams {
     viewId: string;
 };
@@ -187,39 +234,47 @@ interface Post {
 export const ModifyRoute:React.FC = () => {
 
     const {viewId} = useParams<RouteParams>();
-    let data;
-
-    const history = useHistory();
+    const {isLoading, data} = useQuery<Post>(["modify", viewId], ()=> getPost(parseInt(viewId)));
 
     const [nickname, setNickname] = React.useState("");
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [category, setCategory] = React.useState("");
+    //비번 여부 판단
+    const [isCertification, setIsCetification] = React.useState(false);
 
-    useEffect(()=>{
-        data = getPost(parseInt(viewId));
-    },
-    []);
-    useEffect(()=>{
-        setNickname(data.writer);
-        setTitle(data.title);
-        setContent(data.content);
-        setCategory(data.category);
-        console.log("nickname: ", nickname);
-        console.log("title: ", title);
-        console.log("content: ", content);
-        console.log("category: ", category);
-    },
-    [data]);
+    const [userPostPwd, setUserPostPwd] = React.useState("");
+    const onChangeUserPostPwd = React.useCallback((e) => setUserPostPwd(e.target.value), []);
+
+    async function checkPostPwd(e:React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        let result = await checkPostPassword(parseInt(viewId), userPostPwd);
+
+        if(result.errorMsg === 15){
+            alert("잘못된 비밀번호입니다.");
+        }
+        else {        
+            setIsCetification(true);
+            
+            if(isLoading === true){
+                alert("로딩에 실패했습니다.");
+            }
+            else{
+                setNickname(data.writer);
+                setTitle(data.title);
+                setContent(data.content);
+            }
+        }
+    }
 
     const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
     const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
-    function modify(e:React.FormEvent<HTMLFormElement>) {
+    async function modify(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
+        
     }
 
     return(
@@ -234,36 +289,47 @@ export const ModifyRoute:React.FC = () => {
                     <PopularEpi />
                     <AdContainer />
                 </LeftSide>
+
                 <Mid>
-                    <WriteContainer>
-                        <WriteFrom method='POST' onSubmit={modify}>
-                            <CategoryHeader>
-                                <CategoryContainer>
-                                    <BoxName>태그</BoxName>
-                                    <CategorySelect required onChange={onChangeCategory}>
-                                        <option value={""}>카테고리 선택</option>
-                                        <option value={1}>일반</option>
-                                        <option value={2}>버그제보</option>
-                                    </CategorySelect>
-                                </CategoryContainer>
-                                <Link to={`/board`}>
-                                    <BackBtn>글목록으로</BackBtn>
-                                </Link>
-                            </CategoryHeader>
-                            <WriterInputContainer>
-                                <BoxName>제목</BoxName>
-                                <WriteInput type="text" required onChange={onChangeTitle}/>
-                            </WriterInputContainer>
-                            <ContentsCotainer>
-                                <BoxName>작성자</BoxName>
-                                <Contents type="text" required onChange={onChangeNickname}/>
-                            </ContentsCotainer>
-                            <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent}/>
-                            <PostBtnContainer>
-                                <PostBtn>등록</PostBtn>
-                            </PostBtnContainer>
-                        </WriteFrom>
-                    </WriteContainer>
+                    {isCertification ? (
+                        <WriteContainer>
+                            <WriteFrom method='POST' onSubmit={modify}>
+                                <CategoryHeader>
+                                    <CategoryContainer>
+                                        <BoxName>태그</BoxName>
+                                        <CategorySelect required onChange={onChangeCategory}>
+                                            <option value={""}>카테고리 선택</option>
+                                            <option value={1}>일반</option>
+                                            <option value={2}>버그제보</option>
+                                        </CategorySelect>
+                                    </CategoryContainer>
+                                    <Link to={`/board`}>
+                                        <BackBtn>글목록으로</BackBtn>
+                                    </Link>
+                                </CategoryHeader>
+                                <WriterInputContainer>
+                                    <BoxName>제목</BoxName>
+                                    <WriteInput type="text" required onChange={onChangeTitle} value={title}/>
+                                </WriterInputContainer>
+                                <ContentsCotainer>
+                                    <BoxName>작성자</BoxName>
+                                    <Contents type="text" required onChange={onChangeNickname} value={nickname}/>
+                                </ContentsCotainer>
+                                <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent} value={content}/>
+                                <PostBtnContainer>
+                                    <PostBtn>등록</PostBtn>
+                                </PostBtnContainer>
+                            </WriteFrom>
+                        </WriteContainer>
+                    ) : (
+                        <ConfirmFormContainer>
+                            <ConfirmTitle>비밀번호를 입력해주세요</ConfirmTitle>
+                            <ConfirmPwdForm onSubmit={checkPostPwd}>
+                                <ConfirmPwdInput onChange={onChangeUserPostPwd} type="password" required placeholder='비밀번호' />
+                                <ConfirmPwdButton>확인</ConfirmPwdButton>
+                            </ConfirmPwdForm>
+                        </ConfirmFormContainer>
+                    )}
                 </Mid>
 
                 <RightSide>
