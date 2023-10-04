@@ -3,8 +3,41 @@ import { Passage, StoriesState, Story } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
+export async function createOption(option){
+
+	// axios({
+	// 	method: "POST",
+	// 	url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
+	// 	data: {
+	// 		id:,
+	// 		name:,
+	// 		title:,
+	// 		passageType:,
+	// 		story:,
+	// 		passage:,
+	// 		after_story:,
+	// 		text:,
+	// 		text_user:,
+	// 		status1:,
+	// 		status1_num:,
+	// 		status2:,
+	// 		status2_num:,
+	// 		height:,
+	// 		highlighted:,
+	// 		left:,
+	// 		selected:,
+	// 		top:,
+	// 		width:,
+	// 	}
+	// })
+	// .then((res) => {
+	// })
+	// .catch((err) => {
+	// 	console.log(err);
+	// });
+}
+
 export async function createPassage(passage:Passage){
-	
 
 	axios({
 		method: "POST",
@@ -15,7 +48,6 @@ export async function createPassage(passage:Passage){
 			passageType: passage.passageType,
 			story: passage.story,
 			text: passage.text,
-			options : passage.options,
 			text_user: passage.text_user,
 			height: passage.height,
 			highlighted: passage.highlighted,
@@ -33,6 +65,7 @@ export async function createPassage(passage:Passage){
 }
 
 export async function createStory(story:Story){
+
 		axios({
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
@@ -56,6 +89,36 @@ export async function createStory(story:Story){
 		});
 }
 
+export async function updateOption(option) {
+
+	// axios({
+	// 	method: "PATCH",
+	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
+	// 	data: {
+	// 		name:,
+	// 		title:,
+	// 		after_story:,
+	// 		text:,
+	// 		text_user:,
+	// 		status1:,
+	// 		status1_num:,
+	// 		status2:,
+	// 		status2_num:,
+	// 		height:,
+	// 		highlighted:,
+	// 		left:,
+	// 		selected:,
+	// 		top:,
+	// 		width:,
+	// 	}
+	// })
+	// .then((res) => {
+	// })
+	// .catch((error) => {
+	// 	console.log(error);
+	// });
+}
+
 export async function updatePassage(passage:Passage) {
 
 	axios({
@@ -66,7 +129,6 @@ export async function updatePassage(passage:Passage) {
 			passageType: passage.passageType,
 			text: passage.text,
 			text_user: passage.text_user,
-			options : passage.options,
 			height: passage.height,
 			highlighted: passage.highlighted,
 			left: passage.left,
@@ -83,6 +145,7 @@ export async function updatePassage(passage:Passage) {
 }
 
 export async function updateStory(story) {
+
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.id}`,
@@ -102,6 +165,16 @@ export async function updateStory(story) {
 	.catch((error) => {
 		console.log(error);
 	});
+}
+
+export async function deleteOption(optionId: string) {
+
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${optionId}`)
+		.then((res) => {
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 }
 
 export async function deletePassage(passageId: string) {
