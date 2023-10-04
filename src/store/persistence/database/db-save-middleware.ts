@@ -77,6 +77,8 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 		case 'init':
 		case 'repair':
 		default :
+			console.log("Log : db-save-middleware / default - ")
+			console.log(action)
 			break;
 	}
 }
