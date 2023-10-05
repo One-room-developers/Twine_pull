@@ -335,31 +335,35 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         else{
             option_creator = <CreateOption onCreate={
                 function(option_title, status1, amount_change1, status2, amount_change2, after_story) {
+                    if(!(props.story.passages.find(passage => passage.name === option_title))){
+                        //선택지 목록 아이디를 위한 갯수 추가
+                        max_option_num = max_option_num + 1;
+                        //새로 만든 배열 추가하여 생성
 
-                    //선택지 목록 아이디를 위한 갯수 추가
-                    max_option_num = max_option_num + 1;
-                    //새로 만든 배열 추가하여 생성
+                        //const optionsId = options_id.concat(this.max_option_num);
+                        const _optionsTitle = optionsTitle.concat(option_title);
+                        const _optionsStatus1 = optionsStatus1.concat(status1);
+                        const _optionsAmountChange1 = optionsAmountChange1.concat(amount_change1);
+                        const _optionsStatus2 = optionsStatus2.concat(status2);
+                        const _optionsAmountChange2 = optionsAmountChange2.concat(amount_change2);
+                        const _options_after_story = optionsAfterStory.concat(after_story);
 
-                    //const optionsId = options_id.concat(this.max_option_num);
-                    const _optionsTitle = optionsTitle.concat(option_title);
-                    const _optionsStatus1 = optionsStatus1.concat(status1);
-                    const _optionsAmountChange1 = optionsAmountChange1.concat(amount_change1);
-                    const _optionsStatus2 = optionsStatus2.concat(status2);
-                    const _optionsAmountChange2 = optionsAmountChange2.concat(amount_change2);
-                    const _options_after_story = optionsAfterStory.concat(after_story);
+                        //배열 새로 저장. 원본을 바꾸지 않는 형태로 진행하기 위한 코드임.
+                        //options_id: optionsId,
+                        setOptionsTitle(_optionsTitle)
+                        setOptionsStatus1(_optionsStatus1)
+                        setOptionsAmountChange1(_optionsAmountChange1)
+                        setOptionsStatus2(_optionsStatus2)
+                        setOptionsAmountChange2(_optionsAmountChange2)
+                        setOptionsAfterStory(_options_after_story)
+                        setMode("default")
 
-                    //배열 새로 저장. 원본을 바꾸지 않는 형태로 진행하기 위한 코드임.
-                    //options_id: optionsId,
-                    setOptionsTitle(_optionsTitle)
-                    setOptionsStatus1(_optionsStatus1)
-                    setOptionsAmountChange1(_optionsAmountChange1)
-                    setOptionsStatus2(_optionsStatus2)
-                    setOptionsAmountChange2(_optionsAmountChange2)
-                    setOptionsAfterStory(_options_after_story)
-                    setMode("default")
-
-                    //상위 컴포넌트(Twine)으로 값 전달
-                    props.onTrackingOption(makeOptionsToReturn(_optionsTitle, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2));
+                        //상위 컴포넌트(Twine)으로 값 전달
+                        props.onTrackingOption(makeOptionsToReturn(_optionsTitle, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2));
+                    }   
+                    else{
+                        window.alert("중복된 이름입니다!");
+                    }
                 }
             }/>;
         }

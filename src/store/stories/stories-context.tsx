@@ -32,15 +32,17 @@ export const StoriesContextProvider: React.FC = props => {
 	> = React.useMemo(
 		() => (state, action) => {
 			const newState = reducer(state, action); //새로운 stoires의 정보
+			//이지원 제작
+			//db에 데이터를 저장하는 코드
+			DBsaveMiddleware(newState, action)
+
 			try {
 				storiesPersistence.saveMiddleware(newState, action, formats); //format은 electron 때문에 넘겨주는 것. local에선 작동 안하는 의미없는 값.
 			} catch (error) {
 				reportError(error, 'store.errors.cantPersistStories');
 			}
 
-			//이지원 제작
-			//db에 데이터를 저장하는 코드
-			DBsaveMiddleware(newState, action)
+			
 
 			return newState;
 		},

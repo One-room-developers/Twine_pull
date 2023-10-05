@@ -1,9 +1,9 @@
 
-import { Passage, StoriesState, Story } from "../../stories";
+import { Passage, StoriesState, Story, option } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
-export async function createOption(option){
+export async function createOption(option:option){
 
 	// axios({
 	// 	method: "POST",
@@ -60,12 +60,12 @@ export async function createPassage(passage:Passage){
 	.then((res) => {
 	})
 	.catch((error) => {
+		console.log("엄엄어엄");
 		console.log(error);
 	});
 }
 
 export async function createStory(story:Story){
-
 		axios({
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
@@ -188,9 +188,9 @@ export async function deletePassage(passageId: string) {
 		});
 }
 
-export async function deleteStory(storyId: string) {
+export async function deleteStory(story: Story) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${storyId}`)
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.id}`)
 	.then((res) => {
 	})
 	.catch((error) => {
