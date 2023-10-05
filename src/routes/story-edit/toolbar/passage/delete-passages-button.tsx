@@ -29,7 +29,6 @@ export const DeletePassagesButton: React.FC<
 		if (passages.length === 0) {
 			return;
 		}
-		debugger;
 		passages.forEach((passage)=>{
 			if(passage.passageType === 'normalPassage'){
 				passage.nextPassages.forEach(nextPassage => {

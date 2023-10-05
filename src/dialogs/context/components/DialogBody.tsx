@@ -11,7 +11,6 @@ type DialogBodyProps = {
 export const DialogBody: React.FC<DialogBodyProps> = (props) => {
     let optionAfterStory = ""
     if(props.passage.passageType === "optionPassage"){
-        debugger;
         const parentPassage = passageWithName(props.stories, props.story.id, props.passage.parentOfOption)
         parentPassage.options.forEach(option => {
             if(option.title === props.passage.name){

@@ -49,7 +49,6 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                     onTrackingOption={
                         function(optionArr : option[]){
                             console.log("Log : onTrackingOption");
-                            debugger;
                             let _options = optionArr
                             setOptions( _options);
                         }

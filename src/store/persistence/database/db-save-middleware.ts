@@ -6,7 +6,8 @@ import {
 	createStory,
 	deletePassage,
 	updatePassage,
-	updateStory
+	updateStory,
+	deleteStory
 } from './save';
 import { 
 	storyWithId, 
@@ -16,17 +17,19 @@ import {
 } from '../../stories';
 
 export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
+	debugger;
 	console.log("Log:DBsaveMiddleware")
-	console.log(action.type);
 	switch (action.type) {
 		case 'createPassage': {
 			const story = storyWithId(state, action.storyId);
 			const passage = passageWithName(state, story.id, action.props.name);
+			updateStory(story)
 			createPassage(passage);
 			break;
 		}
 		case 'createPassages': {
 			const story = storyWithId(state, action.storyId);
+			updateStory(story)
 			action.props.forEach((props)=>{
 					const passage = passageWithName(state, story.id, props.name);
 					createPassage(passage)
@@ -38,18 +41,21 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 		case 'createStory':{
 			const story = storyWithName(state, action.props.name);
 			createStory(story);
+			story.passages.forEach(passage => updatePassage(passage));
 			break;
 		}
 
 		case 'updatePassage':{
 			const story = storyWithId(state, action.storyId);
 			const passage = passageWithId(state, action.storyId, action.passageId);
+			updateStory(story)
 			updatePassage(passage)
 			break;
 		}
 
 		case 'updatePassages': {
 			const story = storyWithId(state, action.storyId);
+			updateStory(story);
 			Object.keys(action.passageUpdates).forEach(passageId =>{
 				const passage = passageWithId(state, action.storyId, passageId);
 				updatePassage(passage)
@@ -61,23 +67,33 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 		case 'updateStory': {
 			const story = storyWithId(state, action.storyId);
 			updateStory(story);
+			story.passages.forEach(passage => updatePassage(passage));
 			break;
 		}
 		case 'deletePassage': {
+			const story = storyWithId(state, action.storyId);
+			updateStory(story)
 			deletePassage(action.passageId);
 			break;
 		}
 		case 'deletePassages': {
 			const story = storyWithId(state, action.storyId);
+			updateStory(story)
 			action.passageIds.forEach(passageId =>
 				deletePassage(passageId)
 			);
 			break;
 		}
-
+		case 'deleteStory' : {
+			const story = storyWithId(state, action.storyId);
+			deleteStory(story);
+			break;
+		}
 		case 'init':
 		case 'repair':
 		default :
+			console.log("Log : db-save-middleware / default - ")
+			console.log(action)
 			break;
 	}
 }
