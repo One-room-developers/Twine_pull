@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { getPost, checkPostPassword } from '../api';
+import { getPost, checkPostPassword, updatePost } from '../api';
 import { useQuery } from 'react-query';
 
 import {useEffect} from 'react';
@@ -114,8 +114,10 @@ const WriteInput = styled.input`
         border-bottom: 1px solid var(--main-dark);
     }
 `
-const Contents = styled(WriteInput)`
-    
+const Writer = styled.h1`
+    font-size: 16px;
+    font-family: "godicThin";
+    margin-left: 8px;
 `
 
 const LeftSide = styled.div`
@@ -232,14 +234,12 @@ interface Post {
 };
 
 export const ModifyRoute:React.FC = () => {
-
+    const history = useHistory();
     const {viewId} = useParams<RouteParams>();
     const {isLoading, data} = useQuery<Post>(["modify", viewId], ()=> getPost(parseInt(viewId)));
 
-    const [nickname, setNickname] = React.useState("");
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
-    const [category, setCategory] = React.useState("");
     //비번 여부 판단
     const [isCertification, setIsCetification] = React.useState(false);
 
@@ -260,21 +260,21 @@ export const ModifyRoute:React.FC = () => {
                 alert("로딩에 실패했습니다.");
             }
             else{
-                setNickname(data.writer);
                 setTitle(data.title);
                 setContent(data.content);
             }
         }
     }
 
-    const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
-    const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
     async function modify(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         
+        await updatePost(parseInt(viewId), title, content);
+
+        history.push("/board/all/1");
     }
 
     return(
@@ -296,12 +296,9 @@ export const ModifyRoute:React.FC = () => {
                             <WriteFrom method='POST' onSubmit={modify}>
                                 <CategoryHeader>
                                     <CategoryContainer>
-                                        <BoxName>태그</BoxName>
-                                        <CategorySelect required onChange={onChangeCategory}>
-                                            <option value={""}>카테고리 선택</option>
-                                            <option value={1}>일반</option>
-                                            <option value={2}>버그제보</option>
-                                        </CategorySelect>
+                                        <BoxName>{isLoading ? (<></>) :
+                                        data.category === 1 ? (<>일반</>) :
+                                        data.category === 2 ? (<>버그제보</>) : (<></>)}</BoxName>
                                     </CategoryContainer>
                                     <Link to={`/board`}>
                                         <BackBtn>글목록으로</BackBtn>
@@ -313,7 +310,7 @@ export const ModifyRoute:React.FC = () => {
                                 </WriterInputContainer>
                                 <ContentsCotainer>
                                     <BoxName>작성자</BoxName>
-                                    <Contents type="text" required onChange={onChangeNickname} value={nickname}/>
+                                    <Writer>{data.writer}</Writer>
                                 </ContentsCotainer>
                                 <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent} value={content}/>
                                 <PostBtnContainer>
