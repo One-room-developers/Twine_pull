@@ -27,7 +27,7 @@ const ScrollToTop: React.FC = () => {
 
 export const Routes: React.FC = () => {
 	//const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
-
+	
 	// A <HashRouter> is used to make our lives easier--to load local story
 	// formats, we need the document HREF to reflect where the HTML file is.
 	// Otherwise we'd have to store the actual location somewhere, which will

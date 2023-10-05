@@ -165,6 +165,12 @@ const PostBtn = styled.button`
     }
 `
 
+const CertificateContainer = styled.div`
+    display: flex;
+    width: 420px;
+    justify-content: space-between;
+`
+
 export const WriteRoute: React.FC = () => {
     const history = useHistory();
 
@@ -172,11 +178,13 @@ export const WriteRoute: React.FC = () => {
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [category, setCategory] = React.useState("");
+    const [password, setPassword] = React.useState("");
 
     const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
     const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
+    const onChangePassword = React.useCallback((e) => setPassword(e.target.value), []);
 
     // function test1000Post(){
     //     for(let i=1; i<1000; i++){
@@ -215,7 +223,7 @@ export const WriteRoute: React.FC = () => {
                 title: title,
                 content: content,
                 category: category,
-                password: "1234"
+                password: password
             },
         })
         .then((res) => {
@@ -262,10 +270,16 @@ export const WriteRoute: React.FC = () => {
                                 <BoxName>제목</BoxName>
                                 <WriteInput type="text" required onChange={onChangeTitle}/>
                             </WriterInputContainer>
-                            <ContentsCotainer>
-                                <BoxName>작성자</BoxName>
-                                <Contents type="text" required onChange={onChangeNickname}/>
-                            </ContentsCotainer>
+                            <CertificateContainer>
+                                <ContentsCotainer>
+                                    <BoxName>작성자</BoxName>
+                                    <Contents type="text" required onChange={onChangeNickname}/>
+                                </ContentsCotainer>
+                                <ContentsCotainer>
+                                    <BoxName>비밀번호</BoxName>
+                                    <Contents type="password" required onChange={onChangePassword}/>
+                                </ContentsCotainer>
+                            </CertificateContainer>
                             <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent}/>
                             <PostBtnContainer>
                                 <PostBtn>등록</PostBtn>
