@@ -147,6 +147,7 @@ export function setPassageType(
 	}
 }
 function passageUpdatedList(passage : Passage, stories, story, passageType : string){
+	debugger;
 	let passageUpdates : Record<string, Partial<Passage>> = {};
 
 	passageUpdates[passage.id] = {passageType};

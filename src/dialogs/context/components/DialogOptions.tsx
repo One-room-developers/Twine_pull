@@ -421,7 +421,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                     }
                                 }
                             }>                 
-                            <input className = 'title' placeholder='제목' value={nextPassageName} onChange={function(e){
+                            <input className = 'option-passage-submit-title' placeholder='제목' value={nextPassageName} onChange={function(e){
                                 setNextPassageName(e.target.value);
                             }} required></input>
                             <input className='option-submit-btn' type="submit" value="+ 새 에피소드"></input>
