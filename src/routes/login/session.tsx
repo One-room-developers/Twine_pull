@@ -9,6 +9,7 @@ class SessionStorageAPI<T> extends SessionStorage<T> {
         //value에 무슨 값이 들어오던 string으로 변환 후 저장
         window.sessionStorage.setItem(key, JSON.stringify(value));
     }
+
     getItem(key: string): string {
         let value : string | null;
 
@@ -21,9 +22,10 @@ class SessionStorageAPI<T> extends SessionStorage<T> {
             return value;
         }
     }
+    
     clearItem(key: string): void {
         window.sessionStorage.removeItem(key);
     }
 }
 
-export default SessionStorageAPI
+export default SessionStorageAPI;

@@ -116,12 +116,13 @@ export const HomeRoute: React.FC = () => {
                             <br/>
                         </p>
                     </div>
-                    <button className="go-to-select-btn display-none" onClick={() => window.location.href = '/#/select'}>
+                    {/* <button className="go-to-select-btn display-none" onClick={() => window.location.href = '/#/select'}>
                         <span className="font-game-thick">
                             게임 시작하기
                         </span>
                     </button>
-                    
+                     */}
+                    <br/>
                     <br/>
 
                     <div className="game-term-title-container">
