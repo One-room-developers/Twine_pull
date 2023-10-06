@@ -38,7 +38,7 @@ export async function createOption(option:option){
 }
 
 export async function createPassage(passage:Passage){
-
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,

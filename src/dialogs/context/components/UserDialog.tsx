@@ -17,7 +17,7 @@ type UserDialogProps = {
 
 
 export const UserDialog: React.FC<UserDialogProps> = (props) => {
-
+    const lastTitle = props.passage.name;
     const [title, setTitle] = useState(props.passage.name); 
     const [textUser, setTextUser] = useState(props.passage.text_user);
     const [options, setOptions] = useState(props.passage.options);
@@ -65,7 +65,8 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                     title = {title}
                     textUser= {textUser}
                     options = {options}
-                    dispatch = {dispatch}>
+                    dispatch = {dispatch}
+                    lastTitle = {lastTitle}>
                 </DialogButton>
             </div>
         </div>

@@ -199,7 +199,7 @@ textarea:focus{
 .add-option-btn-container:focus-within {
     background-color: #FFFFFF;
 }
-.add-option-btn-container:focus-within > input {
+.title{
     background-color: #FFFFFF;
 }
 

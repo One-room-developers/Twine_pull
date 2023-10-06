@@ -16,9 +16,10 @@ import {
 	passageWithId
 } from '../../stories';
 
+let lastState: StoriesState;
 export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
-	debugger;
 	console.log("Log:DBsaveMiddleware")
+	
 	switch (action.type) {
 		case 'createPassage': {
 			const story = storyWithId(state, action.storyId);
@@ -85,7 +86,7 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 			break;
 		}
 		case 'deleteStory' : {
-			const story = storyWithId(state, action.storyId);
+			const story = storyWithId(lastState, action.storyId);
 			deleteStory(story);
 			break;
 		}
@@ -96,4 +97,5 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 			console.log(action)
 			break;
 	}
+	lastState = state;
 }
