@@ -272,7 +272,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         if (!(e.target instanceof HTMLButtonElement)) {
                             return;
                         }
-                        setselectedModifyOptionNum(parseInt(e.target.dataset.optionId));
+                        setselectedModifyOptionNum(parseInt(e.target.dataset.optionid));
                     }}>수정</button>
                     <button data-optionId={i} className='option-list-d-btn' onClick={function(e){
                         //splice(제거를 시작할 index, 시작지점부텨 몇개 지울선지, (선택사항) 지운 자리에 넣을 배열)
