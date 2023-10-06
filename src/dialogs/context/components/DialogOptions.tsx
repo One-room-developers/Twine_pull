@@ -72,6 +72,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         //고유 id는 곧 i+1이다.
         //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
         if(mode === "optionModify" &&  selectedModifyOptionNum === i){
+            
             lists.push(
                 <div key={i} id={i.toString()} className="option-list-div option-list-div-onmodify">
                     <div className='info-icon-onmodify'>선택지{i+1}</div>
@@ -98,6 +99,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             <div>
                                 <select className='select-dropdown' name='status1' required onChange={function(e){
                                     let _optionsStatus1 = optionsStatus1.map((value, index) => {
+                                        if(i === index){//바꾸려고 시도하는 index와 아이디(i=순서)가 같다면
+                                        return e.target.value;
+                                    }
                                         return value;
                                     });
                                     setOptionsStatus1(_optionsStatus1);
