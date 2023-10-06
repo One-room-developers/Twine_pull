@@ -17,13 +17,9 @@ import { GameUploadRoute } from './game-upload'
 import { StoryInfoRoute } from './game-upload'
 import { ExceptionRoute } from './exception';
 import {ReactQueryDevtools} from "react-query/devtools"
+import ScrollToTop from "./ScrollToTop"
 
 
-const ScrollToTop: React.FC = () => {
-	
-	return(<></>)
-
-}
 
 export const Routes: React.FC = () => {
 	//const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
@@ -37,6 +33,7 @@ export const Routes: React.FC = () => {
 
 	return (//라우터 변경시 위아래 둘 다 바꿔줘야됨!!!
 		<HashRouter>
+				<ScrollToTop />
 				<Switch>
 					<Route exact path="/">
 						<HomeRoute />
