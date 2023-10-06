@@ -46,7 +46,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
     //
-    const [nextPassageName, setNextPassageName] = useState("");
+    const [nextPassageName, setNextPassageName] = useState<string|null>();
 
     function makeOptionsToReturn(optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2){
 
@@ -335,7 +335,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         else{
             option_creator = <CreateOption onCreate={
                 function(option_title, status1, amount_change1, status2, amount_change2, after_story) {
-                    if(!(props.story.passages.find(passage => passage.name === option_title))){
+                    if(!(props.story.passages.find(passage => passage.name === option_title))){//passage 이름 중복 막기
                         //선택지 목록 아이디를 위한 갯수 추가
                         max_option_num = max_option_num + 1;
                         //새로 만든 배열 추가하여 생성
@@ -406,23 +406,26 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             + 선택지 추가하기
                         </a>
                     ) : (
-                        <>
-                            <input placeholder='제목' required value={nextPassageName} onChange={function(e){
+                        <form method='post' onSubmit={
+                                function(e){//인자로 id까지 받아서 배열에 넣기
+                                    e.preventDefault();
+                                    if(!(props.story.passages.find(passage => passage.name === nextPassageName))){//passage 이름 중복 막기
+                                        const text = props.passage.text + "\n" +"[[" + nextPassageName + "]]";
+                                        const text_user = props.passage.text_user;
+                                        let nextPassages = props.passage.nextPassages
+                                        nextPassages.push(nextPassageName);
+                                        dispatch(updatePassage(props.story, props.passage, {text, text_user, nextPassages}));
+                                        props.onClose();
+                                    }else{
+                                        window.alert("중복된 이름입니다!");
+                                    }
+                                }
+                            }>                 
+                            <input className = 'option-passage-submit-title' placeholder='제목' value={nextPassageName} onChange={function(e){
                                 setNextPassageName(e.target.value);
-                            }}></input>
-                            <a className='add-option-btn' onClick={
-                                function(e){
-                                    const text = props.passage.text + "\n" +"[[" + nextPassageName + "]]";
-                                    const text_user = props.passage.text_user;
-                                    let nextPassages = props.passage.nextPassages
-                                    nextPassages.push(nextPassageName);
-                                    dispatch(updatePassage(props.story, props.passage, {text, text_user, nextPassages}));
-                                    props.onClose();
-                                } 
-                            }>
-                                + 새 에피소드
-                            </a>
-                        </>
+                            }} required></input>
+                            <input className='option-submit-btn' type="submit" value="+ 새 에피소드"></input>
+                        </form>
                     )
                 }
                 

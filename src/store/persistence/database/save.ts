@@ -38,7 +38,6 @@ export async function createOption(option:option){
 }
 
 export async function createPassage(passage:Passage){
-
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -120,7 +119,6 @@ export async function updateOption(option) {
 }
 
 export async function updatePassage(passage:Passage) {
-
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,

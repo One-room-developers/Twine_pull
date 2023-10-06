@@ -9,6 +9,7 @@ type DialogButtonProps = {
     options : option[]
     onClose : () => void
     dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void
+    lastTitle : string
 }
 export const DialogButton: React.FC<DialogButtonProps> = (props) => {
     const {dispatch} = props
@@ -32,10 +33,24 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
     return(
         <div className="save-btn-container">
             <button onClick={function(e){
-                console.log("Log : onclick()");
-                handleRename(props.title);
-                handlePassageTextChange(props.textUser, props.options);
-                props.onClose();
+                let doUpdate : boolean = false;
+                const passages = props.story.passages;
+                const title = props.title;
+                const lastTitle = props.lastTitle
+                if(title === lastTitle)//passage 이름 중복 막기, 이전 이름과 같다면 통과
+                    doUpdate = true;
+                else if(!passages.find(passage => passage.name === title))
+                    doUpdate = true;
+                
+                if(doUpdate){
+                    console.log("Log : onclick()");
+                    handleRename(title);
+                    handlePassageTextChange(props.textUser, props.options);
+                    props.onClose();
+                }
+                else{
+                    window.alert("중복된 이름입니다!");
+                }
             }}>
                 작성완료
             </button>

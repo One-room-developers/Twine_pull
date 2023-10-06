@@ -164,7 +164,7 @@ textarea:focus{
     background-color: rgb(238, 238, 238);
 
 }
-.add-option-btn-container > input{
+.option-passage-submit-title{
     border: none;
     background-color: rgb(238, 238, 238);
     width: 300px;
@@ -199,7 +199,7 @@ textarea:focus{
 .add-option-btn-container:focus-within {
     background-color: #FFFFFF;
 }
-.add-option-btn-container:focus-within > input {
+.add-option-btn-container:focus-within .option-passage-submit-title{
     background-color: #FFFFFF;
 }
 
