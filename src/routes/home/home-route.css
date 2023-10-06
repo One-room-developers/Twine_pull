@@ -189,22 +189,15 @@ body{
 }
 
 .play-game-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 35px;
+    margin: 50px 0 35px 0;
 
 }
 
 .play-game-main-text{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-    
     margin-bottom: 7vh;
 }
 .go-to-select-btn{
@@ -239,9 +232,6 @@ body{
 }
 
 .game-term-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
     
     display: flex;
     flex-direction: column;
@@ -249,9 +239,6 @@ body{
     margin-bottom: 35px;
 }
 .game-term-main-text{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
     
     margin-bottom: 10vh;
     color: var(--main-gray);
@@ -285,9 +272,6 @@ body{
     align-items: flex-end;
 }
 .game-play-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
     
     display: flex;
     flex-direction: column;

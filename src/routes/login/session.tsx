@@ -28,4 +28,4 @@ class SessionStorageAPI<T> extends SessionStorage<T> {
     }
 }
 
-export default SessionStorageAPI
+export default SessionStorageAPI;
