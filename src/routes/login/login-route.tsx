@@ -30,6 +30,7 @@ export const LoginRoute: React.FC = () => {
                 id: email,
                 password: pwd,
             },
+            withCredentials: true,
         })
         .then((res) => {
             if(res.data.errorMsg == 14) {
