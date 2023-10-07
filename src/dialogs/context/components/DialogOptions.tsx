@@ -68,6 +68,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let lists = [];
 
     for(let i=0; i < max_option_num; i++){
+        debugger;
         //i번째 요소에 i라는 key를 주고 있는데 아예 선택지의 고유 ID를 만들면 그걸로 대체해도 될듯
         //고유 id는 곧 i+1이다.
         //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
@@ -265,6 +266,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         </div>
                     </div>
                     <button data-optionId={i} className='option-list-m-btn' onClick={function(e:React.SyntheticEvent<HTMLButtonElement>){
+                        debugger;
                         e.preventDefault();
                         setMode("optionModify");
 
@@ -276,7 +278,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     }}>수정</button>
                     <button data-optionId={i} className='option-list-d-btn' onClick={function(e){
                         //splice(제거를 시작할 index, 시작지점부텨 몇개 지울선지, (선택사항) 지운 자리에 넣을 배열)
-                        
+                        e.preventDefault();
                         if(window.confirm("선택지를 삭제하시겠습니까?")) {
                             //다른 엘리먼트일떄 탈출문
                             if (!(e.target instanceof HTMLButtonElement)) {
