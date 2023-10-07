@@ -1,6 +1,9 @@
 import * as React from 'react';
 import styled from "styled-components";
 import { HeaderBar } from '../home';
+import {useParams} from 'react-router-dom';
+import { useQuery } from 'react-query';
+
 
 const Container = styled.body`
     height: 200vh;
@@ -36,6 +39,11 @@ const Main = styled.div`
 const StoryInfo = styled.div`
     
 `
+
+interface RouteParams{
+    storyDbId: string
+}
+
 interface IStoryInfo {
     storyId: string,//url에 들어갈 story고유 id
     ifId: string,
@@ -55,6 +63,9 @@ interface IStoryInfo {
 }
 //path="/game-upload/storyInfo/:storyDbId"
 export const StoryInfoRoute: React.FC = () => {
+    const { storyDbId } = useParams<RouteParams>();
+    //const {isLoading, data} = useQuery<Post>(["story", storyDbId], ()=> passage가져오는함수(parseInt(storyDbId)));
+
     const isLoading = true;
 
     return (

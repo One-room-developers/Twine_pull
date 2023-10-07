@@ -138,6 +138,7 @@ function PopularPostList(){
                                 <PostContainer key={post.post_id}>
                                     {post.category === 1 ? (<PostHead>일반</PostHead>) : 
                                         post.category === 2 ? (<PostHead>버그제보</PostHead>):
+                                        post.category === 3 ? (<PostHead>기능제안</PostHead>):
                                         (<></>)
                                     }
                                     

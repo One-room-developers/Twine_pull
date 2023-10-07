@@ -496,7 +496,8 @@ export const ThreadRoute: React.FC = () => {
                         <CategoryHeader>
                             <BoxName>{isPostLoading ? (<></>) :
                             postData.category === 1 ? (<>일반</>) :
-                            postData.category === 2 ? (<>버그제보</>) : (<></>)}</BoxName>
+                            postData.category === 2 ? (<>버그제보</>) :
+                            postData.category === 3 ? (<>기능제안</>) : (<></>)}</BoxName>
                             <BackBtn onClick={toBack}>이전으로</BackBtn>
                         </CategoryHeader>
                         <ThreadInfoHeader>

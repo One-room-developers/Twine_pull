@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from "styled-components";
 import { HeaderBar } from '../home';
 import {useQuery} from "react-query";
@@ -170,6 +170,10 @@ const Story = styled.li`
 const StoryList = styled.ul`   
 `
 
+interface RouteParams{
+    writerId: string
+}
+
 //간추린 정보
 interface IStory {
     storyId: string,//url에 들어갈 story고유 id
@@ -185,6 +189,8 @@ interface IStory {
 }
 //path="/game-upload/:writerId"
 export const GameUploadRoute: React.FC = () => {
+    const { writerId } = useParams<RouteParams>();
+
     //const {isLoading, data} = useQuery<IStory>("storyListData", fetchStoryList);
     const data = [{storyId: "1", title:"첫번째 게임",views:1000, likes:100, difficulty:"친화적" ,mainTextSummary:"잠든 불씨는 대화재를 꿈꿨다."},
     {storyId: "2", title:"두번째 게임",views:1000, likes:100, difficulty:"중립" ,mainTextSummary:"어둠은 빛이 차지하고 있었던 공간을 빠르게 자신의 것으로 만들었다."},
@@ -205,9 +211,9 @@ export const GameUploadRoute: React.FC = () => {
                 isExist ? 
                 (
                     <StoryList>
-                        {data?.map( story =>
-                        <StoryWrapper>
-                            <Story key={story.storyId}>
+                        {data?.map( (story, index) =>
+                        <StoryWrapper key={index}>
+                            <Story>
                                 <ImgContainer>
                                     <CateroryImg />
                                 </ImgContainer>

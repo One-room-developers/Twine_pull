@@ -113,7 +113,7 @@ interface RouteParams{
     pageNum: string;
 }
 
-function NormalPostList(){
+function SuggestionPostList(){
     const { pageNum } = useParams<RouteParams>();
 
     const [page, setPage] = useState(1);
@@ -124,7 +124,7 @@ function NormalPostList(){
         setPage(parseInt(pageNum));
     }
 
-    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>(["NormalPostList", page], ()=> fetchPostListByCategory(1, page));
+    const {isLoading:isPostLoading, data:postsData} = useQuery<PostInfo[]>(["SuggestionPostList", page], ()=> fetchPostListByCategory(3, page));
 
     return(
         <PostListWrapper>
@@ -173,4 +173,4 @@ function NormalPostList(){
     )
 }
 
-export default NormalPostList;
+export default SuggestionPostList;

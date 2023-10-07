@@ -45,7 +45,7 @@ export const PopularEpi:React.FC = () => {
                 likeEpisode?.map(episode =>
                     <SidePostContents key={episode.id}>
                         <SidePostTitle>
-                            <Link to={"/"}>
+                            <Link to={"/game-upload/1"}>
                                 {episode.title}
                             </Link>
                         </SidePostTitle>
