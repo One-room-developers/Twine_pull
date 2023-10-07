@@ -37,11 +37,11 @@ export async function authRefreshToken(refreshToken:string, id:string){
         if(res.data === true) {
             // 쿠키에 새로운 엑세스 토큰 저장됨
             // 원래 서비스로 돌아가기
-            console.log('성공');
+            console.log('새로운 엑세스 토큰 발급');
         }
         else {
             // 로그인 화면으로 튕기기
-            console.log('실패');
+            console.log('재로그인');
         }
     })
     .catch((err) => {
@@ -66,6 +66,7 @@ export async function authentication():Promise<boolean>{
             return false;
         }
         else{
+            // refreshToken 전달 안 해도 됨
             authRefreshToken(refreshToken, id);
         }
     }
