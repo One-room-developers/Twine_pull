@@ -12,10 +12,12 @@ import AllPageNumContainer from './components/pageNum/AllPageNum';
 import BugPageNumContainer from './components/pageNum/BugPageNum';
 import NormalPageNumContainer from './components/pageNum/NormalPageNum';
 import PopularPageNumContainer from './components/pageNum/PopularPageNum';
+import SuggestionPageNumContainer from './components/pageNum/SuggestionPageNum';
 
 import AllPostList from './components/postList/AllPostList';
 import BugPostList from './components/postList/BugPostList';
 import NormalPostList from './components/postList/NormalPostList';
+import SuggestionPostList from './components/postList/SuggestionPostList';
 import PopularPostList from './components/postList/PopularPostList';
 //이미지
 import starImg from './img/star.png';
@@ -192,7 +194,7 @@ export const BoardRoute: React.FC = () => {
 
 
     //카테고리 더미 데이터
-    const categoryArr = [{name: "전체", url:"all", id:1},{name: "일반", url:"normal", id:2}, {name: "버그제보", url:"bugReport", id:3}];
+    const categoryArr = [{name: "전체", url:"all", id:1},{name: "일반", url:"normal", id:2}, {name: "버그제보", url:"bugReport", id:3}, {name: "기능제안", url:"suggestion", id:4}];
 
     return (
         <Container>
@@ -254,6 +256,11 @@ export const BoardRoute: React.FC = () => {
                             <BugPostList />
                             <BugPageNumContainer />
                         </Route>
+                        <Route path={`/board/suggestion/:pageNum`}>
+                            <SuggestionPageNumContainer />
+                            <SuggestionPostList />
+                            <SuggestionPageNumContainer />
+                        </Route>
                         <Route path={`/board`}>
                             <AllPageNumContainer />
                             <AllPostList />
@@ -269,7 +276,7 @@ export const BoardRoute: React.FC = () => {
                             작성글 검색
                         </SidePostHeader>
                         <SearchForm>
-                            <SearchPost />
+                            <SearchPost placeholder='미구현' disabled/>
                             <SearchButton>검색</SearchButton>
                         </SearchForm>
                         <Btn>
