@@ -21,8 +21,9 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const [title, setTitle] = useState(props.passage.name); 
     const [textUser, setTextUser] = useState(props.passage.text_user);
     const [options, setOptions] = useState(props.passage.options);
+    const [nextPassages, setNextPassages]  = useState(props.passage.nextPassages)
     const {dispatch, stories} = useUndoableStoriesContext();
-
+    debugger;
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
     
@@ -50,7 +51,9 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                         function(optionArr : option[]){
                             console.log("Log : onTrackingOption");
                             let _options = optionArr
+                            const _nextPassages = _options.map(_option => _option.title)
                             setOptions( _options);
+                            setNextPassages(_nextPassages)
                         }
                     }
                     options = {options}
@@ -66,7 +69,8 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                     textUser= {textUser}
                     options = {options}
                     dispatch = {dispatch}
-                    lastTitle = {lastTitle}>
+                    lastTitle = {lastTitle}
+                    nextPassages={nextPassages}>
                 </DialogButton>
             </div>
         </div>

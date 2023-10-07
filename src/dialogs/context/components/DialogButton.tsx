@@ -10,6 +10,7 @@ type DialogButtonProps = {
     onClose : () => void
     dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void
     lastTitle : string
+    nextPassages : string[]
 }
 export const DialogButton: React.FC<DialogButtonProps> = (props) => {
     const {dispatch} = props
@@ -19,14 +20,14 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
 		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
 	}
 
-    function handlePassageTextChange(text_user, options : option[]){
+    function handlePassageTextChange(text_user : string, options : option[], nextPassages : string[]){
+        debugger;
         console.log("Log : handlePassageTextChange() - ");
         
         let text = text_user.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
-        for(let i = 0; i< options.length; i++){
-            text = text + "\n" + "[[" + options[i].title + "]]";
+        for(let i = 0; i< nextPassages.length; i++){
+            text = text + "\n" + "[[" + nextPassages[i] + "]]";
         }
-        const nextPassages = options.map(option => option.title)
         dispatch(updatePassage(props.story, props.passage, {text, text_user, options, nextPassages}));
     }
 
@@ -45,7 +46,7 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
                 if(doUpdate){
                     console.log("Log : onclick()");
                     handleRename(title);
-                    handlePassageTextChange(props.textUser, props.options);
+                    handlePassageTextChange(props.textUser, props.options, props.nextPassages);
                     props.onClose();
                 }
                 else{

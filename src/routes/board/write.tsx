@@ -260,6 +260,7 @@ export const WriteRoute: React.FC = () => {
                                         <option value={""}>카테고리 선택</option>
                                         <option value={1}>일반</option>
                                         <option value={2}>버그제보</option>
+                                        <option value={3}>기능제안</option>
                                     </CategorySelect>
                                 </CategoryContainer>
                                 <Link to={`/board`}>
