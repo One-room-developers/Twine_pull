@@ -46,10 +46,11 @@ export async function getPopularPostCount() {
     return data;
 }
 
-export async function updatePost(post_id:number, title:string, content:string) {
+export async function updatePost(post_id:number, category:number, title:string, content:string) {
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update`,
     {
         "post_id": post_id,
+        "category": category,
         "title": title,
         "content": content,
     });
