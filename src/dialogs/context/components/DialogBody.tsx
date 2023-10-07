@@ -13,7 +13,7 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
     if(props.passage.passageType === "optionPassage"){
         const parentPassage = passageWithName(props.stories, props.story.id, props.passage.parentOfOption)
         parentPassage.options.forEach(option => {
-            if(option.title === props.passage.name){
+            if(option.name === props.passage.name){
                 optionAfterStory = option.after_stroy
             }
         })

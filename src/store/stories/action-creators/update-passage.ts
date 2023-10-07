@@ -122,8 +122,8 @@ export function updatePassage(
 						return passageName;
 					})
 					const newOptions : option[] = oldOptions.map(option => {
-						if(option.title === oldName){
-							option.title = newName;
+						if(option.name === oldName){
+							option.name = newName;
 						}
 						return option;
 					})

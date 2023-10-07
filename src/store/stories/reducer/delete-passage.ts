@@ -31,7 +31,7 @@ export function deletePassage(
 					...passage,
 					text : passage.text.replace(`\n\[\[${passageName}\]\]`,''),
 					options : passage.options.filter(option => {
-						if(option.title === passageName)
+						if(option.name === passageName)
 							return false;
 						else
 							return true;

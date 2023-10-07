@@ -27,7 +27,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
 
     if(props.options){ 
         props.options.forEach(option => {
-            dummyOptionTitles.push(option.title)
+            dummyOptionTitles.push(option.name)
             dummyOptionsStatus1.push(option.status1)
             dummyOptionsAmountChange1.push(option.status1_num)
             dummyOptionsStatus2.push(option.status2)
@@ -48,12 +48,12 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     //
     const [nextPassageName, setNextPassageName] = useState<string|null>();
 
-    function makeOptionsToReturn(optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2){
+    function makeOptionsToReturn(optionsName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2){
 
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({
-                title : optionsTitle[i],
+                name : optionsName[i],
                 after_stroy : optionsAfterStory[i],
                 status1 : optionsStatus1[i],
                 status2 : optionsStatus2[i],
@@ -92,7 +92,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 setOptionsTitle(_optionsTitle);
 
                                 //상위 컴포넌트(Twine)으로 값 전달
-                                props.onTrackingOption(makeOptionsToReturn(optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2));
+                                props.onTrackingOption(makeOptionsToReturn(_optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2));
                             }} required></input>
 
                             <div className='mini-line'></div>
