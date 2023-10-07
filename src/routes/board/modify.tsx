@@ -240,6 +240,7 @@ export const ModifyRoute:React.FC = () => {
 
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
+    const [category, setCategory] = React.useState(1);
     //비번 여부 판단
     const [isCertification, setIsCetification] = React.useState(false);
 
@@ -262,17 +263,19 @@ export const ModifyRoute:React.FC = () => {
             else{
                 setTitle(data.title);
                 setContent(data.content);
+                setCategory(data.category);
             }
         }
     }
 
     const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
     const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
+    const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
 
     async function modify(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         
-        await updatePost(parseInt(viewId), title, content);
+        await updatePost(parseInt(viewId), category, title, content);
 
         history.push("/board/all/1");
     }
@@ -296,9 +299,13 @@ export const ModifyRoute:React.FC = () => {
                             <WriteFrom method='POST' onSubmit={modify}>
                                 <CategoryHeader>
                                     <CategoryContainer>
-                                        <BoxName>{isLoading ? (<></>) :
-                                        data.category === 1 ? (<>일반</>) :
-                                        data.category === 2 ? (<>버그제보</>) : (<></>)}</BoxName>
+                                        <BoxName>태그</BoxName>
+                                        <CategorySelect required onChange={onChangeCategory} value={category}>
+                                            <option value={""}>카테고리 선택</option>
+                                            <option value={1}>일반</option>
+                                            <option value={2}>버그제보</option>
+                                            <option value={3}>기능제안</option>
+                                        </CategorySelect>
                                     </CategoryContainer>
                                     <Link to={`/board`}>
                                         <BackBtn>글목록으로</BackBtn>
