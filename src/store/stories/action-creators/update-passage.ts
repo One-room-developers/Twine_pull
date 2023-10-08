@@ -1,7 +1,7 @@
 import escapeRegExp from 'lodash/escapeRegExp';
 import {Thunk} from 'react-hook-thunk-reducer';
 import {storyWithId} from '../getters';
-import {Passage, StoriesAction, StoriesState, Story} from '../stories.types';
+import {Passage, StoriesAction, StoriesState, Story, option} from '../stories.types';
 import {createNewlyLinkedPassages} from './create-newly-linked-passages';
 import {deleteOrphanedPassages} from './delete-orphaned-passages';
 
@@ -87,13 +87,14 @@ export function updatePassage(
 				'\\[\\[' + oldNameEscaped + '(<-.*?)(\\]\\[.*?)?\\]\\]',
 				'g'
 			);
-
+			
 			story.passages.forEach(relinkedPassage => {
 				if (
 					simpleLinkRegexp.test(relinkedPassage.text) ||
 					compoundLinkRegexp.test(relinkedPassage.text) ||
 					reverseLinkRegexp.test(relinkedPassage.text)
 				) {
+					debugger;
 					let newText = relinkedPassage.text;
 
 					newText = newText.replace(
@@ -109,10 +110,31 @@ export function updatePassage(
 						'[[' + newNameEscaped + '$1$2]]'
 					);
 
+					let oldNextPassages = relinkedPassage.nextPassages;
+					let oldOptions = relinkedPassage.options;
+					const oldName = passage.name;
+					let newName = props.name;
+
+					const newNextPassages : string[] = oldNextPassages.map(passageName => {
+						if(passageName === oldName){
+							passageName = newName
+						}
+						return passageName;
+					})
+					const newOptions : option[] = oldOptions.map(option => {
+						if(option.name === oldName){
+							option.name = newName;
+						}
+						return option;
+					})
 					updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
 						story,
 						relinkedPassage,
-						{text: newText},
+						{
+							text: newText,
+							nextPassages : newNextPassages,
+							options : newOptions
+						},
 						options
 					)(dispatch, getState);
 				}

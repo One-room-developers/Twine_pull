@@ -74,7 +74,7 @@ export interface Passage {
 
 export interface option{
 	//선택지 제목(출력되는 부분)
-	title: string;
+	name: string;
 
 	//선택지 입력후 나오는 결과 이야기
 	after_stroy: string;

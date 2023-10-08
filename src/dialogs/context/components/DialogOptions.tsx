@@ -27,7 +27,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
 
     if(props.options){ 
         props.options.forEach(option => {
-            dummyOptionTitles.push(option.title)
+            dummyOptionTitles.push(option.name)
             dummyOptionsStatus1.push(option.status1)
             dummyOptionsAmountChange1.push(option.status1_num)
             dummyOptionsStatus2.push(option.status2)
@@ -48,12 +48,12 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     //
     const [nextPassageName, setNextPassageName] = useState<string|null>();
 
-    function makeOptionsToReturn(optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2){
+    function makeOptionsToReturn(optionsName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2){
 
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({
-                title : optionsTitle[i],
+                name : optionsName[i],
                 after_stroy : optionsAfterStory[i],
                 status1 : optionsStatus1[i],
                 status2 : optionsStatus2[i],
@@ -68,6 +68,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let lists = [];
 
     for(let i=0; i < max_option_num; i++){
+        debugger;
         //i번째 요소에 i라는 key를 주고 있는데 아예 선택지의 고유 ID를 만들면 그걸로 대체해도 될듯
         //고유 id는 곧 i+1이다.
         //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
@@ -91,7 +92,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 setOptionsTitle(_optionsTitle);
 
                                 //상위 컴포넌트(Twine)으로 값 전달
-                                props.onTrackingOption(makeOptionsToReturn(optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2));
+                                props.onTrackingOption(makeOptionsToReturn(_optionsTitle, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2));
                             }} required></input>
 
                             <div className='mini-line'></div>
@@ -269,6 +270,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         </div>
                     </div>
                     <button data-optionId={i} className='option-list-m-btn' onClick={function(e:React.SyntheticEvent<HTMLButtonElement>){
+                        debugger;
                         e.preventDefault();
                         setMode("optionModify");
 
@@ -280,7 +282,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     }}>수정</button>
                     <button data-optionId={i} className='option-list-d-btn' onClick={function(e){
                         //splice(제거를 시작할 index, 시작지점부텨 몇개 지울선지, (선택사항) 지운 자리에 넣을 배열)
-                        
+                        e.preventDefault();
                         if(window.confirm("선택지를 삭제하시겠습니까?")) {
                             //다른 엘리먼트일떄 탈출문
                             if (!(e.target instanceof HTMLButtonElement)) {
