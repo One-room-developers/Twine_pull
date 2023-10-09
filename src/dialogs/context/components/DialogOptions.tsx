@@ -2,7 +2,7 @@ import React from 'react';
 import { Component, useState } from 'react';
 import './option.css'
 import CreateOption from './CreateOption';
-import { Passage, Story, option, updatePassage } from '../../../store/stories';
+import { Passage, Story, deletePassage, option, passageWithName, passageWithNameAsStory, updatePassage } from '../../../store/stories';
 import { StoriesActionOrThunk} from '../../../store/undoable-stories';
 
 type DialogOptionsProps = {
@@ -306,19 +306,21 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             let _optionsStatus2 = Array.from(optionsStatus2);
                             let _optionsAmountChange2 = Array.from(optionsAmountChange2);
                             let _options_after_story = Array.from(optionsAfterStory);
+                            let _options_name = Array.from(optionsName);
 
+                            const deletedPassage = passageWithNameAsStory(props.story, optionsName[i]);
+                            dispatch(deletePassage(props.story, deletedPassage))
                             //optionsId.splice(index, 1);
                             _optionsVisibleName.splice(index, 1);
+                            _options_name.splice(index, 1);
                             _optionsStatus1.splice(index, 1);
                             _optionsAmountChange1.splice(index, 1);
                             _optionsStatus2.splice(index, 1);
                             _optionsAmountChange2.splice(index, 1);
                             _options_after_story.splice(index, 1);
 
-                            console.log(_optionsVisibleName);
-
                             max_option_num = max_option_num -1;
-
+                            
                             //options_id: optionsId,
                             setOptionsVisibleName(_optionsVisibleName);
                             setOptionsStatus1(_optionsStatus1)
@@ -326,8 +328,10 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             setOptionsStatus2(_optionsStatus2)
                             setOptionsAmountChange2(_optionsAmountChange2)
                             setOptionsAfterStory(_options_after_story)
+                            setOptionsName(_options_name)
                             //상위 컴포넌트(Twine)으로 값 전달
-                            props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, optionsName));
+
+                            props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
                         } else {
 
                         }
@@ -349,7 +353,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         else{
             option_creator = <CreateOption onCreate={
                 function(option_visible_name, status1, amount_change1, status2, amount_change2, after_story, newName) {
-                    if(!(props.story.passages.find(passage => passage.name === option_visible_name))){//passage 이름 중복 막기
                         //선택지 목록 아이디를 위한 갯수 추가
                         max_option_num = max_option_num + 1;
                         //새로 만든 배열 추가하여 생성
@@ -376,10 +379,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
 
                         //상위 컴포넌트(Twine)으로 값 전달
                         props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _optionsName));
-                    }   
-                    else{
-                        window.alert("중복된 이름입니다!");
-                    }
                 }
             }/>;
         }

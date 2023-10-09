@@ -127,8 +127,8 @@ export function updatePassage(
 						debugger;
 						if(option.name === oldName){
 							option.name = newName;
-							if(props.text) //option passage에서 제목을 입력 안하고 작성완료를 눌렀을 때 대비
-								option.nextNormalPassages = parseLinks(props.text)
+							option.optionVisibleName = props.optionVisibleName;
+							option.nextNormalPassages = parseLinks(props.text)
 						}
 						return option;
 					})
