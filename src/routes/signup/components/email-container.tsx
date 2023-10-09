@@ -65,11 +65,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                     },
                 })
                 .then((res) => {
-                    if(res.data.errorMsg == 13) {
-                        // 이미 가입된 회원이라고 알려주는 알림창 필요
-                        console.log('이미 가입된 회원입니다.');
-                    }
-                    else if(res.data.errorMsg == 11) {
+                    if(res.data.errorMsg == 11) {
                         console.log('서버 문제로 회원가입 실패');
                     }
 
