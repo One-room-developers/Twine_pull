@@ -23,6 +23,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const [visibleText, setVisibleText] = useState(props.passage.visibleText);
     const [options, setOptions] = useState(props.passage.options);
     const {dispatch, stories} = useUndoableStoriesContext();
+    const [optionVisibleName, setOptionVisibleName] = useState(props.passage.optionVisibleName)
     debugger;
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
@@ -35,8 +36,9 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                 <DialogHeader
                     passage = {props.passage}
                     name = {name}
-                    optionVisibleName = {props.passage.optionVisibleName}
-                    setName = {setName}>
+                    optionVisibleName = {optionVisibleName}
+                    setName = {setName}
+                    setOptionVisibleName = {setOptionVisibleName}>
                 </DialogHeader>
 
                 <DialogBody
@@ -70,7 +72,8 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                     dispatch = {dispatch}
                     lastTitle = {lastTitle}
                     stories = {stories}
-                    text = {text}>
+                    text = {text}
+                    optionVisibleName = {optionVisibleName}>
                 </DialogButton>
             </div>
         </div>

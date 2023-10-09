@@ -13,18 +13,22 @@ type DialogButtonProps = {
     dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void
     lastTitle : string,
     stories : StoriesState,
-    text : string
+    text : string,
+    optionVisibleName : string
 }
 export const DialogButton: React.FC<DialogButtonProps> = (props) => {
     const {dispatch} = props
     
-    //제목 변경 함수
-    function handleRename(name: string) {
-		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
-	}
 
-    function handlePassageTextChange(visibleText : string, options : option[], passage : Passage, story : Story, previousText : string){
-        debugger;
+    function handlePassageTextChange(
+        name : string, 
+        visibleText : string, 
+        options : option[], 
+        passage : Passage, 
+        story : Story, 
+        previousText : string,
+        optionVisibleName : string)
+    {
         console.log("Log : handlePassageTextChange() - ");
         
         let text = visibleText.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
@@ -36,7 +40,7 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
             //option passage에서 수정 없이 작성완료를 클릭했을 시에만 작동
             text = previousText;
         }
-        dispatch(updatePassage(story, passage, {text, visibleText, options}));
+        dispatch(updatePassage(story, passage, {name, optionVisibleName, text, visibleText, options}));
     }
 
     return(
@@ -53,8 +57,7 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
                 
                 if(doUpdate){
                     console.log("Log : onclick()");
-                    handleRename(name);
-                    handlePassageTextChange(props.visibleText, props.options, props.passage, props.story, props.text);
+                    handlePassageTextChange(props.name, props.visibleText, props.options, props.passage, props.story, props.text, props.optionVisibleName);
                     props.onClose();
                 }
                 else{

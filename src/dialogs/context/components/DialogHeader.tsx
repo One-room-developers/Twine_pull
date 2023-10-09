@@ -6,6 +6,7 @@ type DialogHeaderProps = {
     name : string
     setName : React.Dispatch<React.SetStateAction<string>>
     optionVisibleName : string
+    setOptionVisibleName : React.Dispatch<React.SetStateAction<string>>
 }
 export const DialogHeader: React.FC<DialogHeaderProps> = (props) => {
 
@@ -22,8 +23,8 @@ export const DialogHeader: React.FC<DialogHeaderProps> = (props) => {
                 <div className="making-window-header">
                     <div className="title-info-icon info-icon">선택지<br/>내용</div>
                     <input value={props.optionVisibleName} onChange={function(e){
-                        props.setName(e.target.value)
-                    }} readOnly/>
+                        props.setOptionVisibleName(e.target.value)
+                    }}/>
                 </div>
             ) 
     )
