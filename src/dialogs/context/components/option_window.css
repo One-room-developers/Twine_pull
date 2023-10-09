@@ -43,6 +43,7 @@ textarea:focus{
     margin: 12px;
     border-radius: 5px;
     font-family: gameBold;
+    text-align: center;
 }
 .info-icon-onmodify{
     padding: 10px;
@@ -128,6 +129,12 @@ textarea:focus{
 .making-window-main:focus-within textarea{
     background-color: #FFFFFF;
 
+}
+.making-window-main.option{
+    height : 200px
+}
+.making-window-main.option textarea {
+    height : 150px
 }
 
 

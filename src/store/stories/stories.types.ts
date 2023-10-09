@@ -32,6 +32,9 @@ export interface Passage {
 	 * Name of the passage.
 	 */
 	name: string;
+
+	//유저에게 보이는 옵션의 이름
+	optionVisibleName : string;
 	/**
 	 * Is the passage currently selected by the user?
 	 */
@@ -56,37 +59,38 @@ export interface Passage {
 	 * Width of the passage in pixels.
 	 */
 	width: number;
-
-	/**
-	 * 선택지
-	 */
-	nextPassages : string[];
 	
 	parentOfOption : string; //option passage의 부모 passage
 
 	options : option[];
 
 	//유저에게 보이는 본문
-	text_user:string;
+	visibleText:string;
 
 	passageType : string; //"normalPassage" "optionPassage"
 }
 
 export interface option{
-	//선택지 제목(출력되는 부분)
+	//실제 출력되는 선택지 제목
+	optionVisibleName : string
+
+	//선택지 제목(더미 값을 넣는다)
 	name: string;
 
 	//선택지 입력후 나오는 결과 이야기
-	after_stroy: string;
+	afterStory: string;
 
 	//능력치 1
 	status1: string;
 	//능력치 1 수치
-	status1_num: number;
+	status1Num: number;
 	//능력치 2
 	status2: string;
 	//능력치 2 수치
-	status2_num: number;
+	status2Num: number;
+
+	//
+	nextNormalPassages : string[]
 }
 
 /* story 이거 안에 보면 passage들의 배열이 있음.
@@ -158,8 +162,18 @@ export interface Story {
 	 */
 	zoom: number;
 
-}
+	//스토리 난이도
+	level : number;
 
+	//장르
+	genre : string;
+
+	//유저 id
+	userId : string;
+
+	//db에 사용되는 고유 id. 유저 id와 storyid를 합쳐서 제작.
+	uniqueId : string;
+}
 /* 내 스토리들 모아놓는 화면에서 아마 작동하는 스토리 배열일거임 */
 export type StoriesState = Story[];
 

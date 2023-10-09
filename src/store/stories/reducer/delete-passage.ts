@@ -35,16 +35,9 @@ export function deletePassage(
 							return false;
 						else
 							return true;
-					}),
-					nextPassages : passage.nextPassages.filter(nextPassage => {
-						if(nextPassage === passageName)
-							return false;
-						else
-							return true;
 					})
 				}
 				return dummyPassage;
-				
 			})//이지원 추가코드 option passage가 제거되면 그 passage를 option 속성으로 갖는 것 모두 제거
 			//또한 next passage 역시 제거
 			

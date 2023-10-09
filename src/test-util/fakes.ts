@@ -27,10 +27,10 @@ export function fakePassage(props?: Partial<Passage>): Passage {
 		selected: random.boolean(),
 		text: lorem.words(Math.round(Math.random() * 500)), // Might be 0
 		options:[],
-		text_user:"",
+		visibleText:"",
 		passageType:"",
 		parentOfOption:"",
-		nextPassages:[],
+		optionVisibleName:"",
 		...props
 	};
 }
@@ -178,7 +178,11 @@ export function fakeStory(passageCount: number = 1): Story {
 			[tags[1]]: 'green',
 			[tags[2]]: 'blue'
 		},
-		zoom: Math.random()
+		zoom: Math.random(),
+		level : 0,
+		genre : "",
+		userId : "",
+		uniqueId : ""
 	};
 
 	for (let i = 0; i < passageCount; i++) {
