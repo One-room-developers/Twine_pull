@@ -21,12 +21,6 @@ export async function createOption(option:option){
 	// 		status1_num:,
 	// 		status2:,
 	// 		status2_num:,
-	// 		height:,
-	// 		highlighted:,
-	// 		left:,
-	// 		selected:,
-	// 		top:,
-	// 		width:,
 	// 	}
 	// })
 	// .then((res) => {
@@ -43,6 +37,7 @@ export async function createPassage(passage:Passage){
 		data: {
 			id: passage.id,
 			name: passage.name,
+			optionVisibleName: passage.optionVisibleName,
 			passageType: passage.passageType,
 			story: passage.story,
 			text: passage.text,
