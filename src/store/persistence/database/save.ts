@@ -26,14 +26,31 @@ export async function createOption(option:option, normalPassageId:number){
 	});
 }
 
-export async function createPassage(passage:Passage){
+export async function createPassage(passage:Passage, userId:string, storyId:string){
+	let storyPk: number;
+
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
+		data: {
+			userId: userId,
+			storyId: storyId,
+		}
+	})
+	.then((res) => {
+		storyPk = res.data;
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
 			id: passage.id,
 			passageType: passage.passageType,
-			story: passage.story,
+			story: storyPk,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
 			optionVisibleName: passage.optionVisibleName,
