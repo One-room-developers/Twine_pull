@@ -68,6 +68,9 @@ export interface Passage {
 	visibleText:string;
 
 	passageType : string; //"normalPassage" "optionPassage"
+
+	//db에 저장될 고유 id. userID와 passageId의 합으로 만듬
+	uniqueId : string
 }
 
 export interface option{
