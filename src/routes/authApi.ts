@@ -84,6 +84,7 @@ export async function idCheck(id:string):Promise<boolean> {
     .then((res) => {
         if(res.data === false) {
             // 중복된 아이디
+            console.log('진입');
             return false;
         }
     })
