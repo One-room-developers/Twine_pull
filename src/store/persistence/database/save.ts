@@ -3,31 +3,27 @@ import { Passage, StoriesState, Story, option } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
-export async function createOption(option:option){
-
-	// axios({
-	// 	method: "POST",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
-	// 	data: {
-	// 		id:,
-	// 		name:,
-	// 		passageType:,
-	// 		story:,
-	// 		passage:,
-	// 		text:,
-	// 		visibleText:,
-	// 		after_story:,
-	// 		status1:,
-	// 		status1_num:,
-	// 		status2:,
-	// 		status2_num:,
-	// 	}
-	// })
-	// .then((res) => {
-	// })
-	// .catch((err) => {
-	// 	console.log(err);
-	// });
+export async function createOption(option:option, normalPassageId:number){
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
+		data: {
+			passage: normalPassageId,
+			name: option.name,
+			optionVisibleName: option.optionVisibleName,
+			afterStory: option.afterStory,
+			status1: option.status1,
+			status1Num: option.status1Num,
+			status2: option.status2,
+			status2Num: option.status2Num,
+			nextPassage: option.nextNormalPassages,
+		}
+	})
+	.then((res) => {
+	})
+	.catch((err) => {
+		console.log(err);
+	});
 }
 
 export async function createPassage(passage:Passage){
@@ -36,10 +32,11 @@ export async function createPassage(passage:Passage){
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
 			id: passage.id,
-			name: passage.name,
-			optionVisibleName: passage.optionVisibleName,
 			passageType: passage.passageType,
 			story: passage.story,
+			parentOfOption: passage.parentOfOption,
+			name: passage.name,
+			optionVisibleName: passage.optionVisibleName,
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
