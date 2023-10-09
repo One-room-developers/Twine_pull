@@ -78,3 +78,18 @@ export async function authAccessToken():Promise<boolean>{
     // refresh 토큰 검사하는 함수 호출
     return false;
 }
+
+export async function idCheck(id:string):Promise<boolean> {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/id_check/${id}`)
+    .then((res) => {
+        if(res.data === false) {
+            // 중복된 아이디
+            return false;
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+    return true;
+}

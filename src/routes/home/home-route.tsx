@@ -11,7 +11,7 @@ import useIntersectionObserver from './useIntersectionObserver';
 
 export async function isLogin(){
     const sessionStorage = new SessionStorageAPI();
-
+    
     if(await checkAccessToken() === false){
         console.log("토큰 없음");
         return(<IfLogout></IfLogout>);
@@ -28,7 +28,7 @@ export const HeaderBar: React.FC = () =>{
 
     let whetherLoginComponent = <IfLogout></IfLogout>;
 
-    React.useEffect(() => {whetherLoginComponent = isLogin();}, []);
+    //whetherLoginComponent = isLogin();
 
     const opacityObj = {
         backgroundColor: `rgba(34, 40, 49, ${scrollY / 300})`
