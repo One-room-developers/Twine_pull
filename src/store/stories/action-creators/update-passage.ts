@@ -1,9 +1,10 @@
 import escapeRegExp from 'lodash/escapeRegExp';
 import {Thunk} from 'react-hook-thunk-reducer';
-import {storyWithId} from '../getters';
+import {passageWithName, passageWithNameAsStory, storyWithId} from '../getters';
 import {Passage, StoriesAction, StoriesState, Story, option} from '../stories.types';
 import {createNewlyLinkedPassages} from './create-newly-linked-passages';
 import {deleteOrphanedPassages} from './delete-orphaned-passages';
+import { parseLinks } from '../../../util/parse-links';
 
 export interface UpdatePassageOptions {
 	dontUpdateOthers?: boolean;
@@ -62,7 +63,7 @@ export function updatePassage(
 
 			//하위 passage 생성
 			dispatch(
-				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText)
+				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, props.options)
 			);
 		}
 
@@ -88,6 +89,16 @@ export function updatePassage(
 				'g'
 			);
 			
+			
+			let newName = props.name;
+			if(passage.passageType === "normalPassage"){
+				if(oldName !== newName){
+					passage.options.forEach(option => {
+						const optionPassage = passageWithNameAsStory(story, option.name);
+						optionPassage.parentOfOption = newName;
+					})
+				}
+			}
 			story.passages.forEach(relinkedPassage => {
 				if (
 					simpleLinkRegexp.test(relinkedPassage.text) ||
@@ -110,20 +121,14 @@ export function updatePassage(
 						'[[' + newNameEscaped + '$1$2]]'
 					);
 
-					let oldNextPassages = relinkedPassage.nextPassages;
-					let oldOptions = relinkedPassage.options;
-					const oldName = passage.name;
-					let newName = props.name;
+					let oldOptionForParent = relinkedPassage.options; //
 
-					const newNextPassages : string[] = oldNextPassages.map(passageName => {
-						if(passageName === oldName){
-							passageName = newName
-						}
-						return passageName;
-					})
-					const newOptions : option[] = oldOptions.map(option => {
+					const nexOptionForParent : option[] = oldOptionForParent.map(option => {
+						debugger;
 						if(option.name === oldName){
 							option.name = newName;
+							if(props.text) //option passage에서 제목을 입력 안하고 작성완료를 눌렀을 때 대비
+								option.nextNormalPassages = parseLinks(props.text)
 						}
 						return option;
 					})
@@ -132,8 +137,7 @@ export function updatePassage(
 						relinkedPassage,
 						{
 							text: newText,
-							nextPassages : newNextPassages,
-							options : newOptions
+							options : nexOptionForParent
 						},
 						options
 					)(dispatch, getState);

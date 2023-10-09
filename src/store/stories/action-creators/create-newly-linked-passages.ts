@@ -3,7 +3,8 @@ import {
 	CreatePassagesAction,
 	Passage,
 	StoriesState,
-	Story
+	Story,
+	option
 } from '../stories.types';
 import {passageDefaults} from '../defaults';
 import {rectsIntersect} from '../../../util/geometry';
@@ -21,6 +22,7 @@ export function createNewlyLinkedPassages(
 	passage: Passage,
 	newText: string,
 	oldText: string,
+	newOptions : option[]
 ): Thunk<StoriesState, CreatePassagesAction> {
 	if (!story.passages.some(p => p.id === passage.id)) {
 		throw new Error('This passage does not belong to this story.');
@@ -95,13 +97,17 @@ export function createNewlyLinkedPassages(
 		}
 
 		// Actually create them.
-		
+
 		dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
 			type: 'createPassages',
 			storyId: story.id,
 			props: toCreate.map(name => {
-				const result = {left, name, top, passageType, parentOfOption, width, height};
-
+				debugger;
+				let optionVisibleName = ""
+				const result = {left, name, top, passageType, parentOfOption, width, height, optionVisibleName};
+				if(passageType === "optionPassage"){
+					result.optionVisibleName = newOptions.find(option => (option.name === name)).optionVisibleName;
+				}
 				left += passageDefs.width + passageGap;
 				return result;
 			})

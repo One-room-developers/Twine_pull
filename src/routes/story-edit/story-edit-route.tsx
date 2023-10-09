@@ -13,8 +13,7 @@ import {
 	Passage,
 	selectPassage,
 	selectPassagesInRect,
-	storyWithId,
-	setPassageType
+	storyWithId
 } from '../../store/stories';
 import {
 	UndoableStoriesContextProvider,
@@ -164,14 +163,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 	}, [getCenter, inited, story, undoableStoriesDispatch]);
 
 	const visibleZoom = useZoomTransition(story.zoom, mainContent.current);
-
-	//이지원 자체 제작
-	//normalPassage와 optionPassage 구별 함수
-	React.useEffect(()=>{
-		console.log("Log : story-edit-route/setPassageType");
-		setPassageType(story.passages, story.startPassage, undoableStoriesDispatch, story, stories);
-	}, [])
-	
 	
 	return (
 		<div className="story-edit-route">

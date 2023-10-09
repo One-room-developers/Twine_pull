@@ -1,12 +1,13 @@
 import {Passage, Story, StoriesState} from '../stories.types';
 import {isPersistablePassageChange} from '../../persistence/persistable-changes';
 import { passageWithId } from '../getters';
+import uuid from 'tiny-uuid';
 
 export function updatePassage(
 	state: StoriesState,
 	storyId: string,
 	passageId: string,
-	passageProps: Omit<Partial<Passage>, 'id' | 'story'>
+	passageProps: Omit<Partial<Passage>, 'id' | 'story'> //변경되는 passage의 변수들을 담고 있음
 ) {
 	let storyExists = false;
 	let updated = false;
@@ -38,8 +39,6 @@ export function updatePassage(
 					return passage;
 				}
 				updated = true;
-
-				//option에서 [[ ]]을 제외하고 추출하여 options 변수에 넣기
 				
 				return {...passage, ...passageProps};
 				
