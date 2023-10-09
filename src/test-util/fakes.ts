@@ -31,7 +31,7 @@ export function fakePassage(props?: Partial<Passage>): Passage {
 		passageType:"",
 		parentOfOption:"",
 		optionVisibleName:"",
-		uniqueId:"",
+		uniqueId:0,
 		...props
 	};
 }
