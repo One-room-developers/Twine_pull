@@ -42,7 +42,7 @@ export async function authRefreshToken(id:string|null):Promise<boolean>{
         .then((res) => {
             console.log("res.data: ", res.data);
             if(res.data === true) {
-                 console.log("true임?");
+                console.log("true임?");
 
                 // 쿠키에 새로운 엑세스 토큰 저장됨
                 // 원래 서비스로 돌아가기

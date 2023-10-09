@@ -36,10 +36,11 @@ export async function createPassage(passage:Passage){
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
 			id: passage.id,
-			name: passage.name,
-			optionVisibleName: passage.optionVisibleName,
 			passageType: passage.passageType,
 			story: passage.story,
+			parentOfOption: passage.parentOfOption,
+			name: passage.name,
+			optionVisibleName: passage.optionVisibleName,
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
