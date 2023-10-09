@@ -27,6 +27,7 @@ export async function createOption(option:option, normalPassageId:number){
 }
 
 export async function createPassage(passage:Passage){
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -48,10 +49,11 @@ export async function createPassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		if(passage.passageType === "normalPassage")
+		if(passage.passageType === "normalPassage"){
 			passage.options.forEach(option => {
-				createOption(option, passage.uniqueId)
+				createOption(option, res.data)
 			})
+		}
 	})
 	.catch((error) => {
 		console.log(error);
