@@ -51,7 +51,8 @@ export async function createPassage(passage:Passage, userId:string){
 		data: {
 			id: passage.id,
 			passageType: passage.passageType,
-			story: storyPk,
+			storyPk: storyPk,
+			storyId: passage.story,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
 			optionVisibleName: passage.optionVisibleName,
