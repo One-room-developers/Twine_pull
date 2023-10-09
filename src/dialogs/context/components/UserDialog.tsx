@@ -24,7 +24,6 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const [options, setOptions] = useState(props.passage.options);
     const {dispatch, stories} = useUndoableStoriesContext();
     const [optionVisibleName, setOptionVisibleName] = useState(props.passage.optionVisibleName)
-    debugger;
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
     

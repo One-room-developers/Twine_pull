@@ -102,7 +102,6 @@ export function createNewlyLinkedPassages(
 			type: 'createPassages',
 			storyId: story.id,
 			props: toCreate.map(name => {
-				debugger;
 				let optionVisibleName = ""
 				const result = {left, name, top, passageType, parentOfOption, width, height, optionVisibleName};
 				if(passageType === "optionPassage"){
