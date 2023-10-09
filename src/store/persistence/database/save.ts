@@ -51,6 +51,7 @@ export async function createPassage(passage:Passage){
 		}
 	})
 	.then((res) => {
+		passage.options.forEach(option => {createOption(option)})
 	})
 	.catch((error) => {
 		console.log("엄엄어엄");
@@ -119,7 +120,7 @@ export async function updatePassage(passage:Passage) {
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,
 		data: {
 			name: passage.name,
-			passageType: passage.passageType,
+			passageType: passage.passageType,	
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
