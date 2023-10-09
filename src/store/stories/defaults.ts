@@ -15,7 +15,8 @@ export const passageDefaults = (): Omit<Passage, 'id' | 'story'> => ({
 	options:[],
 	passageType:"normalPassage",
 	parentOfOption:"",
-	optionVisibleName:""
+	optionVisibleName:"",
+	uniqueId:""
 });
 
 export const storyDefaults = (): Omit<Story, 'id'> => ({

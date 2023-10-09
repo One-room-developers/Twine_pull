@@ -106,7 +106,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             <div className='mini-line'></div>
 
                             <div>
-                                <select className='select-dropdown' name='status1' required onChange={function(e){
+                                <select className='select-dropdown' name='status1' value = {optionsStatus1[i]} required onChange={function(e){
                                     let _optionsStatus1 = optionsStatus1.map((value, index) => {
                                         if(i === index){//바꾸려고 시도하는 index와 아이디(i=순서)가 같다면
                                         return e.target.value;
@@ -125,7 +125,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                     <option value="mental">정신력</option>
                                 </select>
 
-                                <select className='select-dropdown' name='amount_change1' required onChange={function(e){
+                                <select className='select-dropdown' name='amount_change1' value = {optionsAmountChange1[i]} required onChange={function(e){
                                     let _optionsAmountChange1 : number[] = optionsAmountChange1.map((value, index) => {
                                         if(i === index){//바꾸려고 시도하는 index와 아이디(i=순서)가 같다면
                                             //값 치환
@@ -145,7 +145,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             <div className='mini-line'></div>
 
                             <div>
-                                <select className='select-dropdown' name='status2' required onChange={function(e){
+                                <select className='select-dropdown' name='status2' value = {optionsStatus2[i]} required onChange={function(e){
                                     let _optionsStatus2 = optionsStatus2.map((value, index) => {
                                         if(i === index){//바꾸려고 시도하는 index와 아이디(i=순서)가 같다면
                                             return e.target.value;
@@ -165,7 +165,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                     <option value="mental">정신력</option>
                                 </select>
 
-                                <select className='select-dropdown' name='amount_change2' required onChange={function(e){
+                                <select className='select-dropdown' name='amount_change2' value = {optionsAmountChange2[i]} required onChange={function(e){
                                     let _optionsAmountChange2 : number[] = optionsAmountChange2.map((value, index) => {
                                         if(i === index){//바꾸려고 시도하는 index와 아이디(i=순서)가 같다면
                                             
