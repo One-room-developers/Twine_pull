@@ -80,7 +80,7 @@ export async function authAccessToken():Promise<boolean>{
 }
 
 export async function idCheck(id:string):Promise<boolean> {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/id_check/${id}`)
+    await axios.post(`${process.env.REACT_APP_API_URL}/auth/id_check/${id}`)
     .then((res) => {
         if(res.data === false) {
             // 중복된 아이디
