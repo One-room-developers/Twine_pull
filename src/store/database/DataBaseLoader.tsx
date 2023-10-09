@@ -11,7 +11,6 @@ export const DataBaseLoader: React.FC = () => {
 
     React.useEffect(() => {
 		async function run() {
-            debugger;
             console.log("Log : DataBaseLoader - run()");
             //db의 값 변수에 저장
             let dbStoriesState :StoriesState = null;

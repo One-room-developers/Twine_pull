@@ -76,7 +76,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let lists = [];
 
     for(let i=0; i < max_option_num; i++){
-        debugger;
         //i번째 요소에 i라는 key를 주고 있는데 아예 선택지의 고유 ID를 만들면 그걸로 대체해도 될듯
         //고유 id는 곧 i+1이다.
         //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
@@ -278,7 +277,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         </div>
                     </div>
                     <button data-optionId={i} className='option-list-m-btn' onClick={function(e:React.SyntheticEvent<HTMLButtonElement>){
-                        debugger;
                         e.preventDefault();
                         setMode("optionModify");
 

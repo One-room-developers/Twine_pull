@@ -105,7 +105,6 @@ export function updatePassage(
 					compoundLinkRegexp.test(relinkedPassage.text) ||
 					reverseLinkRegexp.test(relinkedPassage.text)
 				) {
-					debugger;
 					let newText = relinkedPassage.text;
 
 					newText = newText.replace(
@@ -124,7 +123,6 @@ export function updatePassage(
 					let oldOptionForParent = relinkedPassage.options; //
 
 					const nexOptionForParent : option[] = oldOptionForParent.map(option => {
-						debugger;
 						if(option.name === oldName){
 							option.name = newName;
 							option.optionVisibleName = props.optionVisibleName;

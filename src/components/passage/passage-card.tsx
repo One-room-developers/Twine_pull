@@ -75,7 +75,6 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 				return passage.text.substring(0, excerptLength);
 			}
 			else{
-				debugger;
 				console.log("passage-card에서 잘못된 접근")
 			}
 		}
