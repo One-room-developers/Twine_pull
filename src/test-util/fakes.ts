@@ -183,7 +183,7 @@ export function fakeStory(passageCount: number = 1): Story {
 		level : 0,
 		genre : "",
 		userId : "",
-		uniqueId : ""
+		uniqueId : 0
 	};
 
 	for (let i = 0; i < passageCount; i++) {
