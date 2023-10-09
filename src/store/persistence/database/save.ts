@@ -4,6 +4,7 @@ import { passageWithName } from "../../stories";
 import axios from 'axios';
 
 export async function createOption(option:option, normalPassageId:number){
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
@@ -26,15 +27,31 @@ export async function createOption(option:option, normalPassageId:number){
 	});
 }
 
-export async function createPassage(passage:Passage){
-	debugger;
+export async function createPassage(passage:Passage, userId:string){
+	let storyPk: number;
+	const storyId : string = passage.story;
+	axios({
+		method: "GET",
+		url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
+		data: {
+			userId: userId,
+			storyId: storyId,
+		}
+	})
+	.then((res) => {
+		storyPk = res.data;
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
 			id: passage.id,
 			passageType: passage.passageType,
-			story: passage.story,
+			story: storyPk,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
 			optionVisibleName: passage.optionVisibleName,
@@ -49,11 +66,6 @@ export async function createPassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		if(passage.passageType === "normalPassage"){
-			passage.options.forEach(option => {
-				createOption(option, res.data)
-			})
-		}
 	})
 	.catch((error) => {
 		console.log(error);
@@ -115,7 +127,7 @@ export async function updateOption(option) {
 	// });
 }
 
-export async function updatePassage(passage:Passage) {
+export async function updatePassage(passage:Passage){
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,

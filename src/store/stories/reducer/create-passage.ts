@@ -33,7 +33,7 @@ export function createPassage(
 			return story;
 		}
 		
-
+		
 		const newPassage: Passage = {
 			...passageDefaults(),
 			id: uuid(),
