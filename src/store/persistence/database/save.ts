@@ -8,7 +8,7 @@ export async function createOption(option:option, normalPassageId:number){
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
 		data: {
-			passage: normalPassageId,
+			normalPassageId: normalPassageId,
 			name: option.name,
 			optionVisibleName: option.optionVisibleName,
 			afterStory: option.afterStory,
