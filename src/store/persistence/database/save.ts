@@ -48,10 +48,12 @@ export async function createPassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		passage.options.forEach(option => {createOption(option)})
+		if(passage.passageType === "normalPassage")
+			passage.options.forEach(option => {
+				createOption(option, passage.uniqueId)
+			})
 	})
 	.catch((error) => {
-		console.log("엄엄어엄");
 		console.log(error);
 	});
 }
