@@ -70,7 +70,9 @@ export async function createStory(story:Story){
 			data: {
 				id: story.id,
 				ifid: story.ifid,
+				difficulty: story.level,
 				name: story.name,
+				writer: story.userId,
 				startPassage: story.startPassage,
 				script: story.script,
 				selected: story.selected,
