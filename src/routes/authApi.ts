@@ -1,48 +1,58 @@
-import CookieStorageAPI from "./login/cookies";
+import SessionStorageAPI from "./login/session";
 import axios from "axios";
 
-export async function checkAccessToken() : Promise<boolean | string>{
-    const CookieStorage = new CookieStorageAPI();
-    const accessToken = CookieStorage.getCookies("Access");
-    if(accessToken === null){
-        return false;
-    }
-    else{
-        return accessToken;
-    }
-}
-
-export async function checkRefreshToken(): Promise<any>{
-    const CookieStorage = new CookieStorageAPI();
-    const refreshToken = CookieStorage.getCookies("Refresh");
-    const id = CookieStorage.getCookies("userId");
+export async function checkAccessToken() : Promise<boolean>{
     
-    if(refreshToken === null || id === null){
-        return false;
+    const sessionStorage = new SessionStorageAPI();
+
+    if(await authAccessToken() === false){//access토큰 없어
+        console.log("access 토큰 없어");
+
+        if(await authRefreshToken(sessionStorage.getItem("userId")) === true){
+            //true 반환 받은 순간 이미 access토큰도 발급 받았음.
+            return true;
+        }
+        else{//access토큰이 없는데 체크해보니까 refresh 토큰이 없어.
+            console.log("refesh 토큰 없어");
+
+            return false;
+        }
     }
-    else{
-        return { refreshToken, id };
+    else{//access토큰이 있네?
+        console.log("access 토큰 있어");
+
+        return true;
     }
 }
 
 //refresh 토큰 유효성 검사
-export async function authRefreshToken(id:string):Promise<boolean>{
-    axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
-        data: id,
-        withCredentials: true,
-    })
-    .then((res) => {
-        if(res.data === true) {
-            // 쿠키에 새로운 엑세스 토큰 저장됨
-            // 원래 서비스로 돌아가기
-            return true;
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+export async function authRefreshToken(id:string|null):Promise<boolean>{
+    if(id === null){
+        console.log("id 없어");
+
+        return false;
+    }
+    else{
+        axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
+            data: id,
+            withCredentials: true,
+        })
+        .then((res) => {
+            console.log("res.data: ", res.data);
+            if(res.data === true) {
+                 console.log("true임?");
+
+                // 쿠키에 새로운 엑세스 토큰 저장됨
+                // 원래 서비스로 돌아가기
+                return true;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
 
     return false;
 }
@@ -67,23 +77,6 @@ export async function authAccessToken():Promise<boolean>{
     // 인증 실패
     // refresh 토큰 검사하는 함수 호출
     return false;
-}
-
-export async function authentication():Promise<boolean>{
-    //acess 토큰 보내는 함수
-    const accessToken = await checkAccessToken();
-    
-    if(accessToken === false){
-        const { refreshToken, id } = await checkRefreshToken();
-        if(refreshToken === false){//refresh토큰 비었을 때
-            //이 함수를 썼을 때, false가 반환되면 로그인이 필요하다고 안내.
-            return false;
-        }
-        else{
-            // refreshToken 전달 안 해도 됨
-            authRefreshToken(id);
-        }
-    }
 }
 
 export async function idCheck(id:string):Promise<boolean> {

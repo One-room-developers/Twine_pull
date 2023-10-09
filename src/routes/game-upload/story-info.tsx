@@ -59,12 +59,23 @@ interface IStoryInfo {
     likes: number,
     difficulty: string,//난이도
     uploadDate: string,//게임 업로드일
+}
+
+interface IPassage{
+    id:string,
+    name:string,
+    text_user:string,
+}
+interface IOption{
 
 }
+
 //path="/game-upload/storyInfo/:storyDbId"
 export const StoryInfoRoute: React.FC = () => {
     const { storyDbId } = useParams<RouteParams>();
     //const {isLoading, data} = useQuery<Post>(["story", storyDbId], ()=> passage가져오는함수(parseInt(storyDbId)));
+
+    const passageArr = [{}];
 
     const isLoading = true;
 

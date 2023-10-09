@@ -65,7 +65,10 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                     },
                 })
                 .then((res) => {
-                    if(res.data.errorMsg == 11) {
+                    if(res.data.errorMsg == 13) {
+                        // 이미 있는 아이디입니다.
+                    }
+                    else if(res.data.errorMsg == 11) {
                         console.log('서버 문제로 회원가입 실패');
                     }
 
@@ -90,7 +93,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
         return(
             <div className="email-container">
                 {_signUpForm}
-                <input className="email-input" type="email" ref={this.inputRef} placeholder="이메일 주소" required />
+                <input className="email-input" type="text" ref={this.inputRef} placeholder="아이디" required />
                 <button className="font-game-thin signup-button" onClick={function(e){
                     this.setState({mode: 'signup'});
                 }.bind(this)}>시작하기</button>

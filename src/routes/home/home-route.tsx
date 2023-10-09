@@ -1,28 +1,34 @@
 import * as React from 'react';
 import './home-route.css';
+import CookieStorageAPI from "../login/cookies";
 import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
 import {Link} from "react-router-dom"
 import SliderContainer from './SliderContainer';
+import {checkAccessToken} from '../authApi';
 import useIntersectionObserver from './useIntersectionObserver';
+
+export async function isLogin(){
+    const sessionStorage = new SessionStorageAPI();
+    
+    if(await checkAccessToken() === false){
+        console.log("토큰 없음");
+        return(<IfLogout></IfLogout>);
+    }
+    else{
+        console.log("토큰 있음");
+        return(<IfLogin nickname={sessionStorage.getItem("userNickName")}></IfLogin>);
+    }
+}
 
 export const HeaderBar: React.FC = () =>{
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
-    
 
     let whetherLoginComponent = <IfLogout></IfLogout>;
 
-    const sessionStorage = new SessionStorageAPI();
-    let nickName_ : string | null = sessionStorage.getItem("userNickname");
-
-    if(sessionStorage.getItem("userToken") === null){
-        whetherLoginComponent = <IfLogout></IfLogout>;
-    }
-    else{
-        whetherLoginComponent = <IfLogin nickname={nickName_}></IfLogin>;
-    }
+    //whetherLoginComponent = isLogin();
 
     const opacityObj = {
         backgroundColor: `rgba(34, 40, 49, ${scrollY / 300})`

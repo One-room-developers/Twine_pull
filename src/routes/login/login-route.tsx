@@ -4,7 +4,7 @@ import googleLogo from '../../styles/image/google-logo.png';
 import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
 import axios from 'axios';
 import { useHistory } from "react-router";
-import CookieStorageAPI from "./cookies";
+import SessionStorageAPI from "./session";
 
 export const LoginRoute: React.FC = () => {
 
@@ -47,10 +47,12 @@ export const LoginRoute: React.FC = () => {
             const targetTime = currentTime + res.data.refreshOption.maxAge;
             const expireTime = new Date(targetTime);
 
-            const CookieStorage = new CookieStorageAPI();
+            const sessionStorage = new SessionStorageAPI();
 
             //seesion에 토큰을 저장해도 되는가?
-            CookieStorage.setCookies("userNickname", authorizedUser.nickname, "/", expireTime.toUTCString());
+            //쿠키 저장 : setCookies("userNickname", authorizedUser.nickname, "/", expireTime.toUTCString());
+            sessionStorage.setItem("userNickname", authorizedUser.nickname);
+            sessionStorage.setItem("userId", authorizedUser.email);
 
             history.push("/");
         });
