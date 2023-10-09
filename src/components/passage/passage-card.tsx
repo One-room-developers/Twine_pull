@@ -64,7 +64,20 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 	 */
 	const excerpt = React.useMemo(() => {
 		if (passage.text.length > 0) {
-			return passage.text.substring(0, excerptLength);
+			if(passage.passageType === "normalPassage"){//이지원 제작 코드, passage가 normal이면 text대신 visibleText와 optionVisibleName을 결합해 출력
+				let returnText = passage.visibleText;
+				passage.options.forEach(option => {
+					returnText += "\n[[" + option.optionVisibleName  + "]]"
+				})
+				return returnText;
+			}
+			else if(passage.passageType === "optionPassage"){
+				return passage.text.substring(0, excerptLength);
+			}
+			else{
+				debugger;
+				console.log("passage-card에서 잘못된 접근")
+			}
 		}
 
 		return (
@@ -141,7 +154,7 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 					selected={passage.selected}
 				>
 					<TagStripe tagColors={tagColors} tags={passage.tags} />
-					<h2>{passage.name}</h2>
+					<h2>{(passage.passageType === "normalPassage")?(passage.name):(passage.optionVisibleName)}</h2>
 					<CardContent>{excerpt}</CardContent>
 				</SelectableCard>
 			</div>

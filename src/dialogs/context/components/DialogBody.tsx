@@ -2,8 +2,8 @@ import React from "react";
 import { Passage, StoriesState, Story, passageWithName } from "../../../store/stories";
 
 type DialogBodyProps = {
-    textUser : string,
-    setTextUser : React.Dispatch<React.SetStateAction<string>>,
+    visibleText : string,
+    setVisibleText : React.Dispatch<React.SetStateAction<string>>,
     passage : Passage
     stories : StoriesState
     story : Story
@@ -14,7 +14,7 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
         const parentPassage = passageWithName(props.stories, props.story.id, props.passage.parentOfOption)
         parentPassage.options.forEach(option => {
             if(option.name === props.passage.name){
-                optionAfterStory = option.after_stroy
+                optionAfterStory = option.afterStory
             }
         })
     }
@@ -23,20 +23,20 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
             <div className="making-window-main">
                 <div className="main-info-icon info-icon">본문</div>
                 <textarea 
-                    value={props.textUser} 
+                    value={props.visibleText} 
                     name="" 
                     id="" 
                     cols={30} 
                     rows={10} 
                     onChange={
                         function(e){
-                            props.setTextUser(e.target.value)
+                            props.setVisibleText(e.target.value)
                         }
                     }>
                 </textarea>
             </div>
         ) : (
-            <div className="making-window-main">
+            <div className="making-window-main option">
                 <div className="main-info-icon info-icon">after<br/>story</div>
                 <textarea 
                     value={optionAfterStory} 
@@ -46,7 +46,7 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
                     rows={10} 
                     onChange={
                         function(e){
-                            props.setTextUser(e.target.value)
+                            props.setVisibleText(e.target.value)
                         }
                     }
                     readOnly>

@@ -16,6 +16,7 @@ export function passageWithId(
 ) {
 	console.log("Log:passageWithId - ")
 	console.log(stories);
+	debugger;
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.id === passageId);
 
@@ -60,7 +61,21 @@ export function passageWithName(
 	);
 }
 
+//이지원 자체제작 함수
+export function passageWithNameAsStory(
+	story : Story, 
+	passageName : string
+){
+	const result = story.passages.find(p => p.name === passageName);
 
+	if (result) {
+		return result;
+	}
+
+	throw new Error(
+		`There is no passage with name "${passageName}" in a story with ID ${story.id}`
+	);
+}
 
 
 
@@ -122,56 +137,6 @@ export function passageConnections(
 	);
 
 	return result;
-}
-
-//이지원 자체 제작 함수
-//passage를 분석하여 normalPassage와 optionPassage를 구별한 result 반환
-export function setPassageType(
-	passages : Passage[],
-	startPassageId: String,
-	dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void,
-	story : Story,
-	stories : StoriesState
-) {
-	console.log("Log : setPassageType - ");
-	console.log(stories);
-	const startPassage = passages.find(passage => passage.id === startPassageId)
-	if(startPassage){
-		const passageUpdates: Record<string, Partial<Passage>> = passageUpdatedList(startPassage, stories, story, "normalPassage")
-
-		dispatch({
-			type: 'updatePassages',
-			passageUpdates,
-			storyId: story.id
-		});
-	}
-}
-function passageUpdatedList(passage : Passage, stories, story, passageType : string){
-	let passageUpdates : Record<string, Partial<Passage>> = {};
-
-	passageUpdates[passage.id] = {passageType};
-	if(passageType === 'optionPassage'){
-		const width = 75;
-		const height = 75;
-		passageUpdates[passage.id] = {...passageUpdates[passage.id], width, height};
-	}
-
-	passage.nextPassages.forEach(nextPassage => 
-		{
-			const optionPassage : Passage = passageWithName(stories, story.id, nextPassage);
-			let dummyPsUpdatedList;
-			switch(passageType){
-				case "normalPassage" :
-					dummyPsUpdatedList = passageUpdatedList(optionPassage, stories, story, "optionPassage")
-					break;
-				case "optionPassage" :
-					dummyPsUpdatedList = passageUpdatedList(optionPassage, stories, story, "normalPassage")
-					break;
-			}
-			passageUpdates = {...passageUpdates, ...dummyPsUpdatedList} //재귀함수
-		})
-	
-	return passageUpdates;
 }
 
 /**

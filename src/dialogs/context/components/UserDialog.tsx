@@ -18,11 +18,12 @@ type UserDialogProps = {
 
 export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const lastTitle = props.passage.name;
-    const [title, setTitle] = useState(props.passage.name); 
-    const [textUser, setTextUser] = useState(props.passage.text_user);
+    const [name, setName] = useState(props.passage.name); 
+    const [text, setText] = useState(props.passage.text)
+    const [visibleText, setVisibleText] = useState(props.passage.visibleText);
     const [options, setOptions] = useState(props.passage.options);
-    const [nextPassages, setNextPassages]  = useState(props.passage.nextPassages)
     const {dispatch, stories} = useUndoableStoriesContext();
+    const [optionVisibleName, setOptionVisibleName] = useState(props.passage.optionVisibleName)
     debugger;
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
@@ -34,13 +35,15 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
             <div className="making-window">
                 <DialogHeader
                     passage = {props.passage}
-                    title = {title}
-                    setTitle = {setTitle}>
+                    name = {name}
+                    optionVisibleName = {optionVisibleName}
+                    setName = {setName}
+                    setOptionVisibleName = {setOptionVisibleName}>
                 </DialogHeader>
 
                 <DialogBody
-                    textUser = {textUser}
-                    setTextUser = {setTextUser}
+                    visibleText = {visibleText}
+                    setVisibleText = {setVisibleText}
                     passage = {props.passage}
                     stories = {stories}
                     story = {props.story}>
@@ -51,9 +54,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                         function(optionArr : option[]){
                             console.log("Log : onTrackingOption");
                             let _options = optionArr
-                            const _nextPassages = _options.map(_option => _option.name)
                             setOptions( _options);
-                            setNextPassages(_nextPassages)
                         }
                     }
                     options = {options}
@@ -65,12 +66,14 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
 
                 <DialogButton
                     {...props}
-                    title = {title}
-                    textUser= {textUser}
+                    name = {name}
+                    visibleText= {visibleText}
                     options = {options}
                     dispatch = {dispatch}
                     lastTitle = {lastTitle}
-                    nextPassages={nextPassages}>
+                    stories = {stories}
+                    text = {text}
+                    optionVisibleName = {optionVisibleName}>
                 </DialogButton>
             </div>
         </div>
