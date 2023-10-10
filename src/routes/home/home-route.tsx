@@ -10,16 +10,15 @@ import {checkAccessToken} from '../authApi';
 import useIntersectionObserver from './useIntersectionObserver';
 
 export async function isLogin() : Promise<React.JSX.Element>{
-    debugger;
     const sessionStorage = new SessionStorageAPI();
-    
+
     if(await checkAccessToken() === false){
-        debugger;
+
         console.log("토큰 없음");
         return(<IfLogout></IfLogout>);
     }
     else{
-        debugger;
+
         console.log("토큰 있음");
         return(<IfLogin nickname={sessionStorage.getItem("userNickName")}></IfLogin>);
     }
@@ -33,7 +32,7 @@ export const HeaderBar: React.FC = () =>{
 
     React.useEffect(() => {
         async function getWhetherLoginComponent(){
-            debugger;
+    
             setWhetherLoginComponent(await isLogin());
         };
         getWhetherLoginComponent()
