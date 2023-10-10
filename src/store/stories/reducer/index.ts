@@ -15,6 +15,7 @@ export const reducer: React.Reducer<StoriesState, StoriesAction> = (
 	state,
 	action
 ) => {
+
 	switch (action.type) {
 		case 'createPassage':
 			return createPassage(state, action.storyId, action.props);
@@ -23,6 +24,7 @@ export const reducer: React.Reducer<StoriesState, StoriesAction> = (
 			return createPassages(state, action.storyId, action.props);
 
 		case 'createStory':
+			debugger;
 			return createStory(state, action.props);
 
 		case 'deletePassage':

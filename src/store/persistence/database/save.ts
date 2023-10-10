@@ -27,24 +27,8 @@ export async function createOption(option:option, normalPassageId:number){
 	});
 }
 
-export async function createPassage(passage:Passage, userId:string){
-	let storyPk: number;
-	const storyId : string = passage.story;
-	axios({
-		method: "GET",
-		url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
-		data: {
-			userId: userId,
-			storyId: storyId,
-		}
-	})
-	.then((res) => {
-		storyPk = res.data;
-	})
-	.catch((err) => {
-		console.log(err);
-	});
-
+export async function createPassage(passage:Passage, storyPk:number){
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -147,6 +131,9 @@ export async function updatePassage(passage:Passage){
 	})
 	.then((res) => {
 		console.log(res);
+		passage.options.forEach(option=>{
+			createOption(option, passage.pk)
+		})
 	})
 	.catch((error) => {
 		console.log(error);

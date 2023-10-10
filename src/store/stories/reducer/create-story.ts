@@ -1,6 +1,7 @@
 import uuid from 'tiny-uuid';
 import {passageDefaults, storyDefaults} from '../defaults';
 import {Story, StoriesState} from '../stories.types';
+import axios from 'axios';
 
 export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 	if ('id' in storyProps && state.some(story => story.id === storyProps.id)) {
@@ -21,6 +22,38 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 	}
 
 	
+	
+	// let storyPk : number;
+	// await axios({
+	// 	method: "GET",
+	// 	url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
+	// 	data: {
+	// 		userId: storyProps.userId,
+	// 		storyId: storyProps.id,
+	// 	}
+	// })
+	// .then((res) => {
+	// 	storyPk= res.data;
+	// })
+	// .catch((err) => {
+	// 	console.log(err);
+	// });
+	let storyPk : number;
+	axios({
+		method: "GET",
+		url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
+		data: {
+			userId: storyProps.userId,
+			storyId: storyProps.id,
+		}
+	})
+	.then((res) => {
+		storyPk= res.data;
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
 	let story: Story = {
 		id: uuid(),
 		...storyDefaults(),
@@ -29,6 +62,7 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		passages: [],
 		tags: [],
 		tagColors: {},
+		pk: storyPk,
 		...storyProps
 	};
 
