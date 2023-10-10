@@ -42,7 +42,7 @@ export async function authRefreshToken(id:string|null):Promise<boolean>{
         .then((res) => {
             console.log("res.data: ", res.data);
             if(res.data === true) {
-                 console.log("true임?");
+                console.log("true임?");
 
                 // 쿠키에 새로운 엑세스 토큰 저장됨
                 // 원래 서비스로 돌아가기
@@ -85,6 +85,7 @@ export async function idCheck(id:string):Promise<boolean> {
         if(res.data === false) {
             console.log("api에서 false");
             // 중복된 아이디
+            console.log('진입');
             return false;
         }
     })

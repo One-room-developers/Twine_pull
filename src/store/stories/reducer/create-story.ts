@@ -1,6 +1,7 @@
 import uuid from 'tiny-uuid';
 import {passageDefaults, storyDefaults} from '../defaults';
 import {Story, StoriesState} from '../stories.types';
+import axios from 'axios';
 
 export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 	if ('id' in storyProps && state.some(story => story.id === storyProps.id)) {
@@ -20,14 +21,18 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		return state;
 	}
 
+	const storyId = uuid()
+	const  storyPk : string = storyId + storyProps.userId;
+
 	let story: Story = {
-		id: uuid(),
+		id: storyId,
 		...storyDefaults(),
 		ifid: uuid().toUpperCase(),
 		lastUpdate: new Date(),
 		passages: [],
 		tags: [],
 		tagColors: {},
+		pk: storyPk,
 		...storyProps
 	};
 

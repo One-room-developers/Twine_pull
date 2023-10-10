@@ -31,7 +31,7 @@ export function fakePassage(props?: Partial<Passage>): Passage {
 		passageType:"",
 		parentOfOption:"",
 		optionVisibleName:"",
-		uniqueId:0,
+		pk:"",
 		...props
 	};
 }
@@ -183,7 +183,7 @@ export function fakeStory(passageCount: number = 1): Story {
 		level : 0,
 		genre : "",
 		userId : "",
-		uniqueId : 0
+		pk : ""
 	};
 
 	for (let i = 0; i < passageCount; i++) {

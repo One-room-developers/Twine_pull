@@ -3,43 +3,44 @@ import { Passage, StoriesState, Story, option } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
-export async function createOption(option:option){
-
-	// axios({
-	// 	method: "POST",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
-	// 	data: {
-	// 		id:,
-	// 		name:,
-	// 		passageType:,
-	// 		story:,
-	// 		passage:,
-	// 		text:,
-	// 		visibleText:,
-	// 		after_story:,
-	// 		status1:,
-	// 		status1_num:,
-	// 		status2:,
-	// 		status2_num:,
-	// 	}
-	// })
-	// .then((res) => {
-	// })
-	// .catch((err) => {
-	// 	console.log(err);
-	// });
+export async function createOption(option:option, normalPassagePk:string){
+	debugger;
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
+		data: {
+			normalPassageId: normalPassagePk,
+			name: option.name,
+			optionVisibleName: option.optionVisibleName,
+			afterStory: option.afterStory,
+			status1: option.status1,
+			status1Num: option.status1Num,
+			status2: option.status2,
+			status2Num: option.status2Num,
+			nextPassage: option.nextNormalPassages,
+		}
+	})
+	.then((res) => {
+	})
+	.catch((err) => {
+		console.log(err);
+	});
 }
 
-export async function createPassage(passage:Passage){
+export async function createPassage(passage:Passage, storyPk:string){
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
+			pk: passage.pk,
 			id: passage.id,
+			passageType: passage.passageType,
+			storyPk: storyPk,
+			storyId: passage.story,
+			parentOfOption: passage.parentOfOption,
 			name: passage.name,
 			optionVisibleName: passage.optionVisibleName,
-			passageType: passage.passageType,
-			story: passage.story,
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
@@ -53,7 +54,6 @@ export async function createPassage(passage:Passage){
 	.then((res) => {
 	})
 	.catch((error) => {
-		console.log("엄엄어엄");
 		console.log(error);
 	});
 }
@@ -63,6 +63,7 @@ export async function createStory(story:Story){
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
 			data: {
+				pk: story.pk,
 				id: story.id,
 				ifid: story.ifid,
 				difficulty: story.level,
@@ -113,13 +114,13 @@ export async function updateOption(option) {
 	// });
 }
 
-export async function updatePassage(passage:Passage) {
+export async function updatePassage(passage:Passage){
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,
 		data: {
 			name: passage.name,
-			passageType: passage.passageType,
+			passageType: passage.passageType,	
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
@@ -132,6 +133,9 @@ export async function updatePassage(passage:Passage) {
 	})
 	.then((res) => {
 		console.log(res);
+		passage.options.forEach(option=>{
+			createOption(option, passage.pk)
+		})
 	})
 	.catch((error) => {
 		console.log(error);

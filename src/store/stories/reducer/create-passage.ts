@@ -1,6 +1,7 @@
 import uuid from 'tiny-uuid';
 import {passageDefaults} from '../defaults';
 import {Passage, Story, StoriesState} from '../stories.types';
+import axios from 'axios';
 
 export function createPassage(
 	state: StoriesState,
@@ -33,12 +34,15 @@ export function createPassage(
 			return story;
 		}
 		
+		const passageId = uuid()
+		const  passagePk : string = passageId + story.userId;
 
 		const newPassage: Passage = {
 			...passageDefaults(),
-			id: uuid(),
+			id: passageId,
 			...passageProps,
-			story: story.id
+			story: story.id,
+			pk : passagePk
 		};
 		const newStory: Story = {
 			...story,
