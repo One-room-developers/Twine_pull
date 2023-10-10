@@ -34,14 +34,14 @@ export async function authRefreshToken(id:string|null):Promise<boolean>{
             return false;
         }
         else{
-                // const reponse = await axios({
-                //     method: "POST",
-                //     url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
-                //     data: id,
-                //     withCredentials: true,
-                // })
+                const reponse = await axios({
+                    method: "POST",
+                    url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
+                    data: id,
+                    withCredentials: true,
+                });
                 debugger;
-                const reponse = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {data : id, withCredentials:true})
+                //const reponse = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {data : id, withCredentials:true})
                 debugger;
                 console.log("res.data: ", reponse.data);
         
@@ -67,12 +67,12 @@ export async function authRefreshToken(id:string|null):Promise<boolean>{
 export async function authAccessToken():Promise<boolean>{
     try {
         debugger;
-        // const response = await axios({
-        //     method: "POST",
-        //     url: `${process.env.REACT_APP_API_URL}/auth/access`,
-        //     withCredentials: true,
-        // })
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/access`, {withCredentials : true})
+        const response = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/access`,
+            withCredentials: true,
+        });
+        //const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/access`, {withCredentials : true})
         debugger;
         if(response.data === true) {
             // 인증 성공
