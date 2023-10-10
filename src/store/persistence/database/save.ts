@@ -3,13 +3,13 @@ import { Passage, StoriesState, Story, option } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
-export async function createOption(option:option, normalPassageId:number){
+export async function createOption(option:option, normalPassagePk:string){
 	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
 		data: {
-			normalPassageId: normalPassageId,
+			normalPassageId: normalPassagePk,
 			name: option.name,
 			optionVisibleName: option.optionVisibleName,
 			afterStory: option.afterStory,
@@ -27,13 +27,13 @@ export async function createOption(option:option, normalPassageId:number){
 	});
 }
 
-export async function createPassage(passage:Passage, storyPk:number){
+export async function createPassage(passage:Passage, storyPk:string){
 	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
-			pk: passage.uniqueId,
+			pk: passage.pk,
 			id: passage.id,
 			passageType: passage.passageType,
 			storyPk: storyPk,
@@ -63,7 +63,7 @@ export async function createStory(story:Story){
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
 			data: {
-				pk: story.uniqueId,
+				pk: story.pk,
 				id: story.id,
 				ifid: story.ifid,
 				difficulty: story.level,

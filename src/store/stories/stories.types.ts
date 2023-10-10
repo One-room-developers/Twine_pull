@@ -70,7 +70,7 @@ export interface Passage {
 	passageType : string; //"normalPassage" "optionPassage"
 
 	//db에 저장될 고유 id. userID와 passageId의 합으로 만듬
-	pk : number
+	pk : string
 }
 
 export interface option{
@@ -175,7 +175,7 @@ export interface Story {
 	userId : string;
 
 	//db에 사용되는 고유 id. 유저 id와 storyid를 합쳐서 제작.
-	pk : number;
+	pk : string;
 }
 /* 내 스토리들 모아놓는 화면에서 아마 작동하는 스토리 배열일거임 */
 export type StoriesState = Story[];

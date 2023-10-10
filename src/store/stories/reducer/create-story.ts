@@ -21,41 +21,11 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		return state;
 	}
 
-	
-	
-	// let storyPk : number;
-	// await axios({
-	// 	method: "GET",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
-	// 	data: {
-	// 		userId: storyProps.userId,
-	// 		storyId: storyProps.id,
-	// 	}
-	// })
-	// .then((res) => {
-	// 	storyPk= res.data;
-	// })
-	// .catch((err) => {
-	// 	console.log(err);
-	// });
-	let storyPk : number;
-	axios({
-		method: "GET",
-		url: `${process.env.REACT_APP_API_URL}/game_play/get_story_pk`,
-		data: {
-			userId: storyProps.userId,
-			storyId: storyProps.id,
-		}
-	})
-	.then((res) => {
-		storyPk= res.data;
-	})
-	.catch((err) => {
-		console.log(err);
-	});
+	const storyId = uuid()
+	const  storyPk : string = storyId + storyProps.userId;
 
 	let story: Story = {
-		id: uuid(),
+		id: storyId,
 		...storyDefaults(),
 		ifid: uuid().toUpperCase(),
 		lastUpdate: new Date(),

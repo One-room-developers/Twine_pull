@@ -34,12 +34,15 @@ export function createPassage(
 			return story;
 		}
 		
+		const passageId = uuid()
+		const  passagePk : string = passageId + story.userId;
+
 		const newPassage: Passage = {
 			...passageDefaults(),
-			id: uuid(),
+			id: passageId,
 			...passageProps,
 			story: story.id,
-			// pk : passagePk
+			pk : passagePk
 		};
 		const newStory: Story = {
 			...story,
