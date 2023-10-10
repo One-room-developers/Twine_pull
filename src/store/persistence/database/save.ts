@@ -115,6 +115,7 @@ export async function updateOption(option) {
 }
 
 export async function updatePassage(passage:Passage){
+	debugger;
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,
