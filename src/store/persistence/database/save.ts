@@ -48,6 +48,7 @@ export async function createPassage(passage:Passage, userId:string, storyId:stri
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
 		data: {
+			pk: passage.uniqueId,
 			id: passage.id,
 			passageType: passage.passageType,
 			storyPk: storyPk,
@@ -78,6 +79,7 @@ export async function createStory(story:Story){
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
 			data: {
+				pk: story.uniqueId,
 				id: story.id,
 				ifid: story.ifid,
 				difficulty: story.level,
