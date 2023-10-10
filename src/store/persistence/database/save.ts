@@ -4,7 +4,6 @@ import { passageWithName } from "../../stories";
 import axios from 'axios';
 
 export async function createOption(option:option, normalPassagePk:string){
-	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
@@ -28,7 +27,6 @@ export async function createOption(option:option, normalPassagePk:string){
 }
 
 export async function createPassage(passage:Passage, storyPk:string){
-	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -115,7 +113,6 @@ export async function updateOption(option) {
 }
 
 export async function updatePassage(passage:Passage){
-	debugger;
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,

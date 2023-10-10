@@ -19,7 +19,6 @@ import {
 let lastState: StoriesState;
 export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 	console.log("Log:DBsaveMiddleware")
-	debugger;
 	switch (action.type) {
 		case 'createPassage': {
 			const story = storyWithId(state, action.storyId);

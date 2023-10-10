@@ -2,7 +2,7 @@ import SessionStorageAPI from "./login/session";
 import axios from "axios";
 
 export async function checkAccessToken() : Promise<boolean>{
-    
+    debugger;
     const sessionStorage = new SessionStorageAPI();
 
     if(await authAccessToken() === false){//access토큰 없어
@@ -27,56 +27,60 @@ export async function checkAccessToken() : Promise<boolean>{
 
 //refresh 토큰 유효성 검사
 export async function authRefreshToken(id:string|null):Promise<boolean>{
+    debugger;
     if(id === null){
         console.log("id 없어");
-
         return false;
     }
     else{
-        axios({
-            method: "POST",
-            url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
-            data: id,
-            withCredentials: true,
-        })
-        .then((res) => {
-            console.log("res.data: ", res.data);
-            if(res.data === true) {
+        try{
+            const reponse = await axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
+                data: id,
+                withCredentials: true,
+            })
+            console.log("res.data: ", reponse.data);
+            debugger;
+            if(reponse.data === true) {
                 console.log("true임?");
 
                 // 쿠키에 새로운 엑세스 토큰 저장됨
                 // 원래 서비스로 돌아가기
                 return true;
             }
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            else{
+                return false;
+            }
+        }
+        catch(err){
+            console.log(err)
+            return false;
+        }
     }
-
-    return false;
 }
 
 //acess 토큰 유효성 검사
 export async function authAccessToken():Promise<boolean>{
-    axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/auth/access`,
-        withCredentials: true,
-    })
-    .then((res) => {
-        if(res.data === true) {
+    debugger;
+    try {
+        const response = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/access`,
+            withCredentials: true,
+        })
+        if(response.data === true) {
             // 인증 성공
             return true;
         }
-    })
-    .catch((err) => {
+        else{
+            return false;
+        }
+    }
+    catch(err){
         console.log(err);
-    });
-
-    // 인증 실패
-    // refresh 토큰 검사하는 함수 호출
-    return false;
+        return false;
+    }
 }
 
 export async function idCheck(id:string):Promise<boolean>{

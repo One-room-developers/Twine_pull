@@ -9,14 +9,17 @@ import SliderContainer from './SliderContainer';
 import {checkAccessToken} from '../authApi';
 import useIntersectionObserver from './useIntersectionObserver';
 
-export async function isLogin(){
+export async function isLogin() : Promise<React.JSX.Element>{
+    debugger;
     const sessionStorage = new SessionStorageAPI();
     
     if(await checkAccessToken() === false){
+        debugger;
         console.log("토큰 없음");
         return(<IfLogout></IfLogout>);
     }
     else{
+        debugger;
         console.log("토큰 있음");
         return(<IfLogin nickname={sessionStorage.getItem("userNickName")}></IfLogin>);
     }
@@ -26,9 +29,15 @@ export const HeaderBar: React.FC = () =>{
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
 
-    let whetherLoginComponent = <IfLogout></IfLogout>;
+    const [whetherLoginComponent, setWhetherLoginComponent] = React.useState(<IfLogout></IfLogout>);
 
-    //whetherLoginComponent = isLogin();
+    React.useEffect(() => {
+        async function getWhetherLoginComponent(){
+            debugger;
+            setWhetherLoginComponent(await isLogin());
+        };
+        getWhetherLoginComponent()
+    }, []);
 
     const opacityObj = {
         backgroundColor: `rgba(34, 40, 49, ${scrollY / 300})`
