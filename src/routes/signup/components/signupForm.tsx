@@ -62,7 +62,7 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                                 else{
                                     this.setState({idValid: 2});
                                 }
-                                console.log(await idCheck(this.state.id));
+                                console.log(this.state.id, await idCheck(this.state.id));
                             }.bind(this)} className='valid-check-btn'>중복검사</div>
                         </div>
                         {

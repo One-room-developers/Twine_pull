@@ -83,6 +83,7 @@ export async function idCheck(id:string):Promise<boolean> {
     await axios.post(`${process.env.REACT_APP_API_URL}/auth/id_check/${id}`)
     .then((res) => {
         if(res.data === false) {
+            console.log("api에서 false");
             // 중복된 아이디
             return false;
         }
@@ -90,6 +91,6 @@ export async function idCheck(id:string):Promise<boolean> {
     .catch((err) => {
         console.log(err);
     });
-
+    console.log("api에서 true");
     return true;
 }
