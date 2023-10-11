@@ -20,7 +20,6 @@ export async function createOption(option:option, normalPassagePk:string){
 		}
 	})
 	.then((res) => {
-		console.log(`createOption: ${res}`);
 	})
 	.catch((err) => {
 		console.log(err);
