@@ -35,13 +35,13 @@ export const DeletePassagesButton: React.FC<
 				parseLinks(passage.text).forEach(nextPassage => {
 					const result = story.passages.find(p => p.name === nextPassage); //전체 passage에서 현재 passage의 자식 찾기
 					if(result){
-						dispatch(deletePassage(story, result))
+						dispatch(deletePassage(story, result, dispatch))
 					}
 				})
 			}
 		})
 		dispatch(
-			deletePassages(story, passages),
+			deletePassages(story, passages, dispatch),
 			passages.length > 1
 				? 'undoChange.deletePassages'
 				: 'undoChange.deletePassage'

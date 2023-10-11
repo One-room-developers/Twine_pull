@@ -331,7 +331,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             let _options_name = Array.from(optionsName);
 
                             const deletedPassage = passageWithNameAsStory(props.story, optionsName[i]);
-                            dispatch(deletePassage(props.story, deletedPassage))
+                            dispatch(deletePassage(props.story, deletedPassage, dispatch))
                             //optionsId.splice(index, 1);
                             _optionsVisibleName.splice(index, 1);
                             _options_name.splice(index, 1);

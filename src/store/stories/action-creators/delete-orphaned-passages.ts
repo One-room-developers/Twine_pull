@@ -90,6 +90,7 @@ export function deleteOrphanedPassages(
 		}, []);
 
 		if (passageIds.length > 0) {
+			debugger;
 			dispatch({type: 'deletePassages', passageIds, storyId: story.id, passageNames});
 		}
 	};

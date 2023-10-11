@@ -38,27 +38,7 @@ export function deletePassage(
 			}
 			return dummyPassage;
 		})//이지원 추가코드 option passage가 제거되면 그 passage를 부모 passage의 option 속성에서 모두 제거
-		passages = passages.map(passage => {
-			let dummyPassage;
-			let options = passage.options;
-			passage.options.forEach((option, index) => {
-				for(let i =0; i<option.nextNormalPassages.length; i++){
-					if(option.nextNormalPassages[i] === passageName){
-						option.nextNormalPassages.splice(index, 1)
-						updateOption(option); //개 어거지로 쓴 db 업데이트 코드
-						return
-					}
-				}
-				options[index].nextNormalPassages = option.nextNormalPassages;
-			})
-			dummyPassage = {
-				...passage,
-				options : options
-			}
-			return dummyPassage;
-		})
-		//이지원 추가코드 normal passage가 제거되면 그 passage를 nextNormalPassage로 갖는 것 모두 수정
-
+		
 		const newStory = {
 			...story,
 			passages: passages

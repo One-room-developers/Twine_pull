@@ -45,7 +45,7 @@ export function updatePassage(
 			passageId: passage.id,
 			storyId: story.id
 		});
-
+		debugger;
 		// Side effects from changes.
 
 		if (!options.dontUpdateOthers && props.text) {
@@ -146,15 +146,14 @@ export function updatePassage(
 						relinkedPassage,
 						{
 							text: newText,
-							options : nextOptionForParent
+							options : nextOptionForParent,
 						},
 						options
 					)(dispatch, getState);
 				}
 			});
 		}
-
-		if(props.text && passage.passageType === "optionPassage"){ //option passage가 하위 passage를 만들었을 때 상위 passage의 option 속 nextNormalPassage를 변경해줌
+		if(!props.name && props.text && passage.passageType === "optionPassage"){ //option passage가 하위 passage를 만들었을 때 상위 passage의 option 속 nextNormalPassage를 변경해줌
 			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
 
 			const newOptionForParent : option[] = parentPassage.options.map(parentOption => {
