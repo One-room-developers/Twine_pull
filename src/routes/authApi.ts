@@ -107,3 +107,29 @@ export async function idCheck(id:string):Promise<boolean>{
         return false;
     }
 }
+
+export async function nicknameCheck(nickname:string):Promise<boolean>{
+    try{
+        const response = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/nickname_check/`,
+            data: {
+                nickname: nickname
+            }
+        });
+        
+        if(response.data === false) {
+            console.log("api에서 false");
+            // 중복된 아이디
+            console.log('진입');
+            return false;
+        }else{
+            console.log("api에서 true");
+            return true;
+        }
+    }
+    catch(err){
+        console.log(err);
+        return false;
+    }
+}
