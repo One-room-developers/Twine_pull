@@ -148,7 +148,7 @@ export function updatePassage(
 							text: newText,
 							options : nextOptionForParent,
 						},
-						options
+						{dontUpdateOthers : true}
 					)(dispatch, getState);
 				}
 			});
