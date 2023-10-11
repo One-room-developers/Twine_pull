@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
+import {Link} from 'react-router-dom'
 import x from '../../../styles/image/x.svg';
 import './signupForm.css';
 import {idCheck} from '../../authApi';
@@ -86,7 +87,7 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                     </div>
                     <div className='signup-line font-game-thin input-checkbox'>
                         {/* <label htmlFor='check'>게임 이용 약관 동의 <a className='terms-a' href='/'> 자세히</a></label> */}
-                        <label htmlFor='check'>베타 기간 이용 안내 <a className='terms-a' href='/'> 자세히</a></label>
+                        <label htmlFor='check'>베타 기간 이용 안내 <Link className='terms-a' target="_blank" to='/beta'> 자세히</Link></label>
                         <input type="checkbox" id="check" required/>
                     </div>
                     <button className='signup-form-submit-btn'>가입하기</button>

@@ -4,6 +4,7 @@ import Modes from './components/game_mode_modes'
 import Text from './components/game_mode_text'
 import Select from './components/game_mode_select'
 import Line from '../../styles/image/wave_line.svg'
+import {SaveDataContainer} from "./components/saveDataContainer";
 
 
 export default function Game_mode(props){
@@ -43,6 +44,8 @@ export default function Game_mode(props){
                 }
               />
               <div className='side-block'></div>
+              
+              <SaveDataContainer />
             </div>
             <Select
               click = {click}

@@ -69,6 +69,9 @@ export async function authAccessToken():Promise<boolean>{
             url: `${process.env.REACT_APP_API_URL}/auth/access`,
             withCredentials: true,
         })
+        debugger;
+        console.log("res.data: ", response.data);
+
         if(response.data === true) {
             // 인증 성공
             return true;
