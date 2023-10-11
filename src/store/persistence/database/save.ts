@@ -1,5 +1,5 @@
 
-import { Passage, StoriesState, Story, option } from "../../stories";
+import { Passage, StoriesState, Story, option, passageWithNameAsStory } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
@@ -8,7 +8,8 @@ export async function createOption(option:option, normalPassagePk:string){
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
 		data: {
-			normalPassageId: normalPassagePk,
+			pk: option.pk,
+			normalPassagePk: normalPassagePk,
 			name: option.name,
 			optionVisibleName: option.optionVisibleName,
 			afterStory: option.afterStory,
@@ -16,7 +17,7 @@ export async function createOption(option:option, normalPassagePk:string){
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextPassage: option.nextNormalPassages,
+			nextNormalPassages: option.nextNormalPassages,
 		}
 	})
 	.then((res) => {
@@ -26,7 +27,40 @@ export async function createOption(option:option, normalPassagePk:string){
 	});
 }
 
-export async function createPassage(passage:Passage, storyPk:string){
+export async function updateOption(option:option) {
+
+	axios({
+		method: "PATCH",
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.pk}`,
+		data: {
+			optionVisibleName: option.optionVisibleName,
+			name: option.name,
+			afterStory: option.afterStory,
+			status1: option.status1,
+			status1Num: option.status1Num,
+			status2: option.status2,
+			status2Num: option.status2Num,
+			nextNormalPassages: option.nextNormalPassages,
+		}
+	})
+	.then((res) => {
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+
+export async function deleteOption(option: option) {
+	
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${option.pk}`)
+		.then((res) => {
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+}
+
+export async function createPassage(passage:Passage, story:Story){
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -34,7 +68,7 @@ export async function createPassage(passage:Passage, storyPk:string){
 			pk: passage.pk,
 			id: passage.id,
 			passageType: passage.passageType,
-			storyPk: storyPk,
+			storyPk: story.pk,
 			storyId: passage.story,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
@@ -50,6 +84,15 @@ export async function createPassage(passage:Passage, storyPk:string){
 		}
 	})
 	.then((res) => {
+		if(passage.passageType === "optionPassage"){
+			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
+			parentPassage.options.forEach(option => {
+				if(option.name = passage.name){
+					createOption(option, parentPassage.pk)
+					return true;
+				}
+			})
+		}
 	})
 	.catch((error) => {
 		console.log(error);
@@ -83,42 +126,15 @@ export async function createStory(story:Story){
 		});
 }
 
-export async function updateOption(option) {
-
-	// axios({
-	// 	method: "PATCH",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
-	// 	data: {
-	// 		name:,
-	// 		text:,
-	// 		visibleText:,
-	// 		after_story:,
-	// 		status1:,
-	// 		status1_num:,
-	// 		status2:,
-	// 		status2_num:,
-	// 		height:,
-	// 		highlighted:,
-	// 		left:,
-	// 		selected:,
-	// 		top:,
-	// 		width:,
-	// 	}
-	// })
-	// .then((res) => {
-	// })
-	// .catch((error) => {
-	// 	console.log(error);
-	// });
-}
 
 export async function updatePassage(passage:Passage){
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.pk}`,
 		data: {
+			parentOfOption: passage.parentOfOption,
 			name: passage.name,
-			passageType: passage.passageType,	
+			optionVisibleName: passage.optionVisibleName,
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
@@ -130,10 +146,11 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		console.log(res);
-		passage.options.forEach(option=>{
-			createOption(option, passage.pk)
-		})
+		if(passage.passageType === "normalPassage"){
+			passage.options.forEach(option => {
+				updateOption(option)
+			})
+		}
 	})
 	.catch((error) => {
 		console.log(error);
@@ -141,11 +158,11 @@ export async function updatePassage(passage:Passage){
 }
 
 export async function updateStory(story) {
-
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.id}`,
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.pk}`,
 		data: {
+			difficulty: story.level,
 			name: story.name,
 			startPassage: story.startPassage,
 			script: story.script,
@@ -163,20 +180,20 @@ export async function updateStory(story) {
 	});
 }
 
-export async function deleteOption(optionId: string) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${optionId}`)
+export async function deletePassage(passage: Passage, story : Story, state : StoriesState) {
+
+		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passage.pk}`)
 		.then((res) => {
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-}
-
-export async function deletePassage(passageId: string) {
-
-		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passageId}`)
-		.then((res) => {
+			if(passage.passageType === "optionPassage"){
+				const parentPassage = passageWithName(state, story.id, passage.parentOfOption);
+				parentPassage.options.forEach(option => {
+					if(option.name === passage.name){
+						deleteOption(option)
+						return true;
+					}
+				})
+			}
 		})
 		.catch((error) => {
 			console.log(error);
@@ -185,7 +202,7 @@ export async function deletePassage(passageId: string) {
 
 export async function deleteStory(story: Story) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.id}`)
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.pk}`)
 	.then((res) => {
 	})
 	.catch((error) => {

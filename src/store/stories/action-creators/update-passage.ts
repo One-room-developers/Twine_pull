@@ -63,7 +63,7 @@ export function updatePassage(
 
 			//하위 passage 생성
 			dispatch(
-				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, props.options)
+				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, props.options, props.name)
 			);
 		}
 

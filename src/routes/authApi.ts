@@ -28,50 +28,52 @@ export async function checkAccessToken() : Promise<boolean>{
 //refresh 토큰 유효성 검사
 export async function authRefreshToken(id:string|null):Promise<boolean>{
     debugger;
-    if(id === null){
-        console.log("id 없어");
-        return false;
-    }
-    else{
-        try{
-            const reponse = await axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
-                data: id,
-                withCredentials: true,
-            })
-            console.log("res.data: ", reponse.data);
-            debugger;
-            if(reponse.data === true) {
-                console.log("true임?");
-
-                // 쿠키에 새로운 엑세스 토큰 저장됨
-                // 원래 서비스로 돌아가기
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        catch(err){
-            console.log(err)
+    try{
+        if(id === null){
+            console.log("id 없어");
             return false;
         }
+        else{
+                const reponse = await axios({
+                    method: "POST",
+                    url: `${process.env.REACT_APP_API_URL}/auth/refresh`,
+                    data: id,
+                    withCredentials: true,
+                });
+                debugger;
+                //const reponse = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {data : id, withCredentials:true})
+                debugger;
+                console.log("res.data: ", reponse.data);
+        
+                if(reponse.data === true) {
+                    console.log("true임?");
+
+                    // 쿠키에 새로운 엑세스 토큰 저장됨
+                    // 원래 서비스로 돌아가기
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+    catch(err){
+        console.log(err)
+        return false;
     }
 }
 
 //acess 토큰 유효성 검사
 export async function authAccessToken():Promise<boolean>{
-    debugger;
     try {
+        debugger;
         const response = await axios({
             method: "POST",
             url: `${process.env.REACT_APP_API_URL}/auth/access`,
             withCredentials: true,
-        })
+        });
+        //const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/access`, {withCredentials : true})
         debugger;
-        console.log("res.data: ", response.data);
-
         if(response.data === true) {
             // 인증 성공
             return true;
@@ -81,6 +83,7 @@ export async function authAccessToken():Promise<boolean>{
         }
     }
     catch(err){
+        debugger;
         console.log(err);
         return false;
     }
@@ -89,6 +92,32 @@ export async function authAccessToken():Promise<boolean>{
 export async function idCheck(id:string):Promise<boolean>{
     try{
         const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/id_check/${id}`)
+        if(response.data === false) {
+            console.log("api에서 false");
+            // 중복된 아이디
+            console.log('진입');
+            return false;
+        }else{
+            console.log("api에서 true");
+            return true;
+        }
+    }
+    catch(err){
+        console.log(err);
+        return false;
+    }
+}
+
+export async function nicknameCheck(nickname:string):Promise<boolean>{
+    try{
+        const response = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/nickname_check/`,
+            data: {
+                nickname: nickname
+            }
+        });
+        
         if(response.data === false) {
             console.log("api에서 false");
             // 중복된 아이디
