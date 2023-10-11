@@ -29,6 +29,29 @@ export async function createOption(option:option, normalPassagePk:string){
 	});
 }
 
+export async function updateOption(option:option) {
+
+	// axios({
+	// 	method: "PATCH",
+	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
+	// 	data: {
+	// 		optionVisibleName: option.optionVisibleName,
+	// 		name: option.name,
+	// 		afterStory: option.afterStory,
+	// 		status1: option.status1,
+	// 		status1Num: option.status1Num,
+	// 		status2: option.status2,
+	// 		status2Num: option.status2Num,
+	// 		nextPassage: option.nextNormalPassages,
+	// 	}
+	// })
+	// .then((res) => {
+	// })
+	// .catch((error) => {
+	// 	console.log(error);
+	// });
+}
+
 export async function createPassage(passage:Passage, story:Story){
 	axios({
 		method: "POST",
@@ -95,28 +118,6 @@ export async function createStory(story:Story){
 		});
 }
 
-export async function updateOption(option:option) {
-
-	// axios({
-	// 	method: "PATCH",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
-	// 	data: {
-	// 		optionVisibleName: option.optionVisibleName,
-	// 		name: option.name,
-	// 		afterStory: option.afterStory,
-	// 		status1: option.status1,
-	// 		status1Num: option.status1Num,
-	// 		status2: option.status2,
-	// 		status2Num: option.status2Num,
-	// 		nextPassage: option.nextNormalPassages,
-	// 	}
-	// })
-	// .then((res) => {
-	// })
-	// .catch((error) => {
-	// 	console.log(error);
-	// });
-}
 
 export async function updatePassage(passage:Passage){
 	axios({
@@ -137,7 +138,7 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-
+		
 	})
 	.catch((error) => {
 		console.log(error);

@@ -15,50 +15,54 @@ type DialogOptionsProps = {
 }
 
 export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
-    let dummyOptionTitles : string[] = [];
+    let dummyOptionsPk : string[] = [];
+    let dummyOptionsTitles : string[] = [];
     let dummyOptionsStatus1 : string[] = [];
     let dummyOptionsAmountChange1 : number[] = [];
     let dummyOptionsStatus2 : string[] = [];
     let dummyOptionsAmountChange2 : number[] = [];
     let dummyOptionsAfterStory : string[] = [];
     let dummyOptionsNextNormalPassages : string[][] = [];
-    let dummyOptionVisibleOptionName : string[] = [];
+    let dummyOptionsVisibleName : string[] = [];
 
     let max_option_num:number = props.options.length ?? 0;
     const {dispatch} = props;
 
     if(props.options){ 
         props.options.forEach(option => {
-            dummyOptionTitles.push(option.name)
+            dummyOptionsPk.push(option.pk)
+            dummyOptionsTitles.push(option.name)
             dummyOptionsStatus1.push(option.status1)
             dummyOptionsAmountChange1.push(option.status1Num)
             dummyOptionsStatus2.push(option.status2)
             dummyOptionsAmountChange2.push(option.status2Num)
             dummyOptionsAfterStory.push(option.afterStory)
             dummyOptionsNextNormalPassages.push(option.nextNormalPassages)
-            dummyOptionVisibleOptionName.push(option.optionVisibleName)
+            dummyOptionsVisibleName.push(option.optionVisibleName)
         })
     }
 
     const [mode, setMode] = useState('default');//default, optionCreate, optionModify, optionDelete
-    const [optionsName, setOptionsName] = useState(dummyOptionTitles);
+    const [optionsPk, setOptionsPk] = useState(dummyOptionsPk);
+    const [optionsName, setOptionsName] = useState(dummyOptionsTitles);
     const [optionsStatus1, setOptionsStatus1] = useState(dummyOptionsStatus1);
     const [optionsAmountChange1, setOptionsAmountChange1] = useState(dummyOptionsAmountChange1);
     const [optionsStatus2, setOptionsStatus2] = useState(dummyOptionsStatus2);
     const [optionsAmountChange2, setOptionsAmountChange2] = useState(dummyOptionsAmountChange2);
     const [optionsAfterStory, setOptionsAfterStory] = useState(dummyOptionsAfterStory);
     const [optionsNextNormalPassages, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassages);
-    const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionVisibleOptionName);
+    const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
     //
     const [nextNormalPassageName, setNextNormalPassageName] = useState<string|null>(null);
 
-    function makeOptionsToReturn(optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
+    function makeOptionsToReturn(optionsPk, optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
 
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({
+                pk : optionsPk,
                 name : optionsName[i],//name은 이제 변경되지 않음
                 afterStory : optionsAfterStory[i],
                 status1 : optionsStatus1[i],
@@ -99,7 +103,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 setOptionsVisibleName(_optionsVisibleName);
 
                                 //상위 컴포넌트(Twine)으로 값 전달
-                                props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName));
+                                props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName));
                             }} required></input>
 
                             <div className='mini-line'></div>
@@ -329,7 +333,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             setOptionsName(_options_name)
                             //상위 컴포넌트(Twine)으로 값 전달
 
-                            props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
+                            props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
                         } else {
 
                         }
@@ -376,7 +380,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         setMode("default")
 
                         //상위 컴포넌트(Twine)으로 값 전달
-                        props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _optionsName));
+                        props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _optionsName));
                 }
             }/>;
         }

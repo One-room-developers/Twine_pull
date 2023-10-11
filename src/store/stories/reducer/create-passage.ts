@@ -2,6 +2,7 @@ import uuid from 'tiny-uuid';
 import {passageDefaults} from '../defaults';
 import {Passage, Story, StoriesState} from '../stories.types';
 import axios from 'axios';
+import { passageWithName } from '../getters';
 
 export function createPassage(
 	state: StoriesState,
@@ -20,7 +21,7 @@ export function createPassage(
 		if (story.passages.some(passage => passage.id === passageProps.id)) {
 			console.warn(
 				`There is already a passage in this story with ID "${passageProps.id}", taking no action`
-			);
+		);
 			return story;
 		}
 
