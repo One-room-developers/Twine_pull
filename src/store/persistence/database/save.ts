@@ -85,7 +85,6 @@ export async function createPassage(passage:Passage, story:Story){
 	})
 	.then((res) => {
 		if(passage.passageType === "optionPassage"){
-			debugger;
 			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
 			parentPassage.options.forEach(option => {
 				if(option.name = passage.name){
@@ -159,10 +158,9 @@ export async function updatePassage(passage:Passage){
 }
 
 export async function updateStory(story) {
-
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.id}`,
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.pk}`,
 		data: {
 			difficulty: story.level,
 			name: story.name,
