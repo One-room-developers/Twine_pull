@@ -35,8 +35,6 @@ export function updatePassage(
 	}
 
 	return (dispatch, getState) => { //thunk-reducer이라는 node.js 파일에 dispatch와 getState를 넣어 실행하는 코드가 있음
-		
-		debugger;
 		// Do the passage update itself.
 		const oldName = passage.name;
 		const oldText = passage.text;
@@ -119,7 +117,6 @@ export function updatePassage(
 					compoundLinkRegexp.test(relinkedPassage.text) ||
 					reverseLinkRegexp.test(relinkedPassage.text)
 				) {
-					debugger;
 					let newText = relinkedPassage.text;
 
 					newText = newText.replace(
@@ -142,7 +139,6 @@ export function updatePassage(
 							option.name = props.name;
 							option.optionVisibleName = props.optionVisibleName;
 						}
-						debugger;
 						return option;
 					})
 					updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌

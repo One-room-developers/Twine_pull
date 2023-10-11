@@ -1,3 +1,4 @@
+import { updateOption } from '../../persistence/database';
 import { passageWithId } from '../getters';
 import {StoriesState} from '../stories.types';
 
@@ -44,6 +45,7 @@ export function deletePassage(
 				for(let i =0; i<option.nextNormalPassages.length; i++){
 					if(option.nextNormalPassages[i] === passageName){
 						option.nextNormalPassages.splice(index, 1)
+						updateOption(option); //개 어거지로 쓴 db 업데이트 코드
 						return
 					}
 				}
@@ -55,7 +57,7 @@ export function deletePassage(
 			}
 			return dummyPassage;
 		})
-		//이지원 추가코드 normal passage가 제거되면 그 passage를 nextNormalPassage로 같는 것 모두 수정
+		//이지원 추가코드 normal passage가 제거되면 그 passage를 nextNormalPassage로 갖는 것 모두 수정
 
 		const newStory = {
 			...story,

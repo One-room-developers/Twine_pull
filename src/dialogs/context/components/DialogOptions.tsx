@@ -388,7 +388,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         const _optionsAmountChange2 = optionsAmountChange2.concat(amount_change2);
                         const _options_after_story = optionsAfterStory.concat(after_story);
                         const _optionsName = optionsName.concat(newName);
-                        debugger;
                         //배열 새로 저장. 원본을 바꾸지 않는 형태로 진행하기 위한 코드임.
                         //options_id: optionsId
                         setOptionsPk(_optionsPk);
@@ -460,7 +459,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                     }
                                     const text = props.passage.text + "\n" +"[[" + nextNormalPassageName + "]]";
                                     const visibleText = props.passage.visibleText;
-                                    debugger;
                                     dispatch(updatePassage(props.story, props.passage, {text, visibleText}));
                                     props.onClose();
                                 }
