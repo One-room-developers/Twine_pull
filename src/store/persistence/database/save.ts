@@ -31,25 +31,35 @@ export async function createOption(option:option, normalPassagePk:string){
 
 export async function updateOption(option:option) {
 
-	// axios({
-	// 	method: "PATCH",
-	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
-	// 	data: {
-	// 		optionVisibleName: option.optionVisibleName,
-	// 		name: option.name,
-	// 		afterStory: option.afterStory,
-	// 		status1: option.status1,
-	// 		status1Num: option.status1Num,
-	// 		status2: option.status2,
-	// 		status2Num: option.status2Num,
-	// 		nextPassage: option.nextNormalPassages,
-	// 	}
-	// })
-	// .then((res) => {
-	// })
-	// .catch((error) => {
-	// 	console.log(error);
-	// });
+	axios({
+		method: "PATCH",
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.pk}`,
+		data: {
+			optionVisibleName: option.optionVisibleName,
+			name: option.name,
+			afterStory: option.afterStory,
+			status1: option.status1,
+			status1Num: option.status1Num,
+			status2: option.status2,
+			status2Num: option.status2Num,
+			nextNormalPassages: option.nextNormalPassages,
+		}
+	})
+	.then((res) => {
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+
+export async function deleteOption(option: option) {
+	
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${option.pk}`)
+		.then((res) => {
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 }
 
 export async function createPassage(passage:Passage, story:Story){
@@ -138,7 +148,11 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		
+		if(passage.passageType === "normalPassage"){
+			passage.options.forEach(option => {
+				updateOption(option)
+			})
+		}
 	})
 	.catch((error) => {
 		console.log(error);
@@ -169,20 +183,21 @@ export async function updateStory(story) {
 	});
 }
 
-export async function deleteOption(optionId: string) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${optionId}`)
+export async function deletePassage(passage: Passage, story : Story, state : StoriesState) {
+
+		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passage.pk}`)
 		.then((res) => {
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-}
-
-export async function deletePassage(passageId: string) {
-
-		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passageId}`)
-		.then((res) => {
+			debugger;
+			if(passage.passageType === "optionPassage"){
+				const parentPassage = passageWithName(state, story.id, passage.parentOfOption);
+				parentPassage.options.forEach(option => {
+					if(option.name === passage.name){
+						deleteOption(option)
+						return true;
+					}
+				})
+			}
 		})
 		.catch((error) => {
 			console.log(error);

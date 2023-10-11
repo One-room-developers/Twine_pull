@@ -72,15 +72,18 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 		}
 		case 'deletePassage': {
 			const story = storyWithId(state, action.storyId);
+			const passage = passageWithId(lastState, action.storyId, action.passageId)
 			updateStory(story)
-			deletePassage(action.passageId);
+			deletePassage(passage, story, lastState);
 			break;
 		}
 		case 'deletePassages': {
 			const story = storyWithId(state, action.storyId);
 			updateStory(story)
-			action.passageIds.forEach(passageId =>
-				deletePassage(passageId)
+			action.passageIds.forEach(passageId =>{
+					const passage = passageWithId(lastState, action.storyId, passageId)
+					deletePassage(passage, story, lastState)
+				}
 			);
 			break;
 		}
