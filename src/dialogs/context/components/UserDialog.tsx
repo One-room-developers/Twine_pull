@@ -3,7 +3,7 @@ import { Component } from "react";
 import {DialogOptions} from "./DialogOptions";
 import { useEffect , useState} from "react";
 import './option_window.css'
-import { Passage, Story, option } from "../../../store/stories";
+import { Passage, Story, option, passageWithName, passageWithNameAsStory } from "../../../store/stories";
 import { DialogBody } from "./DialogBody";
 import { DialogHeader } from "./DialogHeader";
 import { DialogButton } from "./DialogButton";
@@ -65,6 +65,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
 
                 <DialogButton
                     {...props}
+                    lastPassage = {props.passage}
                     name = {name}
                     visibleText= {visibleText}
                     options = {options}

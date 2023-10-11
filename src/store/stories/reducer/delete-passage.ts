@@ -16,31 +16,50 @@ export function deletePassage(
 		}
 
 		foundStory = true;
+		let passages = story.passages.filter(passage => {
+			if (passage.id === passageId) {
+				deleted = true;
+				return false;
+			}
+			return true;
+		})
+		passages = passages.map(passage => {
+			let dummyPassage;
+			dummyPassage = {
+				...passage,
+				text : passage.text.replace(`\n\[\[${passageName}\]\]`,''),
+				options : passage.options.filter(option => {
+					if(option.name === passageName)
+						return false;
+					else
+						return true;
+				})
+			}
+			return dummyPassage;
+		})//이지원 추가코드 option passage가 제거되면 그 passage를 부모 passage의 option 속성에서 모두 제거
+		passages = passages.map(passage => {
+			let dummyPassage;
+			let options = passage.options;
+			passage.options.forEach((option, index) => {
+				for(let i =0; i<option.nextNormalPassages.length; i++){
+					if(option.nextNormalPassages[i] === passageName){
+						option.nextNormalPassages.splice(index, 1)
+						return
+					}
+				}
+				options[index].nextNormalPassages = option.nextNormalPassages;
+			})
+			dummyPassage = {
+				...passage,
+				options : options
+			}
+			return dummyPassage;
+		})
+		//이지원 추가코드 normal passage가 제거되면 그 passage를 nextNormalPassage로 같는 것 모두 수정
 
 		const newStory = {
 			...story,
-			passages: story.passages.filter(passage => {
-				if (passage.id === passageId) {
-					deleted = true;
-					return false;
-				}
-				return true;
-			}).map(passage => {
-				let dummyPassage;
-				dummyPassage = {
-					...passage,
-					text : passage.text.replace(`\n\[\[${passageName}\]\]`,''),
-					options : passage.options.filter(option => {
-						if(option.name === passageName)
-							return false;
-						else
-							return true;
-					})
-				}
-				return dummyPassage;
-			})//이지원 추가코드 option passage가 제거되면 그 passage를 option 속성으로 갖는 것 모두 제거
-			//또한 next passage 역시 제거
-			
+			passages: passages
 		};
 
 		if (deleted) {
