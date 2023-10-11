@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Link} from 'react-router-dom'
 import x from '../../../styles/image/x.svg';
 import './signupForm.css';
-import {idCheck} from '../../authApi';
+import {idCheck, nicknameCheck} from '../../authApi';
 import SessionStorageAPI from '../../login/session';
 import { valid } from 'semver';
 
@@ -15,7 +15,9 @@ type SignupForm_props = {
 
 type SignupForm_states={
     id:string;
-    idValid:number
+    idValid:number;
+    nameValid:number;
+    nickname:string;
 };
 
 class SignupForm extends Component<SignupForm_props, SignupForm_states>{
@@ -25,6 +27,8 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
         this.state = {
             id: this.props.emailDefault,
             idValid: 0,
+            nameValid: 0,
+            nickname: "",
         };
     }
     render() {
@@ -34,7 +38,11 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                 <form className='signup-info' onSubmit={function(e){
                     if(this.state.idValid === 0){
                         alert("아이디 중복 검사를 해주세요.");
-                    }else{
+                    }
+                    else if(this.state.idValid === 0){
+                        alert("닉네임 중복 검사를 해주세요.");
+                    }
+                    else{
                         this.props.submitForm(e);
                     }
                 }.bind(this)}>
@@ -63,7 +71,6 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                                 else{
                                     this.setState({idValid: 2});
                                 }
-                                console.log(this.state.id, await idCheck(this.state.id));
                             }.bind(this)} className='valid-check-btn'>중복검사</div>
                         </div>
                         {
@@ -73,7 +80,7 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                         }
                     </div>
                     
-                    <div className='signup-line font-game-thin'>
+                    <div className='signup-line margin-bottom-none font-game-thin'>
                         <label htmlFor='pw'>비밀번호</label>
                         <input type="password" id="pw" name='pw' required/>
                     </div>
@@ -81,9 +88,27 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                         <label htmlFor='pwc'>비밀번호 확인</label>
                         <input type="password" id="pwc" name='pwc' required/>
                     </div>
-                    <div className='signup-line font-game-thin'>
-                        <label htmlFor='nic'>별명</label>
-                        <input type="text" id="nic" name='nic' required/>
+                    <div className='signup-line signup-id-line font-game-thin'>
+                        <div className='signup-id-container'>
+                            <label htmlFor='nic'>별명</label>
+                            <input type="text" id="nic" name='nic' value={this.state.nickname} onChange={
+                                function(e){
+                                    this.setState({nickname: e.target.value})
+                                }.bind(this)} required/>
+                            <div onClick={async function(e){
+                                if(await nicknameCheck(this.state.nickname) === false){
+                                    this.setState({nameValid: 1});
+                                }
+                                else{
+                                    this.setState({nameValid: 2});
+                                }
+                            }.bind(this)} className='valid-check-btn'>중복검사</div>
+                        </div>
+                        {
+                            this.state.nameValid === 0 ?(<h2 className='valid-info'>중복검사를 해주세요</h2>) :
+                            this.state.nameValid === 1 ?(<h2 className='valid-info-no'>사용할 수 없는 별명입니다.</h2>):
+                            this.state.nameValid === 2 ?(<h2 className='valid-info-yes'>사용 가능한 별명입니다.</h2>):(<></>)
+                        }
                     </div>
                     <div className='signup-line font-game-thin input-checkbox'>
                         {/* <label htmlFor='check'>게임 이용 약관 동의 <a className='terms-a' href='/'> 자세히</a></label> */}

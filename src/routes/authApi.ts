@@ -117,7 +117,7 @@ export async function nicknameCheck(nickname:string):Promise<boolean>{
                 nickname: nickname
             }
         });
-        
+
         if(response.data === false) {
             console.log("api에서 false");
             // 중복된 아이디
