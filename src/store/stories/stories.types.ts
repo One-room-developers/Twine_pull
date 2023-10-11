@@ -93,7 +93,7 @@ export interface option{
 	status2Num: number;
 
 	//
-	nextNormalPassages : string[]
+	nextNormalPassages : string[];
 }
 
 /* story 이거 안에 보면 passage들의 배열이 있음.

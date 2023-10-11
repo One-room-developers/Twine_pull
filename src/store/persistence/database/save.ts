@@ -16,10 +16,11 @@ export async function createOption(option:option, normalPassagePk:string){
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextPassage: option.nextNormalPassages,
+			nextNormalPassages: option.nextNormalPassages,
 		}
 	})
 	.then((res) => {
+		console.log(`createOption: ${res}`);
 	})
 	.catch((err) => {
 		console.log(err);
@@ -83,26 +84,20 @@ export async function createStory(story:Story){
 		});
 }
 
-export async function updateOption(option) {
+export async function updateOption(option:option) {
 
 	// axios({
 	// 	method: "PATCH",
 	// 	url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.id}`,
 	// 	data: {
-	// 		name:,
-	// 		text:,
-	// 		visibleText:,
-	// 		after_story:,
-	// 		status1:,
-	// 		status1_num:,
-	// 		status2:,
-	// 		status2_num:,
-	// 		height:,
-	// 		highlighted:,
-	// 		left:,
-	// 		selected:,
-	// 		top:,
-	// 		width:,
+	// 		optionVisibleName: option.optionVisibleName,
+	// 		name: option.name,
+	// 		afterStory: option.afterStory,
+	// 		status1: option.status1,
+	// 		status1Num: option.status1Num,
+	// 		status2: option.status2,
+	// 		status2Num: option.status2Num,
+	// 		nextPassage: option.nextNormalPassages,
 	// 	}
 	// })
 	// .then((res) => {
@@ -115,10 +110,11 @@ export async function updateOption(option) {
 export async function updatePassage(passage:Passage){
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.id}`,
+		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.pk}`,
 		data: {
+			parentOfOption: passage.parentOfOption,
 			name: passage.name,
-			passageType: passage.passageType,	
+			optionVisibleName: passage.optionVisibleName,
 			text: passage.text,
 			visibleText: passage.visibleText,
 			height: passage.height,
@@ -130,7 +126,6 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		console.log(res);
 		passage.options.forEach(option=>{
 			createOption(option, passage.pk)
 		})
@@ -146,6 +141,7 @@ export async function updateStory(story) {
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.id}`,
 		data: {
+			difficulty: story.level,
 			name: story.name,
 			startPassage: story.startPassage,
 			script: story.script,
@@ -185,7 +181,7 @@ export async function deletePassage(passageId: string) {
 
 export async function deleteStory(story: Story) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.id}`)
+	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.pk}`)
 	.then((res) => {
 	})
 	.catch((error) => {
