@@ -21,12 +21,6 @@ export async function createOption(option:option, normalPassagePk:string){
 		}
 	})
 	.then((res) => {
-<<<<<<< HEAD
-		debugger;
-		console.log(`createOption:`);
-		console.log(res);
-=======
->>>>>>> db977ccfa29c43f570680c591ee1a4574dfad4f6
 	})
 	.catch((err) => {
 		debugger;
@@ -60,13 +54,14 @@ export async function createPassage(passage:Passage, story:Story){
 	.then((res) => {
 		if(passage.passageType === "optionPassage"){
 			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
-			parentPassage.options.find(option => {
-				if(option.name = passage.name)
-					createOption(option, passage.pk)
-				return true;
+			parentPassage.options.forEach(option => {
+				if(option.name = passage.name){
+					createOption(option, parentPassage.pk)
+					return true;
+				}
 			})
 		}
-		})
+	})
 	.catch((error) => {
 		console.log(error);
 	});
@@ -141,8 +136,6 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		console.log("updatePassage : ")
-		console.log(res)
 
 	})
 	.catch((error) => {
