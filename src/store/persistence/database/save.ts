@@ -1,9 +1,10 @@
 
-import { Passage, StoriesState, Story, option } from "../../stories";
+import { Passage, StoriesState, Story, option, passageWithNameAsStory } from "../../stories";
 import { passageWithName } from "../../stories";
 import axios from 'axios';
 
 export async function createOption(option:option, normalPassagePk:string){
+	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
@@ -20,14 +21,17 @@ export async function createOption(option:option, normalPassagePk:string){
 		}
 	})
 	.then((res) => {
-		console.log(`createOption: ${res}`);
+		debugger;
+		console.log(`createOption:`);
+		console.log(res);
 	})
 	.catch((err) => {
+		debugger;
 		console.log(err);
 	});
 }
 
-export async function createPassage(passage:Passage, storyPk:string){
+export async function createPassage(passage:Passage, story:Story){
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
@@ -35,7 +39,7 @@ export async function createPassage(passage:Passage, storyPk:string){
 			pk: passage.pk,
 			id: passage.id,
 			passageType: passage.passageType,
-			storyPk: storyPk,
+			storyPk: story.pk,
 			storyId: passage.story,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
@@ -51,7 +55,15 @@ export async function createPassage(passage:Passage, storyPk:string){
 		}
 	})
 	.then((res) => {
-	})
+		if(passage.passageType === "optionPassage"){
+			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
+			parentPassage.options.find(option => {
+				if(option.name = passage.name)
+					createOption(option, passage.pk)
+				return true;
+			})
+		}
+		})
 	.catch((error) => {
 		console.log(error);
 	});
@@ -126,9 +138,9 @@ export async function updatePassage(passage:Passage){
 		}
 	})
 	.then((res) => {
-		passage.options.forEach(option=>{
-			createOption(option, passage.pk)
-		})
+		console.log("updatePassage : ")
+		console.log(res)
+
 	})
 	.catch((error) => {
 		console.log(error);

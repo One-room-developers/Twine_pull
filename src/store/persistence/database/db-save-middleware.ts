@@ -24,7 +24,7 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 			const story = storyWithId(state, action.storyId);
 			const passage = passageWithName(state, story.id, action.props.name);
 			updateStory(story)
-			createPassage(passage, story.pk);
+			createPassage(passage, story);
 			break;
 		}
 		case 'createPassages': {
@@ -32,7 +32,7 @@ export function DBsaveMiddleware(state: StoriesState, action: StoriesAction) {
 			updateStory(story)
 			action.props.forEach((props)=>{
 					const passage = passageWithName(state, story.id, props.name);
-					createPassage(passage, story.pk)
+					createPassage(passage, story)
 				}
 			);
 			break;
