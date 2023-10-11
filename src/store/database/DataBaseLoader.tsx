@@ -16,7 +16,7 @@ export const DataBaseLoader: React.FC = () => {
             let dbStoriesState :StoriesState = null;
             let dbPassagesState : Passage[] = null;
 
-            // url 뒤에 유저 닉네임 붙여줘야함
+            // 유저 닉네임을 같이 보내줘야함
             const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
             dbStoriesState = res1.data;
 

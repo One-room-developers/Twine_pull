@@ -40,13 +40,13 @@ export async function fetchPopularPostList(page_num:number){
     return data;
 }
 
-export async function getPopularPostCount() {
+export async function getPopularPostCount(){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/post/get_popular_post_count`);
     const data = await response.data;
     return data;
 }
 
-export async function updatePost(post_id:number, category:number, title:string, content:string) {
+export async function updatePost(post_id:number, category:number, title:string, content:string){
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update`,
     {
         "post_id": post_id,
@@ -58,13 +58,13 @@ export async function updatePost(post_id:number, category:number, title:string, 
     return data;
 }
 
-export async function updatePostViewApi(post_id:number) {
+export async function updatePostViewApi(post_id:number){
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_view/${post_id}`);
     const data = response.data;
     return data;
 }
 
-export async function updatePostLike(player_id:string, post_id:number) {
+export async function updatePostLike(player_id:string, post_id:number){
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`,
         {
             "player_id": player_id,
@@ -74,7 +74,7 @@ export async function updatePostLike(player_id:string, post_id:number) {
     return data;
 }
 
-export async function checkPostPassword(post_id:number, password:string) {
+export async function checkPostPassword(post_id:number, password:string){
     const response = await axios({
         method: "POST",
         url: `${process.env.REACT_APP_API_URL}/post/check_password`,
@@ -87,7 +87,7 @@ export async function checkPostPassword(post_id:number, password:string) {
     return data;
 }
 
-export async function deletePostApi(post_id:number, password:string) {
+export async function deletePostApi(post_id:number, password:string){
     const response = await axios({
         method: "DELETE",
         url: `${process.env.REACT_APP_API_URL}/post/delete`,
@@ -125,7 +125,7 @@ export async function getCommentCount(post_id:number){
     return data;
 }
 
-export async function updateComment(comment_id:number, comment:string) {
+export async function updateComment(comment_id:number, comment:string){
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/comment/update`,
     {
         "comment_id": comment_id,
@@ -135,7 +135,7 @@ export async function updateComment(comment_id:number, comment:string) {
     return data;
 }
 
-export async function checkCommentPassword(comment_id:number, password:string) {
+export async function checkCommentPassword(comment_id:number, password:string){
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/comment/check_password`,
     {
         "id": comment_id,
@@ -145,7 +145,7 @@ export async function checkCommentPassword(comment_id:number, password:string) {
     return data;
 }
 
-export async function deleteCommentApi(comment_id:number, password:string) {
+export async function deleteCommentApi(comment_id:number, password:string){
     const response = await axios({
         method: "DELETE",
         url: `${process.env.REACT_APP_API_URL}/comment/delete`,
