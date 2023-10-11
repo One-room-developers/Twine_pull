@@ -9,6 +9,7 @@ export async function createOption(option:option, normalPassagePk:string){
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
 		data: {
+			pk: option.pk,
 			normalPassageId: normalPassagePk,
 			name: option.name,
 			optionVisibleName: option.optionVisibleName,
@@ -21,12 +22,6 @@ export async function createOption(option:option, normalPassagePk:string){
 		}
 	})
 	.then((res) => {
-<<<<<<< HEAD
-		debugger;
-		console.log(`createOption:`);
-		console.log(res);
-=======
->>>>>>> db977ccfa29c43f570680c591ee1a4574dfad4f6
 	})
 	.catch((err) => {
 		debugger;
