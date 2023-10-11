@@ -22,7 +22,8 @@ export function createNewlyLinkedPassages(
 	passage: Passage,
 	newText: string,
 	oldText: string,
-	newOptions : option[]
+	newOptions : option[],
+	newName : string
 ): Thunk<StoriesState, CreatePassagesAction> {
 	if (!story.passages.some(p => p.id === passage.id)) {
 		throw new Error('This passage does not belong to this story.');
@@ -49,7 +50,7 @@ export function createNewlyLinkedPassages(
 		//자식에게 전달할 parentPassage
 		let parentOfOption;
 		if(passage.passageType === 'normalPassage')
-			parentOfOption = passage.name
+			parentOfOption = newName
 		else
 			parentOfOption = ""
 

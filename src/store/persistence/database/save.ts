@@ -4,7 +4,6 @@ import { passageWithName } from "../../stories";
 import axios from 'axios';
 
 export async function createOption(option:option, normalPassagePk:string){
-	debugger;
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
@@ -24,7 +23,6 @@ export async function createOption(option:option, normalPassagePk:string){
 	.then((res) => {
 	})
 	.catch((err) => {
-		debugger;
 		console.log(err);
 	});
 }
@@ -87,6 +85,7 @@ export async function createPassage(passage:Passage, story:Story){
 	})
 	.then((res) => {
 		if(passage.passageType === "optionPassage"){
+			debugger;
 			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
 			parentPassage.options.forEach(option => {
 				if(option.name = passage.name){
@@ -188,7 +187,6 @@ export async function deletePassage(passage: Passage, story : Story, state : Sto
 
 		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passage.pk}`)
 		.then((res) => {
-			debugger;
 			if(passage.passageType === "optionPassage"){
 				const parentPassage = passageWithName(state, story.id, passage.parentOfOption);
 				parentPassage.options.forEach(option => {
