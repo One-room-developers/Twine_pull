@@ -30,6 +30,7 @@ import {MarqueeablePassageMap} from './marqueeable-passage-map';
 
 
 export const InnerStoryEditRoute: React.FC = () => {
+	console.log("Log : InnerStoryEditRoute")
 	const [inited, setInited] = React.useState(false);
 	const {dispatch: dialogsDispatch} = useDialogsContext();
 	const mainContent = React.useRef<HTMLDivElement>(null);
@@ -39,9 +40,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 	const {dispatch: undoableStoriesDispatch, stories} =
 		useUndoableStoriesContext();
 	const story = storyWithId(stories, storyId);
-
-
-
 	useZoomShortcuts(story);
 
 	const selectedPassages = React.useMemo(
@@ -165,7 +163,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 	}, [getCenter, inited, story, undoableStoriesDispatch]);
 
 	const visibleZoom = useZoomTransition(story.zoom, mainContent.current);
-
+	
 	return (
 		<div className="story-edit-route">
 			<DocumentTitle title={story.name} />
@@ -185,6 +183,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 					tagColors={story.tagColors}
 					visibleZoom={visibleZoom}
 					zoom={story.zoom}
+					// passageStructureArr={passageStructureArr}
 				/>
 			</MainContent>
 		</div>

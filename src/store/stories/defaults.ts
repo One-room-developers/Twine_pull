@@ -9,10 +9,14 @@ export const passageDefaults = (): Omit<Passage, 'id' | 'story'> => ({
 	selected: false,
 	tags: [],
 	text: '',
+	visibleText:"",
 	top: 0,
 	width: 100,
 	options:[],
-	text_user:""
+	passageType:"normalPassage",
+	parentOfOption:"",
+	optionVisibleName:"",
+	pk:""
 });
 
 export const storyDefaults = (): Omit<Story, 'id'> => ({
@@ -29,5 +33,9 @@ export const storyDefaults = (): Omit<Story, 'id'> => ({
 	stylesheet: '',
 	tags: [],
 	tagColors: {},
-	zoom: 1
+	zoom: 1,
+	level : 0,
+	genre : "",
+	userId : "",
+	pk : ""
 });

@@ -57,24 +57,23 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
 
                 axios({
                     method: "POST",
-                    url: `http://localhost:3001/auth/signup`,
+                    url: `${process.env.REACT_APP_API_URL}/auth/signup`,
                     data: {
-                        email: this.state.email,
+                        id: this.state.email,
                         nickname: this.state.nickname,
                         password: this.state.password
                     },
                 })
                 .then((res) => {
                     if(res.data.errorMsg == 13) {
-                        // 이미 가입된 회원이라고 알려주는 알림창 필요
-                        console.log('이미 가입된 회원입니다.');
+                        // 이미 있는 아이디입니다.
                     }
                     else if(res.data.errorMsg == 11) {
                         console.log('서버 문제로 회원가입 실패');
                     }
 
                     if(res.data.successMsg == 10) {
-                        window.location.href='http://localhost:3000/#/login';
+                        window.location.href=`${process.env.REACT_APP_LOCAL_HOME_URL}/#/login`;
                     }
                 });
 
@@ -94,7 +93,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
         return(
             <div className="email-container">
                 {_signUpForm}
-                <input className="email-input" type="email" ref={this.inputRef} placeholder="이메일 주소" required />
+                <input className="email-input" type="text" ref={this.inputRef} placeholder="아이디" required />
                 <button className="font-game-thin signup-button" onClick={function(e){
                     this.setState({mode: 'signup'});
                 }.bind(this)}>시작하기</button>

@@ -16,7 +16,7 @@ export function deletePassage(
 		throw new Error('This passage does not belong to this story.');
 	}
 
-	return {type: 'deletePassage', storyId: story.id, passageId: passage.id};
+	return {type: 'deletePassage', storyId: story.id, passageId: passage.id, passageName:passage.name};
 }
 
 /**
@@ -29,6 +29,7 @@ export function deletePassages(
 	return {
 		type: 'deletePassages',
 		storyId: story.id,
-		passageIds: passages.map(passage => passage.id)
+		passageIds: passages.map(passage => passage.id),
+		passageNames : passages.map(passage => passage.name)
 	};
 }

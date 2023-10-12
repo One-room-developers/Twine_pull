@@ -4,8 +4,9 @@ import * as React from 'react';
 import {useHotkeys} from 'react-hotkeys-hook';
 import {useTranslation} from 'react-i18next';
 import {IconButton} from '../../../../components/control/icon-button';
-import {deletePassages, Passage, Story} from '../../../../store/stories';
+import {deletePassages, deletePassage, Passage, passageWithName, Story} from '../../../../store/stories';
 import {useUndoableStoriesContext} from '../../../../store/undoable-stories';
+import { parseLinks } from '../../../../util/parse-links';
 
 export interface DeletePassagesButtonProps {
 	passages: Passage[];
@@ -29,7 +30,16 @@ export const DeletePassagesButton: React.FC<
 		if (passages.length === 0) {
 			return;
 		}
-
+		passages.forEach((passage)=>{
+			if(passage.passageType === 'normalPassage'){
+				parseLinks(passage.text).forEach(nextPassage => {
+					const result = story.passages.find(p => p.name === nextPassage); //전체 passage에서 현재 passage의 자식 찾기
+					if(result){
+						dispatch(deletePassage(story, result))
+					}
+				})
+			}
+		})
 		dispatch(
 			deletePassages(story, passages),
 			passages.length > 1

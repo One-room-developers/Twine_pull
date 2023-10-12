@@ -31,7 +31,7 @@ export const InnerPassageEditDialog: React.FC<
 	PassageEditDialogProps
 > = props => {
 	const {passageId, storyId, ...other} = props;
-	const [storyFormatExtensionsEnabled, setStoryFormatExtensionsEnabled] =
+		const [storyFormatExtensionsEnabled, setStoryFormatExtensionsEnabled] =
 		React.useState(true);
 	const [editorCrashed, setEditorCrashed] = React.useState(false);
 	const [cmEditor, setCmEditor] = React.useState<CodeMirror.Editor>();
@@ -63,23 +63,13 @@ export const InnerPassageEditDialog: React.FC<
 	}, [error, resetError, storyFormatExtensionsEnabled]);
 
 	
-
+	//userdialogtext를 받아 dialog의 저장된 텍스트를 변경하는 부분
 	const handlePassageTextChange = React.useCallback(
 		(text: string) => {
-			dispatch(updatePassage(story, passage, {text}));
-			// debugger;
-			// console.log(updatePassage(story, passage, {text}))
+			console.log("Log : handlePassageTextChange() - ");
 		},
-		[dispatch, passage, story]
+		[dispatch, passage, story] //usecallback에 의해 passage와 story 혹은 dispatch가 변경되면 이 함수가 실행됨
 	);
-
-	React.useEffect(()=>{
-		
-		if(other.userDialogText){
-			handlePassageTextChange(other.userDialogText);
-			props.onClose();
-		}
-	}, [other.userDialogText])
 
 	function handleExecCommand(name: string) {
 		// A format toolbar command probably will affect the editor content. It

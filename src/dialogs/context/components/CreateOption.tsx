@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './option.css';
+import uuid from 'tiny-uuid';
 
 /* state에 저장해서 DB로 보내줘야하는 선택지 정보 나열
 1. 어떤 에피소드의 선택지인가 - int
@@ -26,7 +27,8 @@ class CreateOption extends Component<Modes_props> {
                 <form action='' method='post'
                 onSubmit={function(e) {
                     e.preventDefault();
-                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, e.target.amount_change1.value, e.target.status2.value, e.target.amount_change2.value, e.target.after_story.value);
+                    const newName = uuid();
+                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, e.target.amount_change1.value, e.target.status2.value, e.target.amount_change2.value, e.target.after_story.value, newName);
                 }.bind(this)}>
                     
                     <input className='option-mini-title' name='option_title' placeholder='선택지 출력 내용' required></input>

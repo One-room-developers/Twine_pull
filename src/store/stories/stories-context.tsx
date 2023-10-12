@@ -9,6 +9,7 @@ import {
 } from './stories.types';
 import {useStoryFormatsContext} from '../story-formats';
 import {useStoreErrorReporter} from '../use-store-error-reporter';
+import { DBsaveMiddleware } from '../persistence/database';
 
 export const StoriesContext = React.createContext<StoriesContextProps>({
 	dispatch: () => {},
@@ -20,10 +21,8 @@ StoriesContext.displayName = 'Stories';
 export const useStoriesContext = () => React.useContext(StoriesContext);
 
 export const StoriesContextProvider: React.FC = props => {
-	//스토리 관련 변수인가? 이 값을 반환하는 함수인가?
 	const {stories: storiesPersistence} = usePersistence();
 
-	//스토리 포멘 관련 변수인가? 이 값을 반환하는 함수인가?
 	const {formats} = useStoryFormatsContext();
 
 	const {reportError} = useStoreErrorReporter();
@@ -31,14 +30,17 @@ export const StoriesContextProvider: React.FC = props => {
 		StoriesState,
 		StoriesAction
 	> = React.useMemo(
-		() => (state, action) => {
-			const newState = reducer(state, action);
-
+		 () => (state, action) => {
+			const newState = reducer(state, action); //새로운 stoires의 정보
 			try {
-				storiesPersistence.saveMiddleware(newState, action, formats);
+				storiesPersistence.saveMiddleware(newState, action, formats); //format은 electron 때문에 넘겨주는 것. local에선 작동 안하는 의미없는 값.
 			} catch (error) {
 				reportError(error, 'store.errors.cantPersistStories');
 			}
+
+			//이지원 제작
+			//db에 데이터를 저장하는 코드
+			DBsaveMiddleware(newState, action)
 
 			return newState;
 		},

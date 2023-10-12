@@ -1,86 +1,79 @@
 import React from "react";
 import { Component } from "react";
-import DialogOptions from "./DialogOptions";
+import {DialogOptions} from "./DialogOptions";
 import { useEffect , useState} from "react";
 import './option_window.css'
+import { Passage, Story, option } from "../../../store/stories";
+import { DialogBody } from "./DialogBody";
+import { DialogHeader } from "./DialogHeader";
+import { DialogButton } from "./DialogButton";
 import { useUndoableStoriesContext } from "../../../store/undoable-stories";
-import { updatePassage } from "../../../store/stories";
 
-type Modes_props = {    
-    passage : any
-    story : any
-    onWrite : any
+type UserDialogProps = {    
+    passage : Passage
+    story : Story
+    onClose : () => void
 }
 
 
-export const UserDialog: React.FC<Modes_props> = (props) => {
-
-    const [title, setTitle] = useState(props.passage.name);
-    const [context, setContext] = useState(props.passage.text);
-    const [optionsTitle, setOptionsTitle] = useState([]);
+export const UserDialog: React.FC<UserDialogProps> = (props) => {
+    const lastTitle = props.passage.name;
+    const [name, setName] = useState(props.passage.name); 
+    const [text, setText] = useState(props.passage.text)
+    const [visibleText, setVisibleText] = useState(props.passage.visibleText);
+    const [options, setOptions] = useState(props.passage.options);
     const {dispatch, stories} = useUndoableStoriesContext();
-    let regex = /\[\[.*\]\]/g
-    useEffect(()=>{
-        console.log(context.match(regex))
-    }, [])   
-    //isFriendly:"complex", //friendly, complex, hostile 중 하나.
-    useEffect(()=>{
-        setTitle(props.passage.name);
-        setContext(props.passage.text);
-        
-    },[props.passage.name, props.passage.text])
+    const [optionVisibleName, setOptionVisibleName] = useState(props.passage.optionVisibleName)
+    console.log("Log : UserDialog() - "); 
+    console.log(props.passage);
     
-    let convertedString:string = "";
-
-    
-    //제목 변경 함수
-    function handleRename(name: string) {
-		dispatch(updatePassage(props.story, props.passage, {name}, {dontUpdateOthers: true}));
-	}
-
-    //main과 options에 this.updateContext()로 추가해주기
-    function updateContext():void{
-        //값 초기화.
-        convertedString = context;
-        for(let i = 0; i< optionsTitle.length; i++){
-            convertedString = convertedString + "\n" + "[[" + optionsTitle[i] + "]]";
-        }
-    }
+    //본문 + [[선택지]] 로 된 문자열 생성
 
     return(
         <div className="making-all-container">
             <div className="making-window">
-                <div className="making-window-header">
-                    <div className="title-info-icon info-icon">제목</div>
-                    <input value={title} onChange={function(e){
-                        setTitle(e.target.value)
-                    }} />
-                </div>
-                <div className="making-window-main">
-                    <div className="main-info-icon info-icon">본문</div>
-                    <textarea value={context} name="" id="" cols={30} rows={10} onChange={function(e){
-                        setContext(e.target.value)
-                        // if(Array.isArray(optionsTitle)){
-                        //     updateContext(optionsTitle.length);
-                        // }
-                    }}></textarea>
-                </div>
-                <DialogOptions onTrackingOption={function(optionTitleArr){
-                    let _optionsTitle = optionTitleArr.concat();
-                    
-                    setOptionsTitle(_optionsTitle);
-                    // if(Array.isArray(_optionsTitle)){
-                    //     updateContext(_optionsTitle);
-                    // }
-                }}></DialogOptions>
-                <div className="save-btn-container">
-                    <button onClick={function(e){
-                        updateContext();
-                        handleRename(title)
-                        props.onWrite(convertedString)
-                    }}
-                    >작성완료</button>
-                </div>
+                <DialogHeader
+                    passage = {props.passage}
+                    name = {name}
+                    optionVisibleName = {optionVisibleName}
+                    setName = {setName}
+                    setOptionVisibleName = {setOptionVisibleName}>
+                </DialogHeader>
+
+                <DialogBody
+                    visibleText = {visibleText}
+                    setVisibleText = {setVisibleText}
+                    passage = {props.passage}
+                    stories = {stories}
+                    story = {props.story}>
+                </DialogBody>
+
+                <DialogOptions 
+                    onTrackingOption={
+                        function(optionArr : option[]){
+                            console.log("Log : onTrackingOption");
+                            let _options = optionArr
+                            setOptions( _options);
+                        }
+                    }
+                    options = {options}
+                    passage = {props.passage}
+                    dispatch = {dispatch}
+                    story = {props.story}
+                    onClose = {props.onClose}>
+                </DialogOptions>
+
+                <DialogButton
+                    {...props}
+                    name = {name}
+                    visibleText= {visibleText}
+                    options = {options}
+                    dispatch = {dispatch}
+                    lastTitle = {lastTitle}
+                    stories = {stories}
+                    text = {text}
+                    optionVisibleName = {optionVisibleName}>
+                </DialogButton>
             </div>
         </div>
     );

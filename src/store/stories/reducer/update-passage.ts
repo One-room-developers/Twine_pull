@@ -1,19 +1,22 @@
 import {Passage, Story, StoriesState} from '../stories.types';
 import {isPersistablePassageChange} from '../../persistence/persistable-changes';
+import { passageWithId } from '../getters';
+import uuid from 'tiny-uuid';
 
 export function updatePassage(
 	state: StoriesState,
 	storyId: string,
 	passageId: string,
-	passageProps: Omit<Partial<Passage>, 'id' | 'story'>
+	passageProps: Omit<Partial<Passage>, 'id' | 'story'> //변경되는 passage의 변수들을 담고 있음
 ) {
 	let storyExists = false;
 	let updated = false;
+	let passage;
 	const newState = state.map(story => {
 		if (story.id !== storyId) {
 			return story;
 		}
-
+		passage = passageWithId(state, storyId, passageId);
 		storyExists = true;
 
 		if (
@@ -35,9 +38,10 @@ export function updatePassage(
 				if (passage.id !== passageId) {
 					return passage;
 				}
-
 				updated = true;
+				
 				return {...passage, ...passageProps};
+				
 			})
 		};
 
@@ -65,5 +69,6 @@ export function updatePassage(
 		return state;
 	}
 
+	passage = passageWithId(state, storyId, passageId);
 	return newState;
 }

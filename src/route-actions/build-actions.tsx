@@ -147,7 +147,8 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 					break;
 			}
 			try {
-				await axios.post('http://localhost:3001/game_play/option', {
+				console.log(option_text[i], option_data[2]);
+				await axios.post(`http://localhost:3001/game_play/option`, {
 				episode: episode_id,
 				text: option_text[i],
 				result_text: option_data[2],//값이 안 들어감
@@ -192,7 +193,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 
 			//배열에 들어있는 선택지 수많큼 반복 출력
 
-			axios.post('http://localhost:3001/game_play/', {
+			axios.post(`http://localhost:3001/game_play`, {
 				genre: 1,
 				title: extractFirstEpsiodeTitle(story),
 				mainText: sentences[0]

@@ -1,9 +1,10 @@
 import escapeRegExp from 'lodash/escapeRegExp';
 import {Thunk} from 'react-hook-thunk-reducer';
-import {storyWithId} from '../getters';
-import {Passage, StoriesAction, StoriesState, Story} from '../stories.types';
+import {passageWithName, passageWithNameAsStory, storyWithId} from '../getters';
+import {Passage, StoriesAction, StoriesState, Story, option} from '../stories.types';
 import {createNewlyLinkedPassages} from './create-newly-linked-passages';
 import {deleteOrphanedPassages} from './delete-orphaned-passages';
+import { parseLinks } from '../../../util/parse-links';
 
 export interface UpdatePassageOptions {
 	dontUpdateOthers?: boolean;
@@ -12,6 +13,8 @@ export interface UpdatePassageOptions {
 /**
  * General update of a passage.
  */
+
+//진짜 dispatch() 및 하위 passage 생성, 상위 passage의 텍스트 변경
 export function updatePassage(
 	story: Story,
 	passage: Passage,
@@ -30,13 +33,12 @@ export function updatePassage(
 	) {
 		throw new Error(`There is already a passage named "${props.name}".`);
 	}
-    //함수 리턴?
-	return (dispatch, getState) => {
-		// Do the passage update itself.
 
+	return (dispatch, getState) => { //thunk-reducer이라는 node.js 파일에 dispatch와 getState를 넣어 실행하는 코드가 있음
+		// Do the passage update itself.
 		const oldName = passage.name;
 		const oldText = passage.text;
-
+		//thunk-reducer.js의 dispatch
 		dispatch({
 			props,
 			type: 'updatePassage',
@@ -59,8 +61,9 @@ export function updatePassage(
 
 			const updatedStory = storyWithId(getState(), story.id);
 
+			//하위 passage 생성
 			dispatch(
-				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText)
+				createNewlyLinkedPassages(updatedStory, passage, props.text, oldText, props.options)
 			);
 		}
 
@@ -85,7 +88,17 @@ export function updatePassage(
 				'\\[\\[' + oldNameEscaped + '(<-.*?)(\\]\\[.*?)?\\]\\]',
 				'g'
 			);
-
+			
+			
+			let newName = props.name;
+			if(passage.passageType === "normalPassage"){
+				if(oldName !== newName){
+					passage.options.forEach(option => {
+						const optionPassage = passageWithNameAsStory(story, option.name);
+						optionPassage.parentOfOption = newName;
+					})
+				}
+			}
 			story.passages.forEach(relinkedPassage => {
 				if (
 					simpleLinkRegexp.test(relinkedPassage.text) ||
@@ -107,10 +120,23 @@ export function updatePassage(
 						'[[' + newNameEscaped + '$1$2]]'
 					);
 
-					updatePassage(
+					let oldOptionForParent = relinkedPassage.options; //
+
+					const nexOptionForParent : option[] = oldOptionForParent.map(option => {
+						if(option.name === oldName){
+							option.name = newName;
+							option.optionVisibleName = props.optionVisibleName;
+							option.nextNormalPassages = parseLinks(props.text)
+						}
+						return option;
+					})
+					updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
 						story,
 						relinkedPassage,
-						{text: newText},
+						{
+							text: newText,
+							options : nexOptionForParent
+						},
 						options
 					)(dispatch, getState);
 				}

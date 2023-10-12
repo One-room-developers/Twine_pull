@@ -230,6 +230,7 @@ handleRename()함수로 제목을 변경한다
 # 변경해야되는 파일
 1. StoryListLoute
 에피소드 제작 페이지의 시작, 스토리를 만드는 부분
+<<<<<<< HEAD
 
 2. stories.types.ts
 
@@ -237,3 +238,5 @@ handleRename()함수로 제목을 변경한다
 # 임종훈- 찾은 기능
 1. CodeArea 컴포넌트에 props를 보면 prefixTrigger 함수가 있음.
 또 prefix 배열도 있는데 여기서 트래킹하는 듯 함.
+=======
+>>>>>>> da334d3ac9e10fb8dde60cc9414a594aa2a2128e

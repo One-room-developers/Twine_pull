@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useHistory } from "react-router";
 import SessionStorageAPI from "./session";
 
-
 export const LoginRoute: React.FC = () => {
 
     const history = useHistory();
@@ -20,37 +19,40 @@ export const LoginRoute: React.FC = () => {
     const authorizedUser = {
         email: String,
         nickname: String,
-        accessToken: String
     };
 
     function login() {
         axios({
             method: "POST",
-            url: `http://localhost:3001/auth/login`,
+            url: `${process.env.REACT_APP_API_URL}/auth/login`,
             data: {
-                email: email,
+                id: email,
                 password: pwd,
             },
+            withCredentials: true,
         })
         .then((res) => {
-            if(res.data.errorMsg == 14) {
+            if(res.data.errorMsg === 14 || res.data.errorMsg == 15) {
                 // 존재하지 않는 사용자라는 알림창 띄우기 필요
-                console.log('존재하지 않는 사용자입니다.');
-            }
-            else if(res.data.errorMsg == 15) {
-                // 비밀번호가 잘못됐다는 알림창 띄우기 필요
-                console.log('잘못된 비밀번호입니다.');
+                alert('잘못된 비밀번호이거나 존재하지 않는 사용자입니다.');
+                history.push("/login");
+                return;
             }
 
-            authorizedUser.email = res.data.email;
-            authorizedUser.nickname = res.data.nickname;
-            authorizedUser.accessToken = res.data.access_token;
+            //리프레시 토큰과 생사를 같이 해야 하므로 쿠키에 저장
+            authorizedUser.email = res.data.user.id;
+            authorizedUser.nickname = res.data.user.nickname;
+            // toUTCString() 으로 변환해야 함
+            const currentTime = new Date().getTime();
+            const targetTime = currentTime + res.data.refreshOption.maxAge;
+            const expireTime = new Date(targetTime);
 
-            const sesstionStorage = new SessionStorageAPI();
+            const sessionStorage = new SessionStorageAPI();
 
             //seesion에 토큰을 저장해도 되는가?
-            sesstionStorage.setItem("userToken", authorizedUser.accessToken);
-            sesstionStorage.setItem("userNickname", authorizedUser.nickname );
+            //쿠키 저장 : setCookies("userNickname", authorizedUser.nickname, "/", expireTime.toUTCString());
+            sessionStorage.setItem("userNickname", authorizedUser.nickname);
+            sessionStorage.setItem("userId", authorizedUser.email);
 
             history.push("/");
         });
@@ -58,7 +60,7 @@ export const LoginRoute: React.FC = () => {
 
     function googleLogin(e) {
         e.preventDefault();
-        window.location.href = 'http://localhost:3001/auth/googleAuth';
+        window.location.href = `${process.env.REACT_APP_API_URL}/auth/googleAuth`;
     }
 
     return(

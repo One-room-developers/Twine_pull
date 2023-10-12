@@ -24,7 +24,7 @@ body{
 
 .index-header{
     width: 100%;
-    height: 88px;
+    height: 78px;
     background-color: rgba(34, 40, 49, 0);
     border-bottom: 1px solid #AAAAAA;
 }
@@ -75,7 +75,7 @@ body{
 .login-btn{
     color: #FFFFFF;
     width: 120px;
-    height: 48px;
+    height: 42px;
     font-size: 16px;
     display: flex;
     justify-content: center;
@@ -91,7 +91,7 @@ body{
 .sign-btn{
     color: aqua;
     width: 120px;
-    height: 48px;
+    height: 42px;
     font-size: 16px;
     display: flex;
     justify-content: center;
@@ -161,7 +161,7 @@ body{
 }
 .third-section{
     width: 100%;
-    height: 200vh;
+    height: 140vh;
     background: linear-gradient(to right, var(--main-white) 0%,var(--main-white) 50%, var(--main-gray) 50%, var(--main-gray) 100%);
     background-size: 200% 100%;
     background-position:100% 100%;
@@ -189,22 +189,15 @@ body{
 }
 
 .play-game-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 35px;
+    margin: 50px 0 35px 0;
 
 }
 
 .play-game-main-text{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-    
     margin-bottom: 7vh;
 }
 .go-to-select-btn{
@@ -238,20 +231,14 @@ body{
     border-bottom: 1px solid var(--main-gray);
 }
 
-.make-game-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
+.game-term-title-container{
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 35px;
 }
-.make-game-main-text{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
+.game-term-main-text{
     
     margin-bottom: 10vh;
     color: var(--main-gray);
@@ -267,7 +254,7 @@ body{
 
 .fourth-section{
     width: 100%;
-    height: 100vh;
+    height: 200vh;
     display: flex;
     justify-content: center;
 }
@@ -276,7 +263,7 @@ body{
     height: 100%;
     background-color: var(--main-white);
 }
-.block-chain-introduction{
+.game-play-introduction{
     width: 75vw;
     height: 100%;
     padding: 45px 45px 0 0;
@@ -284,18 +271,15 @@ body{
     flex-direction: column;
     align-items: flex-end;
 }
-.block-chain-title-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
+.game-play-title-container{
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
 }
-.block-chain-title{
+.game-play-title{
     text-align: end;
     color: var(--main-white);
     font-size: 32px;
@@ -307,14 +291,15 @@ body{
     height: 1px;
     background-color: var(--main-white);
 }
-.block-chain-main-container{
-    transform: translateY(50px);
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-    
-    margin-bottom: 10vh;
+.game-play-main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 30px;
 }
-.block-chain-main-text{
+.game-play-main-text{
     color: var(--main-white);
     font-size: 20px;
 }

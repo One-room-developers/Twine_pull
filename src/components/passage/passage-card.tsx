@@ -45,13 +45,16 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 	 * empty는 passage.text가 공백이며, passage.tags.length가 0일 때 추가.
 	 * selected는 passage.selected가 true일 때 추가
 	 */
+	
 	const className = React.useMemo(                                 
 		() =>
 			classNames('passage-card', {
 				empty: passage.text === '' && passage.tags.length === 0,
-				selected: passage.selected
+				selected: passage.selected,
+				'nomal-passage' : passage.passageType === "normalPassage",
+				'option-passage' : passage.passageType === "optionPassage"
 			}),
-		[passage.selected, passage.tags.length, passage.text]
+		[passage.selected, passage.tags.length, passage.text, passage.passageType]
 	);
 	const container = React.useRef<HTMLDivElement>(null);     // div 엘리먼트의 초기값을 current 속성에 할당. 상태가 변경되어도 다시 렌더링되지 않음
 	/**
@@ -61,7 +64,19 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 	 */
 	const excerpt = React.useMemo(() => {
 		if (passage.text.length > 0) {
-			return passage.text.substring(0, excerptLength);
+			if(passage.passageType === "normalPassage"){//이지원 제작 코드, passage가 normal이면 text대신 visibleText와 optionVisibleName을 결합해 출력
+				let returnText = passage.visibleText;
+				passage.options.forEach(option => {
+					returnText += "\n[[" + option.optionVisibleName  + "]]"
+				})
+				return returnText;
+			}
+			else if(passage.passageType === "optionPassage"){
+				return passage.text.substring(0, excerptLength);
+			}
+			else{
+				console.log("passage-card에서 잘못된 접근")
+			}
 		}
 
 		return (
@@ -138,7 +153,7 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 					selected={passage.selected}
 				>
 					<TagStripe tagColors={tagColors} tags={passage.tags} />
-					<h2>{passage.name}</h2>
+					<h2>{(passage.passageType === "normalPassage")?(passage.name):(passage.optionVisibleName)}</h2>
 					<CardContent>{excerpt}</CardContent>
 				</SelectableCard>
 			</div>

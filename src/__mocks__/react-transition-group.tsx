@@ -5,7 +5,9 @@ interface CSSTransitionProps {
 }
 
 export const CSSTransition: React.FC<CSSTransitionProps> = props => (
-	<>{props.in && props.children}</>
+	<>
+	{props.in && props.children}
+	</>
 );
 
 // Force children in.

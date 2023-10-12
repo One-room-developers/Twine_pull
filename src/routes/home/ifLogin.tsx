@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 type ifLogin_props = {
     nickname : string
@@ -15,12 +16,12 @@ class ifLogin extends Component<ifLogin_props>{
 
         return(
             <div className="btn__container">
-                <a href="/#/select">
+                <Link to="/select">
                     <div className="font-hambak sign-btn">Play Game</div>
-                </a>
-                <a href="/#/">
+                </Link>
+                <Link to="/">
                     <div className="font-hambak login-btn">MyPage</div>
-                </a>
+                </Link>
             </div>
         );
     }

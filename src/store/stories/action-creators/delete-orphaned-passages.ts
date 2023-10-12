@@ -61,9 +61,36 @@ export function deleteOrphanedPassages(
 
 			return [...result, orphanPassage.id];
 		}, []);
+		//이지원 제작 코드
+		//이해는 못했는데 passageNames를 얻기 위해 사용함
+		const passageNames = orphans.reduce<string[]>((result, orphan) => {
+			const orphanPassage = story.passages.find(p => p.name === orphan);
+
+			// These tests are fast because they look at the passage object only.
+
+			if (
+				!orphanPassage ||
+				!passageIsEmpty(orphanPassage) ||
+				story.startPassage === orphanPassage.id
+			) {
+				return result;
+			}
+
+			// This is O(n) potentially.
+
+			if (
+				story.passages.some(
+					p => p.id !== passage.id && parseLinks(p.text).includes(orphan)
+				)
+			) {
+				return result;
+			}
+
+			return [...result, orphanPassage.name];
+		}, []);
 
 		if (passageIds.length > 0) {
-			dispatch({type: 'deletePassages', passageIds, storyId: story.id});
+			dispatch({type: 'deletePassages', passageIds, storyId: story.id, passageNames});
 		}
 	};
 }
