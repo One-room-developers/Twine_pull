@@ -47,6 +47,7 @@ export const UndoableStoriesContextProvider: React.FC = props => {
 				});
 			}
 
+			console.log()
 			return storiesDispatch(action);
 		},
 		[stories, storiesDispatch]

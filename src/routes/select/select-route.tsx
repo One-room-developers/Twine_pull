@@ -5,8 +5,6 @@ import writeLogo from '../../styles/image/write-svgrepo-com.svg';
 import GameMode from './game_mode'
 import UserDialog from './components copy/UserDialog';
 
-//function
-import {checkAccessToken} from '../authApi';
 //component
 
 export const SelectRoute: React.FC = () => {

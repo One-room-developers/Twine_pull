@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi } from '../api';
+import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike } from '../api';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
@@ -11,6 +11,11 @@ import messageSvg from './img/message.svg';
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
 import { PopularPost } from './components/PopularPost';
+
+//로그인 관련
+import RequestLoginInfo from '../select/components/requestLoginInfo';
+import {checkAccessToken} from '../authApi';
+import SessionStorageAPI from '../login/session';
 
 const Container = styled.body`
     height: 100vh;
@@ -386,14 +391,48 @@ export const ThreadRoute: React.FC = () => {
     const onChangeCommentPwd = React.useCallback((e) => setCreateCommentPwd(e.target.value), []);
     const onChangeCommentContent = React.useCallback((e) => setCreateCommentContent(e.target.value), []);
 
+    const sessionStorage = new SessionStorageAPI();
+    //로그인 관련
+    const [isLogin, setIsLogin] = React.useState(false);
+
+    React.useEffect(() => {
+        async function checkLogin() {
+            if(await checkAccessToken() === true){
+                setIsLogin(true);
+            }
+            else{
+                setIsLogin(false);
+            }
+        }
+
+        checkLogin();  
+    }, []);
 
 
     const toBack = () => {
         history.goBack();
     }
 
-    const clickLikeBtn = () => {
+    async function postLike(){
+        const userId = await sessionStorage.getItem("userId");
+            if(userId === null){
+                alert("세션이 초기화되었습니다. 다시 로그인해주세요.");
+                history.replace("/login");
+            }
+            else{
+                //추천 함수
+                updatePostLike(userId, parseInt(viewId));
+                alert("추천하였습니다!");
+            }
+    }
 
+    const clickLikeBtn = () => {
+        if(isLogin === true){
+            postLike();
+        }
+        else{
+            alert("로그인이 필요합니다.");
+        }
     }
 
     async function moveModifyPost(e:React.FormEvent<HTMLFormElement>) {
