@@ -45,7 +45,7 @@ export function updatePassage(
 			passageId: passage.id,
 			storyId: story.id
 		});
-
+		debugger;
 		// Side effects from changes.
 
 		if (!options.dontUpdateOthers && props.text) {
@@ -67,7 +67,27 @@ export function updatePassage(
 			);
 		}
 
-		if (props.name) {
+		//이름이 바뀌었을 때 아래 passage의 parentOfOption 변경해주기
+		
+		if(props.name){
+			let newName = props.name;
+			if(passage.passageType === "normalPassage"){ //normalPassage의 경우
+				if(oldName !== newName){ //passage의 이름을 변경했을 때
+					passage.options.forEach(option => {
+						const optionPassage = passageWithNameAsStory(story, option.name);
+						dispatch({
+							props : {parentOfOption:newName},
+							type: 'updatePassage',
+							passageId: optionPassage.id,
+							storyId: story.id
+						});
+					})
+				}
+			}
+		}
+		
+
+		if (props.name) { //passage의 이름이 변경됐을 때 상위 passage의 text와 option을 변경해줌
 			const oldNameEscaped = escapeRegExp(oldName);
 
 			// We only need to escape $ stuff in the new name, because it will be the
@@ -90,15 +110,7 @@ export function updatePassage(
 			);
 			
 			
-			let newName = props.name;
-			if(passage.passageType === "normalPassage"){
-				if(oldName !== newName){
-					passage.options.forEach(option => {
-						const optionPassage = passageWithNameAsStory(story, option.name);
-						optionPassage.parentOfOption = newName;
-					})
-				}
-			}
+			
 			story.passages.forEach(relinkedPassage => {
 				if (
 					simpleLinkRegexp.test(relinkedPassage.text) ||
@@ -120,13 +132,12 @@ export function updatePassage(
 						'[[' + newNameEscaped + '$1$2]]'
 					);
 
-					let oldOptionForParent = relinkedPassage.options; //
+					let oldOptionForParent = relinkedPassage.options; 
 
-					const nexOptionForParent : option[] = oldOptionForParent.map(option => {
+					const nextOptionForParent : option[] = oldOptionForParent.map(option => {
 						if(option.name === oldName){
-							option.name = newName;
+							option.name = props.name;
 							option.optionVisibleName = props.optionVisibleName;
-							option.nextNormalPassages = parseLinks(props.text)
 						}
 						return option;
 					})
@@ -135,12 +146,30 @@ export function updatePassage(
 						relinkedPassage,
 						{
 							text: newText,
-							options : nexOptionForParent
+							options : nextOptionForParent,
 						},
-						options
+						{dontUpdateOthers : true}
 					)(dispatch, getState);
 				}
 			});
+		}
+		if(!props.name && props.text && passage.passageType === "optionPassage"){ //option passage가 하위 passage를 만들었을 때 상위 passage의 option 속 nextNormalPassage를 변경해줌
+			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
+
+			const newOptionForParent : option[] = parentPassage.options.map(parentOption => {
+				if(parentOption.name === passage.name)
+					parentOption.nextNormalPassages = parseLinks(props.text);
+				return parentOption;
+			})
+			updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
+				story,
+				parentPassage,
+				{
+					options : newOptionForParent
+				},
+				options
+			)(dispatch, getState);
+				
 		}
 	};
 }

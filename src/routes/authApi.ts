@@ -2,7 +2,6 @@ import SessionStorageAPI from "./login/session";
 import axios from "axios";
 
 export async function checkAccessToken() : Promise<boolean>{
-
     const sessionStorage = new SessionStorageAPI();
 
     if(await authAccessToken() === false){//access토큰 없어
@@ -27,7 +26,6 @@ export async function checkAccessToken() : Promise<boolean>{
 
 //refresh 토큰 유효성 검사
 export async function authRefreshToken(id:string|null):Promise<boolean>{
-
     try{
         if(id === null){
             console.log("id 없어");
