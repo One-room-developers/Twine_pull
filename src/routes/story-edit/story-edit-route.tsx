@@ -28,6 +28,10 @@ import {useZoomTransition} from './use-zoom-transition';
 import {useZoomShortcuts} from './use-zoom-shortcuts';
 import {MarqueeablePassageMap} from './marqueeable-passage-map';
 
+//로그인 관련
+import RequestLoginInfo from '../select/components/requestLoginInfo';
+import {checkAccessToken} from '../authApi';
+
 
 export const InnerStoryEditRoute: React.FC = () => {
 	console.log("Log : InnerStoryEditRoute")

@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom';
 import './game-play-route.css';
 import styled from 'styled-components';
 import apoImg from '../game-upload/img/mode-apo.png';
+//로그인 관련
+import RequestLoginInfo from '../select/components/requestLoginInfo';
+import {checkAccessToken} from '../authApi';
 
 
 
