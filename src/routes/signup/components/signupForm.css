@@ -83,6 +83,9 @@
     display: flex;
     align-items: center;
 }
+.margin-bottom-none{
+    margin-bottom: 0;
+}
 
 .signup-id-line{
     flex-direction: column;

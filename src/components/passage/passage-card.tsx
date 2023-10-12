@@ -88,7 +88,7 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 				)}
 			</span>
 		);
-	}, [passage.text, t]);
+	}, [passage.text, passage.options, t]);
 	/**
 	 * passage.height, passage.left, passage.top, passage.width 값이 바뀌면,
 	 * style에 height, left, top, width 값을 반환

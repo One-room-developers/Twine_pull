@@ -74,8 +74,11 @@ export interface Passage {
 }
 
 export interface option{
+	// option passage의 pk
+	pk: string;
+
 	//실제 출력되는 선택지 제목
-	optionVisibleName : string
+	optionVisibleName : string;
 
 	//선택지 제목(더미 값을 넣는다)
 	name: string;

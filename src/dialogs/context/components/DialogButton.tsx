@@ -1,5 +1,5 @@
 import React from "react";
-import { Passage, Story, updatePassage, option, StoriesState, passageWithName } from "../../../store/stories";
+import { Passage, Story, updatePassage, option, StoriesState, passageWithName, passageWithNameAsStory } from "../../../store/stories";
 import { StoriesActionOrThunk } from "../../../store/undoable-stories";
 import { parseLinks } from "../../../util/parse-links";
 import uuid from 'tiny-uuid';
@@ -14,7 +14,8 @@ type DialogButtonProps = {
     lastTitle : string,
     stories : StoriesState,
     text : string,
-    optionVisibleName : string
+    optionVisibleName : string,
+    lastPassage : Passage
 }
 export const DialogButton: React.FC<DialogButtonProps> = (props) => {
     const {dispatch} = props
@@ -36,6 +37,25 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
             options.forEach(option => {
                 text = text + "\n" + "[[" + option.name + "]]";
             })
+            //만약 option 속성속 visible name이 변경되었다면 그 option passage의 visible name도 수정
+            
+            props.options.forEach((option, index) => {
+                if(props.lastPassage.options[index]){
+                    const changeOptionVisibleName = option.optionVisibleName;
+                    const lastOptionVisibleName = props.lastPassage.options[index].optionVisibleName
+                    if(changeOptionVisibleName !== lastOptionVisibleName)
+                    {
+                        const optionPassage = passageWithNameAsStory(props.story, option.name)
+                        dispatch({
+                            storyId: props.story.id,
+                            passageId: optionPassage.id,
+                            props : {optionVisibleName : changeOptionVisibleName},
+                            type: 'updatePassage'
+                        });
+                    }
+                }
+            })
+            
         }else if(passage.passageType === "optionPassage"){
             //option passage에서 수정 없이 작성완료를 클릭했을 시에만 작동
             text = previousText;

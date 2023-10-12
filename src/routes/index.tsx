@@ -16,6 +16,7 @@ import { BoardRoute, ThreadRoute, WriteRoute, ModifyRoute } from './board';
 import { GameUploadRoute } from './game-upload'
 import { StoryInfoRoute } from './game-upload'
 import { ExceptionRoute } from './exception';
+import { BetaInfo } from './info';
 import {ReactQueryDevtools} from "react-query/devtools"
 import ScrollToTop from "./ScrollToTop"
 
@@ -91,6 +92,11 @@ export const Routes: React.FC = () => {
 					<Route path="/stories/:storyId">
 						<StoryEditRoute />
 					</Route>
+
+					<Route path="/beta">
+						<BetaInfo />
+					</Route>
+
 					<Route
 						path="*"
 						render={path => {

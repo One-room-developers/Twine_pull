@@ -15,50 +15,54 @@ type DialogOptionsProps = {
 }
 
 export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
-    let dummyOptionTitles : string[] = [];
+    let dummyOptionsPk : string[] = [];
+    let dummyOptionsTitles : string[] = [];
     let dummyOptionsStatus1 : string[] = [];
     let dummyOptionsAmountChange1 : number[] = [];
     let dummyOptionsStatus2 : string[] = [];
     let dummyOptionsAmountChange2 : number[] = [];
     let dummyOptionsAfterStory : string[] = [];
     let dummyOptionsNextNormalPassages : string[][] = [];
-    let dummyOptionVisibleOptionName : string[] = [];
+    let dummyOptionsVisibleName : string[] = [];
 
     let max_option_num:number = props.options.length ?? 0;
     const {dispatch} = props;
 
     if(props.options){ 
         props.options.forEach(option => {
-            dummyOptionTitles.push(option.name)
+            dummyOptionsPk.push(option.pk)
+            dummyOptionsTitles.push(option.name)
             dummyOptionsStatus1.push(option.status1)
             dummyOptionsAmountChange1.push(option.status1Num)
             dummyOptionsStatus2.push(option.status2)
             dummyOptionsAmountChange2.push(option.status2Num)
             dummyOptionsAfterStory.push(option.afterStory)
             dummyOptionsNextNormalPassages.push(option.nextNormalPassages)
-            dummyOptionVisibleOptionName.push(option.optionVisibleName)
+            dummyOptionsVisibleName.push(option.optionVisibleName)
         })
     }
 
     const [mode, setMode] = useState('default');//default, optionCreate, optionModify, optionDelete
-    const [optionsName, setOptionsName] = useState(dummyOptionTitles);
+    const [optionsPk, setOptionsPk] = useState(dummyOptionsPk);
+    const [optionsName, setOptionsName] = useState(dummyOptionsTitles);
     const [optionsStatus1, setOptionsStatus1] = useState(dummyOptionsStatus1);
     const [optionsAmountChange1, setOptionsAmountChange1] = useState(dummyOptionsAmountChange1);
     const [optionsStatus2, setOptionsStatus2] = useState(dummyOptionsStatus2);
     const [optionsAmountChange2, setOptionsAmountChange2] = useState(dummyOptionsAmountChange2);
     const [optionsAfterStory, setOptionsAfterStory] = useState(dummyOptionsAfterStory);
     const [optionsNextNormalPassages, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassages);
-    const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionVisibleOptionName);
+    const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
     //
     const [nextNormalPassageName, setNextNormalPassageName] = useState<string|null>(null);
 
-    function makeOptionsToReturn(optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
+    function makeOptionsToReturn(optionsPk, optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
 
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({
+                pk : optionsPk[i],
                 name : optionsName[i],//name은 이제 변경되지 않음
                 afterStory : optionsAfterStory[i],
                 status1 : optionsStatus1[i],
@@ -88,6 +92,26 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         <form action='' method='post' key={i} id={i.toString()} onSubmit={function(e){//인자로 id까지 받아서 배열에 넣기
                             e.preventDefault();
                             setMode("default");
+
+                            //let optionsId = Array.from(options_id);
+                            let _optionsVisibleName = Array.from(optionsVisibleName);
+                            let _optionsStatus1 = Array.from(optionsStatus1);
+                            let _optionsAmountChange1 = Array.from(optionsAmountChange1);
+                            let _optionsStatus2 = Array.from(optionsStatus2);
+                            let _optionsAmountChange2 = Array.from(optionsAmountChange2);
+                            let _options_after_story = Array.from(optionsAfterStory);
+                            let _options_name = Array.from(optionsName);
+
+                            setOptionsVisibleName(_optionsVisibleName);
+                            setOptionsStatus1(_optionsStatus1)
+                            setOptionsAmountChange1(_optionsAmountChange1)
+                            setOptionsStatus2(_optionsStatus2)
+                            setOptionsAmountChange2(_optionsAmountChange2)
+                            setOptionsAfterStory(_options_after_story)
+                            setOptionsName(_options_name)
+
+                            //상위 컴포넌트(Twine)으로 값 전달
+                            props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
                         }}>
                             <input className='option-mini-title' value={optionsVisibleName[i]} onChange={function(e){
                                 let _optionsVisibleName = optionsVisibleName.map((value, index) => {
@@ -98,8 +122,8 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 });
                                 setOptionsVisibleName(_optionsVisibleName);
 
-                                //상위 컴포넌트(Twine)으로 값 전달
-                                props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName));
+                                // //상위 컴포넌트(Twine)으로 값 전달
+                                // props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName));
                             }} required></input>
 
                             <div className='mini-line'></div>
@@ -307,7 +331,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             let _options_name = Array.from(optionsName);
 
                             const deletedPassage = passageWithNameAsStory(props.story, optionsName[i]);
-                            dispatch(deletePassage(props.story, deletedPassage))
+                            dispatch(deletePassage(props.story, deletedPassage, dispatch))
                             //optionsId.splice(index, 1);
                             _optionsVisibleName.splice(index, 1);
                             _options_name.splice(index, 1);
@@ -328,8 +352,8 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             setOptionsAfterStory(_options_after_story)
                             setOptionsName(_options_name)
                             //상위 컴포넌트(Twine)으로 값 전달
-
-                            props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
+                            
+                            props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
                         } else {
 
                         }
@@ -356,6 +380,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         //새로 만든 배열 추가하여 생성
 
                         //const optionsId = options_id.concat(this.max_option_num);
+                        const _optionsPk = optionsPk.concat(props.passage.pk + newName); //pk는 passage의 pk와 새로운 이름의 합
                         const _optionsVisibleName = optionsVisibleName.concat(option_visible_name);
                         const _optionsStatus1 = optionsStatus1.concat(status1);
                         const _optionsAmountChange1 = optionsAmountChange1.concat(amount_change1);
@@ -363,9 +388,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         const _optionsAmountChange2 = optionsAmountChange2.concat(amount_change2);
                         const _options_after_story = optionsAfterStory.concat(after_story);
                         const _optionsName = optionsName.concat(newName);
-
                         //배열 새로 저장. 원본을 바꾸지 않는 형태로 진행하기 위한 코드임.
-                        //options_id: optionsId,
+                        //options_id: optionsId
+                        setOptionsPk(_optionsPk);
                         setOptionsVisibleName(_optionsVisibleName)
                         setOptionsStatus1(_optionsStatus1)
                         setOptionsAmountChange1(_optionsAmountChange1)
@@ -376,7 +401,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         setMode("default")
 
                         //상위 컴포넌트(Twine)으로 값 전달
-                        props.onTrackingOption(makeOptionsToReturn(_optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _optionsName));
+                        props.onTrackingOption(makeOptionsToReturn(_optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _optionsName));
                 }
             }/>;
         }
@@ -433,9 +458,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         return;
                                     }
                                     const text = props.passage.text + "\n" +"[[" + nextNormalPassageName + "]]";
-                                        const visibleText = props.passage.visibleText;
-                                        dispatch(updatePassage(props.story, props.passage, {text, visibleText}));
-                                        props.onClose();
+                                    const visibleText = props.passage.visibleText;
+                                    dispatch(updatePassage(props.story, props.passage, {text, visibleText}));
+                                    props.onClose();
                                 }
                             }>                 
                             <input className = 'option-passage-submit-title' placeholder='제목' value={nextNormalPassageName} onChange={function(e){

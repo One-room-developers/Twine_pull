@@ -1,3 +1,4 @@
+import { updateOption } from '../../persistence/database';
 import { passageWithId } from '../getters';
 import {StoriesState} from '../stories.types';
 
@@ -16,31 +17,31 @@ export function deletePassage(
 		}
 
 		foundStory = true;
-
+		let passages = story.passages.filter(passage => {
+			if (passage.id === passageId) {
+				deleted = true;
+				return false;
+			}
+			return true;
+		})
+		passages = passages.map(passage => {
+			let dummyPassage;
+			dummyPassage = {
+				...passage,
+				text : passage.text.replace(`\n\[\[${passageName}\]\]`,''),
+				options : passage.options.filter(option => {
+					if(option.name === passageName)
+						return false;
+					else
+						return true;
+				})
+			}
+			return dummyPassage;
+		})//이지원 추가코드 option passage가 제거되면 그 passage를 부모 passage의 option 속성에서 모두 제거
+		
 		const newStory = {
 			...story,
-			passages: story.passages.filter(passage => {
-				if (passage.id === passageId) {
-					deleted = true;
-					return false;
-				}
-				return true;
-			}).map(passage => {
-				let dummyPassage;
-				dummyPassage = {
-					...passage,
-					text : passage.text.replace(`\n\[\[${passageName}\]\]`,''),
-					options : passage.options.filter(option => {
-						if(option.name === passageName)
-							return false;
-						else
-							return true;
-					})
-				}
-				return dummyPassage;
-			})//이지원 추가코드 option passage가 제거되면 그 passage를 option 속성으로 갖는 것 모두 제거
-			//또한 next passage 역시 제거
-			
+			passages: passages
 		};
 
 		if (deleted) {

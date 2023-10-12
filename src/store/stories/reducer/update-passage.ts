@@ -31,7 +31,6 @@ export function updatePassage(
 			);
 			return story;
 		}
-
 		const newStory: Story = {
 			...story,
 			passages: story.passages.map(passage => {

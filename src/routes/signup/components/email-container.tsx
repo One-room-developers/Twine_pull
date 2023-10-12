@@ -67,9 +67,11 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
                 .then((res) => {
                     if(res.data.errorMsg == 13) {
                         // 이미 있는 아이디입니다.
+                        alert("이미 있는 아이디이거나 닉네임입니다.");
                     }
                     else if(res.data.errorMsg == 11) {
                         console.log('서버 문제로 회원가입 실패');
+                        alert("서버에 문제가 발생했습니다. 다시 시도해주세요.");
                     }
 
                     if(res.data.successMsg == 10) {

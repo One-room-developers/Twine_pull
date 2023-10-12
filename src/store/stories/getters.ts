@@ -14,8 +14,8 @@ export function passageWithId(
 	storyId: string,
 	passageId: string
 ) {
-	console.log("Log:passageWithId - ")
-	console.log(stories);
+	// console.log("Log:passageWithId - ")
+	// console.log(stories);
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.id === passageId);
 
@@ -35,7 +35,7 @@ export function passagesConsole(
 	storyId: string,
 ) {
 	const story = storyWithId(stories, storyId);
-	console.log(story.passages)
+	// console.log(story.passages)
 }
 
 //Story 배열과 StoryId 와 passage 이름을 인자로 넣으면 
@@ -46,8 +46,8 @@ export function passageWithName(
 	storyId: string,
 	passageName: string
 ) {
-	console.log("Log:getters.ts - passageWithName -");
-	console.log(stories);
+	// console.log("Log:getters.ts - passageWithName -");
+	// console.log(stories);
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.name === passageName);
 

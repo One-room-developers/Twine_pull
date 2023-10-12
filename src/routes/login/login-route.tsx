@@ -32,8 +32,8 @@ export const LoginRoute: React.FC = () => {
             withCredentials: true,
         })
         .then((res) => {
+            console.log(res.data);
             if(res.data.errorMsg === 14 || res.data.errorMsg == 15) {
-                // 존재하지 않는 사용자라는 알림창 띄우기 필요
                 alert('잘못된 비밀번호이거나 존재하지 않는 사용자입니다.');
                 history.push("/login");
                 return;
