@@ -18,30 +18,33 @@ export const DataBaseLoader: React.FC = () => {
             //db의 값 변수에 저장
             let dbStoriesState :StoriesState = null;
             let dbPassagesState : Passage[] = null;
-
             // 유저 닉네임을 같이 보내줘야함
-            const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires/${sessionStorage.getItem("userNickname")}`);
+            let userNickname = JSON.parse(sessionStorage.getItem("userNickname"));
+            const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires/${userNickname}`);
             dbStoriesState = res1.data;
+            debugger;
 
             // url 뒤에 story pk 붙여줘야함
-            const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages`);
-            dbPassagesState = res2.data;
+            dbStoriesState.forEach(async (dbStory) => {
+                const res2 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_passages/${dbStory.pk}`)
+                dbPassagesState.push(res2.data)
+            });
 
             // url 뒤에 passage pk 붙여줘야함
             // dbPassagesState의 option 안에 데이터 넣어줘야함
             const res3 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_options`)
             //변수 값 local storage에 저장하기
 
-            dbStoriesState.forEach((story)=>{
-                doUpdateTransaction(transaction => {
-                    saveStory(transaction, story);
-                });
-            })
-            dbPassagesState.forEach((passage)=>{
-                doUpdateTransaction(transaction => {
-                    savePassage(transaction, passage);
-                });
-            })
+            // dbStoriesState.forEach((story)=>{
+            //     doUpdateTransaction(transaction => {
+            //         saveStory(transaction, story);
+            //     });
+            // })
+            // dbPassagesState.forEach((passage)=>{
+            //     doUpdateTransaction(transaction => {
+            //         savePassage(transaction, passage);
+            //     });
+            // })
 		}
 		run();
 	}, []);

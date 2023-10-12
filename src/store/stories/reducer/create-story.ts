@@ -22,9 +22,9 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		return state;
 	}
 	const sessionStorage = new SessionStorageAPI();
-	const userId : string = sessionStorage.getItem("userNickname");
+	const userNickname : string = JSON.parse(sessionStorage.getItem("userNickname"));
 	const storyId = uuid()
-	const  storyPk : string = storyId + userId;
+	const  storyPk : string = storyId + userNickname;
 
 	let story: Story = {
 		id: storyId,
@@ -35,7 +35,7 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		tags: [],
 		tagColors: {},
 		pk: storyPk,
-		userId : userId,
+		userNickname : userNickname,
 		...storyProps
 	};
 

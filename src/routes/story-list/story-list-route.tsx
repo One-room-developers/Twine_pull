@@ -27,6 +27,8 @@ import {testHtml} from './testHTml'
 //로그인 관련
 import RequestLoginInfo from '../select/components/requestLoginInfo';
 import {checkAccessToken} from '../authApi';
+import { StateLoader } from '../../store/state-loader';
+import { DataBaseLoader } from '../../store/database/DataBaseLoader';
 
 
 export const InnerStoryListRoute: React.FC = () => {
@@ -118,9 +120,13 @@ export const InnerStoryListRoute: React.FC = () => {
 };
 
 export const StoryListRoute: React.FC = () => (
-	<UndoableStoriesContextProvider>
-		<DialogsContextProvider>
-			<InnerStoryListRoute />
-		</DialogsContextProvider>
-	</UndoableStoriesContextProvider>
+	<DataBaseLoader>
+		<StateLoader>
+			<UndoableStoriesContextProvider>
+				<DialogsContextProvider>
+					<InnerStoryListRoute />
+				</DialogsContextProvider>
+			</UndoableStoriesContextProvider>
+		</StateLoader>
+	</DataBaseLoader>
 );

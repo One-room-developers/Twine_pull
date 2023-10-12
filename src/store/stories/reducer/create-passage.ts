@@ -36,7 +36,7 @@ export function createPassage(
 		}
 		
 		const passageId = uuid()
-		const  passagePk : string = passageId + story.userId;
+		const  passagePk : string = passageId + story.userNickname;
 
 		const newPassage: Passage = {
 			...passageDefaults(),

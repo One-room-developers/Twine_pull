@@ -97,7 +97,6 @@ export function reverseAction(
 			};
 
 		case 'deletePassages':
-			debugger;
 			return {
 				type: 'createPassages',
 				props: action.passageIds.map(passageId =>

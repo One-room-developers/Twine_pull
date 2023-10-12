@@ -31,6 +31,7 @@ import {MarqueeablePassageMap} from './marqueeable-passage-map';
 //로그인 관련
 import RequestLoginInfo from '../select/components/requestLoginInfo';
 import {checkAccessToken} from '../authApi';
+import { StateLoader } from '../../store/state-loader';
 
 
 export const InnerStoryEditRoute: React.FC = () => {
@@ -50,7 +51,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 		() => story.passages.filter(passage => passage.selected),
 		[story.passages]
 	);
-
+	debugger;
 	const getCenter = React.useCallback(() => {
 		if (!mainContent.current) {
 			throw new Error(
@@ -198,9 +199,11 @@ export const InnerStoryEditRoute: React.FC = () => {
 // `useEditorsContext()` and `useUndoableStoriesContext()` inside it.
 
 export const StoryEditRoute: React.FC = () => (
-	<UndoableStoriesContextProvider>
-		<DialogsContextProvider>
-			<InnerStoryEditRoute />
-		</DialogsContextProvider>
-	</UndoableStoriesContextProvider>
+	// <StateLoader>
+		<UndoableStoriesContextProvider>
+			<DialogsContextProvider>
+				<InnerStoryEditRoute />
+			</DialogsContextProvider>
+		</UndoableStoriesContextProvider>
+	// </StateLoader>
 );

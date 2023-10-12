@@ -28,7 +28,6 @@ function updateNextNormalPassage( //normalPassage가 삭제될 때 nextNormalPas
 				for(let j =0; j<option.nextNormalPassages.length; j++){
 					if(option.nextNormalPassages[j] === removePassages[i].name){
 						option.nextNormalPassages.splice(j, 1)
-						debugger;
 						dispatch({
 							props : option,
 							type: 'updatePassage',
@@ -63,7 +62,6 @@ export function deletePassages(
 	passages: Passage[],
 	dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void
 ): DeletePassagesAction {
-	debugger;
 
 	updateNextNormalPassage(story, dispatch, passages);
 

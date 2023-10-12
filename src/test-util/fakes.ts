@@ -182,7 +182,7 @@ export function fakeStory(passageCount: number = 1): Story {
 		zoom: Math.random(),
 		level : 0,
 		genre : "",
-		userId : "",
+		userNickname : "",
 		pk : ""
 	};
 

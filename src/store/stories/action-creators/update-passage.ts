@@ -45,7 +45,6 @@ export function updatePassage(
 			passageId: passage.id,
 			storyId: story.id
 		});
-		debugger;
 		// Side effects from changes.
 
 		if (!options.dontUpdateOthers && props.text) {

@@ -36,6 +36,6 @@ export const storyDefaults = (): Omit<Story, 'id'> => ({
 	zoom: 1,
 	level : 0,
 	genre : "",
-	userId : "",
+	userNickname : "",
 	pk : ""
 });

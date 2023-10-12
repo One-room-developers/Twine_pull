@@ -23,16 +23,13 @@ export const App: React.FC = () => {
 			<PrefsContextProvider>
 				<LocaleSwitcher />
 				<ThemeSetter />
-				{/* <DataBaseLoader /> */}
 				<StoryFormatsContextProvider>
 					<StoriesContextProvider>
-							<StateLoader>
 								<React.Suspense fallback={<LoadingCurtain />}>
 									<QueryClientProvider client={queryClient}>
 										<Routes />
 									</QueryClientProvider>
 								</React.Suspense>
-							</StateLoader>
 					</StoriesContextProvider>
 				</StoryFormatsContextProvider>
 			</PrefsContextProvider>

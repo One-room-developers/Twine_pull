@@ -174,8 +174,8 @@ export interface Story {
 	//장르
 	genre : string;
 
-	//유저 id
-	userId : string;
+	//유저 nickname
+	userNickname : string;
 
 	//db에 사용되는 고유 id. 유저 id와 storyid를 합쳐서 제작.
 	pk : string;
