@@ -17,7 +17,12 @@ const SaveDataDiv = styled.div`
     //color: #ffe4a5;
     padding-top: 48px;
     right: 0;
-    background-color: white;
+`
+const UserSaveContainer = styled.div`
+    
+`
+const GuestContainer = styled.div`
+    
 `
 
 export function SaveDataContainer(){
@@ -38,12 +43,14 @@ export function SaveDataContainer(){
     }, []);
 
     return (<SaveDataDiv>
-        {(isLogin === true) ? <>사용자</> : 
+        {(isLogin === true) ? (<UserSaveContainer>
+            
+        </UserSaveContainer>) : 
         (isGuestMode === false) ? <RequestLoginInfo context1="Guest로 플레이하실 경우 게임의 진행사항이"
         context2="저장되지 않습니다." 
         onGuestMode={function(e){
             setIsGuestMode(true);
-        }}/> : <>게스트모드로 이용</>}
-        //여기에 세이브 데이터 관련 코드들
+        }}/> : (<GuestContainer>Guest로 이용 중입니다.</GuestContainer>)}
+
     </SaveDataDiv>)
 }
