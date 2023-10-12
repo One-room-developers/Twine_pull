@@ -4,12 +4,15 @@ import { usePersistence } from '../persistence/use-persistence';
 import { Passage, StoriesState } from '../stories';
 import axios from 'axios';
 import {doUpdateTransaction,savePassage,saveStory } from '../persistence/local-storage/stories'; 
+import SessionStorageAPI from '../../routes/login/session';
+
 
 export const DataBaseLoader: React.FC = () => {
     //꼼수로 지금 세션에 있는 값들을 분해해서 db에 저장하고, 그걸 불러와보기
     //나중에는 db에서 불러오는 것만 하기
-
+    
     React.useEffect(() => {
+        const sessionStorage = new SessionStorageAPI();
 		async function run() {
             console.log("Log : DataBaseLoader - run()");
             //db의 값 변수에 저장
@@ -17,7 +20,7 @@ export const DataBaseLoader: React.FC = () => {
             let dbPassagesState : Passage[] = null;
 
             // 유저 닉네임을 같이 보내줘야함
-            const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires`);
+            const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires/${sessionStorage.getItem("userNickname")}`);
             dbStoriesState = res1.data;
 
             // url 뒤에 story pk 붙여줘야함

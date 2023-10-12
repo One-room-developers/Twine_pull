@@ -100,6 +100,7 @@ export async function createPassage(passage:Passage, story:Story){
 }
 
 export async function createStory(story:Story){
+	//debugger;
 		axios({
 			method: "POST",
 			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
@@ -117,6 +118,7 @@ export async function createStory(story:Story){
 				storyFormat: story.storyFormat,
 				storyFormatVersion: story.storyFormatVersion,
 				zoom: story.zoom,
+				userId : story.userId
 			},
 		})
 		.then((res) => {

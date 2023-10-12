@@ -2,6 +2,7 @@ import uuid from 'tiny-uuid';
 import {passageDefaults, storyDefaults} from '../defaults';
 import {Story, StoriesState} from '../stories.types';
 import axios from 'axios';
+import SessionStorageAPI from '../../../routes/login/session';
 
 export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 	if ('id' in storyProps && state.some(story => story.id === storyProps.id)) {
@@ -20,9 +21,10 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		);
 		return state;
 	}
-
+	const sessionStorage = new SessionStorageAPI();
+	const userId : string = sessionStorage.getItem("userNickname");
 	const storyId = uuid()
-	const  storyPk : string = storyId + storyProps.userId;
+	const  storyPk : string = storyId + userId;
 
 	let story: Story = {
 		id: storyId,
@@ -33,6 +35,7 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		tags: [],
 		tagColors: {},
 		pk: storyPk,
+		userId : userId,
 		...storyProps
 	};
 
