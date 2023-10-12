@@ -391,26 +391,19 @@ export const ThreadRoute: React.FC = () => {
     const onChangeCommentPwd = React.useCallback((e) => setCreateCommentPwd(e.target.value), []);
     const onChangeCommentContent = React.useCallback((e) => setCreateCommentContent(e.target.value), []);
 
-    const sessionStorage = new SessionStorageAPI();
-    //로그인 관련
-    const [isLogin, setIsLogin] = React.useState(false);
-
-    React.useEffect(() => {
-        async function checkLogin() {
-            if(await checkAccessToken() === true){
-                setIsLogin(true);
-            }
-            else{
-                setIsLogin(false);
-            }
-        }
-
-        checkLogin();  
-    }, []);
-
+    const sessionStorage = new SessionStorageAPI();//userNickname
 
     const toBack = () => {
         history.goBack();
+    }
+
+    async function checkLogin() {
+        if(await checkAccessToken() === true){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     async function postLike(){
@@ -426,7 +419,9 @@ export const ThreadRoute: React.FC = () => {
             }
     }
 
-    const clickLikeBtn = () => {
+    async function clickLikeBtn(){
+        const isLogin = await checkLogin();
+
         if(isLogin === true){
             postLike();
         }

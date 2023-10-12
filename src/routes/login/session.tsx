@@ -10,6 +10,8 @@ class SessionStorageAPI<T> extends SessionStorage<T> {
         window.sessionStorage.setItem(key, JSON.stringify(value));
     }
 
+    //userId
+    //userNickname
     getItem(key: string): string {
         let value : string | null;
 
@@ -19,7 +21,7 @@ class SessionStorageAPI<T> extends SessionStorage<T> {
             return null;
         }
         else{
-            return value;
+            return JSON.parse(value);
         }
     }
     

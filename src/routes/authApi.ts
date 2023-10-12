@@ -5,7 +5,7 @@ export async function checkAccessToken() : Promise<boolean>{
     const sessionStorage = new SessionStorageAPI();
 
     if(await authAccessToken() === false){//access토큰 없어
-        console.log("access 토큰 없어");
+        console.log("userID", sessionStorage.getItem("userId"));
 
         if(await authRefreshToken(sessionStorage.getItem("userId")) === true){
             //true 반환 받은 순간 이미 access토큰도 발급 받았음.

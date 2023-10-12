@@ -154,7 +154,7 @@ function SuggestionPostList(){
                                     </PostMain>
                                     
                                     <PostFooter>
-                                        {post.like > 10 ?
+                                        {post.like > 5 ?
                                         (<StarImg />) :
                                         (<LikesImg />)
                                         }
