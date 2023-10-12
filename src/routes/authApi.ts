@@ -126,3 +126,19 @@ export async function nicknameCheck(nickname:string):Promise<boolean>{
         return false;
     }
 }
+
+export async function logout():Promise<boolean>{
+    try{
+        const response = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/auth/logout/`,
+            withCredentials: true
+        });
+
+        return true;
+    }
+    catch(err){
+        console.log(err);
+        return false;
+    }
+}
