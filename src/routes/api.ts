@@ -65,6 +65,8 @@ export async function updatePostViewApi(post_id:number){
 }
 
 export async function updatePostLike(player_id:string, post_id:number){
+    console.log(player_id);
+    console.log(post_id);
     const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`,
         {
             "player_id": player_id,
