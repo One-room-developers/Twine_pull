@@ -23,6 +23,7 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 	}
 	const sessionStorage = new SessionStorageAPI();
 	const userNickname : string = sessionStorage.getItem("userNickname");
+	debugger;
 	const storyId = uuid()
 	const  storyPk : string = storyId + userNickname;
 

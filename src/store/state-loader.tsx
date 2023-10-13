@@ -20,7 +20,6 @@ export const StateLoader: React.FC = ({children}) => {
 	const {dispatch: formatsDispatch, formats: formatsState} =
 		useStoryFormatsContext();
 	const {prefs, stories, storyFormats} = usePersistence();
-	debugger;
 	// Done in steps so that the repair action can see the inited state, and then
 	// each repair action can see the results of the preceding ones.
 	//
@@ -29,7 +28,6 @@ export const StateLoader: React.FC = ({children}) => {
 
 	React.useEffect(() => {
 		async function run() {
-			debugger;
 			if (!initing) {
 				const formatsState = await storyFormats.load(); //story editor의 환경설정(언어, dialog 크기 등...)
 				const prefsState = await prefs.load(); //환경설정
