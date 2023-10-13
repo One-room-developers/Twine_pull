@@ -53,7 +53,6 @@ export const InnerStoryListRoute: React.FC = () => {
 	);
 	
 	const visibleStories = React.useMemo(() => {
-		debugger;
 		const filteredStories =
 			prefs.storyListTagFilter.length > 0
 				? stories.filter(story =>
