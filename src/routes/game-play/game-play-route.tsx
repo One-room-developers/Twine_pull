@@ -9,6 +9,7 @@ import apoImg from '../game-upload/img/mode-apo.png';
 //로그인 관련
 import RequestLoginInfo from '../select/components/requestLoginInfo';
 import {checkAccessToken} from '../authApi';
+import { Stat } from './component/stat';
 
 
 
@@ -89,15 +90,6 @@ export const GamePlayRoute: React.FC = () => {
     var [statUIOn, setStatUIOn] = React.useState(false);
     var body = React.useRef(null);
 
-    function stat_window(){
-        if(statUIOn){
-            return <Stat_Window/>
-        }
-        else{
-            return
-        }
-    }
-
     function stat_window_event(){
         setStatUIOn((statUIOn ? false : true))
     }
@@ -125,8 +117,8 @@ export const GamePlayRoute: React.FC = () => {
             </LeftUI>
             <Main stat_window_event = {function(){stat_window_event()} }></Main>
             <Right_Ui></Right_Ui>
-
-            {stat_window()}
+            <Stat   ></Stat>
+            {/* {stat_window()}  */}
         </div>
     );
 };
