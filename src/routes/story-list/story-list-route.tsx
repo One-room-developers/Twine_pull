@@ -23,6 +23,7 @@ import {StoryCards} from './story-cards';
 import {ClickAwayListener} from '../../components/click-away-listener';
 import {importStories as importStoriesByImport} from '../../util/import'; 
 import {testHtml} from './testHTml'
+import {useHistory} from 'react-router-dom';
 
 //로그인 관련
 import RequestLoginInfo from '../select/components/requestLoginInfo';
@@ -32,12 +33,14 @@ import { DataBaseLoader } from '../../store/database/DataBaseLoader';
 
 
 export const InnerStoryListRoute: React.FC = () => {
+
 	const {dispatch: dialogsDispatch} = useDialogsContext();
 	const {dispatch: storiesDispatch, stories} = useStoriesContext();
 	const {prefs} = usePrefsContext();
 	const {shouldShowDonationPrompt} = useDonationCheck();
 	const {t} = useTranslation();
 	let data :string = testHtml;
+	
 
 	//db와 스토리를 연동하기 위해 제작한 함수 - 이지원
 	// function handleImport(getStory: Story[]) {
@@ -67,6 +70,7 @@ export const InnerStoryListRoute: React.FC = () => {
 
 	// Any stories no longer visible should be deselected.
 
+	
 	React.useEffect(() => {
 		for (const story of selectedStories) {
 			if (story.selected && !visibleStories.includes(story)) {
@@ -119,14 +123,40 @@ export const InnerStoryListRoute: React.FC = () => {
 	);
 };
 
-export const StoryListRoute: React.FC = () => (
-	<DataBaseLoader>
-		<StateLoader>
-			<UndoableStoriesContextProvider>
-				<DialogsContextProvider>
-					<InnerStoryListRoute />
-				</DialogsContextProvider>
-			</UndoableStoriesContextProvider>
-		</StateLoader>
-	</DataBaseLoader>
-);
+export const StoryListRoute: React.FC = () => {
+	const [isLogin, setIsLogin] = React.useState(false);
+	const history = useHistory();
+
+	React.useEffect(() => {
+        async function checkLogin() {
+            if(await checkAccessToken() === true){
+                setIsLogin(true);
+            }
+            else{
+                setIsLogin(false);
+            }
+        }
+
+        checkLogin();  
+    }, []);
+
+	return (
+	(isLogin === true) ? (
+		<DataBaseLoader>
+			<StateLoader>
+				<UndoableStoriesContextProvider>
+					<DialogsContextProvider>
+						<InnerStoryListRoute />
+					</DialogsContextProvider>
+				</UndoableStoriesContextProvider>
+			</StateLoader>
+		</DataBaseLoader>
+	) : (<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
+	context2="로그인 후 이용해주세요." 
+	firstBtnText="홈 페이지로"
+	secondBtnText="로그인 페이지로"
+	onGuestMode={function(e){
+		history.push("/");
+	}}/>)
+	)
+};

@@ -13,7 +13,6 @@ import { PopularEpi } from './components/PopularEpi';
 import { PopularPost } from './components/PopularPost';
 
 //로그인 관련
-import RequestLoginInfo from '../select/components/requestLoginInfo';
 import {checkAccessToken} from '../authApi';
 import SessionStorageAPI from '../login/session';
 

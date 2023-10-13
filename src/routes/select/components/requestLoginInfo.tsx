@@ -48,7 +48,11 @@ const GuestBtn = styled.div`
     font-family: "godicM";
     font-size: 18px;
     border: 1px solid black;
-    padding: 12px;
+    width: 144px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 3px;
     &:hover{
         cursor: pointer;
@@ -60,7 +64,11 @@ const LoginBtn = styled.div`
     font-size: 18px;
     background-color: var(--main-blue);
     color: var(--main-white);
-    padding: 12px;
+    width: 144px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 3px;
     &:hover{
         cursor: pointer;
@@ -84,9 +92,9 @@ export default function RequestLoginInfo(props){
                 <GuestBtn onClick={function(e){
                     e.preventDefault();
                     props.onGuestMode();
-                    }}>비회원으로 계속</GuestBtn>
+                    }}>{props.firstBtnText}</GuestBtn>
                 <Link to={'/login'}>
-                    <LoginBtn>로그인 페이지로</LoginBtn>
+                    <LoginBtn>{props.secondBtnText}</LoginBtn>
                 </Link>
             </BtnContainer>
         </LoginInfo>

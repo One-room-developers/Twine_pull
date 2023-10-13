@@ -48,6 +48,8 @@ export function SaveDataContainer(){
         </UserSaveContainer>) : 
         (isGuestMode === false) ? <RequestLoginInfo context1="Guest로 플레이하실 경우 게임의 진행사항이"
         context2="저장되지 않습니다." 
+        firstBtnText="비회원으로 계속"
+        secondBtnText="로그인 페이지로"
         onGuestMode={function(e){
             setIsGuestMode(true);
         }}/> : (<GuestContainer>Guest로 이용 중입니다.</GuestContainer>)}
