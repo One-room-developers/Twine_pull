@@ -157,7 +157,7 @@ export function updatePassage(
 
 			const newOptionForParent : option[] = parentPassage.options.map(parentOption => {
 				if(parentOption.name === passage.name)
-					parentOption.nextNormalPassages = parseLinks(props.text);
+					parentOption.nextNormalPassage = parseLinks(props.text)[0];
 				return parentOption;
 			})
 			updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌

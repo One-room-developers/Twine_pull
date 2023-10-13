@@ -22,7 +22,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let dummyOptionsStatus2 : string[] = [];
     let dummyOptionsAmountChange2 : number[] = [];
     let dummyOptionsAfterStory : string[] = [];
-    let dummyOptionsNextNormalPassages : string[][] = [];
+    let dummyOptionsNextNormalPassage : string[] = [];
     let dummyOptionsVisibleName : string[] = [];
 
     let max_option_num:number = props.options.length ?? 0;
@@ -37,7 +37,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
             dummyOptionsStatus2.push(option.status2)
             dummyOptionsAmountChange2.push(option.status2Num)
             dummyOptionsAfterStory.push(option.afterStory)
-            dummyOptionsNextNormalPassages.push(option.nextNormalPassages)
+            dummyOptionsNextNormalPassage.push(option.nextNormalPassage)
             dummyOptionsVisibleName.push(option.optionVisibleName)
         })
     }
@@ -50,7 +50,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const [optionsStatus2, setOptionsStatus2] = useState(dummyOptionsStatus2);
     const [optionsAmountChange2, setOptionsAmountChange2] = useState(dummyOptionsAmountChange2);
     const [optionsAfterStory, setOptionsAfterStory] = useState(dummyOptionsAfterStory);
-    const [optionsNextNormalPassages, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassages);
+    const [optionsNextNormalPassage, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassage);
     const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
 
     //수정할 옵션의 숫자
@@ -69,11 +69,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                 status2 : optionsStatus2[i],
                 status1Num : optionsAmountChange1[i],
                 status2Num : optionsAmountChange2[i],
-                nextNormalPassages : optionsNextNormalPassages[i], //얘는 유저가 변경하는 값이 아니므로, 인자를 사용하지 않고 기존의 값을 그대로 전달하면 됨
+                nextNormalPassage : optionsNextNormalPassage[i], //얘는 유저가 변경하는 값이 아니므로, 인자를 사용하지 않고 기존의 값을 그대로 전달하면 됨
                 optionVisibleName :  optionsVisibleName[i],
             })
-            if(_options[i].nextNormalPassages === null)
-                _options[i].nextNormalPassages = [];
         }
         return _options;
     }

@@ -17,7 +17,7 @@ export async function createOption(option:option, normalPassagePk:string){
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextNormalPassages: option.nextNormalPassages,
+			nextNormalPassages: option.nextNormalPassage,
 		}
 	})
 	.then((res) => {
@@ -40,7 +40,7 @@ export async function updateOption(option:option) {
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextNormalPassages: option.nextNormalPassages,
+			nextNormalPassages: option.nextNormalPassage,
 		}
 	})
 	.then((res) => {

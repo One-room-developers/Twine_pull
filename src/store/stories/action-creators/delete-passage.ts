@@ -25,17 +25,15 @@ function updateNextNormalPassage( //normalPassage가 삭제될 때 nextNormalPas
 	story.passages.forEach(passage => {
 		passage.options.forEach((option) => {
 			for(let i =0; i<removePassages.length; i++)
-				for(let j =0; j<option.nextNormalPassages.length; j++){
-					if(option.nextNormalPassages[j] === removePassages[i].name){
-						option.nextNormalPassages.splice(j, 1)
-						dispatch({
-							props : option,
-							type: 'updatePassage',
-							passageId: passage.id,
-							storyId: story.id
-						}
-						)}
-				}
+				if(option.nextNormalPassage === removePassages[i].name){
+					option.nextNormalPassage = ""
+					dispatch({
+						props : option,
+						type: 'updatePassage',
+						passageId: passage.id,
+						storyId: story.id
+					}
+					)}
 		})
 	})
 
