@@ -5,15 +5,15 @@ import { Passage, StoriesState, option } from '../stories';
 import axios from 'axios';
 import {doUpdateTransaction,savePassage,saveStory } from '../persistence/local-storage/stories'; 
 import SessionStorageAPI from '../../routes/login/session';
+import { LoadingCurtain } from '../../components/loading-curtain';
 
 type DataBaseLoader = {
-	initing : boolean,
-	setIniting : React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
     //꼼수로 지금 세션에 있는 값들을 분해해서 db에 저장하고, 그걸 불러와보기
     //나중에는 db에서 불러오는 것만 하기
+    const [isDBLoading, setIsDBLoading] = React.useState(false)
     
     React.useEffect(() => {
         const sessionStorage = new SessionStorageAPI();
@@ -66,23 +66,29 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
             }))
 
             //변수 값 local storage에 저장하기
-            await dbStoriesState.forEach((story)=>{
-                doUpdateTransaction(transaction => {
-                    saveStory(transaction, story);
-                });
-            })
             await dbPassagesState.forEach((passage)=>{
                 doUpdateTransaction(transaction => {
                     savePassage(transaction, passage);
                 });
             })
-            props.setIniting(false);
+            await dbStoriesState.forEach((story)=>{
+                doUpdateTransaction(transaction => {
+                    saveStory(transaction, story);
+                });
+            })
+            setIsDBLoading(true);
 		}
 		run();
 	}, []);
 
-	return <>
-        {props.children}
-    </>
+	return (isDBLoading) ? 
+        (
+            <>{props.children}</>
+        ):
+        (
+            <LoadingCurtain />
+        )
+
+    
     
 }

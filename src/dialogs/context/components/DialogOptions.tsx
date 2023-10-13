@@ -52,13 +52,14 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const [optionsAfterStory, setOptionsAfterStory] = useState(dummyOptionsAfterStory);
     const [optionsNextNormalPassages, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassages);
     const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
+
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
     //
     const [nextNormalPassageName, setNextNormalPassageName] = useState<string|null>(null);
 
     function makeOptionsToReturn(optionsPk, optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
-
+        debugger;
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({
@@ -70,8 +71,10 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                 status1Num : optionsAmountChange1[i],
                 status2Num : optionsAmountChange2[i],
                 nextNormalPassages : optionsNextNormalPassages[i], //얘는 유저가 변경하는 값이 아니므로, 인자를 사용하지 않고 기존의 값을 그대로 전달하면 됨
-                optionVisibleName :  optionsVisibleName[i]
+                optionVisibleName :  optionsVisibleName[i],
             })
+            if(_options[i].nextNormalPassages === null)
+                _options[i].nextNormalPassages = [];
         }
         return _options;
     }

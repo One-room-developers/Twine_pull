@@ -21,20 +21,19 @@ export const StoryPreview: React.FC<StoryPreviewProps> = React.memo(props => {
 	let minY = Number.POSITIVE_INFINITY;
 	let maxX = Number.NEGATIVE_INFINITY;
 	let maxY = Number.NEGATIVE_INFINITY;
-
+	debugger;
 	const circles = story.passages.map(passage => ({
 		key: passage.name,
 		x: passage.left + passage.width / 2,
 		y: passage.top + passage.height / 2,
 		radius: Math.max(passage.width, passage.height)
 	}));
-
+	
 	const svg = circles
 		.reduce<[React.ReactNode[], React.ReactNode[]]>(
 			(result, circle, index) => {
 				// We reduce the circles to an array with two elements so that the
 				// larger, faded circles appear below the smaller, more solid ones.
-
 				const bgRadius = circle.radius + 200;
 
 				// Kind of gross to do side effects in a reduce(), but it saves an O(n).

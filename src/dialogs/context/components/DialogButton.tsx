@@ -60,6 +60,7 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
             //option passage에서 수정 없이 작성완료를 클릭했을 시에만 작동
             text = previousText;
         }
+        debugger;
         dispatch(updatePassage(story, passage, {name, optionVisibleName, text, visibleText, options}));
     }
 
