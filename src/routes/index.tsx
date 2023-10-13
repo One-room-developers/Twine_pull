@@ -19,10 +19,13 @@ import { ExceptionRoute } from './exception';
 import { BetaInfo } from './info';
 import {ReactQueryDevtools} from "react-query/devtools"
 import ScrollToTop from "./ScrollToTop"
+import { DataBaseLoader } from '../store/database/DataBaseLoader';
+import { StateLoader } from '../store/state-loader';
 
 
 
 export const Routes: React.FC = () => {
+	const [isDBLoading, setisDBLoading] = React.useState(false);
 	//const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
 	
 	// A <HashRouter> is used to make our lives easier--to load local story
@@ -31,7 +34,7 @@ export const Routes: React.FC = () => {
 	// differ between web and Electron contexts.
 
 	//console.log(prefs.welcomeSeen);
-
+	debugger;
 	return (//라우터 변경시 위아래 둘 다 바꿔줘야됨!!!
 		<HashRouter>
 				<ScrollToTop />
@@ -52,9 +55,12 @@ export const Routes: React.FC = () => {
 						<GamePlayRoute />
 					</Route>
 					<Route exact path="/story-list">
-						<StoryListRoute />
+						<DataBaseLoader>
+							<StateLoader>
+								<StoryListRoute />
+							</StateLoader>
+						</DataBaseLoader>
 					</Route>
-
 					<Route path={`/thread/:viewId`}>
                     	<ThreadRoute />    
 					</Route>
@@ -67,7 +73,6 @@ export const Routes: React.FC = () => {
 					<Route path="/board/:category">
 						<BoardRoute />
 					</Route>
-
 					<Route path="/game-upload/storyInfo/:storyDbId">
 						<StoryInfoRoute />
 					</Route>
@@ -90,7 +95,9 @@ export const Routes: React.FC = () => {
 						<StoryTestRoute />
 					</Route>
 					<Route path="/stories/:storyId">
-						<StoryEditRoute />
+						<StateLoader>
+							<StoryEditRoute />
+						</StateLoader>
 					</Route>
 
 					<Route path="/beta">

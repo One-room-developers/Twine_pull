@@ -197,12 +197,12 @@ export const InnerStoryEditRoute: React.FC = () => {
 // This is a separate component so that the inner one can use
 // `useEditorsContext()` and `useUndoableStoriesContext()` inside it.
 
-export const StoryEditRoute: React.FC = () => (
-	// <StateLoader>
+export const StoryEditRoute: React.FC = () => {
+	return (
 		<UndoableStoriesContextProvider>
 			<DialogsContextProvider>
 				<InnerStoryEditRoute />
 			</DialogsContextProvider>
 		</UndoableStoriesContextProvider>
-	// </StateLoader>
-);
+	)
+};
