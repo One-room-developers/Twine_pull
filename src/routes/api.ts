@@ -47,12 +47,15 @@ export async function getPopularPostCount(){
 }
 
 export async function updatePost(post_id:number, category:number, title:string, content:string){
-    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update`,
-    {
-        "post_id": post_id,
-        "category": category,
-        "title": title,
-        "content": content,
+    const response = await axios({
+        method: "PATCH",
+        url: `${process.env.REACT_APP_API_URL}/post/update`,
+        data: {
+            post_id: post_id,
+            category: category,
+            title: title,
+            content: content
+        }
     });
     const data = response.data;
     return data;
@@ -65,13 +68,14 @@ export async function updatePostViewApi(post_id:number){
 }
 
 export async function updatePostLike(player_id:string, post_id:number){
-    console.log(player_id);
-    console.log(post_id);
-    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/post/update_like`,
-        {
-            "player_id": player_id,
-            "post_id": post_id
-        });
+        const response = await axios({
+        method: "PATCH",
+        url: `${process.env.REACT_APP_API_URL}/post/update_like`,
+        data: {
+            player_id: player_id,
+            post_id: post_id
+        }
+    });
     const data = await response.data;
     return data;
 }
@@ -128,20 +132,26 @@ export async function getCommentCount(post_id:number){
 }
 
 export async function updateComment(comment_id:number, comment:string){
-    const response = await axios.patch(`${process.env.REACT_APP_API_URL}/comment/update`,
-    {
-        "comment_id": comment_id,
-        "comment": comment,
+    const response = await axios({
+        method: "PATCH",
+        url: `${process.env.REACT_APP_API_URL}/comment/update`,
+        data: {
+            comment_id: comment_id,
+            comment: comment
+        }
     });
     const data = response.data;
     return data;
 }
 
 export async function checkCommentPassword(comment_id:number, password:string){
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/comment/check_password`,
-    {
-        "id": comment_id,
-        "password": password,
+    const response = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_API_URL}/comment/check_password`,
+        data: {
+            id: comment_id,
+            password: password
+        }
     });
     const data = response.data;
     return data;
