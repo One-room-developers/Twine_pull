@@ -414,9 +414,12 @@ export const ThreadRoute: React.FC = () => {
                 history.replace("/login");
             }
             else{
-                //추천 함수
-                updatePostLike(userId, parseInt(viewId));
-                alert("추천하였습니다!");
+                if(await updatePostLike(userId, parseInt(viewId)) === false) {
+                    alert("이미 추천하였습니다.");
+                }
+                else {
+                    alert("추천하였습니다!");
+                }
             }
     }
 

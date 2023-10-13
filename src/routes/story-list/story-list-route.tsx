@@ -125,6 +125,7 @@ export const InnerStoryListRoute: React.FC = () => {
 
 export const StoryListRoute: React.FC = () => {
 	const [isLogin, setIsLogin] = React.useState(false);
+	const [initing, setIniting] = React.useState(false);
 	const history = useHistory();
 
 	React.useEffect(() => {
@@ -142,8 +143,12 @@ export const StoryListRoute: React.FC = () => {
 
 	return (
 	(isLogin === true) ? (
-		<DataBaseLoader>
-			<StateLoader>
+		<DataBaseLoader
+			initing = {initing}
+			setIniting = {setIniting}>
+			<StateLoader 
+				initing = {initing}
+				setIniting = {setIniting}>
 				<UndoableStoriesContextProvider>
 					<DialogsContextProvider>
 						<InnerStoryListRoute />

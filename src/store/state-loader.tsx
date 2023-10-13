@@ -9,8 +9,14 @@ import {
 import {usePersistence} from './persistence/use-persistence';
 import {LoadingCurtain} from '../components/loading-curtain';
 
-export const StateLoader: React.FC = ({children}) => {
-	const [initing, setIniting] = React.useState(false);
+type StateLoaderProps = {
+	initing : boolean,
+	setIniting : React.Dispatch<React.SetStateAction<boolean>>
+}
+export const StateLoader: React.FC<StateLoaderProps> = (props) => {
+	const initing = props.initing;
+	const setIniting = props.setIniting;
+	const children = props.children;
 	const [inited, setInited] = React.useState(false);
 	const [prefsRepaired, setPrefsRepaired] = React.useState(false);
 	const [formatsRepaired, setFormatsRepaired] = React.useState(false);
@@ -20,7 +26,6 @@ export const StateLoader: React.FC = ({children}) => {
 	const {dispatch: formatsDispatch, formats: formatsState} =
 		useStoryFormatsContext();
 	const {prefs, stories, storyFormats} = usePersistence();
-	debugger;
 	// Done in steps so that the repair action can see the inited state, and then
 	// each repair action can see the results of the preceding ones.
 	//
@@ -29,8 +34,8 @@ export const StateLoader: React.FC = ({children}) => {
 
 	React.useEffect(() => {
 		async function run() {
-			debugger;
 			if (!initing) {
+				debugger;
 				const formatsState = await storyFormats.load(); //story editor의 환경설정(언어, dialog 크기 등...)
 				const prefsState = await prefs.load(); //환경설정
 				const storiesState = await stories.load();

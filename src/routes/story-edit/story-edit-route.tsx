@@ -51,7 +51,6 @@ export const InnerStoryEditRoute: React.FC = () => {
 		() => story.passages.filter(passage => passage.selected),
 		[story.passages]
 	);
-	debugger;
 	const getCenter = React.useCallback(() => {
 		if (!mainContent.current) {
 			throw new Error(
