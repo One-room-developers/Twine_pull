@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike } from '../api';
+import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike, updatePostViewApi } from '../api';
+import {convertISOToKoreaDate} from './components/postList/convertIsoToKoreaDate';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
@@ -31,6 +32,7 @@ const Title = styled.h1`
     color: var(--main-white);
     font-size: 55px;
     font-family: "gameBold";
+    margin-bottom: 25px;
 `;
 const Main = styled.div`
     width: 100%;
@@ -392,6 +394,8 @@ export const ThreadRoute: React.FC = () => {
 
     const sessionStorage = new SessionStorageAPI();//userNickname
 
+    React.useEffect(()=>{updatePostViewApi(parseInt(viewId))},[]);
+
     const toBack = () => {
         history.goBack();
     }
@@ -570,8 +574,6 @@ export const ThreadRoute: React.FC = () => {
                                     <Divider>·</Divider>
                                     <SemiInfo2>조회수 {postData.view}</SemiInfo2>
                                     <Divider>·</Divider>
-                                    <SemiInfo2>댓글수 {postData.category}</SemiInfo2>
-                                    <Divider>·</Divider>
                                     <SemiInfo2>좋아요 {postData.like}</SemiInfo2>
                                 </>
                             )}
@@ -638,7 +640,7 @@ export const ThreadRoute: React.FC = () => {
                                                 <CommentHeader>
                                                     <Div2>
                                                         <CommentWriter>{comment.writer}</CommentWriter>
-                                                        <CommentDate>{comment.createdAt}</CommentDate>
+                                                        <CommentDate>{convertISOToKoreaDate(comment.createdAt)}</CommentDate>
                                                     </Div2>
                                                     <Div3>
                                                         <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>

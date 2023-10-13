@@ -23,6 +23,7 @@ const Title = styled.h1`
     color: var(--main-white);
     font-size: 55px;
     font-family: "gameBold";
+    margin-bottom: 25px;
 `
 
 const Main = styled.div`
