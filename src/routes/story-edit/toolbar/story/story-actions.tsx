@@ -28,7 +28,6 @@ export const StoryActions: React.FC<StoryActionsProps> = props => {
 			<PassageTagsButton story={story} />
 			<JavaScriptButton story={story} />
 			<StylesheetButton story={story} />
-			{/* <DBUpdateButton/> */}
 		</ButtonBar>
 	);
 };

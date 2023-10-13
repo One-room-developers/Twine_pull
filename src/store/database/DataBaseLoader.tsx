@@ -19,6 +19,7 @@ export const DataBaseLoader: React.FC = () => {
             let dbStoriesState :StoriesState = null;
             let dbPassagesState : Passage[] = null;
             // 유저 닉네임을 같이 보내줘야함
+            debugger;
             let userNickname = sessionStorage.getItem("userNickname");
             const res1 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_stoires/${userNickname}`);
             dbStoriesState = res1.data;
@@ -32,7 +33,10 @@ export const DataBaseLoader: React.FC = () => {
 
             // url 뒤에 passage pk 붙여줘야함
             // dbPassagesState의 option 안에 데이터 넣어줘야함
-            const res3 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_options`)
+            dbPassagesState.forEach(async (dbPassage) => {
+                const res3 = await axios.get(`${process.env.REACT_APP_API_URL}/game_play/get_options/${dbPassage.pk}`)
+            })
+            
             //변수 값 local storage에 저장하기
 
             // dbStoriesState.forEach((story)=>{
