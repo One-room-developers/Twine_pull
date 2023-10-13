@@ -444,7 +444,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             + 선택지 추가하기
                         </a>
                     ) : (
-                        <form method='post' onSubmit={
+                        <form 
+                            method='post' 
+                            onSubmit={
                                 function(e){//인자로 id까지 받아서 배열에 넣기
                                     e.preventDefault();
                                     if((props.story.passages.find((passage) =>  {
