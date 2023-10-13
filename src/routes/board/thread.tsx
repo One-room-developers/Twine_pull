@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike } from '../api';
+import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike, updatePostViewApi } from '../api';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
@@ -392,6 +392,8 @@ export const ThreadRoute: React.FC = () => {
 
     const sessionStorage = new SessionStorageAPI();//userNickname
 
+    React.useEffect(()=>{updatePostViewApi(parseInt(viewId))},[]);
+
     const toBack = () => {
         history.goBack();
     }
@@ -566,8 +568,6 @@ export const ThreadRoute: React.FC = () => {
                                     <SemiInfo1>일자 {postData.createdAt}</SemiInfo1>
                                     <Divider>·</Divider>
                                     <SemiInfo2>조회수 {postData.view}</SemiInfo2>
-                                    <Divider>·</Divider>
-                                    <SemiInfo2>댓글수 {postData.category}</SemiInfo2>
                                     <Divider>·</Divider>
                                     <SemiInfo2>좋아요 {postData.like}</SemiInfo2>
                                 </>
