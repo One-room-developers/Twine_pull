@@ -95,7 +95,6 @@ export interface option{
 	//능력치 2 수치
 	status2Num: number;
 
-	//
 	nextNormalPassages : string[];
 }
 
