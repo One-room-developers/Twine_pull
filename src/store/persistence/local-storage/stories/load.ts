@@ -55,7 +55,7 @@ export async function load(): Promise<Story[]> {
 	// Then create passages, adding them to their parent story.
 
 	const serializedPassages = window.localStorage.getItem('twine-passages');
-
+	debugger;
 	if (serializedPassages) {
 		serializedPassages.split(',').forEach(id => {
 			const serializedPassage = window.localStorage.getItem(

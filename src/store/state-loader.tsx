@@ -34,6 +34,7 @@ export const StateLoader: React.FC<StateLoaderProps> = (props) => {
 				const formatsState = await storyFormats.load(); //story editor의 환경설정(언어, dialog 크기 등...)
 				const prefsState = await prefs.load(); //환경설정
 				const storiesState = await stories.load();
+				debugger;
 
 				formatsDispatch({type: 'init', state: formatsState});
 				prefsDispatch({type: 'init', state: prefsState});
@@ -120,7 +121,6 @@ export const StateLoader: React.FC<StateLoaderProps> = (props) => {
 		storiesDispatch,
 		storiesRepaired
 	]);
-	debugger;
 	return inited && formatsRepaired && prefsRepaired && storiesRepaired ? (
 		<>{children}</>
 	) : (

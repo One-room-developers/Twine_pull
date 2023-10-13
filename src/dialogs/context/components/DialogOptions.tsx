@@ -59,7 +59,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const [nextNormalPassageName, setNextNormalPassageName] = useState<string|null>(null);
 
     function makeOptionsToReturn(optionsPk, optionsVisibleName, optionsAfterStory, optionsStatus1, optionsStatus2, optionsAmountChange1, optionsAmountChange2, optionsName){
-        debugger;
         let _options : option[] = []
         for(let i =0; i<max_option_num; i++){
             _options.push({

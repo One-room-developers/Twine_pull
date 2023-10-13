@@ -72,6 +72,7 @@ export function savePassage(transaction: StorageTransaction, passage: Passage) {
 	}
 
 	transaction.passageIds = addUnique(transaction.passageIds, passage.id);
+	debugger;
 	window.localStorage.setItem(
 		`twine-passages-${passage.id}`,
 		JSON.stringify(passage)

@@ -34,7 +34,6 @@ export const Routes: React.FC = () => {
 	// differ between web and Electron contexts.
 
 	//console.log(prefs.welcomeSeen);
-	debugger;
 	return (//라우터 변경시 위아래 둘 다 바꿔줘야됨!!!
 		<HashRouter>
 				<ScrollToTop />

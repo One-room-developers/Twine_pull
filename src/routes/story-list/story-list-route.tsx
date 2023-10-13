@@ -53,6 +53,7 @@ export const InnerStoryListRoute: React.FC = () => {
 	);
 	
 	const visibleStories = React.useMemo(() => {
+		debugger;
 		const filteredStories =
 			prefs.storyListTagFilter.length > 0
 				? stories.filter(story =>
@@ -141,18 +142,23 @@ export const StoryListRoute: React.FC = () => {
     }, []);
 
 	return (
-	(isLogin === true) ? (
-				<UndoableStoriesContextProvider>
-					<DialogsContextProvider>
-						<InnerStoryListRoute />
-					</DialogsContextProvider>
-				</UndoableStoriesContextProvider>
-	) : (<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
-	context2="로그인 후 이용해주세요." 
-	firstBtnText="홈 페이지로"
-	secondBtnText="로그인 페이지로"
-	onGuestMode={function(e){
-		history.push("/");
-	}}/>)
+		(isLogin === true) ? (
+			<UndoableStoriesContextProvider>
+				<DialogsContextProvider>
+					<InnerStoryListRoute />
+				</DialogsContextProvider>
+			</UndoableStoriesContextProvider>
+		) : (
+			<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
+				context2="로그인 후 이용해주세요." 
+				firstBtnText="홈 페이지로"
+				secondBtnText="로그인 페이지로"
+				onGuestMode={
+					function(e){
+						history.push("/");
+					}
+				}
+			/>
+		)
 	)
 };
