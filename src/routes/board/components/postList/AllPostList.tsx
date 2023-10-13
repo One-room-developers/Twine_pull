@@ -4,6 +4,7 @@ import { fetchPostList } from '../../../api';
 import { useQuery } from 'react-query';
 import {useParams} from "react-router-dom";
 import { useState } from "react";
+import {convertISOToKoreaDate} from "./convertIsoToKoreaDate";
 
 //이미지
 import starImg from '../../img/star.png';
@@ -156,9 +157,9 @@ function AllPostList(){
                                         </PostMainTop>
                                         <PostMainBottom>
                                             <PostBottomInfo>{post.writer}</PostBottomInfo>
-                                            <PostBottomInfo>{post.createdAt}</PostBottomInfo>
+                                            <PostBottomInfo>{convertISOToKoreaDate(post.createdAt)}</PostBottomInfo>
                                             <PostBottomInfo>조회수 {post.view}</PostBottomInfo>
-                                            <PostBottomInfo>댓글수 {0}</PostBottomInfo>
+                                            <PostBottomInfo>댓글수 {post.comment_count}</PostBottomInfo>
                                         </PostMainBottom>
                                     </PostMain>
                                     

@@ -4,6 +4,8 @@ import { fetchPostListByCategory } from '../../../api';
 import { useQuery } from 'react-query';
 import {useParams} from "react-router-dom";
 import { useState } from "react";
+import {convertISOToKoreaDate} from "./convertIsoToKoreaDate";
+
 //이미지
 import starImg from '../../img/star.png';
 import upImg from '../../img/up.png';
@@ -105,6 +107,7 @@ interface PostInfo {
     view: number,
     like: number,
     category: number,
+    comment_count: number,
 };
 interface PostProps{
     pageNum: number;
@@ -148,8 +151,9 @@ function BugPostList(){
                                         </PostMainTop>
                                         <PostMainBottom>
                                             <PostBottomInfo>{post.writer}</PostBottomInfo>
-                                            <PostBottomInfo>{post.createdAt}</PostBottomInfo>
+                                            <PostBottomInfo>{convertISOToKoreaDate(post.createdAt)}</PostBottomInfo>
                                             <PostBottomInfo>조회수 {post.view}</PostBottomInfo>
+                                            <PostBottomInfo>댓글수 {post.comment_count}</PostBottomInfo>
                                         </PostMainBottom>
                                     </PostMain>
                                     
