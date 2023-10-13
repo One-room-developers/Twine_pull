@@ -29,6 +29,7 @@ export const DataBaseLoader: React.FC = props => {
                 }
             });
             dbStoriesState = res1.data;
+            console.log(dbStoriesState);
 
             // url 뒤에 story pk 붙여줘야함
             dbPassagesArr = await Promise.all(dbStoriesState.map(async (dbStory) => {
