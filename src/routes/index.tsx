@@ -107,7 +107,7 @@ export const Routes: React.FC = () => {
 						}}
 					></Route>
 				</Switch>
-			<ReactQueryDevtools initialIsOpen={true} />
+			{/* <ReactQueryDevtools initialIsOpen={true} /> */}
 		</HashRouter>
 	);
 };
