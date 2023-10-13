@@ -9,7 +9,6 @@ import {StoryFormatsContextProvider} from './store/story-formats';
 import {StateLoader} from './store/state-loader';
 import {ThemeSetter} from './store/theme-setter';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import { DataBaseLoader } from './store/database/DataBaseLoader';
 import 'focus-visible';
 import './styles/typography.css';
 import './styles/focus-visible-shim.css';

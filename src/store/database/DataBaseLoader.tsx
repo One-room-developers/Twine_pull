@@ -7,7 +7,7 @@ import {doUpdateTransaction,savePassage,saveStory } from '../persistence/local-s
 import SessionStorageAPI from '../../routes/login/session';
 
 
-export const DataBaseLoader: React.FC = () => {
+export const DataBaseLoader: React.FC = props => {
     //꼼수로 지금 세션에 있는 값들을 분해해서 db에 저장하고, 그걸 불러와보기
     //나중에는 db에서 불러오는 것만 하기
     
@@ -16,8 +16,8 @@ export const DataBaseLoader: React.FC = () => {
 		async function run() {
             console.log("Log : DataBaseLoader - run()");
             //db의 값 변수에 저장
-            let dbStoriesState :StoriesState = null;
-            let dbPassagesState : Passage[] = null;
+            let dbStoriesState :StoriesState = [];
+            let dbPassagesState : Passage[] = [];
             // 유저 닉네임을 같이 보내줘야함
             debugger;
             let userNickname = sessionStorage.getItem("userNickname");
@@ -59,6 +59,8 @@ export const DataBaseLoader: React.FC = () => {
 		run();
 	}, []);
 
-	return null;
+	return <>
+        {props.children}
+    </>
     
 }
