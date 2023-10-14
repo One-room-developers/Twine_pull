@@ -281,7 +281,7 @@ export const BoardRoute: React.FC = () => {
                             <SearchButton>검색</SearchButton>
                         </SearchForm>
                         <Btn>
-                            <Link to={"/board"}>
+                            <Link to={"/board/all"}>
                                 전체글
                             </Link>
                         </Btn>

@@ -18,6 +18,9 @@ type SignupForm_states={
     idValid:number;
     nameValid:number;
     nickname:string;
+    pwd1:string;
+    pwd2:string;
+    pwdValid: number;
 };
 
 class SignupForm extends Component<SignupForm_props, SignupForm_states>{
@@ -28,19 +31,38 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
             id: this.props.emailDefault,
             idValid: 0,
             nameValid: 0,
+            pwdValid: 0,
+            pwd1: "",
+            pwd2: "",
             nickname: "",
         };
+        let timeoutId;
     }
+
+    checkPwdValid(){
+        if(this.state.pwd1 !== this.state.pwd2){
+            this.setState({pwdValid: 1});
+        }
+        else{
+            this.setState({pwdValid: 2});
+        }
+    }
+    
+    
     render() {
 
         return(
             <div className='signup-background'>
                 <form className='signup-info' onSubmit={function(e){
+                    e.preventDefault();
                     if(this.state.idValid === 0){
                         alert("아이디 중복 검사를 해주세요.");
                     }
-                    else if(this.state.idValid === 0){
+                    else if(this.state.nameValid === 0){
                         alert("닉네임 중복 검사를 해주세요.");
+                    }
+                    else if(this.state.pwdValid !== 2){
+                        alert("비밀번호를 확인해주세요.");
                     }
                     else{
                         this.props.submitForm(e);
@@ -56,7 +78,7 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                     <div className='signup-title font-game-thick'>
                         <h1>모험에 도전하시는 여러분, 환영합니다.</h1>
                     </div>
-                    <div className='signup-line signup-id-line font-game-thin'>
+                    <div className='signup-line signup-id-line margin-bottom-none font-game-thin'>
                         <div className='signup-id-container'>
                             <label htmlFor='email'>아이디</label>
                             <input type="text" id="email" name='email' value={this.state.id} onChange={
@@ -80,14 +102,31 @@ class SignupForm extends Component<SignupForm_props, SignupForm_states>{
                         }
                     </div>
                     
-                    <div className='signup-line margin-bottom-none font-game-thin'>
+                    <div className='signup-line  font-game-thin'>
                         <label htmlFor='pw'>비밀번호</label>
-                        <input type="password" id="pw" name='pw' required/>
+                        <input type="password" id="pw" name='pw' required onChange={
+                            function(e){
+                                this.setState({pwd1: e.target.value})
+                            }.bind(this)}/>
                     </div>
-                    <div className='signup-line font-game-thin'>
-                        <label htmlFor='pwc'>비밀번호 확인</label>
-                        <input type="password" id="pwc" name='pwc' required/>
+
+                    <div className='signup-line signup-id-line font-game-thin'>
+                        <div className='signup-id-container'>
+                            <label htmlFor='pwc'>비밀번호 확인</label>
+                            <input type="password" id="pwc" name='pwc' required onChange={
+                                function(e){
+                                    clearTimeout(this.timeoutID);
+                                    this.setState({pwd2: e.target.value});
+                                    this.timeoutID = setTimeout(this.checkPwdValid.bind(this), 300);
+                                }.bind(this)}/>
+                        </div>
+                        {
+                            this.state.pwdValid === 0 ?(<h2 className='valid-info'>비밀번호 확인이 필요합니다.</h2>) :
+                            this.state.pwdValid === 1 ?(<h2 className='valid-info-no'>비밀번호가 일치하지 않습니다.</h2>):
+                            this.state.pwdValid === 2 ?(<h2 className='valid-info-yes'>사용 가능한 비밀번호입니다.</h2>):(<></>)
+                        }
                     </div>
+
                     <div className='signup-line signup-id-line font-game-thin'>
                         <div className='signup-id-container'>
                             <label htmlFor='nic'>별명</label>
