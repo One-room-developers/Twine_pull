@@ -17,7 +17,7 @@ export async function createOption(option:option, normalPassagePk:string){
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextNormalPassages: option.nextNormalPassages,
+			nextNormalPassage: option.nextNormalPassage,
 		}
 	})
 	.then((res) => {
@@ -40,7 +40,7 @@ export async function updateOption(option:option) {
 			status1Num: option.status1Num,
 			status2: option.status2,
 			status2Num: option.status2Num,
-			nextNormalPassages: option.nextNormalPassages,
+			nextNormalPassage: option.nextNormalPassage,
 		}
 	})
 	.then((res) => {
@@ -69,7 +69,7 @@ export async function createPassage(passage:Passage, story:Story){
 			id: passage.id,
 			passageType: passage.passageType,
 			storyPk: story.pk,
-			storyId: passage.story,
+			story: passage.story,
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
 			optionVisibleName: passage.optionVisibleName,
@@ -107,9 +107,9 @@ export async function createStory(story:Story){
 				pk: story.pk,
 				id: story.id,
 				ifid: story.ifid,
-				difficulty: story.level,
+				level: story.level,
 				name: story.name,
-				writer: story.userNickname,
+				userNickname: story.userNickname,
 				startPassage: story.startPassage,
 				script: story.script,
 				selected: story.selected,
@@ -162,7 +162,7 @@ export async function updateStory(story) {
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.pk}`,
 		data: {
-			difficulty: story.level,
+			level: story.level,
 			name: story.name,
 			startPassage: story.startPassage,
 			script: story.script,

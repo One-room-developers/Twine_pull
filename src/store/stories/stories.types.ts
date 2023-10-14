@@ -95,8 +95,7 @@ export interface option{
 	//능력치 2 수치
 	status2Num: number;
 
-	//
-	nextNormalPassages : string[];
+	nextNormalPassage : string;
 }
 
 /* story 이거 안에 보면 passage들의 배열이 있음.

@@ -98,7 +98,6 @@ export default function Main(props) {
         await getMainEpisodeDataFromDB();
         await getCurrentStatusFromDB();
         setTimeout(start_episode, 3000);
-        //start_episode();
     };
 
     function start_episode() {

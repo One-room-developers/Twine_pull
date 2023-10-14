@@ -120,7 +120,6 @@ export const StateLoader: React.FC<StateLoaderProps> = (props) => {
 		storiesDispatch,
 		storiesRepaired
 	]);
-	debugger;
 	return inited && formatsRepaired && prefsRepaired && storiesRepaired ? (
 		<>{children}</>
 	) : (
