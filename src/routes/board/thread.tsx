@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { HeaderBar } from '../home';
 import { useQuery } from 'react-query';
-import { fetchCommentList, getPost, checkPostPassword, deletePostApi, deleteCommentApi, updatePostLike, updatePostViewApi } from '../api';
+import { fetchCommentList, getPost, deletePostApi, deleteCommentApi, updatePostLike, updatePostViewApi, updateComment, checkCommentPassword } from '../api';
 import {convertISOToKoreaDate} from './components/postList/convertIsoToKoreaDate';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -242,6 +242,10 @@ const CommentPageNum = styled.div`
 const CommentWriteContainer = styled.form`
     
 `
+const CommentModifyContainer = styled(CommentWriteContainer)`
+    margin-top: 7px;
+    
+`
 const Div4 = styled.div`
     display: flex;
     flex-direction: column;
@@ -263,6 +267,10 @@ const PwInput = styled.input`
     height: 30px;
     padding-left: 8px;
     font-family: "godicThin";
+`
+const ConfirmPwInput = styled(PwInput)`
+    border: 1px solid var(--main-blue);
+
 `
 const Div5 = styled.div`
     display: flex;
@@ -296,6 +304,24 @@ const CommentSubmintBtn = styled.button`
     &:hover{
         cursor: pointer;
     }
+`
+const CommentModifyCancletBtn = styled.div`
+background-color: var(--main-white);
+color: var(--main-gray);
+border: none;
+box-shadow: 0 0 4px rgba(0,0,0,0.5);
+font-family: "godicM";
+font-size: 15px;
+font-weight: 500;
+width: 50px;
+height: 24px;
+&:hover{
+    cursor: pointer;
+}
+margin-right: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
 `
 
 const ConfirmPwdForm = styled.form`
@@ -436,18 +462,6 @@ export const ThreadRoute: React.FC = () => {
         }
     }
 
-    async function moveModifyPost(e:React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        let result = await checkPostPassword(parseInt(viewId), userPostPwd);
-
-        if(result === true){
-            history.push("/");
-        }
-        else if(result === false) {
-            alert("잘못된 비밀번호입니다.");
-        }
-    }
-
     async function deletePost(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let result = await deletePostApi(parseInt(viewId), userPostPwd);
@@ -475,13 +489,43 @@ export const ThreadRoute: React.FC = () => {
         }
     }
 
-    const modifyComment = (commentId: number) => {
+    //댓글의 수정 버튼을 눌렀을 때.
+    //해당 댓글 UI를 수정 form으로 바꿔 주는 기능과
+    //해당 댓글의 정보를 수정 form에 넣어주는 역할을 동시에 실행
+    const [modifyCommentName, setModifyCommentName] = React.useState("");
+    const [modifyCommentContent, setModifyCommentContent] = React.useState("");
+    const [modifyCommentId, setModifyCommentId] = React.useState(-1);
+    const [confirmCommentPwd, setConfirmCommentPwd] = React.useState("");
+    const onChangeModifyCommentName = React.useCallback((e) => setModifyCommentName(e.target.value), []);
+    const onChangeModifyCommentContent = React.useCallback((e) => setModifyCommentContent(e.target.value), []);
+    const onChangeConfirmCommentPwd = React.useCallback((e) => setConfirmCommentPwd(e.target.value), []);
 
+    const modifyComment = (index: number, name: string, comment: string, commentId: number) => {
+        setTargetComment(index);
+        setCommentEditMode(true);
+        setModifyCommentName(name);
+        setModifyCommentContent(comment);
+        setModifyCommentId(commentId);
     }
 
-    const checkDeleteComment = (commentId: number) => {
-        setTargetComment(commentId);
-        setPostDeleteMode(true);
+    async function commentModifyProduce(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        if(await checkCommentPassword(modifyCommentId, confirmCommentPwd) === false){
+            alert("비밀번호가 틀렸습니다.");
+        }
+        else{
+            updateComment(modifyCommentId, modifyCommentContent);
+            setCommentEditMode(false);
+        }
+    }
+
+
+    //댓글 삭제 버튼 클릭시 변화들
+    const checkDeleteComment = (index: number) => {
+        setTargetComment(index);
+        setCommentDeleteMode(true);
+        //비동기라 바뀌기 전 출력
+        console.log("commentDeleteMode",commentDeleteMode, "targetComment",targetComment);
     }
 
     //댓글 게시시
@@ -513,6 +557,7 @@ export const ThreadRoute: React.FC = () => {
         e.preventDefault();
         commentPostAPI(parseInt(viewId), createCommentName, createCommentPwd, createCommentContent);
     }
+
 
     const [content, setContent] = React.useState([]);
     const post_id = 1;
@@ -608,57 +653,55 @@ export const ThreadRoute: React.FC = () => {
                             isLoading ? (<Loader>불러오는 중...</Loader>) :
                             (
                                 <CommentList>
-                                    <Comment>
-                                        <CommentHeader>
-                                            <Div2>
-                                                <CommentWriter>작성자</CommentWriter>
-                                                <CommentDate>2023.09.15.18.14</CommentDate>
-                                            </Div2>
-                                            <Div3>
-                                                <ChangeBtn onClick={() => setCommentEditMode(current => !current)}>수정</ChangeBtn>
-                                                |
-                                                <ChangeBtn onClick={() => setCommentDeleteMode(current => !current)}>삭제</ChangeBtn>
-                                                {
-                                                    (commentDeleteMode) ? (
-                                                    <ConfirmPwdForm onSubmit={deleteComment}>
-                                                        <ConfirmPwdInput onChange={onChangeUserCommentPwd} type="password" required placeholder='삭제 비밀번호'/>
-                                                        <ConfirmPwdButton>확인</ConfirmPwdButton>
-                                                        <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
-                                                    </ConfirmPwdForm>) : (<></>)
-                                                }
-                                            </Div3>
-                                        </CommentHeader>
-                                        <CommentMain>
-                                            댓글 내용이 출력됨
-                                        </CommentMain>
-                                    </Comment>
                                 {
                                     (data?.length === 0) ? (<NoComment></NoComment>) :
                                     (
-                                        data?.map(comment =>
-                                            <Comment key={comment.comment_id}>
-                                                <CommentHeader>
-                                                    <Div2>
-                                                        <CommentWriter>{comment.writer}</CommentWriter>
-                                                        <CommentDate>{convertISOToKoreaDate(comment.createdAt)}</CommentDate>
-                                                    </Div2>
-                                                    <Div3>
-                                                        <ChangeBtn onClick={()=>modifyComment(comment.comment_id)}>수정</ChangeBtn>
-                                                        |
-                                                        <ChangeBtn onClick={()=>checkDeleteComment(comment.comment_id)}>삭제</ChangeBtn>
-                                                        {
-                                                            (commentDeleteMode===true && targetComment === comment.comment_id) ? (
-                                                            <ConfirmPwdForm onSubmit={deleteComment}>
-                                                                <ConfirmPwdInput onChange={onChangeUserCommentPwd} type="password" required />
-                                                                <ConfirmPwdButton>확인</ConfirmPwdButton>
-                                                                <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
-                                                            </ConfirmPwdForm>) : (<></>)
-                                                        }
-                                                    </Div3>
-                                                </CommentHeader>
-                                                <CommentMain>
-                                                    {comment.comment}
-                                                </CommentMain>
+                                        data?.map((comment, index) =>
+                                            <Comment key={index}>
+                                                {
+                                                    //댓글 수정시 출력되는 부분
+                                                    (commentEditMode===true && targetComment === index) ? (
+                                                        <CommentModifyContainer method='post' onSubmit={commentModifyProduce}>
+                                                            <Div5>
+                                                                <Div4>
+                                                                    <IdInput value={modifyCommentName} type="text" disabled/>
+                                                                    <ConfirmPwInput onChange={onChangeConfirmCommentPwd} required type="password" placeholder='비밀번호 확인'/>
+                                                                </Div4>
+                                                                <CommentContensInput value={modifyCommentContent} onChange={onChangeModifyCommentContent} required type="text"/>
+                                                            </Div5>
+                                                            <Div6>
+                                                                <CommentModifyCancletBtn onClick={()=>{setCommentEditMode(false);}}>취소</CommentModifyCancletBtn>
+                                                                <CommentSubmintBtn>작성</CommentSubmintBtn>
+                                                            </Div6>
+                                                        </CommentModifyContainer>
+                                                        ) : (
+                                                        //쓴 댓글이 출력되는 부분
+                                                        <>
+                                                            <CommentHeader>
+                                                                <Div2>
+                                                                    <CommentWriter>{comment.writer}</CommentWriter>
+                                                                    <CommentDate>{convertISOToKoreaDate(comment.createdAt)}</CommentDate>
+                                                                </Div2>
+                                                                <Div3>
+                                                                    <ChangeBtn onClick={()=>modifyComment(index, comment.writer, comment.comment, comment.comment_id)}>수정</ChangeBtn>
+                                                                    |
+                                                                    <ChangeBtn onClick={()=>checkDeleteComment(index)}>삭제</ChangeBtn>
+                                                                    {
+                                                                        (commentDeleteMode===true && targetComment === index) ? (
+                                                                        <ConfirmPwdForm onSubmit={deleteComment}>
+                                                                            <ConfirmPwdInput onChange={onChangeUserCommentPwd} type="password" required />
+                                                                            <ConfirmPwdButton>확인</ConfirmPwdButton>
+                                                                            <UndoButton onClick={() => setCommentDeleteMode(current => !current)}>취소</UndoButton>
+                                                                        </ConfirmPwdForm>) : (<></>)
+                                                                    }
+                                                                </Div3>
+                                                            </CommentHeader>
+                                                            <CommentMain>
+                                                                {comment.comment}
+                                                            </CommentMain>
+                                                        </>)
+                                                }
+                                                
                                             </Comment>)
                                     )
                                 }
