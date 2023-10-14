@@ -12,10 +12,9 @@ import { health_class } from './right_ui';
 import { money_class } from './right_ui';
 import { hungry_class } from './right_ui';
 
-//clientHeight 오류 파일
 interface Episode {
     Episode_Text: EpisodeText,
-    Option_Stat_Changes: Option_Stat_Changes[],
+    Option_Stat_Changes: Status[],
     Option_Texts: Option_Texts[]
 }
 
@@ -24,16 +23,6 @@ interface EpisodeText {
     main_text: string,
     mode: number,
     title: string
-}
-
-interface Option_Stat_Changes {
-    health_change: number,
-    money_change: number,
-    hungry_change: number,
-    strength_change: number,
-    agility_change: number,
-    armour_change: number,
-    mental_change: number
 }
 
 interface Status {
@@ -75,7 +64,7 @@ let normal_episode_num = 1;
 const end_episode_num = 11;
 let isEnd = false;
 let typing_end;
-let status_change: Option_Stat_Changes[];
+let status_change: Status[];
 
 export let current_status: Status;
 
@@ -112,22 +101,23 @@ export default function Main(props) {
 
 
         let promise = async function () {
-            for (typing_end = false; typing_end === false;) {
-                await new Promise<void>((resolve, reject) => {
-                    //episode 타이핑 시작
-                    setTimeout(function () {
-                        typing_episode();
-                        resolve();
-                    }, 20);
-                })
+            let timeout;
+            try{
+                for (typing_end = false; typing_end === false;) {
+                    timeout = await setTimeout(function(){ typing_episode();}, 20);
+                }
+                //episode 타이핑이 끝난 후
+                if (!isEnd) {
+                    makeOptionDiv();
+                }
+                else {
+                    makeResultOptionDiv();
+                }
             }
-            //episode 타이핑이 끝난 후
-            if (!isEnd) {
-                makeOptionDiv();
+            catch{
+                clearTimeout(timeout)
             }
-            else {
-                makeResultOptionDiv();
-            }
+            
         }
         promise();
     }
@@ -194,13 +184,13 @@ export default function Main(props) {
         axios.patch(`${process.env.REACT_APP_API_URL}/game_play/changestatus/3`,
             {
                 //db에 스탯 변화량 기록
-                "changed_health": status_change[optionId].health_change,
-                "changed_money": status_change[optionId].money_change,
-                "changed_hungry": status_change[optionId].hungry_change,
-                "changed_strength": status_change[optionId].strength_change,
-                "changed_agility": status_change[optionId].agility_change,
-                "changed_armour": status_change[optionId].armour_change,
-                "changed_mental": status_change[optionId].mental_change
+                "changed_health": status_change[optionId].health,
+                "changed_money": status_change[optionId].money,
+                "changed_hungry": status_change[optionId].hungry,
+                "changed_strength": status_change[optionId].strength,
+                "changed_agility": status_change[optionId].agility,
+                "changed_armour": status_change[optionId].armour,
+                "changed_mental": status_change[optionId].mental
             })
             .then((res) => 
             {
@@ -241,13 +231,13 @@ export default function Main(props) {
                     }
                 }
 
-                current_status.health += status_change[optionId].health_change;
-                current_status.hungry += status_change[optionId].hungry_change;
-                current_status.money += status_change[optionId].money_change;
-                current_status.strength += status_change[optionId].strength_change;
-                current_status.agility += status_change[optionId].agility_change;
-                current_status.armour += status_change[optionId].armour_change;
-                current_status.mental += status_change[optionId].mental_change;
+                current_status.health += status_change[optionId].health;
+                current_status.hungry += status_change[optionId].hungry;
+                current_status.money += status_change[optionId].money;
+                current_status.strength += status_change[optionId].strength;
+                current_status.agility += status_change[optionId].agility;
+                current_status.armour += status_change[optionId].armour;
+                current_status.mental += status_change[optionId].mental;
 
                 makeResultOptionDiv();
                 episode_result_text.current.style.height = `${(text_view.current.clientHeight) - (episode_result_option.current.clientHeight)}px`;
