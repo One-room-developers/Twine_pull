@@ -143,8 +143,8 @@ function AllPostList(){
                     {
                         (postsData?.length === 0) ? (<Loader>글이 없습니다.</Loader>) : 
                         (
-                            postsData?.map( post =>
-                                <PostContainer key={post.post_id}>
+                            postsData?.map( (post, index) =>
+                                <PostContainer key={index}>
                                     {post.category === 1 ? (<PostHead>일반</PostHead>) : 
                                         post.category === 2 ? (<PostHead>버그제보</PostHead>):
                                         post.category === 3 ? (<PostHead>기능제안</PostHead>):

@@ -68,7 +68,7 @@ export const Routes: React.FC = () => {
 					<Route path="/board/:category">
 						<BoardRoute />
 					</Route>
-					<Route path="/storyInfo/:storyDbId">
+					<Route path="/storyInfo/:storyId">
 						<StoryInfoRoute />
 					</Route>
 					<Route path="/game-upload/:category/:pageNum">
