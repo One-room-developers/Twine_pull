@@ -10,28 +10,24 @@ export async function getUploadedStoriesApi(genre:number){
 }
 
 export async function getStoryByPk(storyPk:string){
-    console.log(storyPk);
-    debugger;
     const response = await axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story`,
-        data: {
-            pk: storyPk
-        }
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story/${storyPk}`,
+        // data: {
+        //     pk: storyPk
+        // }
     });
     const data = await response.data;
     return data;
 }
 
 export async function getUploadedPassagesApi(storyPk:string){
-    console.log(storyPk);
-    debugger;
     const response = await axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list`,
-        data: {
-            pk: storyPk
-        }
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list/${storyPk}`,
+        // data: {
+        //     pk: storyPk
+        // }
     });
     const data = await response.data;
     return data;
@@ -39,11 +35,11 @@ export async function getUploadedPassagesApi(storyPk:string){
 
 export async function getUploadedOptionsApi(passagePk:string){
     const response = await axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list`,
-        data: {
-            pk: passagePk
-        }
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list/${passagePk}`,
+        // data: {
+        //     pk: passagePk
+        // }
     });
     const data = await response.data;
     return data;
