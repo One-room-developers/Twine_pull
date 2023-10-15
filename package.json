@@ -84,6 +84,7 @@
 		"@types/react-slick": "^0.23.10",
 		"@types/react-tabs": "^2.3.3",
 		"@types/react-transition-group": "^4.4.1",
+		"@types/recoil": "^0.0.9",
 		"@types/scroll": "^3.0.0",
 		"@types/semver": "^7.3.4",
 		"@types/styled-components": "^5.1.26",

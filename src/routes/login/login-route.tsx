@@ -4,7 +4,10 @@ import googleLogo from '../../styles/image/google-logo.png';
 import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
 import axios from 'axios';
 import { useHistory } from "react-router";
+import {Link} from "react-router-dom";
 import SessionStorageAPI from "./session";
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userInfoAtom} from "./userInfoAtom";
 
 export const LoginRoute: React.FC = () => {
 
@@ -12,6 +15,13 @@ export const LoginRoute: React.FC = () => {
     
     const [email, setEmail] = React.useState("");
     const [pwd, setPwd] = React.useState("");
+
+    //recoil 사용
+    const [userNickName, setUserNickName] = useRecoilState(userInfoAtom);
+
+    async function saveUserInfo(userName){
+        await setUserNickName(userName);
+    }
 
     const onChangeEmail = React.useCallback((e) => setEmail(e.target.value), []);
     const onChangePwd = React.useCallback((e) => setPwd(e.target.value), []);
@@ -52,6 +62,8 @@ export const LoginRoute: React.FC = () => {
             //seesion에 토큰을 저장해도 되는가?
             //쿠키 저장 : setCookies("userNickname", authorizedUser.nickname, "/", expireTime.toUTCString());
             sessionStorage.setItem("userNickname", authorizedUser.nickname);
+            saveUserInfo(authorizedUser.nickname);
+            
             sessionStorage.setItem("userId", authorizedUser.email);
 
             history.push("/");
@@ -67,7 +79,7 @@ export const LoginRoute: React.FC = () => {
         <body className="login-img">
             <main className="login-main">
                 <header className="login-header">
-                    <a href="/">
+                    <Link to="/">
                         <div>
                             <span className="font-hambak login__title">
                                 TEXT ADVENTURE
@@ -75,7 +87,7 @@ export const LoginRoute: React.FC = () => {
                                 PROJECT
                             </span>
                         </div>
-                    </a>
+                    </Link>
                     <div></div>
                 </header>
 

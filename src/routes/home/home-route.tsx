@@ -8,6 +8,8 @@ import {Link} from "react-router-dom"
 import SliderContainer from './SliderContainer';
 import {checkAccessToken} from '../authApi';
 import useIntersectionObserver from './useIntersectionObserver';
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userInfoAtom} from "../login/userInfoAtom";
 
 export async function isLogin() : Promise<React.JSX.Element>{
     const sessionStorage = new SessionStorageAPI();
@@ -20,6 +22,7 @@ export async function isLogin() : Promise<React.JSX.Element>{
     else{
 
         console.log("토큰 있음");
+
         return(<IfLogin nickname={sessionStorage.getItem("userNickName")}></IfLogin>);
     }
 }
@@ -29,10 +32,11 @@ export const HeaderBar: React.FC = () =>{
     const [scrollY, setScrollY] = React.useState<number>(0);
 
     const [whetherLoginComponent, setWhetherLoginComponent] = React.useState(<IfLogout></IfLogout>);
+    const userNickName = useRecoilValue(userInfoAtom);
 
     React.useEffect(() => {
         async function getWhetherLoginComponent(){
-    
+            
             setWhetherLoginComponent(await isLogin());
         };
         getWhetherLoginComponent()
@@ -45,6 +49,8 @@ export const HeaderBar: React.FC = () =>{
         setScrollY(window.scrollY);
     };
     
+    //recoil
+    console.log("Atom userNickName: ", userNickName);
     window.addEventListener("scroll", handleScroll);
 
     return(

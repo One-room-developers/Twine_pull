@@ -12,6 +12,7 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import 'focus-visible';
 import './styles/typography.css';
 import './styles/focus-visible-shim.css';
+import {RecoilRoot} from "recoil";
 
 
 const queryClient = new QueryClient()
@@ -25,9 +26,11 @@ export const App: React.FC = () => {
 				<StoryFormatsContextProvider>
 					<StoriesContextProvider>
 								<React.Suspense fallback={<LoadingCurtain />}>
-									<QueryClientProvider client={queryClient}>
-										<Routes />
-									</QueryClientProvider>
+									<RecoilRoot>
+										<QueryClientProvider client={queryClient}>
+											<Routes />
+										</QueryClientProvider>
+									</RecoilRoot>
 								</React.Suspense>
 					</StoriesContextProvider>
 				</StoryFormatsContextProvider>
