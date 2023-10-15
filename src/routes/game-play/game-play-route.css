@@ -38,7 +38,7 @@ body{
         opacity: 1;
     }
 }
-.episode_logo{
+.passage_logo{
     width: 100px;
     height: 100px;
     opacity: 0;
@@ -50,7 +50,7 @@ body{
     animation: logo-opacity 0.3s forwards;
     animation-delay: 0.5s;
 }
-.episode_logo_line{
+.passage_logo_line{
     height: 3vh;
     border: 1px solid var(--main-gray);
     animation: logo-opacity 0.3s forwards;
@@ -113,16 +113,16 @@ body{
 }
 
 
-.episode_number{
+.passage_number{
     grid-column: 1/1;
     padding-top: 10px;
 }
 
-.episode_number_text{
+.story-title{
     padding: 10px;
 }
 
-.episode_title{
+.passage_title{
     text-align: center;
     grid-column : 2/5;
     font-size: max(2vw,30px);
@@ -131,12 +131,12 @@ body{
 }
 
 
-.episode_text{
+.passage_text{
     width: 100%;
     text-align: left;
 }
 
-.episode_option{
+.option{
     padding-top: 100px;
     padding-bottom: 50px;
     padding-left: 20px;
@@ -146,11 +146,11 @@ body{
     flex-direction: column;
 }
 
-.episode_result_text{
+.result_text{
     text-align: center;
 }
 
-.episode_result_option{
+.result_option{
     padding-top: 100px;
     padding-bottom: 50px;
     padding-left: 20px;
@@ -168,7 +168,7 @@ body{
     cursor: pointer;
 }
 
-.option_div{
+.options_div{
     width : 100%;
     height: auto;
     padding : 5px 5px;

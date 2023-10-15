@@ -6,60 +6,60 @@ import { GameManager } from '../gameManager';
 
 export default function Main(props) {
 
-    let episode_text_div = React.useRef(null);
+    let passage_text_div = React.useRef(null);
     let text_view_div = React.useRef(null);
     let main_text_view_div = React.useRef(null);
-    let episode_option_div = React.useRef(null);
-    let episode_result_text_div = React.useRef(null);
-    let episode_result_option_div = React.useRef(null);
+    let options_div = React.useRef(null);
+    let result_text_div = React.useRef(null);
+    let result_option_div = React.useRef(null);
     let header_text_view_div = React.useRef(null);
-    const [episodeNumberText, setEpisodeNumberText] = React.useState(0);
-    const [episodeTitle, setEpisodeTitle] = React.useState("불러오는 중");
-    const [episodeText, setEpisodeText] = React.useState("");
-    const [episodeResultText, setEpisodeResultText] = React.useState("");
+    const [storyTitle, setStoryTitle] = React.useState("#");
+    const [passageTitle, setpassageTitle] = React.useState("불러오는 중");
+    const [passageText, setpassageText] = React.useState("");
+    const [resultText, setResultText] = React.useState("");
 
     return (
         <>
             <GameManager 
-                episode_text_div = {episode_text_div}
+                passage_text_div = {passage_text_div}
                 text_view_div = {text_view_div}
                 main_text_view_div = {main_text_view_div}
-                episode_option_div = {episode_option_div}
-                episode_result_text_div = {episode_result_text_div}
-                episode_result_option_div = {episode_result_option_div}
+                options_div = {options_div}
+                result_text_div = {result_text_div}
+                result_option_div = {result_option_div}
                 header_text_view_div = {header_text_view_div}
-                episodeNumberTextState={[episodeNumberText, setEpisodeNumberText]}
-                episodeTitleState={[episodeTitle, setEpisodeTitle]}
-                episodeTextState={[episodeText, setEpisodeText]}
-                episodeResultText = {[episodeResultText, setEpisodeResultText]}>
+                storyTitleState={[storyTitle, setStoryTitle]}
+                passageTitleState={[passageTitle, setpassageTitle]}
+                passageTextState={[passageText, setpassageText]}
+                resultTextState = {[resultText, setResultText]}>
             </GameManager>
             <main className="main">
-                <div className="episode_logo">
+                <div className="passage_logo">
                     <img className="icon-book" src={bookLogo} alt="" />
                 </div>
-                <div className="episode_logo_line"></div>
+                <div className="passage_logo_line"></div>
                 <div className="text_view" ref={text_view_div}>
                     <div className="header_text_view" ref={header_text_view_div}>
-                        <div className="episode_number font-game-thick">
-                            <span className="episode_number_text" >
-                                {"#" + episodeNumberText}
+                        <div className="passage_number font-game-thick">
+                            <span className="story-title" >
+                                {"#" + storyTitle}
                             </span>
                         </div>
-                        <div className="episode_title font-game-thick">
-                            {episodeTitle}
+                        <div className="passage_title font-game-thick">
+                            {passageTitle}
                         </div>
                     </div>
                     <div className="main_text_view" ref={main_text_view_div}>
-                        <div className="episode_text" ref={episode_text_div}>
-                            {episodeText}
+                        <div className="passage_text" ref={passage_text_div}>
+                            {passageText}
                         </div>
-                        <div className="episode_option hidden font-game-thick" ref={episode_option_div}>
+                        <div className="options hidden font-game-thick" ref={options_div}>
                             {/* 선택지 */}
                         </div>
-                        <div className="episode_result_text hidden" ref={episode_result_text_div}>
-                            {episodeResultText}
+                        <div className="result_text hidden" ref={result_text_div}>
+                            {resultText}
                         </div>
-                        <div className="episode_result_option hidden" ref={episode_result_option_div}>
+                        <div className="result_option hidden" ref={result_option_div}>
                         </div>
                     </div>
                 </div>

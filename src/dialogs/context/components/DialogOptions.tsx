@@ -140,11 +140,11 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         <option value="">(능력)</option>
                                         <option value="health">체력</option>
                                         <option value="money">돈</option>
-                                        <option value="satiety">포만감</option>
-                                        <option value="strength">힘</option>
+                                        <option value="hungry">포만감</option>
+                                        {/* <option value="strength">힘</option>
                                         <option value="agility">민첩</option>
                                         <option value="armor">내구도</option>
-                                        <option value="mental">정신력</option>
+                                        <option value="mental">정신력</option> */}
                                     </select>
     
                                     <select className='select-dropdown' name='amount_change1' value = {optionsAmountChange1[i]} required onChange={function(e){
@@ -180,11 +180,11 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         <option value="null">없음</option>
                                         <option value="health">체력</option>
                                         <option value="money">돈</option>
-                                        <option value="satiety">포만감</option>
-                                        <option value="strength">힘</option>
+                                        <option value="hungry">포만감</option>
+                                        {/* <option value="strength">힘</option>
                                         <option value="agility">민첩</option>
                                         <option value="armor">내구도</option>
-                                        <option value="mental">정신력</option>
+                                        <option value="mental">정신력</option> */}
                                     </select>
     
                                     <select className='select-dropdown' name='amount_change2' value = {optionsAmountChange2[i]} required onChange={function(e){
@@ -235,21 +235,21 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     case 'money':
                         status1="돈";
                         break;
-                    case 'satiety':
+                    case 'hungry':
                         status1="포만감";
                         break;
-                    case 'strength':
-                        status1="힘";
-                        break;
-                    case 'agility':
-                        status1="속도";
-                        break;
-                    case 'armor':
-                        status1="내구도";
-                        break;
-                    case 'mental':
-                        status1="정신력";
-                        break;
+                    // case 'strength':
+                    //     status1="힘";
+                    //     break;
+                    // case 'agility':
+                    //     status1="속도";
+                    //     break;
+                    // case 'armor':
+                    //     status1="내구도";
+                    //     break;
+                    // case 'mental':
+                    //     status1="정신력";
+                    //     break;
                     default:
                         status1 ="없음";
                 }
@@ -263,21 +263,21 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     case 'money':
                         status2="돈";
                         break;
-                    case 'satiety':
+                    case 'hungry':
                         status2="포만감";
                         break;
-                    case 'strength':
-                        status2="힘";
-                        break;
-                    case 'agility':
-                        status2="속도";
-                        break;
-                    case 'armor':
-                        status2="내구도";
-                        break;
-                    case 'mental':
-                        status2="정신력";
-                        break;
+                    // case 'strength':
+                    //     status2="힘";
+                    //     break;
+                    // case 'agility':
+                    //     status2="속도";
+                    //     break;
+                    // case 'armor':
+                    //     status2="내구도";
+                    //     break;
+                    // case 'mental':
+                    //     status2="정신력";
+                    //     break;
                     default:
                         status2 ="없음";
                 }
