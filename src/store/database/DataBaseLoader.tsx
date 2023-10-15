@@ -27,7 +27,7 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
             let userNickname = sessionStorage.getItem("userNickname");
             const res1 = await axios({
                 method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/game_play/get_stoires`,
+                url: `${process.env.REACT_APP_API_URL}/make_episode/get_stoires`,
                 data: {
                     nickname: userNickname
                 }
@@ -40,9 +40,9 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
             await Promise.all(dbStoriesState.map(async (dbStory) => {
                 const res2 = await axios({
                     method: "POST",
-                    url: `${process.env.REACT_APP_API_URL}/game_play/get_passages/`,
+                    url: `${process.env.REACT_APP_API_URL}/make_episode/get_passages/`,
                     data: {
-                        nickname: dbStory.pk
+                        episodePk: dbStory.pk
                     }
                 });
                 res2.data.forEach(passage => {
@@ -56,9 +56,9 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
             dbPassagesState = await Promise.all(dbPassagesState.map(async (dbPassage) => {
                 const res3 = await axios({
                     method: "POST",
-                    url: `${process.env.REACT_APP_API_URL}/game_play/get_options/`,
+                    url: `${process.env.REACT_APP_API_URL}/make_episode/get_options/`,
                     data: {
-                        nickname: dbPassage.pk
+                        episodePk: dbPassage.pk
                     }
                 });
                 dbPassage.options = res3.data;
