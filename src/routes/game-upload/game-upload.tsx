@@ -217,7 +217,7 @@ export const GameUploadRoute: React.FC = () => {
     }
 
     //Story data 가져오기
-    const {isLoading:isStoryLoading, data:storiesData} = useQuery<IStory[]>(["categoryList", page], ()=> getUploadedStoriesApi(categoryNum));//페이지 인자로 받아야됨
+    const {isLoading:isStoryLoading, data:storiesData} = useQuery<IStory[]>(["storyList", page], ()=> getUploadedStoriesApi(categoryNum));//페이지 인자로 받아야됨
 
     
     //const {isLoading, data} = useQuery<IStory>("storyListData", fetchStoryList);
@@ -243,7 +243,7 @@ export const GameUploadRoute: React.FC = () => {
                                 </ImgContainer>
                                 <StoryInfoContainer>
                                     <StoryTitle>{story.name}</StoryTitle>
-                                    <StoryContent>업로드일: {convertISOToKoreaDate(story.lastUpdate)}</StoryContent>
+                                    <StoryContent>업로드 일시: {convertISOToKoreaDate(story.lastUpdate)}</StoryContent>
                                     <LinkContainer>
                                         <SubInfoContainer>
                                             <SubInfo>작성자 {story.userNickname} | 추천수 {story.like - story.dislike} | 난이도 {story.level}</SubInfo>
