@@ -79,6 +79,8 @@ export default function Main(props) {
     let header_text_view = React.useRef(null);
     let episode_title = React.useRef(null);
     let episode_number_text = React.useRef(null);
+    let timeout;
+    // let timeouts = [];
 
 
     async function game_start() {
@@ -101,23 +103,27 @@ export default function Main(props) {
 
 
         let promise = async function () {
-            let timeout;
-            try{
-                for (typing_end = false; typing_end === false;) {
-                    timeout = await setTimeout(function(){ typing_episode();}, 20);
-                }
-                //episode 타이핑이 끝난 후
-                if (!isEnd) {
-                    makeOptionDiv();
-                }
-                else {
-                    makeResultOptionDiv();
-                }
+            for (typing_end = false; typing_end === false;) {
+                await new Promise<void>((resolve, reject) => {
+                    //episode 타이핑 시작
+                    setTimeout(function () {
+                        try{
+                            typing_episode();
+                            resolve();
+                        }
+                        catch{
+                            return;
+                        }
+                    }, 20);
+                })
             }
-            catch{
-                clearTimeout(timeout)
+            //episode 타이핑이 끝난 후
+            if (!isEnd) {
+                makeOptionDiv();
             }
-            
+            else {
+                makeResultOptionDiv();
+            }
         }
         promise();
     }
