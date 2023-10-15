@@ -20,6 +20,7 @@ const Title = styled.h1`
   color: var(--main-white);
   font-size: 55px;
   font-family: "gameBold";
+  margin-bottom: 25px;
 `;
 const Loader = styled.h2`
     font-size: 28px;
@@ -62,9 +63,9 @@ interface IStoryInfo {
 }
 
 interface IPassage{
-    id:string,
-    name:string,
-    text_user:string,
+    pk: string,
+    name: string,
+    visibleText: string,
 }
 interface IOption{
 

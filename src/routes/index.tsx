@@ -68,10 +68,10 @@ export const Routes: React.FC = () => {
 					<Route path="/board/:category">
 						<BoardRoute />
 					</Route>
-					<Route path="/game-upload/storyInfo/:storyDbId">
+					<Route path="/storyInfo/:storyDbId">
 						<StoryInfoRoute />
 					</Route>
-					<Route path="/game-upload/:writerId">
+					<Route path="/game-upload/:category/:pageNum">
 						<GameUploadRoute />
 					</Route>
 					<Route path="/story-formats">
