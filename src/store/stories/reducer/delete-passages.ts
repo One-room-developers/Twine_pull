@@ -6,6 +6,7 @@ export function deletePassages(
 	storyId: string,
 	passageIds: string[]
 ) {
+	console.log(passageIds);
 	return passageIds.reduce(
 		(state, passageId) => deletePassage(state, storyId, passageId),
 		state

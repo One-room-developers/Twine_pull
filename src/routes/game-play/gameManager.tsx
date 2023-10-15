@@ -83,7 +83,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
 
     async function game_start() {
-        debugger;
         console.log('게임 스타트 함수 진입');
         //db 업데이트
         if(isGameStart === true || isStoryEnd === true){

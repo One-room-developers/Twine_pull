@@ -30,22 +30,29 @@ export const DeletePassagesButton: React.FC<
 		if (passages.length === 0) {
 			return;
 		}
+		let deleteOptionPassages = [];
+		let areadyDeletePassges = []
 		passages.forEach((passage)=>{
 			if(passage.passageType === 'normalPassage'){
 				parseLinks(passage.text).forEach(nextPassage => {
-					const result = story.passages.find(p => p.name === nextPassage); //전체 passage에서 현재 passage의 자식 찾기
-					if(result){
-						dispatch(deletePassage(story, result, dispatch))
+					const optionPassage = story.passages.find(p => p.name === nextPassage); //전체 passage에서 현재 passage의 자식 찾기
+					if(optionPassage){
+						deleteOptionPassages.push(optionPassage);
 					}
 				})
 			}
+			else{
+				areadyDeletePassges.push(passage);
+			}
+			dispatch((deletePassage(story, passage, dispatch)))
 		})
-		dispatch(
-			deletePassages(story, passages, dispatch),
-			passages.length > 1
-				? 'undoChange.deletePassages'
-				: 'undoChange.deletePassage'
-		);
+		//이미 삭제한 option은 지워주기
+		for(let i =0; i<areadyDeletePassges.length; i++){
+			deleteOptionPassages = deleteOptionPassages.filter(deleteOptionPassage => (deleteOptionPassage !== areadyDeletePassges[i]))
+		}
+		deleteOptionPassages.forEach(optionPassage => {
+			dispatch((deletePassage(story, optionPassage, dispatch)))
+		})
 	}, [dispatch, passages, story]);
 
 	useHotkeys('Backspace,Delete', handleClick, [handleClick]);

@@ -21,7 +21,6 @@ export const StoryPreview: React.FC<StoryPreviewProps> = React.memo(props => {
 	let minY = Number.POSITIVE_INFINITY;
 	let maxX = Number.NEGATIVE_INFINITY;
 	let maxY = Number.NEGATIVE_INFINITY;
-	debugger;
 	const circles = story.passages.map(passage => ({
 		key: passage.name,
 		x: passage.left + passage.width / 2,

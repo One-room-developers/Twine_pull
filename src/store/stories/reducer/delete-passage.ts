@@ -9,6 +9,7 @@ export function deletePassage(
 ) {
 	let foundStory = false;
 	let deleted = false;
+	console.log(passageId);
 	let passageName : string = passageWithId(state, storyId, passageId).name
 
 	const newState = state.map(story => {

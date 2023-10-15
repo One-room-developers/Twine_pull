@@ -64,7 +64,6 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                 dbPassage.options = res3.data;
                 return dbPassage
             }))
-            debugger;
             //변수 값 local storage에 저장하기
             await dbPassagesState.forEach((passage)=>{
                 doUpdateTransaction(transaction => {

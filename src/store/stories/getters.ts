@@ -14,8 +14,6 @@ export function passageWithId(
 	storyId: string,
 	passageId: string
 ) {
-	// console.log("Log:passageWithId - ")
-	// console.log(stories);
 	const story = storyWithId(stories, storyId);
 	const result = story.passages.find(p => p.id === passageId);
 

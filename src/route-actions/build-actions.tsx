@@ -27,6 +27,15 @@ export interface BuildActionsProps {
 	story?: Story;
 }
 
+let normalIndex = 1;
+let lastNormalIndex = 1;
+let optionIndex = 0;
+let basicX = 100;
+let basicY = 100;
+let layer = 0;
+let thisLayerNodeNum = 1;
+const endNum = 5;
+
 export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	//html publish함수
 	const {publishStory} = usePublishing();
@@ -38,8 +47,6 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	const {playStory, proofStory, testStory} = useStoryLaunch();
 	const {t} = useTranslation();
 	const {dispatch, stories} = useUndoableStoriesContext();
-	let normalIndex = 0;
-	let optionIndex = 0;
 
 	function resetErrors() {
 		setPlayError(undefined);
@@ -49,7 +56,8 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	}
 
 	async function handlePlay() {
-		if (!story) {
+		if (!story) 
+		{
 			throw new Error('No story provided to publish');
 		}
 
@@ -215,51 +223,73 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			setTestError(error as Error);
 		}
 	}
-	async function makeNormalPassages(){
-		debugger;
-		while(normalIndex < 2){
-			let text = ""
-			for(let j=0; j<2; j++){
-				text += ("[["+(1000-optionIndex-j)+"]]")
-			}
-			await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
-				type: 'createPassage',
-				storyId: story.id,
-				props: {
-					left : 100*(normalIndex),
-					name : normalIndex.toString(), 
-					top : 100*(normalIndex), 
-					passageType : "normalPassage", 
-					parentOfOption : "", 
-					width : 100, 
-					height : 100, 
-					optionVisibleName : "",
-					options : [],
-					text : text
+	async function makeNormalPassage(){
+		for(;layer < endNum;){
+			for(let i = 0; i <thisLayerNodeNum; i++){
+				let text = "";
+				let options : option[] = [];
+				for(let j=0; j<2; j++){
+					text += ("[["+(1000-optionIndex-(i*2)-j)+"]]")
+					options.push(
+						{
+							pk : "",
+							optionVisibleName : "",
+							name:(1000-optionIndex-(i*2)-j).toString(),
+							afterStory:"",
+							status1:"",
+							status1Num: 0,
+							status2:"",
+							status2Num: 0,
+							nextNormalPassage :""
+						}
+					)
 				}
-			});
-			for(let j=0; j<2; j++){
-				await makeOptionPassages(j)
+				await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
+					type: 'createPassage',
+					storyId: story.id,
+					props: {
+						left : basicX + 200*layer,
+						top : basicY + (100*i), 
+						name : normalIndex.toString(), 
+						passageType : "normalPassage", 
+						parentOfOption : "", 
+						width : 100, 
+						height : 100, 
+						optionVisibleName : "",
+						options : options,
+						text : text
+					}
+				});
+				normalIndex+=1
 			}
-			normalIndex+=1
+			layer++;
+			for(let k=0; k<thisLayerNodeNum*2; k++){
+				await makeOptionPassage(k)
+			}
+			layer++;
+			thisLayerNodeNum*=2;
+			lastNormalIndex = normalIndex;
 		}
 	}
-	async function makeOptionPassages(index){
-		debugger;
+	async function makeOptionPassage(index){
+		let text = ""
+		if(layer+1 < endNum){
+			text = "[["+(1+lastNormalIndex+index)+"]]"
+		}
 		await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
 			type: 'createPassage',
 			storyId: story.id,
 			props: {
-				left : 100*(1+normalIndex), 
+				left : basicX + (200*layer), 
 				name : (1000-optionIndex).toString(), 
-				top : 100*(1+optionIndex), 
+				top : basicY+(100*index), 
 				passageType : "optionPassage", 
-				parentOfOption : "", 
+				parentOfOption : (thisLayerNodeNum+Math.floor(index/2)).toString(), 
 				width : 75, 
 				height : 75, 
 				optionVisibleName : (1000-optionIndex).toString(),
 				options : [],
-				text : "[["+(1+normalIndex+index)+"]]"
+				text : text
 			}
 		});
 		optionIndex+=1
@@ -381,8 +411,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			<CardButton
 				label={"passage 목록 제작하기"}
 				onClick={function(){
-					debugger;
-					makeNormalPassages()}
+					makeNormalPassage()}
 				}
 				ariaLabel={''}
 				disabled={false}
