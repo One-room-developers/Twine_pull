@@ -10,8 +10,6 @@ export async function getUploadedStoriesApi(genre:number){
 }
 
 export async function getStoryByPk(storyPk:string){
-    console.log(storyPk);
-    debugger;
     const response = await axios({
         method: "POST",
         url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story`,
@@ -24,8 +22,6 @@ export async function getStoryByPk(storyPk:string){
 }
 
 export async function getUploadedPassagesApi(storyPk:string){
-    console.log(storyPk);
-    debugger;
     const response = await axios({
         method: "POST",
         url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list`,
