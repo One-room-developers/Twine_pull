@@ -13,12 +13,13 @@ import { hungry_class } from './component/right_ui';
 
 export let current_status: Status;
 
-async function getNextStoryAndPassages(lastStoryArr: string[]){
+async function getNextStoryAndPassages(currentStat: Status, lastStoryArr: string[]){
     const response = await axios({
         method : "POST",
         url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
         data: {
             genre: 1,
+            //currentStat: currentStat,
             lastStoryArr: lastStoryArr,
         }
     });

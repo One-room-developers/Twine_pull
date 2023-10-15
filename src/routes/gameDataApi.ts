@@ -9,6 +9,15 @@ export async function getUploadedStoriesApi(genre:number){
     return data;
 }
 
+export async function getStoryByPk(story_pk:string){
+    const response = await axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story/${story_pk}`
+    });
+    const data = await response.data;
+    return data;
+}
+
 export async function getUploadedPassagesApi(storyPk:string){
     const response = await axios({
         method: "GET",
