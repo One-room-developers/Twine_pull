@@ -10,9 +10,11 @@ export async function getUploadedStoriesApi(genre:number){
 }
 
 export async function getStoryByPk(storyPk:string){
+    console.log(storyPk);
+    debugger;
     const response = await axios({
         method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story/${storyPk}`,
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story`,
         data: {
             pk: storyPk
         }
@@ -23,9 +25,10 @@ export async function getStoryByPk(storyPk:string){
 
 export async function getUploadedPassagesApi(storyPk:string){
     console.log(storyPk);
+    debugger;
     const response = await axios({
         method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list/${storyPk}`,
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list`,
         data: {
             pk: storyPk
         }
@@ -37,7 +40,7 @@ export async function getUploadedPassagesApi(storyPk:string){
 export async function getUploadedOptionsApi(passagePk:string){
     const response = await axios({
         method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list/${passagePk}`,
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list`,
         data: {
             pk: passagePk
         }
@@ -61,7 +64,7 @@ export async function getMyStoriesApi(user_nickname:string){
 export async function getMyPassagesApi(story_pk:string){
     const response = await axios({
         method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/my_episode/get_passage_list/${story_pk}`,
+        url: `${process.env.REACT_APP_API_URL}/my_episode/get_passage_list`,
         data: {
             pk: story_pk
         }
@@ -73,7 +76,7 @@ export async function getMyPassagesApi(story_pk:string){
 export async function getMyOptionsApi(passage_pk:string){
     const response = await axios({
         method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/my_episode/get_option_list/${passage_pk}`,
+        url: `${process.env.REACT_APP_API_URL}/my_episode/get_option_list`,
         data: {
             pk: passage_pk
         }
