@@ -180,11 +180,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 //db에 스탯 변화량 기록
                 "changed_health": status_change[optionId].health,
                 "changed_money": status_change[optionId].money,
-                "changed_hungry": status_change[optionId].hungry,
-                "changed_strength": status_change[optionId].strength,
-                "changed_agility": status_change[optionId].agility,
-                "changed_armour": status_change[optionId].armour,
-                "changed_mental": status_change[optionId].mental
+                "changed_hungry": status_change[optionId].hungry
             })
             .then((res) => 
             {
@@ -233,10 +229,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 current_status.health += status_change[optionId].health;
                 current_status.hungry += status_change[optionId].hungry;
                 current_status.money += status_change[optionId].money;
-                current_status.strength += status_change[optionId].strength;
-                current_status.agility += status_change[optionId].agility;
-                current_status.armour += status_change[optionId].armour;
-                current_status.mental += status_change[optionId].mental;
 
                 makeResultOptionDiv();
                 episode_result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (episode_result_option_div.current.clientHeight)}px`;
