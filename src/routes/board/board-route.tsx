@@ -73,6 +73,9 @@ const WriteBtn = styled(Btn)`
         color: black;
     }
 `
+const BtnText = styled.h3`
+    padding: 8px 70px 8px 70px;
+`
 
 
 const Main = styled.div`
@@ -281,13 +284,17 @@ export const BoardRoute: React.FC = () => {
                             <SearchButton>검색</SearchButton>
                         </SearchForm>
                         <Btn>
-                            <Link to={"/board/all"}>
-                                전체글
+                            <Link to={"/game-upload/all/1"}>
+                                <BtnText>
+                                    에피소드 목록
+                                </BtnText>
                             </Link>
                         </Btn>
                         <LikeBtn>
                             <Link to={"/board/popular/1"}>
-                                인기글
+                                <BtnText>
+                                    인기글
+                                </BtnText>
                             </Link>
                         </LikeBtn>
                     </PostSearchContainer>

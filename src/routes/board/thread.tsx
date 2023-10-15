@@ -382,7 +382,7 @@ interface Post {
     like: number,
 };
 interface RouteParams {
-    viewId: string;
+    viewId: string,
 };
 interface IComment{
     comment_id: number,
