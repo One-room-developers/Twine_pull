@@ -13,7 +13,7 @@ import {CardContent} from '../components/container/card';
 import {CardButton} from '../components/control/card-button';
 import {IconButton} from '../components/control/icon-button';
 import {storyFileName} from '../electron/shared';
-import {Story} from '../store/stories';
+import {Story, option} from '../store/stories';
 import {usePublishing} from '../store/use-publishing';
 import {useStoryLaunch} from '../store/use-story-launch';
 import {saveHtml} from '../util/save-html';
@@ -21,6 +21,7 @@ import axios from 'axios';
 
 //story 텍스트를 추출하기 위해 추가한 능력
 import {extractEpsiodeText, extractSomeEpisodeText, extractFirstEpsiodeTitle , searchOptionsString} from './../store/stories/extract_story';
+import { useUndoableStoriesContext } from '../store/undoable-stories';
 
 export interface BuildActionsProps {
 	story?: Story;
@@ -36,6 +37,9 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	const [testError, setTestError] = React.useState<Error>();
 	const {playStory, proofStory, testStory} = useStoryLaunch();
 	const {t} = useTranslation();
+	const {dispatch, stories} = useUndoableStoriesContext();
+	let normalIndex = 0;
+	let optionIndex = 0;
 
 	function resetErrors() {
 		setPlayError(undefined);
@@ -211,6 +215,68 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			setTestError(error as Error);
 		}
 	}
+	async function makeNormalPassages(){
+		debugger;
+		while(normalIndex < 2){
+			let text = ""
+			for(let j=0; j<2; j++){
+				text += ("[["+(1000-optionIndex-j)+"]]")
+			}
+			await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
+				type: 'createPassage',
+				storyId: story.id,
+				props: {
+					left : 100*(normalIndex),
+					name : normalIndex.toString(), 
+					top : 100*(normalIndex), 
+					passageType : "normalPassage", 
+					parentOfOption : "", 
+					width : 100, 
+					height : 100, 
+					optionVisibleName : "",
+					options : [],
+					text : text
+				}
+			});
+			for(let j=0; j<2; j++){
+				await makeOptionPassages(j)
+			}
+			normalIndex+=1
+		}
+	}
+	async function makeOptionPassages(index){
+		debugger;
+		await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
+			type: 'createPassage',
+			storyId: story.id,
+			props: {
+				left : 100*(1+normalIndex), 
+				name : (1000-optionIndex).toString(), 
+				top : 100*(1+optionIndex), 
+				passageType : "optionPassage", 
+				parentOfOption : "", 
+				width : 75, 
+				height : 75, 
+				optionVisibleName : (1000-optionIndex).toString(),
+				options : [],
+				text : "[["+(1+normalIndex+index)+"]]"
+			}
+		});
+		optionIndex+=1
+	}
+	// options.push(
+				// 	{
+				// 		pk : "",
+				// 		optionVisibleName : "옵션",
+				// 		name: j.toString(),
+				// 		afterStory: "애프터 스토리",
+				// 		status1: "",
+				// 		status1Num: 0,
+				// 		status2: "",
+				// 		status2Num: 0,
+				// 		nextNormalPassage : ""
+				// 	}
+				// )
 
 	return (
 		<ButtonBar>
@@ -311,6 +377,18 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 						variant="primary"
 					/>
 				</CardContent>
+			</CardButton>
+			<CardButton
+				label={"passage 목록 제작하기"}
+				onClick={function(){
+					debugger;
+					makeNormalPassages()}
+				}
+				ariaLabel={''}
+				disabled={false}
+				icon={<IconDisc/>}
+				onChangeOpen={() => {}}
+			>
 			</CardButton>
 		</ButtonBar>
 	);
