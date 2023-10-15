@@ -11,14 +11,20 @@ import { health_class } from './component/right_ui';
 import { money_class } from './component/right_ui';
 import { hungry_class } from './component/right_ui';
 
-
-
 export let current_status: Status;
 
-function getNextStoryAndPassages(){
-    axios({
-        method : "POST"
-    })
+async function getNextStoryAndPassages(lastStoryArr: string[]){
+    const response = await axios({
+        method : "POST",
+        url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
+        data: {
+            genre: 1,
+            lastStoryArr: lastStoryArr,
+        }
+    });
+
+    const data = response.data;
+    return data;
 }
 
 export const GameManager : React.FC<MainProps> = (props) => {
@@ -62,6 +68,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
     let isEnd = false;
     let isTypingEnd = false;
     let status_change: Status[];
+
 
     function wait(timeToDelay){
         return new Promise((resolve) => setTimeout(resolve, timeToDelay))
