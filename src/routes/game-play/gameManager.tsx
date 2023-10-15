@@ -1,5 +1,5 @@
 import React, { MutableRefObject } from "react";
-import { Status } from "../../store/stories/status.types";
+import { Status, MainProps, Episode, Option_Texts } from "../../store/stories/gameManager.types";
 import heartLogo from "../../styles/image/heart.png"
 import heartBLogo from "../../styles/image/heart_b.png"
 import hungryLogo from "../../styles/image/hungry.png"
@@ -11,86 +11,76 @@ import { health_class } from './component/right_ui';
 import { money_class } from './component/right_ui';
 import { hungry_class } from './component/right_ui';
 
-interface Episode {
-    Episode_Text: EpisodeText,
-    Option_Stat_Changes: Status[],
-    Option_Texts: Option_Texts[]
-}
-
-interface EpisodeText {
-    id: number,
-    main_text: string,
-    mode: number,
-    title: string
-}
-
-
-
-interface Option_Texts {
-    text: string,
-    result_text: string
-};
-
-
-let main_episode: Episode[];
-let normal_episode : Episode;
-
-let maxHealth: number = 5;
-let maxHungry: number = 5;
-
-
-let body_text: string;
-let option_text: Option_Texts[];
-let input_result: any = [];
-
-let current_episode_num: number = 0;
-let main_episode_num: number = 0;
-
-let split_txt: string[];
-let stop_typing_time: number;
-let click: boolean;
-let typingIdx: number;
-let height_multiple: number;
-let main_text_view_basic_size: number;
-let normal_episode_num = 1;
-const end_episode_num = 11;
-let isEnd = false;
-let typing_end;
-let status_change: Status[];
-
 export let current_status: Status;
 
-type MainProps = {
-    episode_text : React.MutableRefObject<any>,
-    text_view : React.MutableRefObject<any>,
-    main_text_view : React.MutableRefObject<any>,
-    episode_option : React.MutableRefObject<any>,
-    episode_result_text : React.MutableRefObject<any>,
-    episode_result_option : React.MutableRefObject<any>,
-    header_text_view : React.MutableRefObject<any>,
-    episode_title : React.MutableRefObject<any>,
-    episode_number_text : React.MutableRefObject<any>,
+async function getNextStoryAndPassages(currentStat: Status, lastStoryArr: string[]){
+    const response = await axios({
+        method : "POST",
+        url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
+        data: {
+            genre: 1,
+            //currentStat: currentStat,
+            lastStoryArr: lastStoryArr,
+        }
+    });
+
+    const data = response.data;
+    return data;
 }
 
-export const GamePlay : React.FC<MainProps> = (props) => {
-
-    let episode_text = props.episode_text
-    let text_view = props.text_view
-    let main_text_view = props.main_text_view
-    let episode_option = props.episode_option
-    let episode_result_text = props.episode_result_text
-    let episode_result_option = props.episode_result_option
-    let header_text_view = props.header_text_view
-    let episode_title = props.episode_title
-    let episode_number_text = props.episode_number_text
+export const GameManager : React.FC<MainProps> = (props) => {
+    let episode_text_div = props.episode_text_div
+    let text_view_div = props.text_view_div
+    let main_text_view_div = props.main_text_view_div
+    let episode_option_div = props.episode_option_div
+    let episode_result_text_div = props.episode_result_text_div
+    let episode_result_option_div = props.episode_result_option_div
+    let header_text_view_div = props.header_text_view_div
+    const [episodeTitle, setEpisodeTitle] = props.episodeTitleState;
+    const [episodeNumberText, setEpisodeNumberText] = props.episodeNumberTextState
+    const [episodeText, setEpisodeText] = props.episodeTextState
+    const [episodeResultText, setEpisodeResultText] = props.episodeResultText
 
     
+    let print_txt : string = episodeText;
+    let result_txt : string = episodeResultText;
+    
+    let main_episode: Episode[];
+    let normal_episode : Episode;
+
+    let maxHealth: number = 5;
+    let maxHungry: number = 5;
+
+    let body_text: string;
+    let option_text: Option_Texts[];
+
+    let current_episode_num: number = 0;
+    let main_episode_num: number = 0;
+
+    let split_txt_arr: string[];
+    let stop_typing_time: number;
+    let click: boolean;
+    let typingIdx: number;
+    let height_multiple: number;
+    let basicSize_of_textViewDiv : number
+    let basicSize_of_mainTextViewDiv: number;
+    let normal_episode_num = 1;
+    const end_episode_num = 11;
+    let isEnd = false;
+    let isTypingEnd = false;
+    let status_change: Status[];
+
+
+    function wait(timeToDelay){
+        return new Promise((resolve) => setTimeout(resolve, timeToDelay))
+    } //timeToDelay만큼 코드를 대기시키는 함수
+
     async function game_start() {
         console.log('게임 스타트 함수 진입');
 
         await getMainEpisodeDataFromDB();
         await getCurrentStatusFromDB();
-        setTimeout(start_episode, 3000);
+        setTimeout(start_episode, 2000);
     };
 
     function start_episode() {
@@ -98,14 +88,15 @@ export const GamePlay : React.FC<MainProps> = (props) => {
         click = false;
         typingIdx = 0;
         height_multiple = 1;
-        main_text_view_basic_size = main_text_view.current.clientHeight;
+        basicSize_of_textViewDiv = text_view_div.current.clientHeight;
+        basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
         // 여기서 에러 발생
-        split_txt = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
-        text_view.current.addEventListener("click", click_on);
+        split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
+        text_view_div.current.addEventListener("click", click_on);
 
 
         let promise = async function () {
-            for (typing_end = false; typing_end === false;) {
+            for (isTypingEnd = false; isTypingEnd === false;) {
                 await new Promise<void>((resolve, reject) => {
                     //episode 타이핑 시작
                     setTimeout(function () {
@@ -133,22 +124,23 @@ export const GamePlay : React.FC<MainProps> = (props) => {
     function typing_episode() {
         //클릭을 안했다면 수행
         if (click !== true) {
-            if (typingIdx < split_txt.length) {
+            if (typingIdx < split_txt_arr.length) {
                 // 타이핑될 텍스트 길이만큼 반복
                 if (stop_typing_time !== 0) {
                     stop_typing_time -= 1;
                 }
                 else {
-                    episode_text.current.innerHTML += (split_txt[typingIdx])
-                    if (split_txt[typingIdx] === ".") {
+                    print_txt += split_txt_arr[typingIdx]
+                    setEpisodeText(print_txt)
+                    if (split_txt_arr[typingIdx] === ".") {
                         stop_typing_time = 10; //온점이 나오면 10번의 반복 기간동안 쉼
                     }
                     typingIdx++;
 
                     //글자가 페이지를 넘어간다면
-                    if (text_view.current.clientHeight * height_multiple < episode_text.current.clientHeight + header_text_view.current.clientHeight) {
-                        episode_text.current.innerText = episode_text.current.innerText.slice(0, -1);
-                        main_text_view.current.style.height = `${(text_view.current.clientHeight * height_multiple + main_text_view_basic_size)}px`;
+                    if (text_view_div.current.clientHeight * height_multiple < episode_text_div.current.clientHeight + header_text_view_div.current.clientHeight) {
+                        // setEpisodeText(print_txt.slice(0,-1));
+                        main_text_view_div.current.style.height = `${(text_view_div.current.clientHeight * height_multiple + basicSize_of_mainTextViewDiv)}px`;
                         moveScrollBottom();
                         stop_typing_time = 30;
                         height_multiple++;
@@ -156,16 +148,15 @@ export const GamePlay : React.FC<MainProps> = (props) => {
                 }
             }
             else {
-                typing_end = true;
+                isTypingEnd = true;
             }
         }
         //클릭을 했다면 탈출
         else {
-            typing_end = true;
-            body_text = body_text.replace(/\t/g, "&nbsp;");
-            body_text = body_text.replace(/\n/g, "<br><br>");
-            episode_text.current.innerHTML = body_text;
-            text_view.current.removeEventListener("click", click_on);
+            isTypingEnd = true;
+            print_txt = body_text
+            setEpisodeText(body_text);
+            text_view_div.current.removeEventListener("click", click_on);
         }
     }
 
@@ -179,30 +170,30 @@ export const GamePlay : React.FC<MainProps> = (props) => {
             optionDiv[i].id = `${i}`;
             optionDiv[i].innerText = option_text[i].text;
             optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
-            episode_option.current.appendChild(optionDiv[i]);
+            episode_option_div.current.appendChild(optionDiv[i]);
+            // console.log(optionDiv[i].current.clientHeight)
         }
+        episode_option_div.current.classList.remove("hidden");
+        const episodeOptionDivHeight = episode_option_div.current.clientHeight
+        const headerTextViewDivHeight = header_text_view_div.current.clientHeight
+        episode_text_div.current.style.height = `${basicSize_of_textViewDiv - episodeOptionDivHeight - headerTextViewDivHeight}px`;
 
-        episode_option.current.classList.remove("hidden");
     }
 
     function makeResultText(optionId: number) {
-        episode_result_text.current.classList.remove("hidden");
-
+        episode_result_text_div.current.classList.remove("hidden");
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
         axios.patch(`${process.env.REACT_APP_API_URL}/game_play/changestatus/3`,
             {
                 //db에 스탯 변화량 기록
                 "changed_health": status_change[optionId].health,
                 "changed_money": status_change[optionId].money,
-                "changed_hungry": status_change[optionId].hungry,
-                "changed_strength": status_change[optionId].strength,
-                "changed_agility": status_change[optionId].agility,
-                "changed_armour": status_change[optionId].armour,
-                "changed_mental": status_change[optionId].mental
+                "changed_hungry": status_change[optionId].hungry
             })
             .then((res) => 
             {
-                episode_result_text.current.innerHTML += "<br>" + option_text[optionId].result_text + "<br><br>";
+                result_txt += "\n" + option_text[optionId].result_text + "\n\n"
+                setEpisodeResultText(result_txt);
                 let isStatChanged = false;
                 //stat 증가량 텍스트 입력
                 for (let statName in status_change[optionId]) {
@@ -210,45 +201,45 @@ export const GamePlay : React.FC<MainProps> = (props) => {
                         isStatChanged = true;
                         let statMessage;
                         switch(statName){
-                            case 'health_change':
+                            case 'health':
                                 statMessage="체력이"
                                 break;
-                            case 'money_change':
+                            case 'money':
                                 statMessage="돈이"
                                 break;
-                            case 'hungry_change':
+                            case 'hungry':
                                 statMessage="허기가"
                                 break;
-                            case 'strength_change':
+                            case 'strength':
                                 statMessage="근력이"
                                 break;
-                            case 'agility_change':
+                            case 'agility':
                                 statMessage="민첩이"
                                 break;
-                            case 'armour_change':
+                            case 'armour':
                                 statMessage="방어가"
                                 break;
-                            case 'mental_change':
+                            case 'mental':
                                 statMessage="정신력이"
                                 break;
                         }
-                        if (status_change[optionId][statName] < 0)
-                            episode_result_text.current.innerHTML += statMessage + " " + status_change[optionId][statName] + "만큼 줄었습니다\n";
-                        else
-                            episode_result_text.current.innerHTML += statMessage + status_change[optionId][statName] + "만큼 늘었습니다\n";
+                        if (status_change[optionId][statName] < 0){
+                            result_txt += statMessage + " " + status_change[optionId][statName] + "만큼 줄었습니다\n"
+                            setEpisodeResultText(result_txt);
+                        }
+                        else{
+                            result_txt += statMessage + status_change[optionId][statName] + "만큼 늘었습니다\n"
+                            setEpisodeResultText(result_txt);
+                        }
                     }
                 }
 
                 current_status.health += status_change[optionId].health;
                 current_status.hungry += status_change[optionId].hungry;
                 current_status.money += status_change[optionId].money;
-                current_status.strength += status_change[optionId].strength;
-                current_status.agility += status_change[optionId].agility;
-                current_status.armour += status_change[optionId].armour;
-                current_status.mental += status_change[optionId].mental;
 
                 makeResultOptionDiv();
-                episode_result_text.current.style.height = `${(text_view.current.clientHeight) - (episode_result_option.current.clientHeight)}px`;
+                episode_result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (episode_result_option_div.current.clientHeight)}px`;
                 moveScrollBottom();
                 //ui 업데이트
                 if(isStatChanged)
@@ -271,9 +262,9 @@ export const GamePlay : React.FC<MainProps> = (props) => {
                 window.location.href = '/select';
             });
         }
-        episode_result_option.current.appendChild(resultDiv);
+        episode_result_option_div.current.appendChild(resultDiv);
 
-        episode_result_option.current.classList.remove("hidden");
+        episode_result_option_div.current.classList.remove("hidden");
 
         moveScrollBottom();
         height_multiple++;
@@ -303,7 +294,7 @@ export const GamePlay : React.FC<MainProps> = (props) => {
             getNormalEpisodeDataFromDB();
         }
 
-        setTimeout(function () { start_episode() }, 1500)
+        // setTimeout(function () { start_episode() }, 1500)
     }
 
     function update_rightUI() {
@@ -398,19 +389,21 @@ export const GamePlay : React.FC<MainProps> = (props) => {
     }
 
     function moveScrollBottom() {
-        let location = text_view.current.scrollHeight;
-        text_view.current.scrollTo({ top: location, behavior: "smooth" });
+        let location = text_view_div.current.scrollHeight;
+        text_view_div.current.scrollTo({ top: location, behavior: "smooth" });
     }
 
     function resetTextDiv() {
-        episode_text.current.innerText = "";
-        episode_option.current.innerHTML = "";
-        episode_result_text.current.innerHTML = "";
-        episode_result_option.current.innerHTML = "";
-        main_text_view.current.style.height = "auto";
-        episode_option.current.classList.add("hidden");
-        episode_result_text.current.classList.add("hidden");
-        episode_result_option.current.classList.add("hidden");
+        print_txt = ""
+        setEpisodeText("");
+        episode_option_div.current.innerHTML = "";
+        result_txt = ""
+        setEpisodeResultText("");
+        episode_result_option_div.current.innerHTML = "";
+        main_text_view_div.current.style.height = "auto";
+        episode_option_div.current.classList.add("hidden");
+        episode_result_text_div.current.classList.add("hidden");
+        episode_result_option_div.current.classList.add("hidden");
     }
 
     async function getMainEpisodeDataFromDB() {
@@ -453,11 +446,10 @@ export const GamePlay : React.FC<MainProps> = (props) => {
         else if(episode_type === 'normal'){
             current_episode = normal_episode;
         }
-
         //episode_number
-        episode_number_text.current.innerText = '#' + current_episode.Episode_Text.id;
+        setEpisodeNumberText(current_episode.Episode_Text.id);
         //episode_title
-        episode_title.current.innerText = current_episode.Episode_Text.title;
+        setEpisodeTitle(current_episode.Episode_Text.title);
 
         body_text = current_episode.Episode_Text.main_text;
 
