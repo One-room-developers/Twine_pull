@@ -34,7 +34,7 @@ const InnerBottomStatUI : React.FC = () => {
                 </div>
                 <div className="stat-all-container">
                     <div className="cristal-div">
-                    {StatIconPusher(20, current_status.strength)}
+                    {/* {StatIconPusher(20, current_status.strength)} */}
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@ const InnerBottomStatUI : React.FC = () => {
                 </div>
                 <div className="stat-all-container">
                     <div className="cristal-div">
-                    {StatIconPusher(20, current_status.agility)}
+                    {/* {StatIconPusher(20, current_status.agility)} */}
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@ const InnerBottomStatUI : React.FC = () => {
                 </div>
                 <div className="stat-all-container">
                     <div className="cristal-div">
-                    {StatIconPusher(20, current_status.armour)}
+                    {/* {StatIconPusher(20, current_status.armour)} */}
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@ const InnerBottomStatUI : React.FC = () => {
                 </div>
                 <div className="stat-all-container">
                     <div className="cristal-div">
-                    {StatIconPusher(20, current_status.mental)}
+                    {/* {StatIconPusher(20, current_status.mental)} */}
                     </div>
                 </div>
             </div>
