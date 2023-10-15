@@ -144,13 +144,13 @@ export const StoryInfoRoute: React.FC = () => {
     const {isLoading:isStoryLoading, data:storyData} = useQuery<IStory>(["storyInfo", storyId], ()=> getStoryByPk(storyId));//페이지 인자로 받아야됨
     const {isLoading:isPassageLoading, data:passageData} = useQuery<IPassage[]>(["passageInfo", storyId], ()=> getUploadedPassagesApi(storyId));//페이지 인자로 받아야됨
 
+    console.log("storyId: ", storyId);
+
     if (isStoryLoading){
         console.log("storyData: ", storyData);
-        debugger;
     }
     if (isPassageLoading){
         console.log("passageData: ", passageData);
-        debugger;
     }
     return (
         <Container>
