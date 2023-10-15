@@ -42,10 +42,10 @@ export const PopularEpi:React.FC = () => {
             
             <SidePostContentsContainer>
                 {
-                likeEpisode?.map(episode =>
-                    <SidePostContents key={episode.id}>
+                likeEpisode?.map((episode, index) =>
+                    <SidePostContents key={index}>
                         <SidePostTitle>
-                            <Link to={"/game-upload/1"}>
+                            <Link to={`/storyInfo/${episode.id}`}>
                                 {episode.title}
                             </Link>
                         </SidePostTitle>

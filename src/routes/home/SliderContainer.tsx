@@ -14,6 +14,12 @@ const SlideContents = styled.div`
     width: 800px;
     height: 450px;
 `
+const ExplainH3 = styled.h3`
+    font-size: 45px;
+    font-family: "godicM";
+    display: flex;
+    justify-content: center;
+`
 
 function SliderContainer(){
     var settings = {
@@ -29,13 +35,13 @@ function SliderContainer(){
         <Outer>
             <Slider {...settings}>
                 <SlideContents>
-                    <h3>1</h3>
+                    <ExplainH3>1</ExplainH3>
                 </SlideContents>
                 <SlideContents>
-                    <h3>2</h3>
+                    <ExplainH3>2</ExplainH3>
                 </SlideContents>
                 <SlideContents>
-                    <h3>3</h3>
+                    <ExplainH3>3</ExplainH3>
                 </SlideContents>
             </Slider>
         </Outer>
