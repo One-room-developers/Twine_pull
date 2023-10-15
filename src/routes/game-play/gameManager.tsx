@@ -20,6 +20,9 @@ let currentPassage : NextPassage = null;
 let nextPassageName : string = null;
 let body_text: string;
 let status_change: Status[];
+let isGameStart = true;
+let isGameOver = false;
+let isStoryEnd = false;
 
 export let current_status: Status = {
     health : 3,
@@ -41,10 +44,8 @@ export const GameManager : React.FC<MainProps> = (props) => {
     const [passageText, setPassageText] = props.passageTextState
     const [resultText, setResultText] = props.resultTextState
     
-    const [isGameStart, setIsGameStart] = useState(true);
     const [isPassageEnd, setIsPassageEnd] = useState(false);
-    const [isGameOver, setIsGameOver] = useState(false);
-    const [isStoryEnd, setIsStoryEnd] = useState(false);
+
     let isTypingEnd = false;
 
     // const [lastStoryArr, setLastStoryArr] = useState<string[]>([]) 
@@ -82,14 +83,15 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
 
     async function game_start() {
+        debugger;
         console.log('게임 스타트 함수 진입');
         //db 업데이트
         if(isGameStart === true || isStoryEnd === true){
             await getNextStoryAndPassages(current_status, lastStoryArr);
             // await getMainEpisodeDataFromDB();
             // await getCurrentStatusFromDB();
-            setIsGameStart(false)
-            setIsStoryEnd(false)
+            isGameStart = false
+            isStoryEnd = false
         }
         
 
@@ -101,7 +103,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
         height_multiple = 1;
         basicSize_of_textViewDiv = text_view_div.current.clientHeight;
         basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
-        debugger;
         split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view_div.current.addEventListener("click", click_on);
 
@@ -122,12 +123,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 })
             }
             //episode 타이핑이 끝난 후
-            if (!isGameOver) {
-                makeOptionDiv();
-            }
-            else {
-                makeResultOptionDiv();
-            }
+            makeOptionDiv();
         }
         promise();
     }
@@ -172,20 +168,34 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function makeOptionDiv() {
+        
+        
         let optionDiv = [];
-        currentOptions.forEach((option, i) => {
-            optionDiv[i] = document.createElement('div');
-            optionDiv[i].className = "option_div"
-            optionDiv[i].id = `${i}`;
-            optionDiv[i].innerText = option.optionVisibleName;
-            optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
-            options_div.current.appendChild(optionDiv[i]);
-        })
-        options_div.current.classList.remove("hidden");
-        const episodeOptionDivHeight = options_div.current.clientHeight
-        const headerTextViewDivHeight = header_text_view_div.current.clientHeight
-        passage_text_div.current.style.height = `${basicSize_of_textViewDiv - episodeOptionDivHeight - headerTextViewDivHeight}px`;
 
+        if(!isGameOver){
+            currentOptions.forEach((option, i) => {
+                optionDiv[i] = document.createElement('div');
+                optionDiv[i].className = "option_div"
+                optionDiv[i].id = `${i}`;
+                optionDiv[i].innerText = option.optionVisibleName;
+                optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
+                options_div.current.appendChild(optionDiv[i]);
+            })
+        }
+        else {
+            optionDiv[0] = document.createElement('div');
+            optionDiv[0].className = "option_div"
+            optionDiv[0].id = `${0}`;
+            optionDiv[0].innerText += "로비로 . . .";
+            optionDiv[0].addEventListener('click', function onClick() {
+                window.location.href = '/select';
+            });
+            options_div.current.appendChild(optionDiv[0]);
+        }
+        options_div.current.classList.remove("hidden");
+        const optionsDivHeight = options_div.current.clientHeight
+        const headerTextViewDivHeight = header_text_view_div.current.clientHeight
+        passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
     }
 
     function makeResultText(optionIndex: number) {
@@ -258,12 +268,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
             resultDiv.innerText += "다음으로 . . .";
             resultDiv.addEventListener('click', (e: any) => { passageEnd() });
         }
-        else {
-            resultDiv.innerText += "로비로 . . .";
-            resultDiv.addEventListener('click', function onClick() {
-                window.location.href = '/select';
-            });
-        }
         result_option_div.current.appendChild(resultDiv);
 
         result_option_div.current.classList.remove("hidden");
@@ -278,18 +282,21 @@ export const GameManager : React.FC<MainProps> = (props) => {
         current_episode_num += 1;
 
         if (current_status.health <= 0 || current_status.hungry <= 0){
-            setIsGameOver(true)
+            isGameOver = true
+            setPassageTitle("게임 오버");
+            body_text = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
+        }else{
+            if (nextPassageName !== null){
+                currentPassage = passages.find(passage => (passage.name === nextPassageName))
+                currentOptions = getCurrentOptions(passages, currentPassage, options);        
+                setValues();
+            }
+            else{
+                isStoryEnd = true
+                lastStoryArr.push(story.pk)
+            }
         }
-        if (nextPassageName !== null){
-            currentPassage = passages.find(passage => (passage.name === nextPassageName))
-            currentOptions = getCurrentOptions(passages, currentPassage, options);        
-            setValues();
-        }
-        else{
-            setIsStoryEnd(true)
-            lastStoryArr.push(story.pk)
-        }
-        setIsPassageEnd(true);
+        setIsPassageEnd(true)
     }
 
     function update_rightUI() {
@@ -469,7 +476,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
             }
         })
         status_change = dummyStatusChange;
-        debugger;
     }
 
     function getOptions(data : NextStoryAndPassages){
@@ -497,7 +503,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
     }
     function getCurrentOptions(passages : NextPassage[], currentPassage : NextPassage, options : NextOption[][]) : NextOption[]{
-        debugger;
         let i = 0
         passages.forEach((passage, index) => {
             if(currentPassage.name === passage.name){
