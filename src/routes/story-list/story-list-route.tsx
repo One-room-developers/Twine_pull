@@ -30,6 +30,7 @@ import RequestLoginInfo from '../select/components/requestLoginInfo';
 import {checkAccessToken} from '../authApi';
 import { StateLoader } from '../../store/state-loader';
 import { DataBaseLoader } from '../../store/database/DataBaseLoader';
+import { LoadingCurtain } from '../../components/loading-curtain';
 
 
 export const InnerStoryListRoute: React.FC = () => {
@@ -125,43 +126,52 @@ export const InnerStoryListRoute: React.FC = () => {
 
 export const StoryListRoute: React.FC = () => {
 	const [isLogin, setIsLogin] = React.useState(false);
+	const [isCheckLogin, setIsCheckLogin]  = React.useState(false);
 	const history = useHistory();
 
 	React.useEffect(() => {
-        async function checkLogin() {
+        async function checkLogin() 
+		{
             if(await checkAccessToken() === true){
                 setIsLogin(true);
             }
             else{
                 setIsLogin(false);
             }
+			setIsCheckLogin(true);
         }
 
         checkLogin();  
     }, []);
 
 	return (
-		(isLogin === true) ? (
-			<DataBaseLoader>
-				<StateLoader>
-				<UndoableStoriesContextProvider>
-					<DialogsContextProvider>
-						<InnerStoryListRoute />
-					</DialogsContextProvider>
-				</UndoableStoriesContextProvider>	
-				</StateLoader>
-			</DataBaseLoader>
-		) : (
-			<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
-				context2="로그인 후 이용해주세요." 
-				firstBtnText="홈 페이지로"
-				secondBtnText="로그인 페이지로"
-				onGuestMode={
-					function(e){
-						history.push("/");
+		(isCheckLogin) ? (
+			(isLogin === true) ? (
+				<DataBaseLoader>
+					<StateLoader>
+					<UndoableStoriesContextProvider>
+						<DialogsContextProvider>
+							<InnerStoryListRoute />
+						</DialogsContextProvider>
+					</UndoableStoriesContextProvider>	
+					</StateLoader>
+				</DataBaseLoader>
+			) : (
+				<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
+					context2="로그인 후 이용해주세요." 
+					firstBtnText="홈 페이지로"
+					secondBtnText="로그인 페이지로"
+					onGuestMode={
+						function(e){
+							history.push("/");
+						}
 					}
-				}
-			/>
+				/>
+			)
+		) : 
+		(
+			<LoadingCurtain />
 		)
+		
 	)
 };
