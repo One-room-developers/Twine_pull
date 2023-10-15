@@ -11,8 +11,21 @@ import { health_class } from './component/right_ui';
 import { money_class } from './component/right_ui';
 import { hungry_class } from './component/right_ui';
 
+let lastStoryArr : string[] = [];
+let story : NextStory = null;
+let passages : NextPassage[] = null;
+let options : NextOption[][] = null; ;
+let currentOptions : NextOption[] = null;
+let currentPassage : NextPassage = null;
+let nextPassageName : string = null;
+let body_text: string;
+let status_change: Status[];
 
-export let current_status: Status;
+export let current_status: Status = {
+    health : 3,
+    hungry : 3,
+    money : 3
+};
 
 
 export const GameManager : React.FC<MainProps> = (props) => {
@@ -27,12 +40,20 @@ export const GameManager : React.FC<MainProps> = (props) => {
     const [storyName, setStoryName] = props.storyTitleState
     const [passageText, setPassageText] = props.passageTextState
     const [resultText, setResultText] = props.resultTextState
-    const [isPassageEnd, setIsPassageEnd] = useState(false);
     
-    let isGameStart = true;
-    let isGameOver = false;
-    let isStoryEnd = false;
+    const [isGameStart, setIsGameStart] = useState(true);
+    const [isPassageEnd, setIsPassageEnd] = useState(false);
+    const [isGameOver, setIsGameOver] = useState(false);
+    const [isStoryEnd, setIsStoryEnd] = useState(false);
     let isTypingEnd = false;
+
+    // const [lastStoryArr, setLastStoryArr] = useState<string[]>([]) 
+    // const [story, setStory] = useState<NextStory>(null)
+    // const [passages, setPassages] = useState<NextPassage[]>(null) 
+    // const [options, setOptions] = useState<NextOption[][]>(null) 
+    // const [currentOptions, setCurrentOptions] = useState<NextOption[]>(null)
+    // const [currentPassage, setCurrentPassage] = useState<NextPassage>(null)
+    // const [nextPassageName, setNextPassageName] = useState<string>(null)
 
     let print_txt : string = passageText;
     let result_txt : string = resultText;
@@ -43,7 +64,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     let maxHealth: number = 5;
     let maxHungry: number = 5;
 
-    let body_text: string;
     // let option_text: Option_Texts[];
 
     let current_episode_num: number = 0;
@@ -56,33 +76,24 @@ export const GameManager : React.FC<MainProps> = (props) => {
     let height_multiple: number;
     let basicSize_of_textViewDiv : number
     let basicSize_of_mainTextViewDiv: number;
-    let status_change: Status[];
 
 
-    let lastStoryArr : string[] = [];
-    let story : NextStory = null;
-    let passages : NextPassage[] = null;
-    let options : NextOption[][] = null; ;
-    let currentOptions : NextOption[] = null;
-    let currentPassage : NextPassage = null;
-    let nextPassageName : string = null;
+
 
 
     async function game_start() {
-        
         console.log('게임 스타트 함수 진입');
-        
         //db 업데이트
         if(isGameStart === true || isStoryEnd === true){
-            debugger;
-            isGameStart = false;
             await getNextStoryAndPassages(current_status, lastStoryArr);
             // await getMainEpisodeDataFromDB();
             // await getCurrentStatusFromDB();
-            isStoryEnd = false;
+            setIsGameStart(false)
+            setIsStoryEnd(false)
         }
+        
 
-        wait(2000);
+        await wait(2000);
 
         stop_typing_time = 0;
         click = false;
@@ -90,13 +101,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
         height_multiple = 1;
         basicSize_of_textViewDiv = text_view_div.current.clientHeight;
         basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
-        // 여기서 에러 발생
+        debugger;
         split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
         text_view_div.current.addEventListener("click", click_on);
 
 
         let promise = async function () {
-            for (isTypingEnd = false; isTypingEnd === false;) {
+            while(isTypingEnd === false) {
                 await new Promise<void>((resolve, reject) => {
                     //episode 타이핑 시작
                     setTimeout(function () {
@@ -148,12 +159,12 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 }
             }
             else {
-                isTypingEnd = true;
+                isTypingEnd =true
             }
         }
         //클릭을 했다면 탈출
         else {
-            isTypingEnd = true;
+            isTypingEnd =true
             print_txt = body_text
             setPassageText(body_text);
             text_view_div.current.removeEventListener("click", click_on);
@@ -182,68 +193,60 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //다음 passage 미리 설정
         nextPassageName = currentOptions[optionIndex].nextNormalPassage;
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
-        axios.patch(`${process.env.REACT_APP_API_URL}/game_play/changestatus/3`,
-            {
-                //db에 스탯 변화량 기록
-                "changed_health": status_change[optionIndex].health,
-                "changed_money": status_change[optionIndex].money,
-                "changed_hungry": status_change[optionIndex].hungry
-            })
-            .then((res) => 
-            {
-                result_txt += "\n" + currentOptions[optionIndex].afterStory + "\n\n"
-                setResultText(result_txt);
-                let isStatChanged = false;
-                //stat 증가량 텍스트 입력
-                for (let statName in status_change[optionIndex]) {
-                    if (status_change[optionIndex][statName] != 0) {
-                        isStatChanged = true;
-                        let statMessage;
-                        switch(statName){
-                            case 'health':
-                                statMessage="체력이"
-                                break;
-                            case 'money':
-                                statMessage="돈이"
-                                break;
-                            case 'hungry':
-                                statMessage="허기가"
-                                break;
-                            case 'strength':
-                                statMessage="근력이"
-                                break;
-                            case 'agility':
-                                statMessage="민첩이"
-                                break;
-                            case 'armour':
-                                statMessage="방어가"
-                                break;
-                            case 'mental':
-                                statMessage="정신력이"
-                                break;
-                        }
-                        if (status_change[optionIndex][statName] < 0){
-                            result_txt += statMessage + " " + status_change[optionIndex][statName] + "만큼 줄었습니다\n"
-                            setResultText(result_txt);
-                        }
-                        else{
-                            result_txt += statMessage + status_change[optionIndex][statName] + "만큼 늘었습니다\n"
-                            setResultText(result_txt);
-                        }
-                    }
+
+        result_txt += "\n" + currentOptions[optionIndex].afterStory + "\n\n"
+        setResultText(result_txt);
+        let isStatChanged = false;
+
+        //stat 증가량 텍스트 입력
+        for (let statName in status_change[optionIndex]) {
+            if (status_change[optionIndex][statName] != 0) {
+                isStatChanged = true;
+                let statMessage;
+                switch(statName){
+                    case 'health':
+                        statMessage="체력이"
+                        break;
+                    case 'money':
+                        statMessage="돈이"
+                        break;
+                    case 'hungry':
+                        statMessage="허기가"
+                        break;
+                    case 'strength':
+                        statMessage="근력이"
+                        break;
+                    case 'agility':
+                        statMessage="민첩이"
+                        break;
+                    case 'armour':
+                        statMessage="방어가"
+                        break;
+                    case 'mental':
+                        statMessage="정신력이"
+                        break;
                 }
+                if (status_change[optionIndex][statName] < 0){
+                    result_txt += statMessage + " " + status_change[optionIndex][statName] + "만큼 줄었습니다\n"
+                    setResultText(result_txt);
+                }
+                else{
+                    result_txt += statMessage + status_change[optionIndex][statName] + "만큼 늘었습니다\n"
+                    setResultText(result_txt);
+                }
+            }
+        }
+        current_status.health += status_change[optionIndex].health;
+        current_status.hungry += status_change[optionIndex].hungry;
+        current_status.money += status_change[optionIndex].money;
 
-                current_status.health += status_change[optionIndex].health;
-                current_status.hungry += status_change[optionIndex].hungry;
-                current_status.money += status_change[optionIndex].money;
-
-                makeResultOptionDiv();
-                result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (result_option_div.current.clientHeight)}px`;
-                moveScrollBottom();
-                //ui 업데이트
-                if(isStatChanged)
-                    update_rightUI();
-            })
+        makeResultOptionDiv();
+        result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (result_option_div.current.clientHeight)}px`;
+        moveScrollBottom();
+        //ui 업데이트
+        if(isStatChanged)
+            update_rightUI();
+            
     }
 
     function makeResultOptionDiv() {
@@ -275,14 +278,16 @@ export const GameManager : React.FC<MainProps> = (props) => {
         current_episode_num += 1;
 
         if (current_status.health <= 0 || current_status.hungry <= 0){
-            isGameOver = true;
+            setIsGameOver(true)
         }
-
         if (nextPassageName !== null){
             currentPassage = passages.find(passage => (passage.name === nextPassageName))
+            currentOptions = getCurrentOptions(passages, currentPassage, options);        
+            setValues();
         }
         else{
-            isStoryEnd = true;
+            setIsStoryEnd(true)
+            lastStoryArr.push(story.pk)
         }
         setIsPassageEnd(true);
     }
@@ -386,9 +391,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
     function resetTextDiv() {
         print_txt = ""
         setPassageText("");
+        setPassageTitle("")
+        setResultText("");
         options_div.current.innerHTML = "";
         result_txt = ""
-        setResultText("");
         result_option_div.current.innerHTML = "";
         main_text_view_div.current.style.height = "auto";
         options_div.current.classList.add("hidden");
@@ -397,12 +403,11 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
 
-    function wait(timeToDelay){
+    async function wait(timeToDelay){
         return new Promise((resolve) => setTimeout(resolve, timeToDelay))
     } //timeToDelay만큼 코드를 대기시키는 함수
 
     async function getNextStoryAndPassages(currentStat: Status, lastStoryArr: string[]){
-        debugger;
         const response = await axios({
             method : "POST",
             url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
@@ -420,12 +425,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
         options = getOptions(data);
         currentPassage = getStartPassage(story, passages);
         currentOptions = getStartOptions(story, passages, options)
-        debugger;
+        setValues();
+    }
+    function setValues(){
         //episode_number
         setStoryName(story.name);
         //episode_title
         setPassageTitle(currentPassage.name);
-
         body_text = currentPassage.visibleText;
 
         let dummyStatusChange : Status[] = []
@@ -445,6 +451,8 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 case "hungry" :
                     dummyStatusChange[index].hungry = option.status1Num
                     break;
+                default :
+                    console.log("잘못된 stat 입력 - "+option.status1)
             }
             switch(option.status2){
                 case "health" : 
@@ -456,9 +464,12 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 case "hungry" :
                     dummyStatusChange[index].hungry = option.status2Num
                     break;
+                default :
+                    console.log("잘못된 stat 입력 - "+option.status2)
             }
         })
         status_change = dummyStatusChange;
+        debugger;
     }
 
     function getOptions(data : NextStoryAndPassages){
@@ -485,12 +496,24 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 return options[i]
         }
     }
+    function getCurrentOptions(passages : NextPassage[], currentPassage : NextPassage, options : NextOption[][]) : NextOption[]{
+        debugger;
+        let i = 0
+        passages.forEach((passage, index) => {
+            if(currentPassage.name === passage.name){
+                i = index;
+                return;
+            }
+        })
+        return options[i];
+    }
 
     React.useEffect(() => 
         {
-            debugger;
-            setIsPassageEnd(false);
-            game_start()
+            if(isGameStart === true || isPassageEnd === true){
+                setIsPassageEnd(false);
+                game_start()
+            }
         }, [isPassageEnd]) 
 
     return (

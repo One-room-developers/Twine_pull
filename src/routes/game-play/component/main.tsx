@@ -14,7 +14,7 @@ export default function Main(props) {
     let result_option_div = React.useRef(null);
     let header_text_view_div = React.useRef(null);
     const [storyTitle, setStoryTitle] = React.useState("#");
-    const [passageTitle, setpassageTitle] = React.useState("불러오는 중");
+    const [passageTitle, setpassageTitle] = React.useState("");
     const [passageText, setpassageText] = React.useState("");
     const [resultText, setResultText] = React.useState("");
 

@@ -38,19 +38,19 @@ class CreateOption extends Component<Modes_props> {
                     <div>
                         <select className='select-dropdown' name='status1' required>
                             <option value="">(능력)</option>
+                            <option value="null">(없음)</option>
                             <option value="health">체력</option>
                             <option value="money">돈</option>
                             <option value="satiety">포만감</option>
-                            <option value="strength">힘</option>
+                            {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>
-                            <option value="mental">정신력</option>
+                            <option value="mental">정신력</option> */}
                         </select>
 
                         <select className='select-dropdown' name='amount_change1' required>
-                            <option value="">(변화량)</option>
-                            <option value="1">+1</option>
                             <option value="0">0</option>
+                            <option value="1">+1</option>
                             <option value="-1">-1</option>
                         </select>
                     </div>
@@ -64,10 +64,10 @@ class CreateOption extends Component<Modes_props> {
                             <option value="health">체력</option>
                             <option value="money">돈</option>
                             <option value="satiety">포만감</option>
-                            <option value="strength">힘</option>
+                            {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>
-                            <option value="mental">정신력</option>
+                            <option value="mental">정신력</option> */}
                         </select>
 
                         <select className='select-dropdown' name='amount_change2' required>
