@@ -1,6 +1,33 @@
 import axios from 'axios';
 
-export async function getStories(user_nickname:string){
+export async function getUploadedStoriesApi(genre:number){
+    const response = await axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story_list/${genre}`,
+    });
+    const data = await response.data;
+    return data;
+}
+
+export async function getUploadedPassagesApi(storyPk:string){
+    const response = await axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list/${storyPk}`,
+    });
+    const data = await response.data;
+    return data;
+}
+
+export async function getUploadedOptionsApi(passagePk:string){
+    const response = await axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list/${passagePk}`,
+    });
+    const data = await response.data;
+    return data;
+}
+
+export async function getMyStoriesApi(user_nickname:string){
     const response = await axios({
         method: "GET",
         url: `${process.env.REACT_APP_API_URL}/my_episode/get_story_list`,
@@ -12,13 +39,13 @@ export async function getStories(user_nickname:string){
     return data;
 }
 
-export async function getPassages(story_pk:string){
+export async function getMyPassagesApi(story_pk:string){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/my_episode/get_passage_list/${story_pk}`);
     const data = response.data;
     return data;
 }
 
-export async function getOptions(passage_pk:string){
+export async function getMyOptionsApi(passage_pk:string){
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/my_episode/get_option_list/${passage_pk}`);
     const data = response.data;
     return data;

@@ -6,7 +6,7 @@ import axios from 'axios';
 export async function createOption(option:option, normalPassagePk:string){
 	axios({
 		method: "POST",
-		url: `${process.env.REACT_APP_API_URL}/game_play/create_option`,
+		url: `${process.env.REACT_APP_API_URL}/make_episode/create_option`,
 		data: {
 			pk: option.pk,
 			normalPassagePk: normalPassagePk,
@@ -31,7 +31,7 @@ export async function updateOption(option:option) {
 
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_option/${option.pk}`,
+		url: `${process.env.REACT_APP_API_URL}/make_episode/update_option/${option.pk}`,
 		data: {
 			optionVisibleName: option.optionVisibleName,
 			name: option.name,
@@ -52,7 +52,7 @@ export async function updateOption(option:option) {
 
 export async function deleteOption(option: option) {
 	
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_option/${option.pk}`)
+	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_option/${option.pk}`)
 		.then((res) => {
 		})
 		.catch((error) => {
@@ -63,7 +63,7 @@ export async function deleteOption(option: option) {
 export async function createPassage(passage:Passage, story:Story){
 	axios({
 		method: "POST",
-		url: `${process.env.REACT_APP_API_URL}/game_play/create_passage`,
+		url: `${process.env.REACT_APP_API_URL}/make_episode/create_passage`,
 		data: {
 			pk: passage.pk,
 			id: passage.id,
@@ -102,7 +102,7 @@ export async function createPassage(passage:Passage, story:Story){
 export async function createStory(story:Story){
 		axios({
 			method: "POST",
-			url: `${process.env.REACT_APP_API_URL}/game_play/create_story`,
+			url: `${process.env.REACT_APP_API_URL}/make_episode/create_story`,
 			data: {
 				pk: story.pk,
 				id: story.id,
@@ -130,7 +130,7 @@ export async function createStory(story:Story){
 export async function updatePassage(passage:Passage){
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_passage/${passage.pk}`,
+		url: `${process.env.REACT_APP_API_URL}/make_episode/update_passage/${passage.pk}`,
 		data: {
 			parentOfOption: passage.parentOfOption,
 			name: passage.name,
@@ -160,7 +160,7 @@ export async function updatePassage(passage:Passage){
 export async function updateStory(story) {
 	axios({
 		method: "PATCH",
-		url: `${process.env.REACT_APP_API_URL}/game_play/update_story/${story.pk}`,
+		url: `${process.env.REACT_APP_API_URL}/make_episode/update_story/${story.pk}`,
 		data: {
 			level: story.level,
 			name: story.name,
@@ -183,7 +183,7 @@ export async function updateStory(story) {
 
 export async function deletePassage(passage: Passage, story : Story, state : StoriesState) {
 
-		axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_passage/${passage.pk}`)
+		axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_passage/${passage.pk}`)
 		.then((res) => {
 			if(passage.passageType === "optionPassage"){
 				const parentPassage = passageWithName(state, story.id, passage.parentOfOption);
@@ -202,7 +202,7 @@ export async function deletePassage(passage: Passage, story : Story, state : Sto
 
 export async function deleteStory(story: Story) {
 
-	axios.delete(`${process.env.REACT_APP_API_URL}/game_play/delete_story/${story.pk}`)
+	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_story/${story.pk}`)
 	.then((res) => {
 	})
 	.catch((error) => {
