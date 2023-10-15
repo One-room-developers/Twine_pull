@@ -25,7 +25,7 @@ import { StateLoader } from '../store/state-loader';
 
 
 export const Routes: React.FC = () => {
-	const [isDBLoading, setisDBLoading] = React.useState(false);
+	
 	//const {prefs} = usePrefsContext(); //store, 리덕스를 대체하기 위해 만든 훅
 	
 	// A <HashRouter> is used to make our lives easier--to load local story
@@ -54,11 +54,7 @@ export const Routes: React.FC = () => {
 						<GamePlayRoute />
 					</Route>
 					<Route exact path="/story-list">
-						<DataBaseLoader>
-							<StateLoader>
-								<StoryListRoute />
-							</StateLoader>
-						</DataBaseLoader>
+						<StoryListRoute />
 					</Route>
 					<Route path={`/thread/:viewId`}>
                     	<ThreadRoute />    
@@ -94,9 +90,7 @@ export const Routes: React.FC = () => {
 						<StoryTestRoute />
 					</Route>
 					<Route path="/stories/:storyId">
-						<StateLoader>
-							<StoryEditRoute />
-						</StateLoader>
+						<StoryEditRoute />
 					</Route>
 
 					<Route path="/beta">

@@ -124,7 +124,7 @@ export const InnerStoryListRoute: React.FC = () => {
 };
 
 export const StoryListRoute: React.FC = () => {
-	const [isLogin, setIsLogin] = React.useState(true);
+	const [isLogin, setIsLogin] = React.useState(false);
 	const history = useHistory();
 
 	React.useEffect(() => {
@@ -142,11 +142,15 @@ export const StoryListRoute: React.FC = () => {
 
 	return (
 		(isLogin === true) ? (
-			<UndoableStoriesContextProvider>
-				<DialogsContextProvider>
-					<InnerStoryListRoute />
-				</DialogsContextProvider>
-			</UndoableStoriesContextProvider>
+			<DataBaseLoader>
+				<StateLoader>
+				<UndoableStoriesContextProvider>
+					<DialogsContextProvider>
+						<InnerStoryListRoute />
+					</DialogsContextProvider>
+				</UndoableStoriesContextProvider>	
+				</StateLoader>
+			</DataBaseLoader>
 		) : (
 			<RequestLoginInfo context1="로그인이 필요한 서비스입니다."
 				context2="로그인 후 이용해주세요." 

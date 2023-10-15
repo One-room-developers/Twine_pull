@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../game-play-route.css';
-import { current_status } from '../gamePlay'
+import { current_status } from '../gameManager'
 import cristal from "../../../styles/image/cristal.png"
 import cristalB from "../../../styles/image/cristal_b.png"
 import '../game-play-route.css';

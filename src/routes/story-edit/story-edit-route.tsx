@@ -199,10 +199,12 @@ export const InnerStoryEditRoute: React.FC = () => {
 
 export const StoryEditRoute: React.FC = () => {
 	return (
-		<UndoableStoriesContextProvider>
-			<DialogsContextProvider>
-				<InnerStoryEditRoute />
-			</DialogsContextProvider>
-		</UndoableStoriesContextProvider>
+		<StateLoader>
+			<UndoableStoriesContextProvider>
+				<DialogsContextProvider>
+					<InnerStoryEditRoute />
+				</DialogsContextProvider>
+			</UndoableStoriesContextProvider>
+		</StateLoader>
 	)
 };
