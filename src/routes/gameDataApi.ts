@@ -12,7 +12,10 @@ export async function getUploadedStoriesApi(genre:number){
 export async function getStoryByPk(story_pk:string){
     const response = await axios({
         method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story/${story_pk}`
+        url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_story/${story_pk}`,
+        data: {
+            pk: story_pk
+        }
     });
     const data = await response.data;
     return data;
@@ -22,6 +25,9 @@ export async function getUploadedPassagesApi(storyPk:string){
     const response = await axios({
         method: "GET",
         url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_passage_list/${storyPk}`,
+        data: {
+            pk: storyPk
+        }
     });
     const data = await response.data;
     return data;
@@ -31,6 +37,9 @@ export async function getUploadedOptionsApi(passagePk:string){
     const response = await axios({
         method: "GET",
         url: `${process.env.REACT_APP_API_URL}/uploaded_episode/get_option_list/${passagePk}`,
+        data: {
+            pk: passagePk
+        }
     });
     const data = await response.data;
     return data;
