@@ -6,6 +6,7 @@ import {
 	IconX,
 	IconDisc
 } from '@tabler/icons';
+import uuid from 'tiny-uuid';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next/';
 import {ButtonBar} from '../components/container/button-bar';
@@ -13,7 +14,7 @@ import {CardContent} from '../components/container/card';
 import {CardButton} from '../components/control/card-button';
 import {IconButton} from '../components/control/icon-button';
 import {storyFileName} from '../electron/shared';
-import {Story, option} from '../store/stories';
+import {Story, option, passageWithNameAsStory} from '../store/stories';
 import {usePublishing} from '../store/use-publishing';
 import {useStoryLaunch} from '../store/use-story-launch';
 import {saveHtml} from '../util/save-html';
@@ -30,8 +31,8 @@ export interface BuildActionsProps {
 let normalIndex = 1;
 let lastNormalIndex = 1;
 let optionIndex = 0;
-let basicX = 100;
-let basicY = 100;
+let basicX = 200;
+let basicY = 400;
 let layer = 0;
 let thisLayerNodeNum = 1;
 const endNum = 5;
@@ -223,90 +224,180 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			setTestError(error as Error);
 		}
 	}
+
+	async function wait(timeToDelay){
+        return new Promise((resolve) => setTimeout(resolve, timeToDelay))
+    } //timeToDelay만큼 코드를 대기시키는 함수
+
+	const randomName = (length = 8) => {
+		const strings = ['핵','전','쟁', '세','상', '멸','망', '서','울', '폐','허',
+		 '몇', '현','명','한', '사','람','들', '누','구','은','신','처','성','공', ' ', ' ', ' ']
+		let str = '';
+	  
+		for (let i = 0; i < length; i++) {
+			str += strings[Math.floor(Math.random()*strings.length)]
+			
+		}
+	  
+		return str;
+	};	  
+	const randomText = (length = 8) => {
+		const strings = ["핵전쟁으로", "세상이", "멸망하고", "난 뒤", "서울은", "폐허가", "되었지만",
+		 "몇몇", '현명한', '사람들은', '누구에게도', '들키지', '않을 곳에', '은신처를', '만드는 데', '성공했습니다.']
+		let str = '';
+	  
+		for (let i = 0; i < length; i++) {
+			str += strings[Math.floor(Math.random()*strings.length)] + " "
+		}
+	  
+		return str;
+	};	  
+
+
+
 	async function makeNormalPassage(){
+		layer = 0;
+		thisLayerNodeNum = 1;
+		normalIndex = 1;
+		optionIndex = 0;
+		lastNormalIndex = 1;
 		for(;layer < endNum;){
+			let upperNum = (thisLayerNodeNum/2)-1;
+			let currentY = basicY
+			let optionVisibleNames = []
 			for(let i = 0; i <thisLayerNodeNum; i++){
-				let text = "";
 				let options : option[] = [];
+
+				let visibleText = randomText(5);
+				let text = visibleText;
+
 				for(let j=0; j<2; j++){
-					text += ("[["+(1000-optionIndex-(i*2)-j)+"]]")
+
+					let afterStory = randomText(5);
+					text += ("[["+(1000-optionIndex-(i
+						*2)-j)+"]]")
+					optionVisibleNames.push(randomName(Math.ceil(Math.random()*5)+2))
+					let nextNormalPassage;
+					if(layer+2 < endNum){
+						nextNormalPassage = lastNormalIndex+thisLayerNodeNum+(2*i)+j
+					}
+					
 					options.push(
 						{
-							pk : "",
-							optionVisibleName : "",
+							pk : uuid()+randomText(1),
+							optionVisibleName : optionVisibleNames[(2*i)+j],
 							name:(1000-optionIndex-(i*2)-j).toString(),
-							afterStory:"",
-							status1:"",
-							status1Num: 0,
-							status2:"",
-							status2Num: 0,
-							nextNormalPassage :""
+							afterStory:afterStory,
+							status1:"health",
+							status1Num: -1,
+							status2:"hungry",
+							status2Num: -1,
+							nextNormalPassage :nextNormalPassage
 						}
 					)
 				}
-				await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
-					type: 'createPassage',
-					storyId: story.id,
-					props: {
-						left : basicX + 200*layer,
-						top : basicY + (100*i), 
-						name : normalIndex.toString(), 
-						passageType : "normalPassage", 
-						parentOfOption : "", 
-						width : 100, 
-						height : 100, 
-						optionVisibleName : "",
-						options : options,
-						text : text
+
+				if(thisLayerNodeNum > 1){
+					if(i <= upperNum)
+						currentY = basicY - ((thisLayerNodeNum/2)-i)*100
+					else
+						currentY = basicY+ (i-upperNum)*100
+					
+					await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
+						type: 'createPassage',
+						storyId: story.id,
+						props: {
+							left : basicX + 200*layer,
+							top : currentY,
+							name : normalIndex.toString(), 
+							passageType : "normalPassage", 
+							parentOfOption : "", 
+							width : 100, 
+							height : 100, 
+							optionVisibleName : "",
+							options : options,
+							text : text,
+							visibleText : visibleText
+						}
+					});
+				}
+				else{
+					let startPassage;
+					if(story.passages.find(passage => passage.name === "Untitled Passage"))
+						startPassage = passageWithNameAsStory(story, "Untitled Passage");
+					else if((story.passages.find(passage => passage.name === "1")))
+						startPassage = passageWithNameAsStory(story, "1");
+					else{
+						return; 
 					}
-				});
+					
+					await dispatch({
+						props : {
+							...startPassage,
+							name : normalIndex.toString(),
+							left : basicX + 200*layer,
+							top : basicY,
+							text : text,
+							options : options,
+							visibleText : visibleText
+						},
+						type: 'updatePassage',
+						passageId: startPassage.id,
+						storyId: story.id
+					})
+
+				}
 				normalIndex+=1
+				await wait(50);
 			}
 			layer++;
 			for(let k=0; k<thisLayerNodeNum*2; k++){
-				await makeOptionPassage(k)
+				await makeOptionPassage(k, optionVisibleNames[k])
+				await wait(50);
 			}
 			layer++;
 			thisLayerNodeNum*=2;
 			lastNormalIndex = normalIndex;
-		}
+		}	
+		debugger;
+		
 	}
-	async function makeOptionPassage(index){
+	async function makeOptionPassage(index, visibleName){
 		let text = ""
+		let upperNum = thisLayerNodeNum-1;
+		let currentY = basicY
 		if(layer+1 < endNum){
-			text = "[["+(1+lastNormalIndex+index)+"]]"
+			text = "[["+(lastNormalIndex*2+index)+"]]"
 		}
+		if(index <= upperNum)
+			currentY = basicY - (thisLayerNodeNum-index)*100
+		else
+			currentY = basicY + (index-upperNum)*100
 		await dispatch({ //지금 passage의 [[]]안에 들어있는 text를 자식으로 만들어줌
 			type: 'createPassage',
 			storyId: story.id,
 			props: {
 				left : basicX + (200*layer), 
 				name : (1000-optionIndex).toString(), 
-				top : basicY+(100*index), 
+				top : currentY, 
 				passageType : "optionPassage", 
 				parentOfOption : (thisLayerNodeNum+Math.floor(index/2)).toString(), 
 				width : 75, 
 				height : 75, 
-				optionVisibleName : (1000-optionIndex).toString(),
+				optionVisibleName : visibleName,
 				options : [],
 				text : text
 			}
 		});
 		optionIndex+=1
 	}
-	// options.push(
-				// 	{
-				// 		pk : "",
-				// 		optionVisibleName : "옵션",
-				// 		name: j.toString(),
-				// 		afterStory: "애프터 스토리",
-				// 		status1: "",
-				// 		status1Num: 0,
-				// 		status2: "",
-				// 		status2Num: 0,
-				// 		nextNormalPassage : ""
-				// 	}
-				// )
+	function checkStory(){
+		debugger;
+		console.log(story);
+		story.passages.forEach(passage => {
+			dispatch({type : 'updatePassage', passageId : passage.id, storyId : story.id, props:{...passage}})
+		})
+	}
 
 	return (
 		<ButtonBar>
@@ -412,6 +503,17 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 				label={"passage 목록 제작하기"}
 				onClick={function(){
 					makeNormalPassage()}
+				}
+				ariaLabel={''}
+				disabled={false}
+				icon={<IconDisc/>}
+				onChangeOpen={() => {}}
+			>
+			</CardButton>
+			<CardButton
+				label={"story 확인하기"}
+				onClick={function(){
+					checkStory()}
 				}
 				ariaLabel={''}
 				disabled={false}

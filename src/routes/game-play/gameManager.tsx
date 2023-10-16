@@ -121,6 +121,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                     }, 20);
                 })
             }
+            debugger;
             //episode 타이핑이 끝난 후
             makeOptionDiv();
         }
@@ -425,7 +426,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         });
     
         const data = response.data;
-
+        debugger;   
         story = getStory(data);
         passages = getPassages(data);
         options = getOptions(data);
@@ -502,6 +503,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
     }
     function getCurrentOptions(passages : NextPassage[], currentPassage : NextPassage, options : NextOption[][]) : NextOption[]{
+        debugger;
         let i = 0
         passages.forEach((passage, index) => {
             if(currentPassage.name === passage.name){
