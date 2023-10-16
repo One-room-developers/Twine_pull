@@ -11,7 +11,7 @@ import {OptionInfoRoute} from './option-info'
 
 
 const Container = styled.body`
-    height: 200vh;
+    min-height: 100vh;
 `
 const Header = styled.div`
     width: 100%;
@@ -83,7 +83,7 @@ const PassageContainer = styled.li`
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    margin-bottom: 20px;
     
 `
 const PassageTitleContainer = styled.div`
@@ -91,7 +91,7 @@ const PassageTitleContainer = styled.div`
     width: 100%;
     box-shadow: 0 4px 2px -2px rgba(0,0,0,0.3);
     padding: 12px;
-
+    align-items: center;
 `
 const PassageNum = styled.h3`
     font-family: "gameBold";
@@ -101,7 +101,7 @@ const PassageNum = styled.h3`
 `
 const PassageTitle = styled.h2`
     font-family: "godicM";
-    font-size: 18px;
+    font-size: 20px;
     margin-right: 5px;
 
 `
@@ -205,7 +205,7 @@ export const StoryInfoRoute: React.FC = () => {
                 {isStoryLoading ? (<Loader>불러오는 중...</Loader>) : 
                 (
                     <StoryInfo>
-                        스토리 정보 출력
+                        스토리 정보 출력 예정(UI 미개발)
                     </StoryInfo>
                 )
                 }

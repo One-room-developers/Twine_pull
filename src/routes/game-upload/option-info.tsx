@@ -10,6 +10,7 @@ const Container = styled.div`
 const OptionContainer = styled.ul`
 `
 const OptionList = styled.li`
+    margin-top: 10px;
 `
 const Loader = styled.h1`
     font-size: 16px;
@@ -24,7 +25,7 @@ const OptionTilteContainer = styled.div`
 `
 const TitleInfo = styled.h1`
     font-family: "gameBold";
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 12px;
 `
 const OptionStatContainer = styled.div`
