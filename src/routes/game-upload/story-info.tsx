@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import {getUploadedPassagesApi, getStoryByPk} from '../gameDataApi';
 import upChevron from './img/chevron-up.svg';
 import downChevron from './img/chevron-down.svg';
+import passageSvg from './img/app.svg';
 import {OptionInfoRoute} from './option-info'
 
 
@@ -78,24 +79,67 @@ const PassageList = styled.ul`
 `
 const PassageContainer = styled.li`
     width: 100%;
-    height: 58px;
-    padding: 9px 10px 8px 10px;
+    min-height: 58px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-
-    &:hover{
-        background-color: rgb(202, 209, 217);
-    }
-`
-const PassageTitleContainer = styled.div`
+    
     
 `
-const PassangeNum = styled.h3`
+const PassageTitleContainer = styled.div`
+    display: flex;
+    width: 100%;
+    box-shadow: 0 4px 2px -2px rgba(0,0,0,0.3);
+    padding: 12px;
+
+`
+const PassageNum = styled.h3`
+    font-family: "gameBold";
+    font-size: 18px;
+    margin-right: 5px;
+
 `
 const PassageTitle = styled.h2`
+    font-family: "godicM";
+    font-size: 18px;
+    margin-right: 5px;
+
 `
 const PassageContext = styled.div`
+    width: 100%;
+    min-height: 200px;
+    padding: 20px;
+    font-family: "godicThin";
+    font-size: 17px;
+
+`
+const PassageImg = styled.img`
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+`
+const OptionExpandBtn = styled.div`
+    width: 600px;
+    height: 32px;
+    border: 1px solid rgba(0,0,0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-family: "godicThin";
+    &:hover{
+        cursor: pointer;
+    }
+`
+const DownOptionImg = styled.img.attrs({src:downChevron})`
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+`
+const UpOptionImg = styled.img.attrs({src:upChevron})`
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
 `
 
 function moveScrollTop (){
@@ -132,10 +176,6 @@ interface IPassage{
     name: string,
     visibleText: string,
 }
-interface IOption{
-
-}
-
 //path="/game-upload/storyInfo/:storyDbId"
 export const StoryInfoRoute: React.FC = () => {
     const { storyId } = useParams<RouteParams>();
@@ -143,15 +183,18 @@ export const StoryInfoRoute: React.FC = () => {
 
     const {isLoading:isStoryLoading, data:storyData} = useQuery<IStory>(["storyInfo", storyId], ()=> getStoryByPk(storyId));//페이지 인자로 받아야됨
     const {isLoading:isPassageLoading, data:passageData} = useQuery<IPassage[]>(["passageInfo", storyId], ()=> getUploadedPassagesApi(storyId));//페이지 인자로 받아야됨
+    const [selectedPassage, setSelectedPassage] = React.useState(-1);
 
-    console.log("storyId: ", storyId);
+    //passage 갯수 알아와야 구현 가능한 여러개 펼치기
+    //const isOptionExpand = [];
 
-    if (isStoryLoading){
-        console.log("storyData: ", storyData);
+    function openOption(index){
+        setSelectedPassage(index);
     }
-    if (isPassageLoading){
-        console.log("passageData: ", passageData);
+    function closeOption(){
+        setSelectedPassage(-1);
     }
+
     return (
         <Container>
             <HeaderBar />
@@ -172,17 +215,26 @@ export const StoryInfoRoute: React.FC = () => {
                         {
                             (passageData?.length === 0) ? (<Loader>글상자가 없습니다.</Loader>) :
                             (
-                                passageData?.map((passage, index) => 
+                                passageData?.map((passage, index) =>
                                     <PassageContainer key={index}>
                                         <PassageTitleContainer>
-                                            <PassangeNum>#{index} </PassangeNum>
+                                            <PassageImg src={passageSvg}/>
+                                            <PassageNum>#{index} </PassageNum>
                                             <PassageTitle>{passage.name}</PassageTitle>
                                         </PassageTitleContainer>
                                         <PassageContext>{passage.visibleText}</PassageContext>
+                                        {
+                                            (selectedPassage === index) ? (
+                                                <>
+                                                    <OptionInfoRoute passageId={passage.pk}/>
+                                                    <OptionExpandBtn onClick={()=>closeOption()}>선택지 접기<UpOptionImg/></OptionExpandBtn>
+                                                </>
+                                            ) : (<OptionExpandBtn onClick={()=>openOption(index)}>선택지 펼치기<DownOptionImg/></OptionExpandBtn>)
+                                        }
+
                                     </PassageContainer>)
                             )
                         }
-                        {/*<OptionInfoRoute /> if로 출력여부 결정하게 하기.*/}
                     </PassageList>
 
                 )
