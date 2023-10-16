@@ -79,7 +79,7 @@ const PassageList = styled.ul`
 `
 const PassageContainer = styled.li`
     width: 100%;
-    min-height: 58px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -107,7 +107,7 @@ const PassageTitle = styled.h2`
 `
 const PassageContext = styled.div`
     width: 100%;
-    min-height: 200px;
+    min-height: 150px;
     padding: 20px;
     font-family: "godicThin";
     font-size: 17px;
