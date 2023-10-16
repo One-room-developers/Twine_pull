@@ -36,7 +36,7 @@ let basicY = 400;
 let layer = 0;
 let thisLayerNodeNum = 1;
 const endNum = 5;
-
+let options : option[][][] = [];
 export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	//html publish함수
 	const {publishStory} = usePublishing();
@@ -266,23 +266,24 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			let currentY = basicY
 			let optionVisibleNames = []
 			for(let i = 0; i <thisLayerNodeNum; i++){
-				let options : option[] = [];
-
+				debugger;
 				let visibleText = randomText(5);
 				let text = visibleText;
-
+				options.push([])
+				
 				for(let j=0; j<2; j++){
-
 					let afterStory = randomText(5);
 					text += ("[["+(1000-optionIndex-(i
 						*2)-j)+"]]")
 					optionVisibleNames.push(randomName(Math.ceil(Math.random()*5)+2))
 					let nextNormalPassage;
 					if(layer+2 < endNum){
-						nextNormalPassage = lastNormalIndex+thisLayerNodeNum+(2*i)+j
+						nextNormalPassage = (lastNormalIndex+thisLayerNodeNum+(2*i)+j).toString()
+					}else{
+						nextNormalPassage = ""
 					}
-					
-					options.push(
+					options[i].push([])
+					options[i][j].push(
 						{
 							pk : uuid()+randomText(1),
 							optionVisibleName : optionVisibleNames[(2*i)+j],
@@ -295,6 +296,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 							nextNormalPassage :nextNormalPassage
 						}
 					)
+					debugger;
 				}
 
 				if(thisLayerNodeNum > 1){
@@ -315,7 +317,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 							width : 100, 
 							height : 100, 
 							optionVisibleName : "",
-							options : options,
+							options : [],
 							text : text,
 							visibleText : visibleText
 						}
@@ -338,7 +340,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 							left : basicX + 200*layer,
 							top : basicY,
 							text : text,
-							options : options,
+							options : [],
 							visibleText : visibleText
 						},
 						type: 'updatePassage',
@@ -394,8 +396,21 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 	function checkStory(){
 		debugger;
 		console.log(story);
-		story.passages.forEach(passage => {
-			dispatch({type : 'updatePassage', passageId : passage.id, storyId : story.id, props:{...passage}})
+		let normalPassageNum = 0;
+		story.passages.forEach((passage, index) => {
+			if(passage.passageType === "normalPassage"){
+				let i = Math.floor(normalPassageNum/2)
+				let j = normalPassageNum%2
+				let thisOption;
+				if(options[i][j] !== null){
+					thisOption = options[i][j]
+				}else{
+					thisOption = [];
+				}
+				dispatch({type : 'updatePassage', passageId : passage.id, storyId : story.id, props:{...passage, options : thisOption }})
+				normalPassageNum++;
+			}
+			
 		})
 	}
 
