@@ -81,7 +81,6 @@ export async function createPassage(passage:Passage, story:Story){
 			selected: passage.selected,
 			top: passage.top,
 			width: passage.width,
-			options : passage.options
 		}
 	})
 	.then((res) => {
