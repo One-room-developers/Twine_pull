@@ -26,16 +26,6 @@ export function passageWithId(
 	);
 }
 
-//이지원 자체제작 함수!
-//passage 출력하기
-export function passagesConsole(
-	stories: Story[],
-	storyId: string,
-) {
-	const story = storyWithId(stories, storyId);
-	// console.log(story.passages)
-}
-
 //Story 배열과 StoryId 와 passage 이름을 인자로 넣으면 
 //find함수는 배열의 특정 값을 찾는 함수이다.
 //passages는 Passage의 배열이므로 값 하나는 passage하나이다.
@@ -55,6 +45,21 @@ export function passageWithName(
 
 	throw new Error(
 		`There is no passage with name "${passageName}" in a story with ID "${storyId}".`
+	);
+}
+
+export function passageWithIdAsStory(
+	story : Story,
+	passageId: string
+) {
+	const result = story.passages.find(p => p.id === passageId);
+
+	if (result) {
+		return result;
+	}
+
+	throw new Error(
+		`There is no passage with ID "${passageId}" in a story with ID "${story.id}".`
 	);
 }
 
