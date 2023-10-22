@@ -32,6 +32,16 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                     nickname: userNickname
                 }
             });
+
+            // 업로드 story 가져오기
+            let uploadStory = await axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/make_episode/get_upload_stoires`,
+                data: {
+                    nickname: userNickname
+                }
+            });
+
             dbStoriesState = res1.data;
             console.log(dbStoriesState);
 
@@ -51,6 +61,16 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                 
             }));
             dbPassagesState = dummyArr;
+
+            // 업로드 passage 가져오기
+            // let uploadPassages = await axios({
+            //     method: "POST",
+            //     url: `${process.env.REACT_APP_API_URL}/make_episode/get_passages/`,
+            //     data: {
+            //         episodePk: // 업로드 story pk 넣어줘야 함
+            //     }
+            // });
+
             // url 뒤에 passage pk 붙여줘야함
             // dbPassagesState의 option 안에 데이터 넣어줘야함
             dbPassagesState = await Promise.all(dbPassagesState.map(async (dbPassage) => {
@@ -63,7 +83,17 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                 });
                 dbPassage.options = res3.data;
                 return dbPassage
-            }))
+            }));
+
+            // 업로드 option 가져오기
+            // let uploadOption = await axios({
+            //     method: "POST",
+            //     url: `${process.env.REACT_APP_API_URL}/make_episode/get_options/`,
+            //     data: {
+            //         episodePk: // 업로드 passage pk 넣어줘야 함
+            //     }
+            // });
+
             //변수 값 local storage에 저장하기
             await dbPassagesState.forEach((passage)=>{
                 doUpdateTransaction(transaction => {

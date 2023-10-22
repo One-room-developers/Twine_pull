@@ -60,6 +60,16 @@ export async function deleteOption(option: option) {
 		});
 }
 
+export async function deleteUploadOption(option: option) {
+	
+	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_upload_option/${option.pk}`)
+		.then((res) => {
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+}
+
 export async function createPassage(passage:Passage, story:Story){
 	axios({
 		method: "POST",
@@ -100,32 +110,58 @@ export async function createPassage(passage:Passage, story:Story){
 }
 
 export async function createStory(story:Story){
-		axios({
-			method: "POST",
-			url: `${process.env.REACT_APP_API_URL}/make_episode/create_story`,
-			data: {
-				pk: story.pk,
-				id: story.id,
-				ifid: story.ifid,
-				level: story.level,
-				name: story.name,
-				userNickname: story.userNickname,
-				startPassage: story.startPassage,
-				script: story.script,
-				selected: story.selected,
-				snapToGrid: story.snapToGrid,
-				storyFormat: story.storyFormat,
-				storyFormatVersion: story.storyFormatVersion,
-				zoom: story.zoom,
-			},
-		})
-		.then((res) => {
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/make_episode/create_story`,
+		data: {
+			pk: story.pk,
+			id: story.id,
+			ifid: story.ifid,
+			level: story.level,
+			name: story.name,
+			userNickname: story.userNickname,
+			startPassage: story.startPassage,
+			script: story.script,
+			selected: story.selected,
+			snapToGrid: story.snapToGrid,
+			storyFormat: story.storyFormat,
+			storyFormatVersion: story.storyFormatVersion,
+			zoom: story.zoom,
+		},
+	})
+	.then((res) => {
+	})
+	.catch((error) => {
+		console.log(error);
+	});
 }
 
+export async function uploadStory(story:Story){
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/make_episode/upload_story`,
+		data: {
+			pk: story.pk,
+			id: story.id,
+			ifid: story.ifid,
+			level: story.level,
+			name: story.name,
+			userNickname: story.userNickname,
+			startPassage: story.startPassage,
+			script: story.script,
+			selected: story.selected,
+			snapToGrid: story.snapToGrid,
+			storyFormat: story.storyFormat,
+			storyFormatVersion: story.storyFormatVersion,
+			zoom: story.zoom,
+		},
+	})
+	.then((res) => {
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
 
 export async function updatePassage(passage:Passage){
 	axios({
@@ -200,9 +236,38 @@ export async function deletePassage(passage: Passage, story : Story, state : Sto
 		});
 }
 
+export async function deleteUploadPassage(passage: Passage, story : Story, state : StoriesState) {
+
+	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_upload_passage/${passage.pk}`)
+	.then((res) => {
+		if(passage.passageType === "optionPassage"){
+			const parentPassage = passageWithName(state, story.id, passage.parentOfOption);
+			parentPassage.options.forEach(option => {
+				if(option.name === passage.name){
+					deleteOption(option)
+					return true;
+				}
+			})
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+
 export async function deleteStory(story: Story) {
 
 	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_story/${story.pk}`)
+	.then((res) => {
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+
+export async function deleteUploadStory(story: Story) {
+
+	axios.delete(`${process.env.REACT_APP_API_URL}/make_episode/delete_upload_story/${story.pk}`)
 	.then((res) => {
 	})
 	.catch((error) => {
