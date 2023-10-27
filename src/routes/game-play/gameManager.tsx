@@ -90,13 +90,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         await wait(2000);
 
-        // stop_typing_time = 0;
-        // click = false;
-        // typingIdx = 0;
-        // height_multiple = 1;
-        // basicSize_of_textViewDiv = text_view_div.current.clientHeight;
-        // basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
-        // split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
+        stop_typing_time = 0;
+        click = false;
+        typingIdx = 0;
+        height_multiple = 1;
+        basicSize_of_textViewDiv = text_view_div.current.clientHeight;
+        basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
+        split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
 
         //클릭하면 텍스트 한번에 출력되는 이벤트 리스너 추가
         text_view_div.current.addEventListener("click", click_on);
@@ -127,6 +127,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function typing_text() { //텍스트 한 글자 타이핑
+        debugger;
         //클릭을 안했다면 수행
         if (click !== true) {
             if (typingIdx < split_txt_arr.length) {
@@ -172,11 +173,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         if(!isGameOver){
             currentOptions.forEach((option, i) => {
-                optionDiv[i] = document.createElement('div');
-                optionDiv[i].className = "option_div"
-                optionDiv[i].id = `${i}`;
-                optionDiv[i].innerText = option.optionVisibleName;
-                optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) }); //option div 클릭하면 result text를 만들게 해줌
+                optionDiv[i] = 
+                    <div className="option_div" id={ i.toString() } onClick={function(e: any){ makeResultText(e.target.id) }}>
+                            {option.optionVisibleName}
+                    </div>
                 options_div.current.appendChild(optionDiv[i]);
             })
         }
