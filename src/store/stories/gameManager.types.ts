@@ -1,3 +1,17 @@
+export let maxStatus : Status = {
+    health: 5,
+    money: 5,
+    hungry: 5,
+}
+
+export let default_status : Status = {
+    health : 3,
+    hungry : 3,
+    money : 3
+}
+
+export let current_status: Status = default_status;
+
 export interface Status {
     health: number,
     money: number,
@@ -12,7 +26,7 @@ export type MainProps = {
     passage_text_div : React.MutableRefObject<any>,
     text_view_div : React.MutableRefObject<any>,
     main_text_view_div : React.MutableRefObject<any>,
-    options_div : React.MutableRefObject<any>,
+    options_box_div : React.MutableRefObject<any>,
     result_text_div : React.MutableRefObject<any>,
     result_option_div : React.MutableRefObject<any>,
     header_text_view_div : React.MutableRefObject<any>
@@ -20,6 +34,7 @@ export type MainProps = {
     storyTitleState : [string, React.Dispatch<React.SetStateAction<string>>]
     passageTextState : [string, React.Dispatch<React.SetStateAction<string>>]
     resultTextState : [string, React.Dispatch<React.SetStateAction<string>>]
+    optionDivs : [any[], React.Dispatch<React.SetStateAction<any[]>>]
 }
 
 export interface NextStory{

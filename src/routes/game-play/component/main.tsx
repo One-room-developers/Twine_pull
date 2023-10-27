@@ -9,14 +9,16 @@ export default function Main(props) {
     let passage_text_div = React.useRef(null);
     let text_view_div = React.useRef(null);
     let main_text_view_div = React.useRef(null);
-    let options_div = React.useRef(null);
+    let options_box_div = React.useRef(null);
     let result_text_div = React.useRef(null);
     let result_option_div = React.useRef(null);
     let header_text_view_div = React.useRef(null);
+    
     const [storyTitle, setStoryTitle] = React.useState("#");
     const [passageTitle, setpassageTitle] = React.useState("");
     const [passageText, setpassageText] = React.useState("");
     const [resultText, setResultText] = React.useState("");
+    const [optionDivs, setOptionDivs] = React.useState([]);
 
     return (
         <>
@@ -24,14 +26,15 @@ export default function Main(props) {
                 passage_text_div = {passage_text_div}
                 text_view_div = {text_view_div}
                 main_text_view_div = {main_text_view_div}
-                options_div = {options_div}
+                options_box_div = {options_box_div}
                 result_text_div = {result_text_div}
                 result_option_div = {result_option_div}
                 header_text_view_div = {header_text_view_div}
                 storyTitleState={[storyTitle, setStoryTitle]}
                 passageTitleState={[passageTitle, setpassageTitle]}
                 passageTextState={[passageText, setpassageText]}
-                resultTextState = {[resultText, setResultText]}>
+                resultTextState = {[resultText, setResultText]}
+                optionDivs={[optionDivs, setOptionDivs]}>
             </GameManager>
             <main className="main">
                 <div className="passage_logo">
@@ -53,7 +56,8 @@ export default function Main(props) {
                         <div className="passage_text" ref={passage_text_div}>
                             {passageText}
                         </div>
-                        <div className="options hidden font-game-thick" ref={options_div}>
+                        <div className="options hidden font-game-thick" ref={options_box_div}>
+                            {optionDivs}
                         </div>
                         <div className="result_text hidden" ref={result_text_div}>
                             {resultText}
