@@ -173,10 +173,15 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         if(!isGameOver){
             currentOptions.forEach((option, i) => {
-                optionDiv[i] = 
-                    <div className="option_div" id={ i.toString() } onClick={function(e: any){ makeResultText(e.target.id) }}>
-                            {option.optionVisibleName}
-                    </div>
+                optionDiv[i] = document.createElement('div');
+                optionDiv[i].className = "option_div"
+                optionDiv[i].id = `${i}`;
+                optionDiv[i].innerText = option.optionVisibleName;
+                optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) }); //option div 클릭하면 result text를 만들게 해줌
+                // optionDiv[i] = 
+                //     <div className="option_div" id={ i.toString() } onClick={function(e: any){ makeResultText(e.target.id) }}>
+                //             {option.optionVisibleName}
+                //     </div>
                 options_div.current.appendChild(optionDiv[i]);
             })
         }
