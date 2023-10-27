@@ -223,18 +223,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
                     case 'hungry':
                         statMessage="허기가"
                         break;
-                    case 'strength':
-                        statMessage="근력이"
-                        break;
-                    case 'agility':
-                        statMessage="민첩이"
-                        break;
-                    case 'armour':
-                        statMessage="방어가"
-                        break;
-                    case 'mental':
-                        statMessage="정신력이"
-                        break;
                 }
                 if (status_change[optionIndex][statName] < 0){
                     result_txt += statMessage + " " + status_change[optionIndex][statName] + "만큼 줄었습니다\n"
