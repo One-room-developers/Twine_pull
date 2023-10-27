@@ -90,13 +90,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         await wait(2000);
 
-        // stop_typing_time = 0;
-        // click = false;
-        // typingIdx = 0;
-        // height_multiple = 1;
-        // basicSize_of_textViewDiv = text_view_div.current.clientHeight;
-        // basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
-        // split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
+        stop_typing_time = 0;
+        click = false;
+        typingIdx = 0;
+        height_multiple = 1;
+        basicSize_of_textViewDiv = text_view_div.current.clientHeight;
+        basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
+        split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
 
         //클릭하면 텍스트 한번에 출력되는 이벤트 리스너 추가
         text_view_div.current.addEventListener("click", click_on);
@@ -166,7 +166,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function makeOptionDiv() {
-        
         
         let optionDiv = [];
 
@@ -294,7 +293,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
         else if (current_status.health <= 0){//배고픔이 0이 아닌 상태에서 체력이 0이되었거나, 유저가 체력1 배고픔0에서 체력-1을 선택한 경우
             isGameOver = true
-            setPassageTitle("끝은 갑작스럽게");
+            setPassageTitle("끝은 언제나 갑작스럽게");
             body_text = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
         }else{  //게임이 종료되지 않았다면
             if (nextPassageName !== null){
@@ -446,6 +445,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         currentOptions = getStartOptions(story, passages, options)
         setValues();
     }
+
     function setValues(){
         //episode_number
         setStoryName(story.name);
