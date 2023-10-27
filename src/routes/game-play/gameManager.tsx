@@ -67,9 +67,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
     // let option_text: Option_Texts[];
 
-    let current_episode_num: number = 0;
-    let main_episode_num: number = 0;
-
     let split_txt_arr: string[];
     let stop_typing_time: number;
     let click: boolean;
@@ -78,8 +75,9 @@ export const GameManager : React.FC<MainProps> = (props) => {
     let basicSize_of_textViewDiv : number
     let basicSize_of_mainTextViewDiv: number;
 
-    async function game_start() {
-        console.log('게임 스타트 함수 진입');
+
+
+    async function passage_start() {
         //db 업데이트
         if(isGameStart === true || isStoryEnd === true){
             await getNextStoryAndPassages(current_status, lastStoryArr);
@@ -92,23 +90,25 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         await wait(2000);
 
-        stop_typing_time = 0;
-        click = false;
-        typingIdx = 0;
-        height_multiple = 1;
-        basicSize_of_textViewDiv = text_view_div.current.clientHeight;
-        basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
-        split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
+        // stop_typing_time = 0;
+        // click = false;
+        // typingIdx = 0;
+        // height_multiple = 1;
+        // basicSize_of_textViewDiv = text_view_div.current.clientHeight;
+        // basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
+        // split_txt_arr = body_text.split(""); // 한글자씩 잘라 배열로 저장한다.
+
+        //클릭하면 텍스트 한번에 출력되는 이벤트 리스너 추가
         text_view_div.current.addEventListener("click", click_on);
 
-
+        //passage의 텍스트 타이핑 시작
         let promise = async function () {
             while(isTypingEnd === false) {
                 await new Promise<void>((resolve, reject) => {
                     //episode 타이핑 시작
                     setTimeout(function () {
                         try{
-                            typing_episode();
+                            typing_text();
                             resolve();
                         }
                         catch{
@@ -118,13 +118,15 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 })
             }
             debugger;
-            //episode 타이핑이 끝난 후
+
+            //promise 쓴 이유
+            //episode 타이핑이 끝난 후 옵션 div 생성
             makeOptionDiv();
         }
         promise();
     }
 
-    function typing_episode() {
+    function typing_text() { //텍스트 한 글자 타이핑
         //클릭을 안했다면 수행
         if (click !== true) {
             if (typingIdx < split_txt_arr.length) {
@@ -174,7 +176,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 optionDiv[i].className = "option_div"
                 optionDiv[i].id = `${i}`;
                 optionDiv[i].innerText = option.optionVisibleName;
-                optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) });
+                optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) }); //option div 클릭하면 result text를 만들게 해줌
                 options_div.current.appendChild(optionDiv[i]);
             })
         }
@@ -188,7 +190,9 @@ export const GameManager : React.FC<MainProps> = (props) => {
             });
             options_div.current.appendChild(optionDiv[0]);
         }
+        //hidden 풀어서 option Div가 보이게 해줌
         options_div.current.classList.remove("hidden");
+        //text div의 높이를 설정해줘서 option div가 맨 아래에 위치하도록 하는 코드 코드
         const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
@@ -246,6 +250,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         current_status.hungry += status_change[optionIndex].hungry;
         current_status.money += status_change[optionIndex].money;
 
+        //result div를 만들어줌
         makeResultOptionDiv();
         result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (result_option_div.current.clientHeight)}px`;
         moveScrollBottom();
@@ -262,7 +267,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         if (!isGameOver) {
             resultDiv.innerText += "다음으로 . . .";
-            resultDiv.addEventListener('click', (e: any) => { passageEnd() });
+            resultDiv.addEventListener('click', (e: any) => { passageEnd() }); //result div를 누르면 이번 passage를 끝냄
         }
         result_option_div.current.appendChild(resultDiv);
 
@@ -274,8 +279,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
     function passageEnd() {
         resetTextDiv();
-
-        current_episode_num += 1;
 
         //배고픔이 0이면
         if(current_status.hungry <= 0){
@@ -293,7 +296,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
             isGameOver = true
             setPassageTitle("끝은 갑작스럽게");
             body_text = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
-        }else{
+        }else{  //게임이 종료되지 않았다면
             if (nextPassageName !== null){
                 currentPassage = passages.find(passage => (passage.name === nextPassageName))
                 currentOptions = getCurrentOptions(passages, currentPassage, options);        
@@ -304,6 +307,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 lastStoryArr.push(story.pk)
             }
         }
+        //passage를 끝내면 useEffect가 다시 실행됨
         setIsPassageEnd(true)
     }
 
@@ -522,16 +526,19 @@ export const GameManager : React.FC<MainProps> = (props) => {
         return options[i];
     }
 
+
+
+
     React.useEffect(() => 
         {
             if(isGameStart === true || isPassageEnd === true){
                 setIsPassageEnd(false);
-                game_start()
+                passage_start()
             }
         }, [isPassageEnd]) 
 
     return (
         <></>
-    );
+    );  
 };
 

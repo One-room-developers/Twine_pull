@@ -32,6 +32,7 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                     nickname: userNickname
                 }
             });
+
             dbStoriesState = res1.data;
             console.log(dbStoriesState);
 
@@ -51,6 +52,7 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                 
             }));
             dbPassagesState = dummyArr;
+
             // url 뒤에 passage pk 붙여줘야함
             // dbPassagesState의 option 안에 데이터 넣어줘야함
             dbPassagesState = await Promise.all(dbPassagesState.map(async (dbPassage) => {
@@ -63,7 +65,8 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                 });
                 dbPassage.options = res3.data;
                 return dbPassage
-            }))
+            }));
+
             //변수 값 local storage에 저장하기
             await dbPassagesState.forEach((passage)=>{
                 doUpdateTransaction(transaction => {

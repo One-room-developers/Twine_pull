@@ -37,7 +37,7 @@ class CreateOption extends Component<Modes_props> {
 
                     <div>
                         <select className='select-dropdown' name='status1' required>
-                            <option value="">(능력)</option>
+                            <option value="null">(능력)</option>
                             <option value="null">(없음)</option>
                             <option value="health">체력</option>
                             <option value="money">돈</option>
@@ -59,7 +59,7 @@ class CreateOption extends Component<Modes_props> {
 
                     <div>
                         <select className='select-dropdown' name='status2' required>
-                            <option value="">(능력2)</option>
+                            <option value="null">(능력2)</option>
                             <option value="null">(없음)</option>
                             <option value="health">체력</option>
                             <option value="money">돈</option>

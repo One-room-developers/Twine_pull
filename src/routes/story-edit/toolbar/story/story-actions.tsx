@@ -7,6 +7,7 @@ import {FindReplaceButton} from './find-replace-button';
 import {JavaScriptButton} from './javascript-button';
 import {PassageTagsButton} from './passage-tags-button';
 import {StylesheetButton} from './stylesheet-button';
+import { UploadStoryButton } from './upload-story-button';
 
 export interface StoryActionsProps {
 	story: Story;
@@ -28,6 +29,7 @@ export const StoryActions: React.FC<StoryActionsProps> = props => {
 			<PassageTagsButton story={story} />
 			<JavaScriptButton story={story} />
 			<StylesheetButton story={story} />
+			<UploadStoryButton  story={story}/>
 		</ButtonBar>
 	);
 };

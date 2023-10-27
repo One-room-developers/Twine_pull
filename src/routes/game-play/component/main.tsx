@@ -54,7 +54,6 @@ export default function Main(props) {
                             {passageText}
                         </div>
                         <div className="options hidden font-game-thick" ref={options_div}>
-                            {/* 선택지 */}
                         </div>
                         <div className="result_text hidden" ref={result_text_div}>
                             {resultText}
