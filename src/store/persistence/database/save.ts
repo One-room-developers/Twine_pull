@@ -97,7 +97,7 @@ export async function createPassage(passage:Passage, story:Story){
 		if(passage.passageType === "optionPassage"){
 			const parentPassage = passageWithNameAsStory(story, passage.parentOfOption);
 			parentPassage.options.forEach(option => {
-				if(option.name = passage.name){
+				if(option.name === passage.name){
 					createOption(option, parentPassage.pk)
 					return true;
 				}
@@ -157,13 +157,77 @@ export async function uploadStory(story:Story){
 		},
 	})
 	.then((res) => {
+		story.passages.forEach(passage => {
+			uploadPassage(passage, story);
+			if(passage.passageType === "normalPassage"){
+				passage.options.forEach(option => {
+					uploadOption(option, passage.pk)
+				})
+			}
+		})
+		
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+export async function uploadPassage(passage:Passage, story:Story){
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/make_episode/upload_passage`,
+		data: {
+			pk: passage.pk,
+			id: passage.id,
+			passageType: passage.passageType,
+			storyPk: story.pk,
+			story: passage.story,
+			parentOfOption: passage.parentOfOption,
+			name: passage.name,
+			optionVisibleName: passage.optionVisibleName,
+			text: passage.text,
+			visibleText: passage.visibleText,
+			height: passage.height,
+			highlighted: passage.highlighted,
+			left: passage.left,
+			selected: passage.selected,
+			top: passage.top,
+			width: passage.width
+		}
+	})
+	.then((res) => {
 	})
 	.catch((error) => {
 		console.log(error);
 	});
 }
 
+export async function uploadOption(option:option, normalPassagePk:string){
+	debugger;
+	axios({
+		method: "POST",
+		url: `${process.env.REACT_APP_API_URL}/make_episode/upload_option`,
+		data: {
+			pk: option.pk,
+			normalPassagePk: normalPassagePk,
+			name: option.name,
+			optionVisibleName: option.optionVisibleName,
+			afterStory: option.afterStory,
+			status1: option.status1,
+			status1Num: option.status1Num,
+			status2: option.status2,
+			status2Num: option.status2Num,
+			nextNormalPassage: option.nextNormalPassage,
+		}
+	})
+	.then((res) => {
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+}
+
 export async function updatePassage(passage:Passage){
+	debugger;
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/make_episode/update_passage/${passage.pk}`,
@@ -192,6 +256,7 @@ export async function updatePassage(passage:Passage){
 		console.log(error);
 	});
 }
+
 
 export async function updateStory(story) {
 	axios({

@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {IconButton} from '../../../../components/control/icon-button';
 import {StoryStylesheetDialog, useDialogsContext} from '../../../../dialogs';
 import {Passage, Story, passageWithIdAsStory, passageWithNameAsStory} from '../../../../store/stories';
+import { uploadStory } from '../../../../store/persistence/database';
 
 export interface UploadStoryButtonProps {
 	story: Story;
@@ -86,6 +87,8 @@ export const UploadStoryButton: React.FC<UploadStoryButtonProps> = props => {
                     const isNotLoop : boolean = checkNotLoop();
                     if(isHaveOption && isNotLoop)
                         alert("오류 없음!")
+                    uploadStory(story);
+                    alert("업로드 완료");
                 }
 			}
 		/>
