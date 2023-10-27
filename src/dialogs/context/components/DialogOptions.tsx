@@ -69,7 +69,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                 status2 : optionsStatus2[i],
                 status1Num : optionsAmountChange1[i],
                 status2Num : optionsAmountChange2[i],
-                nextNormalPassage : optionsNextNormalPassage[i], //얘는 유저가 변경하는 값이 아니므로, 인자를 사용하지 않고 기존의 값을 그대로 전달하면 됨
+                nextNormalPassage : optionsNextNormalPassage[i] ?? "", //얘는 유저가 변경하는 값이 아니므로, 인자를 사용하지 않고 기존의 값을 그대로 전달하면 됨
                 optionVisibleName :  optionsVisibleName[i],
             })
         }
