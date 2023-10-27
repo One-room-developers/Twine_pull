@@ -151,7 +151,13 @@
     width: 30px;
     height: 30px;
 }
-
+.errorInfo{
+    font-family: "godicThin";
+    font-size: 15px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    color: #FF0060;
+}
 .autoLogin-container{
     width: 100%;
     display: flex;

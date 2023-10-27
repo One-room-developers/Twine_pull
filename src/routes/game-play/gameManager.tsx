@@ -135,8 +135,14 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
     }
 
+<<<<<<< HEAD
     function makeOptionDiv(optionTexts : string[]) {
         let lists = [];
+=======
+    function makeOptionDiv() {
+        
+        let optionDiv = [];
+>>>>>>> 0d3b0cba4a7a42dcdf9119857bf50e1151b7d852
 
         optionTexts.forEach((optionText, i) => {
             lists.push(
@@ -245,8 +251,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
         else if (current_status.health <= 0){//배고픔이 0이 아닌 상태에서 체력이 0이되었거나, 유저가 체력1 배고픔0에서 체력-1을 선택한 경우
             isGameOver = true
+<<<<<<< HEAD
             setPassageTitle("끝은 갑작스럽게");
             currentPassage.visibleText = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
+=======
+            setPassageTitle("끝은 언제나 갑작스럽게");
+            body_text = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
+>>>>>>> 0d3b0cba4a7a42dcdf9119857bf50e1151b7d852
         }else{  //게임이 종료되지 않았다면
             if (nextPassageName !== null && nextPassageName !== ""){
                 currentPassage = passages.find(passage => (passage.name === nextPassageName))
