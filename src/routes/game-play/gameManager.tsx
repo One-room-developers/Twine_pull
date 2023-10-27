@@ -127,6 +127,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function typing_text() { //텍스트 한 글자 타이핑
+        debugger;
         //클릭을 안했다면 수행
         if (click !== true) {
             if (typingIdx < split_txt_arr.length) {
@@ -176,6 +177,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 optionDiv[i].id = `${i}`;
                 optionDiv[i].innerText = option.optionVisibleName;
                 optionDiv[i].addEventListener('click', (e: any) => { makeResultText(e.target.id) }); //option div 클릭하면 result text를 만들게 해줌
+                // optionDiv[i] = 
+                //     <div className="option_div" id={ i.toString() } onClick={function(e: any){ makeResultText(e.target.id) }}>
+                //             {option.optionVisibleName}
+                //     </div>
                 options_div.current.appendChild(optionDiv[i]);
             })
         }
@@ -221,18 +226,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
                         break;
                     case 'hungry':
                         statMessage="허기가"
-                        break;
-                    case 'strength':
-                        statMessage="근력이"
-                        break;
-                    case 'agility':
-                        statMessage="민첩이"
-                        break;
-                    case 'armour':
-                        statMessage="방어가"
-                        break;
-                    case 'mental':
-                        statMessage="정신력이"
                         break;
                 }
                 if (status_change[optionIndex][statName] < 0){

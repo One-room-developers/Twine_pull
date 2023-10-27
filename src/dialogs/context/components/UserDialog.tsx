@@ -28,7 +28,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     console.log(props.passage);
     
     //본문 + [[선택지]] 로 된 문자열 생성
-
+    
     return(
         <div className="making-all-container">
             <div className="making-window">

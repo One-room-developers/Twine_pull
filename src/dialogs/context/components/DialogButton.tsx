@@ -31,7 +31,6 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
         optionVisibleName : string)
     {
         console.log("Log : handlePassageTextChange() - ");
-        
         let text = visibleText.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
         if(passage.passageType === "normalPassage"){
             options.forEach(option => {
