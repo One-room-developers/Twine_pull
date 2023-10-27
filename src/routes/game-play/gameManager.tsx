@@ -78,10 +78,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     let basicSize_of_textViewDiv : number
     let basicSize_of_mainTextViewDiv: number;
 
-
-
-
-
     async function game_start() {
         console.log('게임 스타트 함수 진입');
         //db 업데이트
@@ -281,9 +277,21 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         current_episode_num += 1;
 
-        if (current_status.health <= 0 || current_status.hungry <= 0){
+        //배고픔이 0이면
+        if(current_status.hungry <= 0){
+            //체력 1깎음
+            current_status.health = current_status.health -1;
+        }
+
+        //배고픔이 0이하고 체력이 정확히 0이면, 유저가 체력이 1남은 상태에서 배고픔으로 죽었다는 것.
+        if(current_status.hungry <= 0 && current_status.health === 0){
             isGameOver = true
-            setPassageTitle("게임 오버");
+            setPassageTitle("허기를 이기지 못하고");
+            body_text = "식량이 부족한 결과 당신은 모든 기력을 소진했습니다. 당신은 굶주렸지만 까마귀들은 포식하겠군요."
+        }
+        else if (current_status.health <= 0){//배고픔이 0이 아닌 상태에서 체력이 0이되었거나, 유저가 체력1 배고픔0에서 체력-1을 선택한 경우
+            isGameOver = true
+            setPassageTitle("끝은 갑작스럽게");
             body_text = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
         }else{
             if (nextPassageName !== null){
