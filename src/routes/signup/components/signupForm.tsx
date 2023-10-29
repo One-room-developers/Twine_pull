@@ -54,7 +54,7 @@ function SignupForm (props:SignupForm_props){
 
                 if(res.data.successMsg == 10) {
                     alert("회원가입이 되었습니다.");
-                    window.location.href=`${process.env.REACT_APP_LOCAL_HOME_URL}/#/login`;
+                    window.location.href=`${process.env.REACT_APP_DEV_HOME_URL}/#/login`;
                 }
             });
         }
