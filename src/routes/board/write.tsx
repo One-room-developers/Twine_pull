@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { HeaderBar } from '../home';
 import { Link, useHistory } from 'react-router-dom';
+import {useForm} from "react-hook-form";
+
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
 import { PopularPost } from './components/PopularPost';
+
 
 const Container = styled.body`
     height: 100vh;
@@ -174,6 +177,7 @@ const CertificateContainer = styled.div`
 
 export const WriteRoute: React.FC = () => {
     const history = useHistory();
+    const {register, handleSubmit, formState:{errors}, setError} = useForm();
 
     const [nickname, setNickname] = React.useState("");
     const [title, setTitle] = React.useState("");

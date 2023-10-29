@@ -2,7 +2,6 @@ import * as React from 'react';
 import {Component, createRef } from 'react';
 import SignupForm from './signupForm';
 import './emailContainer.css';
-import axios from 'axios';
 
 type Modes_props = {
     onFormSubmit(email : string) : void,
@@ -47,39 +46,6 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
 
         const signUpComponent = <SignupForm closeForm={
             function(){this.setState({mode: 'default'})}.bind(this)} 
-            submitForm={function(e){
-                //state에 회원 가입에 필요한 값들을 전달함.
-                e.preventDefault();
-                this.state.email = e.target.email.value;
-                this.state.password = e.target.pw.value;
-                this.state.password_con = e.target.pwc.value;
-                this.state.nickname = e.target.nic.value;
-
-                axios({
-                    method: "POST",
-                    url: `${process.env.REACT_APP_API_URL}/auth/signup`,
-                    data: {
-                        id: this.state.email,
-                        nickname: this.state.nickname,
-                        password: this.state.password
-                    },
-                })
-                .then((res) => {
-                    if(res.data.errorMsg == 13) {
-                        // 이미 있는 아이디입니다.
-                        alert("이미 있는 아이디이거나 닉네임입니다.");
-                    }
-                    else if(res.data.errorMsg == 11) {
-                        console.log('서버 문제로 회원가입 실패');
-                        alert("서버에 문제가 발생했습니다. 다시 시도해주세요.");
-                    }
-
-                    if(res.data.successMsg == 10) {
-                        window.location.href=`${process.env.REACT_APP_LOCAL_HOME_URL}/#/login`;
-                    }
-                });
-
-            }.bind(this)}
             emailDefault={default_email}></SignupForm>;
         
         let _signUpForm = signUpComponent;
@@ -95,7 +61,7 @@ class EmailContainer extends Component<Modes_props , EmailContainerState>{ // <p
         return(
             <div className="email-container">
                 {_signUpForm}
-                <input className="email-input" type="text" ref={this.inputRef} placeholder="아이디" required />
+                <input className="email-input" type="text" ref={this.inputRef} placeholder="아이디" />
                 <button className="font-game-thin signup-button" onClick={function(e){
                     this.setState({mode: 'signup'});
                 }.bind(this)}>시작하기</button>

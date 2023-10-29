@@ -4,10 +4,11 @@ import x from '../../../styles/image/x.svg';
 import './signupForm.css';
 import {idCheck, nicknameCheck} from '../../authApi';
 import {useForm} from "react-hook-form";
+import axios from 'axios';
+
 
 type SignupForm_props = {
     closeForm() : void,
-    submitForm(e : any) : void,
     emailDefault : string,
 };
 
@@ -25,11 +26,37 @@ interface IFormData{
 
 function SignupForm (props:SignupForm_props){
 
-    const {register, handleSubmit, formState:{errors}, setError} = useForm()
+    const {register, handleSubmit, formState:{errors}, setError} = useForm();
 
     function onValid(data: IFormData){
         if(data.pwd1 !== data.pwd2){
             setError("pwd2", {message:"비밀번호가 서로 다릅니다."});
+        }
+        else{
+            axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/auth/signup`,
+                data: {
+                    id: data.id,
+                    nickname: data.nick,
+                    password: data.pwd1
+                },
+            })
+            .then((res) => {
+                if(res.data.errorMsg == 13) {
+                    // 이미 있는 아이디입니다.
+                    alert("이미 있는 아이디이거나 닉네임입니다.");
+                }
+                else if(res.data.errorMsg == 11) {
+                    console.log('서버 문제로 회원가입 실패');
+                    alert("서버에 문제가 발생했습니다. 다시 시도해주세요.");
+                }
+
+                if(res.data.successMsg == 10) {
+                    alert("회원가입이 되었습니다.");
+                    window.location.href=`${process.env.REACT_APP_LOCAL_HOME_URL}/#/login`;
+                }
+            });
         }
     }
 
@@ -51,7 +78,7 @@ function SignupForm (props:SignupForm_props){
                     <div className='signup-id-container'>
 
                         <label htmlFor='email'>아이디</label>
-                        <input {...register("id", {required: "필수 입력 항목입니다.", 
+                        <input defaultValue={props.emailDefault} {...register("id", {required: "필수 입력 항목입니다.", 
                         pattern:{value:/^[A-Za-z0-9._%+-]/,
                                 message: "영문, 숫자로만 조합 가능합니다."},
                         minLength:{
