@@ -78,8 +78,6 @@ export const LoginRoute: React.FC = () => {
                 saveUserInfo(authorizedUser.nickname);
                 
                 sessionStorage.setItem("userId", authorizedUser.email);
-    
-                console.log(authorizedUser.nickname, authorizedUser.email)
                 history.push("/");
             });
         }
