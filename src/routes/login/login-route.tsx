@@ -78,7 +78,6 @@ export const LoginRoute: React.FC = () => {
                 saveUserInfo(authorizedUser.nickname);
                 
                 sessionStorage.setItem("userId", authorizedUser.email);
-    
                 history.push("/");
             });
         }
@@ -116,7 +115,7 @@ export const LoginRoute: React.FC = () => {
                     <div className="grid-1 font-game-thick">로그인</div>
                     <div className="grid-2 ">
                         <form action="">
-                            <input type="email" placeholder="계정 이메일" onChange={onChangeEmail} onKeyDown={handleEnter}/>
+                            <input type="email" placeholder="계정" onChange={onChangeEmail} onKeyDown={handleEnter}/>
                             <input type="password" placeholder="비밀번호" onChange={onChangePwd} onKeyDown={handleEnter} />              
                             <div className='errorInfo'>{errorInfo}</div>
                         </form>
