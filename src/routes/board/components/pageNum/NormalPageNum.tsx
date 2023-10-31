@@ -64,7 +64,7 @@ function NormalPageNumContainer(){
     const normalPageNum = Math.floor(normalPostNum / 20) + 1;
     if(isPostNumLoading === false){
         //탈출 조건: 최대 페이지 숫자 끝까지 가거나 or 숫자 10개 배열에 넣던가.
-        for(let i= startPageNumber * 10; (i< (startPageNumber * 10) + normalPageNum) && i < startPageNumber * 10 + 10; i++){
+        for(let i= startPageNumber * 10; (i< normalPageNum) && i < startPageNumber * 10 + 10; i++){
             pageArr.push(i+1);
         }
     }
