@@ -8,6 +8,10 @@ import { useHistory, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import likeSvg from './img/like.svg';
 import messageSvg from './img/message.svg';
+
+//recoil관련
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userNameAtom, userIdAtom} from "../login/userInfoAtom";
 //Component
 import {AdContainer} from './components/AdContainer';
 import { PopularEpi } from './components/PopularEpi';
@@ -15,7 +19,6 @@ import { PopularPost } from './components/PopularPost';
 
 //로그인 관련
 import {checkAccessToken} from '../authApi';
-import SessionStorageAPI from '../login/session';
 
 const Container = styled.body`
     height: 100vh;
@@ -418,16 +421,15 @@ export const ThreadRoute: React.FC = () => {
     const onChangeCommentPwd = React.useCallback((e) => setCreateCommentPwd(e.target.value), []);
     const onChangeCommentContent = React.useCallback((e) => setCreateCommentContent(e.target.value), []);
 
-    const sessionStorage = new SessionStorageAPI();//userNickname
-
     React.useEffect(()=>{updatePostViewApi(parseInt(viewId))},[]);
 
     const toBack = () => {
         history.goBack();
     }
 
+    const userId = useRecoilValue(userIdAtom);
     async function checkLogin() {
-        if(await checkAccessToken() === true){
+        if(await checkAccessToken(userId) === true){
             return true;
         }
         else{
@@ -435,12 +437,15 @@ export const ThreadRoute: React.FC = () => {
         }
     }
 
-    async function postLike(){
-        const userId = await sessionStorage.getItem("userId");
+    async function postLike(userId){
+        
             if(userId === null){
-                alert("세션이 초기화되었습니다. 다시 로그인해주세요.");
+                alert("유저 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
                 history.replace("/login");
             }
+            /*else if(authRefreshToken(userId) === "다른 유저 아이디의 토큰"){
+                alert("유저 정보가 다릅니다. 로그아웃 후 다시 이용해주세요.");
+            } */
             else{
                 if(await updatePostLike(userId, parseInt(viewId)) === false) {
                     alert("이미 추천하였습니다.");
@@ -455,7 +460,7 @@ export const ThreadRoute: React.FC = () => {
         const isLogin = await checkLogin();
 
         if(isLogin === true){
-            postLike();
+            postLike(userId);
         }
         else{
             alert("로그인이 필요합니다.");

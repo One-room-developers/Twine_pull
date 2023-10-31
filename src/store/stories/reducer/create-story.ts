@@ -21,8 +21,7 @@ export function createStory(state: StoriesState, storyProps: Partial<Story>) {
 		);
 		return state;
 	}
-	const sessionStorage = new SessionStorageAPI();
-	const userNickname : string = sessionStorage.getItem("userNickname");
+	const userNickname : string = JSON.parse(localStorage.getItem("recoil-persist")).userName;
 	const storyId = uuid()
 	const  storyPk : string = storyId + userNickname;
 

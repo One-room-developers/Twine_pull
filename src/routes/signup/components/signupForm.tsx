@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import x from '../../../styles/image/x.svg';
 import './signupForm.css';
 import {idCheck, nicknameCheck} from '../../authApi';
@@ -25,7 +25,7 @@ interface IFormData{
 };
 
 function SignupForm (props:SignupForm_props){
-
+    const history = useHistory();
     const {register, handleSubmit, formState:{errors}, setError} = useForm();
 
     function onValid(data: IFormData){
@@ -54,7 +54,7 @@ function SignupForm (props:SignupForm_props){
 
                 if(res.data.successMsg == 10) {
                     alert("회원가입이 되었습니다.");
-                    window.location.href=`${process.env.REACT_APP_DEV_HOME_URL}/#/login`;
+                    history.push(`${process.env.REACT_APP_DEV_HOME_URL}/login`);
                 }
             });
         }
