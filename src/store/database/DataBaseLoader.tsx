@@ -32,9 +32,7 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                     nickname: userNickname
                 }
             });
-
             dbStoriesState = res1.data;
-            console.log(dbStoriesState);
 
             // url 뒤에 story pk 붙여줘야함
             let dummyArr = [];

@@ -8,7 +8,7 @@ import hungryBLogo from "../../../styles/image/hungry_b.png"
 import moneyLogo from "../../../styles/image/money.png"
 import money5Logo from "../../../styles/image/money5.png"
 
-import { current_status, maxStatus } from '../../../store/stories/gameManager.types';
+import { current_status, maxStatus } from '../gameDataManager';
 
 export var health_class;
 export var hungry_class;
