@@ -5,9 +5,8 @@ import arrow from '../../styles/image/arrow-right-svgrepo-com.svg';
 import axios from 'axios';
 import { useHistory } from "react-router";
 import {Link} from "react-router-dom";
-import SessionStorageAPI from "./session";
 import {useRecoilValue, useRecoilState} from "recoil";
-import {userInfoAtom} from "./userInfoAtom";
+import {userIdAtom, userNameAtom} from "./userInfoAtom";
 
 export const LoginRoute: React.FC = () => {
 
@@ -17,11 +16,8 @@ export const LoginRoute: React.FC = () => {
     const [pwd, setPwd] = React.useState("");
     const [errorInfo, setErrorInfo] = React.useState("");
     //recoil 사용
-    const [userNickName, setUserNickName] = useRecoilState(userInfoAtom);
-
-    async function saveUserInfo(userName){
-        await setUserNickName(userName);
-    }
+    const [userId, setUserId] = useRecoilState(userIdAtom);
+    const [userName, setUserName] = useRecoilState(userNameAtom);
 
     const onChangeEmail = React.useCallback((e) => {
         setErrorInfo("");
@@ -70,14 +66,11 @@ export const LoginRoute: React.FC = () => {
                 const targetTime = currentTime + res.data.refreshOption.maxAge;
                 const expireTime = new Date(targetTime);
     
-                const sessionStorage = new SessionStorageAPI();
-    
                 //seesion에 토큰을 저장해도 되는가?
                 //쿠키 저장 : setCookies("userNickname", authorizedUser.nickname, "/", expireTime.toUTCString());
-                sessionStorage.setItem("userNickname", authorizedUser.nickname);
-                saveUserInfo(authorizedUser.nickname);
-                
-                sessionStorage.setItem("userId", authorizedUser.email);
+                setUserId(authorizedUser.email);
+                setUserName(authorizedUser.nickname);
+
                 history.push("/");
             });
         }

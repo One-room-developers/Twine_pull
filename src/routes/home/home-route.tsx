@@ -1,29 +1,22 @@
 import * as React from 'react';
 import './home-route.css';
 import CookieStorageAPI from "../login/cookies";
-import SessionStorageAPI from "../login/session";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
 import {Link} from "react-router-dom"
 import SliderContainer from './SliderContainer';
 import {checkAccessToken} from '../authApi';
-import useIntersectionObserver from './useIntersectionObserver';
 import {useRecoilValue, useRecoilState} from "recoil";
-import {userInfoAtom} from "../login/userInfoAtom";
+import {userNameAtom, userIdAtom} from "../login/userInfoAtom";
 
-export async function isLogin() : Promise<React.JSX.Element>{
-    const sessionStorage = new SessionStorageAPI();
-
-    if(await checkAccessToken() === false){
-
-        console.log("토큰 없음");
+export async function isLogin(userId: string | null) : Promise<React.JSX.Element>{
+    if(userId === ""){
+        console.log("저장된 유저 id 없음");
         return(<IfLogout></IfLogout>);
     }
     else{
-
-        console.log("토큰 있음");
-
-        return(<IfLogin nickname={sessionStorage.getItem("userNickName")}></IfLogin>);
+        console.log("저장된 유저 id 있음");
+        return(<IfLogin nickname={userId}></IfLogin>);
     }
 }
 
@@ -32,12 +25,12 @@ export const HeaderBar: React.FC = () =>{
     const [scrollY, setScrollY] = React.useState<number>(0);
 
     const [whetherLoginComponent, setWhetherLoginComponent] = React.useState(<IfLogout></IfLogout>);
-    const userNickName = useRecoilValue(userInfoAtom);
+    const userId = useRecoilValue(userIdAtom);
 
     React.useEffect(() => {
         async function getWhetherLoginComponent(){
             
-            setWhetherLoginComponent(await isLogin());
+            setWhetherLoginComponent(await isLogin(userId));
         };
         getWhetherLoginComponent()
     }, []);
@@ -50,7 +43,7 @@ export const HeaderBar: React.FC = () =>{
     };
     
     //recoil
-    console.log("Atom userNickName: ", userNickName);
+
     window.addEventListener("scroll", handleScroll);
 
     return(

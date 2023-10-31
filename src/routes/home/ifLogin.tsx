@@ -19,7 +19,7 @@ class ifLogin extends Component<ifLogin_props>{
                 <Link to="/select">
                     <div className="font-hambak sign-btn">Play Game</div>
                 </Link>
-                <Link to="/">
+                <Link to={`/mypage/${this.props.nickname}`}>
                     <div className="font-hambak login-btn">MyPage</div>
                 </Link>
             </div>

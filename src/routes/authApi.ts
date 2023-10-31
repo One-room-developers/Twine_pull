@@ -1,13 +1,11 @@
-import SessionStorageAPI from "./login/session";
 import axios from "axios";
 
-export async function checkAccessToken() : Promise<boolean>{
-    const sessionStorage = new SessionStorageAPI();
+export async function checkAccessToken(userId) : Promise<boolean>{
 
     if(await authAccessToken() === false){//access토큰 없어
-        console.log("userID", sessionStorage.getItem("userId"));
+        console.log("userID", userId);
 
-        if(await authRefreshToken(sessionStorage.getItem("userId")) === true){
+        if(await authRefreshToken(userId) === true){
             //true 반환 받은 순간 이미 access토큰도 발급 받았음.
             return true;
         }

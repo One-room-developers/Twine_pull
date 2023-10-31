@@ -6,6 +6,9 @@ import axios from 'axios';
 import {doUpdateTransaction,savePassage,saveStory } from '../persistence/local-storage/stories'; 
 import SessionStorageAPI from '../../routes/login/session';
 import { LoadingCurtain } from '../../components/loading-curtain';
+//recoil관련
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userNameAtom, userIdAtom} from "../../routes/login/userInfoAtom";
 
 type DataBaseLoader = {
 }
@@ -13,18 +16,19 @@ type DataBaseLoader = {
 export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
     //꼼수로 지금 세션에 있는 값들을 분해해서 db에 저장하고, 그걸 불러와보기
     //나중에는 db에서 불러오는 것만 하기
-    const [isDBLoading, setIsDBLoading] = React.useState(false)
+    const [isDBLoading, setIsDBLoading] = React.useState(false);
+    const userName = useRecoilValue(userNameAtom);
     
     React.useEffect(() => {
-        const sessionStorage = new SessionStorageAPI();
 		async function run() {
-            window.localStorage.clear();
+            //window.localStorage.clear();
             console.log("Log : DataBaseLoader - run()");
             //db의 값 변수에 저장
             let dbStoriesState :StoriesState = [];
             let dbPassagesState : Passage[] = [];
             // 유저 닉네임을 같이 보내줘야함
-            let userNickname = sessionStorage.getItem("userNickname");
+            
+            let userNickname = userName;
             const res1 = await axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_API_URL}/make_episode/get_stoires`,

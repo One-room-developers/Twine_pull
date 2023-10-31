@@ -3,6 +3,10 @@ import styled from 'styled-components';
 //function
 import {checkAccessToken} from '../../authApi';
 
+//recoil관련
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userNameAtom, userIdAtom} from "../../login/userInfoAtom";
+
 //component
 import RequestLoginInfo from './requestLoginInfo';
 
@@ -28,10 +32,11 @@ const GuestContainer = styled.div`
 export function SaveDataContainer(){
     const [isLogin, setIsLogin] = React.useState(false);
     const [isGuestMode, setIsGuestMode] = React.useState(false);
+    const userId = useRecoilValue(userIdAtom);
 
     React.useEffect(() => {
         async function checkLogin() {
-            if(await checkAccessToken() === true){
+            if(await checkAccessToken(userId) === true){
                 setIsLogin(true);
             }
             else{

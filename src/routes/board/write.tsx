@@ -175,21 +175,46 @@ const CertificateContainer = styled.div`
     justify-content: space-between;
 `
 
+interface IFormData{
+    error:{
+        category:{
+            message:string;
+        }
+    }
+    category:number;
+    title:string;
+    writer:string;
+    pwd:string;
+    content:string;
+};
+
 export const WriteRoute: React.FC = () => {
     const history = useHistory();
     const {register, handleSubmit, formState:{errors}, setError} = useForm();
+    
+    function onValid(data:IFormData){
+        axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_API_URL}/post/create`,
+            data: {
+                writer: data.writer,
+                title: data.title,
+                content: data.content,
+                category: data.category,
+                password: data.pwd
+            },
+        })
+        .then((res) => {
+            if(res.data.successMsg === 20) {
+                alert("게시물이 등록되었습니다.");
+            }
+            else {
+                alert("오류");
+            }
 
-    const [nickname, setNickname] = React.useState("");
-    const [title, setTitle] = React.useState("");
-    const [content, setContent] = React.useState("");
-    const [category, setCategory] = React.useState("");
-    const [password, setPassword] = React.useState("");
-
-    const onChangeNickname = React.useCallback((e) => setNickname(e.target.value), []);
-    const onChangeTitle = React.useCallback((e) => setTitle(e.target.value), []);
-    const onChangeContent = React.useCallback((e) => setContent(e.target.value), []);
-    const onChangeCategory = React.useCallback((e) => setCategory(e.target.value), []);
-    const onChangePassword = React.useCallback((e) => setPassword(e.target.value), []);
+            history.push("/board/all/1");
+        });
+    }
 
     // function test1000Post(){
     //     for(let i=1; i<1000; i++){
@@ -217,31 +242,6 @@ export const WriteRoute: React.FC = () => {
     //     }
     // }
 
-    function regist(e:React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-
-        axios({
-            method: "POST",
-            url: `${process.env.REACT_APP_API_URL}/post/create`,
-            data: {
-                writer: nickname,
-                title: title,
-                content: content,
-                category: category,
-                password: password
-            },
-        })
-        .then((res) => {
-            if(res.data.successMsg === 20) {
-                alert("게시물이 등록되었습니다.");
-            }
-            else {
-                alert("오류");
-            }
-
-            history.push("/board/all/1");
-        });
-    }
 
     return(
         <Container>
@@ -257,11 +257,11 @@ export const WriteRoute: React.FC = () => {
                 </LeftSide>
                 <Mid>
                     <WriteContainer>
-                        <WriteFrom method='POST' onSubmit={regist}>
+                        <WriteFrom method='POST' onSubmit={handleSubmit(onValid)}>
                             <CategoryHeader>
                                 <CategoryContainer>
                                     <BoxName>태그</BoxName>
-                                    <CategorySelect required onChange={onChangeCategory}>
+                                    <CategorySelect {...register("category", {required: "필수 입력 항목입니다.", })}>
                                         <option value={""}>카테고리 선택</option>
                                         <option value={1}>일반</option>
                                         <option value={2}>버그제보</option>
@@ -274,19 +274,19 @@ export const WriteRoute: React.FC = () => {
                             </CategoryHeader>
                             <WriterInputContainer>
                                 <BoxName>제목</BoxName>
-                                <WriteInput type="text" required onChange={onChangeTitle}/>
+                                <WriteInput type="text" {...register("title", {required: "필수 입력 항목입니다.", })}/>
                             </WriterInputContainer>
                             <CertificateContainer>
                                 <ContentsCotainer>
                                     <BoxName>작성자</BoxName>
-                                    <Contents type="text" required onChange={onChangeNickname}/>
+                                    <Contents type="text" {...register("writer", {required: "필수 입력 항목입니다.", })}/>
                                 </ContentsCotainer>
                                 <ContentsCotainer>
                                     <BoxName>비밀번호</BoxName>
-                                    <Contents type="password" required onChange={onChangePassword}/>
+                                    <Contents type="password" {...register("pwd", {required: "필수 입력 항목입니다.", })}/>
                                 </ContentsCotainer>
                             </CertificateContainer>
-                            <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' required onChange={onChangeContent}/>
+                            <WriterTextArea className="content" placeholder='본문을 입력해 주세요.' {...register("content", {required: "필수 입력 항목입니다.", })}/>
                             <PostBtnContainer>
                                 <PostBtn>등록</PostBtn>
                             </PostBtnContainer>

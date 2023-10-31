@@ -49,6 +49,7 @@
 		"react-slick": "^0.29.0",
 		"react-tabs": "^3.2.3",
 		"react-transition-group": "^4.4.1",
+		"recoil-persist": "^5.1.0",
 		"scroll": "^3.0.1",
 		"segseg": "^1.0.0",
 		"semver": "^7.3.4",

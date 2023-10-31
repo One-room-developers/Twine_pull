@@ -74,7 +74,8 @@ export async function updatePostLike(player_id:string, post_id:number){
         data: {
             player_id: player_id,
             post_id: post_id
-        }
+        },
+        withCredentials: true
     });
     const data = await response.data;
     return data;

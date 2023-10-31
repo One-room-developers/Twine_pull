@@ -31,6 +31,9 @@ import {checkAccessToken} from '../authApi';
 import { StateLoader } from '../../store/state-loader';
 import { DataBaseLoader } from '../../store/database/DataBaseLoader';
 import { LoadingCurtain } from '../../components/loading-curtain';
+//recoil관련
+import {useRecoilValue, useRecoilState} from "recoil";
+import {userNameAtom, userIdAtom} from "../login/userInfoAtom";
 
 
 export const InnerStoryListRoute: React.FC = () => {
@@ -128,11 +131,12 @@ export const StoryListRoute: React.FC = () => {
 	const [isLogin, setIsLogin] = React.useState(false);
 	const [isCheckLogin, setIsCheckLogin]  = React.useState(false);
 	const history = useHistory();
+	const userId = useRecoilValue(userIdAtom);
 
 	React.useEffect(() => {
         async function checkLogin() 
 		{
-            if(await checkAccessToken() === true){
+            if(await checkAccessToken(userId) === true){
                 setIsLogin(true);
             }
             else{
