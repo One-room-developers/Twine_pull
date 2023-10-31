@@ -235,7 +235,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     function passageEnd() {
         debugger;
         resetTextDiv();
-        happyEndTime -= 1;
 
         //배고픔이 0이면
         if(current_status.hungry <= 0){
@@ -248,8 +247,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
         else if (current_status.health <= 0){//배고픔이 0이 아닌 상태에서 체력이 0이되었거나, 유저가 체력1 배고픔0에서 체력-1을 선택한 경우
             gameEnd('bad', 'health')
-        }else if(happyEndTime <= 0){  //게임이 종료되지 않았다면
-            gameEnd('happy', '')
         }
         else{
             if (nextPassageName === null || nextPassageName === ""){ // story가 끝
@@ -261,11 +258,15 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 setPassageTitle(currentPassage.name);
             }
         }
+        if(happyEndTime <= 0){  //게임이 종료되지 않았다면
+            gameEnd('happy', '')
+        }
         //passage를 끝내면 useEffect가 다시 실행됨
         setIsPassageEnd(true)
     }
 
     function storyEnd(){
+        happyEndTime -= 1;
         isStoryEnd = true
         lastStoryArr.push(story.pk)
     }
