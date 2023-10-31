@@ -28,8 +28,8 @@ export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 						<PassageActions getCenter={getCenter} story={story} />
 					),
 				["에피소드"]: <StoryActions story={story} />,
-				["빌드"]: <BuildActions story={story} />,
-				["Twine 설정"]: <AppActions />	
+				// ["빌드"]: <BuildActions story={story} />,
+				// ["Twine 설정"]: <AppActions />	
 				// [t('common.passage')]: (
 				// 	<PassageActions getCenter={getCenter} story={story} />
 				// ),

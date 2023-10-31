@@ -1,8 +1,10 @@
 import React, { MutableRefObject, useState } from "react";
-import { Status, MainProps, NextStoryAndPassages, NextStory, NextPassage, NextOption , current_status, default_status} from "../../store/stories/gameManager.types";
+import { Status, MainProps, NextStoryAndPassages, NextStory, NextPassage, NextOption} from "../../store/stories/gameManager.types";
+import { current_status, default_status, getNextStoryAndPassages, changeStatus, getStatusChange, getCurrentPassageAndOptions } from "./gameDataManager";
 import { makeRightUI } from "./component/right_ui";
-import axios from 'axios';
 import { useHistory } from "react-router";
+import { startEpisode, BadEndEpisodeByHungry, BadEndEpisodeByHealth, HappyEndEpisode } from "./mainepisode";
+import { Passage } from "../../store/stories";
 
 let lastStoryArr : string[] = [];
 let story : NextStory = null;
@@ -11,22 +13,21 @@ let options : NextOption[][] = null; ;
 let currentOptions : NextOption[] = null;
 let currentPassage : NextPassage = null;
 let nextPassageName : string = null;
-let status_change: Status[];
+let statusChange: Status[];
 let isGameStart = true;
 let isGameOver = false;
 let isStoryEnd = false;
-
+let happyEndTime = 10;
 
 
 export const GameManager : React.FC<MainProps> = (props) => {
     let passage_text_div = props.passage_text_div
     let text_view_div = props.text_view_div
     let main_text_view_div = props.main_text_view_div
-    let options_box_div = props.options_box_div
+    let options_div = props.options_div
     let result_text_div = props.result_text_div
     let result_option_div = props.result_option_div
     let header_text_view_div = props.header_text_view_div
-    const [optionDivs, setOptionDivs] = props.optionDivs;
     const [passageTitle, setPassageTitle] = props.passageTitleState;
     const [storyName, setStoryName] = props.storyTitleState
     const [passageText, setPassageText] = props.passageTextState
@@ -48,16 +49,27 @@ export const GameManager : React.FC<MainProps> = (props) => {
     async function game_start(){
         isGameStart = false;
 
-        story_start();
+        [story, passages, options] = startEpisode;
+        story_start(true);
+
         await wait(1500);
         makeRightUI()
     }
-    async function story_start(){
+
+    async function story_start(start ?: boolean){
         isStoryEnd = false;
 
-        await getNextStoryAndPassages(current_status, lastStoryArr);
+        if(start !== true){ //game start때는 따로 데이터를 가져옴
+            [story, passages, options] = await getNextStoryAndPassages(current_status, lastStoryArr);
+        }
+        let startPassage : NextPassage = passages.find(passage => story.startPassage === passage.id);
+        [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, startPassage.name);
+        setStoryName(story.name);
+        setPassageTitle(currentPassage.name);
+
         passage_start();
     }
+
     async function passage_start() {
         setIsPassageEnd(false);
         await wait(2000);
@@ -136,30 +148,24 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function makeOptionDiv(optionTexts : string[]) {
-        let lists = [];
 
         optionTexts.forEach((optionText, i) => {
-            lists.push(
-                <div 
-                    className="option_div" 
-                    id={i.toString()}
-                    onClick={
-                        function(){
-                            if(!isGameOver){
-                                makeResultText(i);
-                            }
-                            else{history.push("/select");}
-                        }
-                    }>
-                        {optionText}
-                </div>
-            ) 
+            let optionDiv = document.createElement('div');
+            optionDiv.className = "option_div";
+            optionDiv.innerText = optionText;
+            optionDiv.id = i.toString()
+            optionDiv.addEventListener('click', (e: any) => {  
+                if(!isGameOver){
+                makeResultText(i);
+                }
+                else{history.push("/select");} 
+            }); //result div를 누르면 이번 passage를 끝냄
+            options_div.current.appendChild(optionDiv);
         })
-        setOptionDivs(lists) 
         //hidden 풀어서 option Div가 보이게 해줌
-        options_box_div.current.classList.remove("hidden");
+        options_div.current.classList.remove("hidden");
         //text div의 높이를 설정해줘서 option div가 맨 아래에 위치하도록 하는 코드 코드
-        const optionsDivHeight = options_box_div.current.clientHeight
+        const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
     }
@@ -174,8 +180,8 @@ export const GameManager : React.FC<MainProps> = (props) => {
         let isStatChanged = false;
 
         //stat 증가량 텍스트 입력
-        for (let statName in status_change[optionIndex]) {
-            if (status_change[optionIndex][statName] != 0) {
+        for (let statName in statusChange[optionIndex]) {
+            if (statusChange[optionIndex][statName] != 0) {
                 isStatChanged = true;
                 let statMessage;
                 switch(statName){
@@ -189,17 +195,16 @@ export const GameManager : React.FC<MainProps> = (props) => {
                         statMessage="허기가"
                         break;
                 }
-                if (status_change[optionIndex][statName] < 0){
-                    result_txt += statMessage + " " + status_change[optionIndex][statName] + "만큼 줄었습니다\n"
-                    setResultText(result_txt);
+                if (statusChange[optionIndex][statName] < 0){
+                    result_txt += statMessage + " " + statusChange[optionIndex][statName] + "만큼 줄었습니다\n"
                 }
                 else{
-                    result_txt += statMessage + status_change[optionIndex][statName] + "만큼 늘었습니다\n"
-                    setResultText(result_txt);
+                    result_txt += statMessage + statusChange[optionIndex][statName] + "만큼 늘었습니다\n"
                 }
             }
         }
-        changeStatus(status_change[optionIndex])
+        setResultText(result_txt);
+        changeStatus(statusChange[optionIndex])
 
         //result div를 만들어줌
         makeResultOptionDiv();
@@ -237,30 +242,61 @@ export const GameManager : React.FC<MainProps> = (props) => {
             changeStatus({hungry : -1})
         }
 
-        //배고픔이 0이하고 체력이 정확히 0이면, 유저가 체력이 1남은 상태에서 배고픔으로 죽었다는 것.
-        if(current_status.hungry <= 0 && current_status.health === 0){
-            isGameOver = true
-            setPassageTitle("허기를 이기지 못하고");
-            currentPassage.visibleText = "식량이 부족한 결과 당신은 모든 기력을 소진했습니다. 당신은 굶주렸지만 까마귀들은 포식하겠군요."
+        if(current_status.hungry <= 0){
+            gameEnd('bad', 'hungry')
         }
         else if (current_status.health <= 0){//배고픔이 0이 아닌 상태에서 체력이 0이되었거나, 유저가 체력1 배고픔0에서 체력-1을 선택한 경우
-            isGameOver = true
-            setPassageTitle("끝은 갑작스럽게");
-            currentPassage.visibleText = "몸이 움직이지 않습니다. 눈앞이 아득해지고, 몹시 추워집니다. 당신은 죽었습니다"
-        }else{  //게임이 종료되지 않았다면
-            if (nextPassageName !== null && nextPassageName !== ""){
-                currentPassage = passages.find(passage => (passage.name === nextPassageName))
-                currentOptions = getCurrentOptions(passages, currentPassage, options);        
-                setValues();
+            gameEnd('bad', 'health')
+        }
+        else{
+            if (nextPassageName === null || nextPassageName === ""){ // story가 끝
+                storyEnd()
             }
             else{
-                isStoryEnd = true
-                lastStoryArr.push(story.pk)
+                [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, nextPassageName)
+                setStoryName(story.name);
+                setPassageTitle(currentPassage.name);
             }
         }
-        debugger;
+        if(happyEndTime <= 0){  //게임이 종료되지 않았다면
+            gameEnd('happy', '')
+        }
         //passage를 끝내면 useEffect가 다시 실행됨
         setIsPassageEnd(true)
+    }
+
+    function storyEnd(){
+        happyEndTime -= 1;
+        isStoryEnd = true
+        lastStoryArr.push(story.pk)
+    }
+
+    function gameEnd(endingType : string, endingCause : string){
+        isGameOver = true
+
+        if(endingType === 'happy'){
+            [story, passages, options] = HappyEndEpisode;
+        }
+        else if(endingType === 'bad'){
+            switch(endingCause){
+                case 'hungry' : 
+                    [story, passages, options] = BadEndEpisodeByHungry;
+                    break;
+                case 'health' :
+                    [story, passages, options] = BadEndEpisodeByHealth;
+                    break;
+                default :
+                    alert("endingType 입력 실패");
+                    break;
+            }
+        }
+        else{
+            alert("ending type 입력 실패")
+        }
+        debugger;
+        [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, story.startPassage);
+        setStoryName(story.name);
+        setPassageTitle(currentPassage.name);
     }
 
 
@@ -277,10 +313,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
         setPassageText("");
         setPassageTitle("")
         setResultText("");
-        options_box_div.current.innerHTML = "";
+        options_div.current.innerHTML = "";
         result_option_div.current.innerHTML = "";
         main_text_view_div.current.style.height = "auto";
-        options_box_div.current.classList.add("hidden");
+        options_div.current.classList.add("hidden");
         result_text_div.current.classList.add("hidden");
         result_option_div.current.classList.add("hidden");
     }
@@ -290,119 +326,11 @@ export const GameManager : React.FC<MainProps> = (props) => {
         return new Promise((resolve) => setTimeout(resolve, timeToDelay))
     } //timeToDelay만큼 코드를 대기시키는 함수
 
-    async function getNextStoryAndPassages(currentStat: Status, lastStoryArr: string[]){
-        const response = await axios({
-            method : "POST",
-            url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
-            data: {
-                genre: 1,
-                //currentStat: currentStat,
-                lastStoryArr: lastStoryArr,
-            }
-        });
-    
-        const data = response.data;
-        debugger;
-        story = getStory(data);
-        passages = getPassages(data);
-        options = getOptions(data);
-        currentPassage = getStartPassage(story, passages);
-        currentOptions = getStartOptions(story, passages, options)
-        setValues();
-    }
 
-    function setValues(){
-        //episode_number
-        setStoryName(story.name);
-        //episode_title
-        setPassageTitle(currentPassage.name);
-
-        let dummyStatusChange : Status[] = []
-        currentOptions.forEach((option, index) => {
-            dummyStatusChange[index] = {
-                health : 0,
-                money : 0,
-                hungry : 0
-            }
-            switch(option.status1){
-                case "health" : 
-                    dummyStatusChange[index].health = option.status1Num
-                    break;
-                case "money" :
-                    dummyStatusChange[index].money = option.status1Num
-                    break;
-                case "hungry" :
-                    dummyStatusChange[index].hungry = option.status1Num
-                    break;
-                default :
-                    console.log("잘못된 stat 입력 - "+option.status1)
-            }
-            switch(option.status2){
-                case "health" : 
-                    dummyStatusChange[index].health = option.status2Num
-                    break;
-                case "money" :
-                    dummyStatusChange[index].money = option.status2Num
-                    break;
-                case "hungry" :
-                    dummyStatusChange[index].hungry = option.status2Num
-                    break;
-                default :
-                    console.log("잘못된 stat 입력 - "+option.status2)
-            }
-        })
-        status_change = dummyStatusChange;
-    }
-
-    function getOptions(data : NextStoryAndPassages){
-        return data.nextOptions;
-    }
-    
-    function getPassages(data : NextStoryAndPassages){
-        return data.nextPassages;
-    }
-
-    function getStory(data : NextStoryAndPassages){
-        return data.nextStory;
-    }
-    
-    function getStartPassage(story : NextStory, passages : NextPassage[]){
-        for(let i = 0; i<passages.length; i++){
-            if(passages[i].id === story.startPassage)
-                return passages[i]
-        }
-    }
-    function getStartOptions(story : NextStory, passages : NextPassage[], options : NextOption[][]){
-        for(let i = 0; i<passages.length; i++){
-            if(passages[i].id === story.startPassage)
-                return options[i]
-        }
-    }
-    function getCurrentOptions(passages : NextPassage[], currentPassage : NextPassage, options : NextOption[][]) : NextOption[]{
-        let i = 0
-        passages.forEach((passage, index) => {
-            if(currentPassage.name === passage.name){
-                i = index;
-                return;
-            }
-        })
-        return options[i];
-    }
-
-    function resetStatus(){
-        current_status.health = default_status.health;
-        current_status.hungry = default_status.hungry;
-        current_status.money = default_status.money;
-    }
-
-    function changeStatus(changeStatus : Partial<Status>){
-        current_status.health += changeStatus.health;
-        current_status.hungry += changeStatus.hungry;
-        current_status.money += changeStatus.money;
-    }
 
     React.useEffect(() => 
         {
+            debugger;
             if(isGameStart === true){
                 game_start()
             }

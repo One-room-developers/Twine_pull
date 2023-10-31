@@ -85,10 +85,11 @@ export const UploadStoryButton: React.FC<UploadStoryButtonProps> = props => {
 				{
                     const isHaveOption : boolean = checkHaveOption();
                     const isNotLoop : boolean = checkNotLoop();
-                    if(isHaveOption && isNotLoop)
+                    if(isHaveOption && isNotLoop){
                         alert("오류 없음!")
-                    uploadStory(story);
-                    alert("업로드 완료");
+                        uploadStory(story);
+                        alert("업로드 완료");
+                    }
                 }
 			}
 		/>
