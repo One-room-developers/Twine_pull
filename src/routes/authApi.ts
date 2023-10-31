@@ -126,6 +126,8 @@ export async function nicknameCheck(nickname:string):Promise<boolean>{
 }
 
 export async function logout():Promise<boolean>{
+    localStorage.removeItem("recoil-persist");
+
     try{
         const response = await axios({
             method: "POST",
@@ -133,6 +135,7 @@ export async function logout():Promise<boolean>{
             withCredentials: true
         });
 
+        window.location.href = "/";
         return true;
     }
     catch(err){
