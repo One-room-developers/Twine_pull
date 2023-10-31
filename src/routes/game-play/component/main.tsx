@@ -63,12 +63,12 @@ export default function Main(props) {
                         </div>
                     </div>
                 </div>
-                <div className="main_ui">
+                {/* <div className="main_ui">
                     <button className="main-ui-btn font-game-thin" onClick={function () { props.stat_window_event() }}>능력치</button>
                     <button className="main-ui-btn font-game-thin">SAVE</button>
                     <button className="main-ui-btn font-game-thin">인벤토리</button>
                     <button className="main-ui-btn font-game-thin">환경설정</button>
-                </div>
+                </div> */}
             </main>
         </>
     );
