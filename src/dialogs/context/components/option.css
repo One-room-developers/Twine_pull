@@ -159,6 +159,9 @@
 
     background-color: rgb(34, 40, 49);
 }
+.option-submit-btn:hover{
+    cursor: pointer;
+}
 
 .mini-line{
     width: 100%;
