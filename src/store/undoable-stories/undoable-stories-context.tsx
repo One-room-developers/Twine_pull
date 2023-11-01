@@ -65,7 +65,7 @@ export const UndoableStoriesContextProvider: React.FC = props => {
 				storiesDispatch(state.changes[state.currentChange].undo);
 				dispatch({type: 'updateCurrent', change: -1});
 			};
-			undoLabel = t('common.undoChange', {
+			undoLabel = t('되돌리기', {
 				change: t(state.changes[state.currentChange].description)
 			});
 		}
@@ -75,7 +75,7 @@ export const UndoableStoriesContextProvider: React.FC = props => {
 				storiesDispatch(state.changes[state.currentChange + 1].redo);
 				dispatch({type: 'updateCurrent', change: 1});
 			};
-			redoLabel = t('common.redoChange', {
+			redoLabel = t('앞으로', {
 				change: t(state.changes[state.currentChange + 1].description)
 			});
 		}

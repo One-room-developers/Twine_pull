@@ -55,7 +55,7 @@ export const CreateStoryButton: React.FC = () => {
 	return (
 		<PromptButton
 			icon={<IconPlus />}
-			label={t('common.new')}
+			label={t('새로운 에피소드')}
 			submitLabel={t('common.create')}
 			submitVariant="create"
 			onChange={e => setNewName(e.target.value)}

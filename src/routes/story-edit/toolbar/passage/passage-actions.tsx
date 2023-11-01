@@ -50,14 +50,14 @@ export const PassageActions: React.FC<PassageActionsProps> = ({
 	return (
 		<ButtonBar>
 			<CreatePassageButton getCenter={getCenter} story={story} />
-			<EditPassagesButton passages={selectedPassages} story={story} />
-			<RenamePassageButton
+			{/* <EditPassagesButton passages={selectedPassages} story={story} /> */}
+			{/* <RenamePassageButton
 				onRename={name => handleRename(name, soloSelectedPassage)}
 				passage={soloSelectedPassage}
 				story={story}
-			/>
+			/> */}
 			<DeletePassagesButton passages={selectedPassages} story={story} />
-			<TestPassageButton passage={soloSelectedPassage} story={story} />
+			{/* <TestPassageButton passage={soloSelectedPassage} story={story} /> */}
 			<StartAtPassageButton passage={soloSelectedPassage} story={story} />
 			<SelectAllPassagesButton story={story} />
 		</ButtonBar>

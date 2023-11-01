@@ -24,7 +24,7 @@ export const CreatePassageButton: React.FC<CreatePassageButtonProps> = props => 
 	return (
 		<IconButton
 			icon={<IconPlus />}
-			label={t('common.new')}
+			label={t('장면 만들기')}
 			onClick={handleClick}
 		/>
 	);

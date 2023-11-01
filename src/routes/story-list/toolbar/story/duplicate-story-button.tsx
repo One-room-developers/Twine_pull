@@ -30,7 +30,7 @@ export const DuplicateStoryButton: React.FC<DuplicateStoryButtonProps> = ({
 		<IconButton
 			disabled={!story}
 			icon={<IconCopy />}
-			label={t('common.duplicate')}
+			label={t('에피소드 복사')}
 			onClick={handleClick}
 		/>
 	);

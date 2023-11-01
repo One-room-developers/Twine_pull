@@ -31,7 +31,7 @@ export const StartAtPassageButton: React.FC<StartAtPassageButtonProps> = props =
 		<IconButton
 			disabled={!passage || passage.id === story.startPassage}
 			icon={<IconRocket />}
-			label={t('routes.storyEdit.toolbar.startStoryHere')}
+			label={t('첫번째 장면으로 설정')}
 			onClick={handleClick}
 		/>
 	);

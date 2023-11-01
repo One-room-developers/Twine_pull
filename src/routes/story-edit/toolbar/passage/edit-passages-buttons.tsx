@@ -33,8 +33,8 @@ export const EditPassagesButton: React.FC<EditPassagesButtonProps> = props => {
 			icon={<IconEdit />}
 			label={
 				passages.length > 1
-					? t('common.editCount', {count: passages.length})
-					: t('common.edit')
+					? t('장면 편집', {count: passages.length})
+					: t('장면 편집')
 			}
 			onClick={handleClick}
 		/>
