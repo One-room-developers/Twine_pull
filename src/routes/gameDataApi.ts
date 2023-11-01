@@ -65,3 +65,38 @@ export async function getMyOptionsApi(passage_pk:string){
     const data = response.data;
     return data;
 }
+
+export async function deleteStoryApi(story_pk:string){
+    const response = await axios({
+        method: "DELETE",
+        url: `${process.env.REACT_APP_API_URL}/my_episode/delete_upload_story/${story_pk}`,
+    });
+    const data = response.data;
+    return data;                    // data.msg == 42인 경우 삭제 성공, 41이면 실패
+}
+
+export async function updateLikeApi(user_id:string, story_pk:string){
+    const response = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_API_URL}/game_play/update_like`,
+        data: {
+            player_id: user_id,
+            storyPk: story_pk
+        }
+    });
+    const data = response.data;
+    return data;                  // data === true면 추천 성공, false면 이미 추천한 상태
+}
+
+export async function updateDislikeApi(user_id:string, story_pk:string){
+    const response = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_API_URL}/game_play/update_dislike`,
+        data: {
+            player_id: user_id,
+            storyPk: story_pk
+        }
+    });
+    const data = response.data;
+    return data;               // 추천이랑 같음
+}

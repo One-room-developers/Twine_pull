@@ -31,7 +31,7 @@ export const DeleteStoryButton: React.FC<DeleteStoryButtonProps> = ({
 			confirmVariant="danger"
 			disabled={!story}
 			icon={<IconTrash />}
-			label={t('common.delete')}
+			label={t('에피소드 삭제')}
 			onConfirm={story ? () => dispatch(deleteStory(story)) : () => {}}
 			prompt={t(
 				`routes.storyList.toolbar.deleteStoryButton.warning.${
