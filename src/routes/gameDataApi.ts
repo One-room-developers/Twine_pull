@@ -87,7 +87,7 @@ export async function deleteStoryApi(user_id:string, story_pk:string){
 
 export async function updateLikeApi(user_id:string, story_pk:string){
     const response = await axios({
-        method: "POST",
+        method: "PATCH",
         url: `${process.env.REACT_APP_API_URL}/game_play/update_like`,
         data: {
             player_id: user_id,
@@ -100,7 +100,7 @@ export async function updateLikeApi(user_id:string, story_pk:string){
 
 export async function updateDislikeApi(user_id:string, story_pk:string){
     const response = await axios({
-        method: "POST",
+        method: "PATCH",
         url: `${process.env.REACT_APP_API_URL}/game_play/update_dislike`,
         data: {
             player_id: user_id,
