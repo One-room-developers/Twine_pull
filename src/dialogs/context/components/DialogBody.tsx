@@ -37,7 +37,7 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
             </div>
         ) : (
             <div className="making-window-main option">
-                <div className="main-info-icon info-icon">after<br/>story</div>
+                <div className="main-info-icon info-icon">선택 후<br/>이야기</div>
                 <textarea 
                     value={optionAfterStory} 
                     name="" 

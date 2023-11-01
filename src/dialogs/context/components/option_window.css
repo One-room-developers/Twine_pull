@@ -44,6 +44,7 @@ textarea:focus{
     border-radius: 5px;
     font-family: gameBold;
     text-align: center;
+    line-height: 120%;
 }
 .info-icon-onmodify{
     padding: 10px;
