@@ -63,8 +63,8 @@ export const DeletePassagesButton: React.FC<
 			icon={<IconTrash />}
 			label={
 				!disabled && passages.length > 1
-					? t('common.deleteCount', {count: passages.length})
-					: t('common.delete')
+					? t('장면 삭제', {count: passages.length})
+					: t('장면 삭제')
 			}
 			onClick={handleClick}
 		/>

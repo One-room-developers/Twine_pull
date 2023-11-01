@@ -13,6 +13,7 @@ export interface RouteToolbarProps {
 }
 
 export const RouteToolbar: React.FC<RouteToolbarProps> = props => {
+	// 여기 helpUrl 우리 껄로 바꾸면 됨
 	const {helpUrl = 'https://twinery.org/2guide', pinnedControls, tabs} = props;
 	const {t} = useTranslation();
 
@@ -32,7 +33,7 @@ export const RouteToolbar: React.FC<RouteToolbarProps> = props => {
 						{pinnedControls}
 						<IconButton
 							icon={<IconHelp />}
-							label={t('common.help')}
+							label={t('도움말')}
 							onClick={() => window.open(helpUrl, '_blank')}
 						/>
 					</div>

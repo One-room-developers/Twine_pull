@@ -20,7 +20,7 @@ export const SelectAllPassagesButton: React.FC<SelectAllPassagesButtonProps> = p
 	return (
 		<IconButton
 			icon={<IconMarquee />}
-			label={t('common.selectAll')}
+			label={t('전체 선택')}
 			onClick={() => dispatch(selectAllPassages(story))}
 		/>
 	);

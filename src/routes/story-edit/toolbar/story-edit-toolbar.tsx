@@ -24,10 +24,10 @@ export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 			tabs={
 				//object를 인자로 받음
 				{
-				["스토리 Box"]: (
+				["장면 편집"]: (
 						<PassageActions getCenter={getCenter} story={story} />
 					),
-				["에피소드"]: <StoryActions story={story} />,
+				["업로드"]: <StoryActions story={story} />,
 				// ["빌드"]: <BuildActions story={story} />,
 				// ["Twine 설정"]: <AppActions />	
 				// [t('common.passage')]: (
