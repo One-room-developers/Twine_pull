@@ -66,13 +66,23 @@ export async function getMyOptionsApi(passage_pk:string){
     return data;
 }
 
-export async function deleteStoryApi(story_pk:string){
+export async function deleteStoryApi(user_id:string, story_pk:string){
     const response = await axios({
         method: "DELETE",
         url: `${process.env.REACT_APP_API_URL}/my_episode/delete_upload_story/${story_pk}`,
-    });
+        data: { id: user_id },
+        withCredentials: true,
+    })
+    .catch((err) => {
+        return null;      // 리프레시 토큰이 유효하지 않으면 null 반환
+    })
+
+    /**
+     * data.msg === 42 => 삭제 성공, 41 => 서버 문제로 삭제 실패
+     * data가 null이면 id 변조
+     */
     const data = response.data;
-    return data;                    // data.msg == 42인 경우 삭제 성공, 41이면 실패
+    return data;
 }
 
 export async function updateLikeApi(user_id:string, story_pk:string){
