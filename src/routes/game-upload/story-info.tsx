@@ -1,18 +1,19 @@
 import * as React from 'react';
 import styled from "styled-components";
 import { HeaderBar } from '../home';
-import {useParams} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import { useQuery } from 'react-query';
-import {getUploadedPassagesApi, getStoryByPk} from '../gameDataApi';
+import {getUploadedPassagesApi, getStoryByPk, updateLikeApi, updateDislikeApi, deleteStoryApi} from '../gameDataApi';
 import upChevron from './img/chevron-up.svg';
 import downChevron from './img/chevron-down.svg';
 import passageSvg from './img/app.svg';
 import {OptionInfoRoute} from './option-info'
 import likeSvg from './img/like.svg';
+import sadSvg from './img/sad.svg';
 
 //recoil관련
 import {useRecoilValue} from "recoil";
-import {userIdAtom} from "../login/userInfoAtom";
+import {userIdAtom, userNameAtom} from "../login/userInfoAtom";
 
 //로그인 관련
 import {checkAccessToken} from '../authApi';
@@ -40,7 +41,7 @@ const Loader = styled.h2`
 
 `
 const Main = styled.div`
-    padding-top: 65px;
+    padding-top: 30px;
     max-width: 600px;
     margin: 0 auto;
 
@@ -206,6 +207,11 @@ const LikeSvg = styled.img.attrs({src: likeSvg})`
     height: 16px;
     margin: 0 4px 0 2px;
 `
+const SadSvg = styled.img.attrs({src: sadSvg})`
+    width: 16px;
+    height: 16px;
+    margin: 0 4px 0 2px;
+`
 
 function moveScrollTop (){
     window.scrollTo({
@@ -255,6 +261,7 @@ interface IPassage{
 }
 //path="/game-upload/storyInfo/:storyDbId"
 export const StoryInfoRoute: React.FC = () => {
+    const history = useHistory();
     const { storyId } = useParams<RouteParams>();
     //const {isLoading, data} = useQuery<Post>(["story", storyDbId], ()=> passage가져오는함수(parseInt(storyDbId)));
 
@@ -267,6 +274,7 @@ export const StoryInfoRoute: React.FC = () => {
 
     //현재 사용자 정보
     const userId = useRecoilValue(userIdAtom);
+    const userName = useRecoilValue(userNameAtom);
 
     //추천시 로그인 검사하도록
     async function checkLogin() {
@@ -283,7 +291,7 @@ export const StoryInfoRoute: React.FC = () => {
         const isLogin = await checkLogin();
 
         if(isLogin === true){
-            //postLike(userId);
+            updateLikeApi(userId, storyData.pk);
         }
         else{
             alert("로그인이 필요합니다.");
@@ -294,7 +302,28 @@ export const StoryInfoRoute: React.FC = () => {
         const isLogin = await checkLogin();
 
         if(isLogin === true){
-            //postLike(userId);
+            updateDislikeApi(userId, storyData.pk);
+        }
+        else{
+            alert("로그인이 필요합니다.");
+        }
+    }
+
+    async function deleteEpisode(){
+        const isLogin = await checkLogin();
+
+        if(isLogin === true){
+            const state = await deleteStoryApi(userId, storyData.pk);
+            if(state === null){
+                alert("로그인 정보가 맞지 않습니다. 다시 로그인 해주세요.");
+            }
+            else if(state.msg === 41){
+                alert("삭제되었습니다.");
+                history.push("http://localhost:3000/#/game-upload/all/1");
+            }
+            else if(state.msg === 42){
+                alert("서버에 문제가 발생했습니다.");
+            }
         }
         else{
             alert("로그인이 필요합니다.");
@@ -321,7 +350,7 @@ export const StoryInfoRoute: React.FC = () => {
                         <StoryTitleContainer>
                             <StoryTitle>에피소드명: {storyData.name}</StoryTitle>
                             {
-                                storyData.userNickname === userId ? <DeleteBtn>에피소드 삭제</DeleteBtn> : <></>
+                                storyData.userNickname === userName ? <DeleteBtn onClick={deleteEpisode}>에피소드 삭제</DeleteBtn> : <></>
                             }
                         </StoryTitleContainer>
                         <StoryData>{storyData.userNickname} {convertISOToKoreaDate(storyData.lastUpdate)}</StoryData>
@@ -333,7 +362,7 @@ export const StoryInfoRoute: React.FC = () => {
                             </LikeBtn>
                             <DislikeBtn onClick={clickDislikeBtn}>
                                 아쉬워요
-                                <LikeSvg />
+                                <SadSvg />
                                 {storyData.dislike}
                             </DislikeBtn>
                         </LikeBtnContainer>
