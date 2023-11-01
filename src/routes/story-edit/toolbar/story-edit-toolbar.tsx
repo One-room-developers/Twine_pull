@@ -7,6 +7,7 @@ import {Point} from '../../../util/geometry';
 import {PassageActions} from './passage/passage-actions';
 import {StoryActions} from './story/story-actions';
 import {UndoRedoButtons} from './undo-redo-buttons';
+import { UploadStoryButton } from './story/upload-story-button';
 
 export interface StoryEditToolbarProps {
 	getCenter: () => Point;
@@ -27,7 +28,10 @@ export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 				["장면 편집"]: (
 						<PassageActions getCenter={getCenter} story={story} />
 					),
-				["업로드"]: <StoryActions story={story} />,
+				// ["업로드"]: (
+				// 		<UploadStoryButton story = {story}></UploadStoryButton>
+				// ),
+				// ["도움말"]:
 				// ["빌드"]: <BuildActions story={story} />,
 				// ["Twine 설정"]: <AppActions />	
 				// [t('common.passage')]: (
@@ -38,6 +42,7 @@ export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 				// [t('common.appName')]: <AppActions />
 			}
 		}
+		story={story}
 		/>
 	);
 };
