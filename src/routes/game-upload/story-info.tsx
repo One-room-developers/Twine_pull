@@ -291,7 +291,12 @@ export const StoryInfoRoute: React.FC = () => {
         const isLogin = await checkLogin();
 
         if(isLogin === true){
-            updateLikeApi(userId, storyData.pk);
+            if(await updateLikeApi(userId, storyData.pk) === false) {
+                alert("이미 추천하였습니다.");
+            }
+            else {
+                alert("추천하였습니다!");
+            }
         }
         else{
             alert("로그인이 필요합니다.");
@@ -302,7 +307,12 @@ export const StoryInfoRoute: React.FC = () => {
         const isLogin = await checkLogin();
 
         if(isLogin === true){
-            updateDislikeApi(userId, storyData.pk);
+            if(await updateDislikeApi(userId, storyData.pk) === false) {
+                alert("이미 아쉬움을 표현했습니다.");
+            }
+            else {
+                alert("아쉬움을 표현했습니다.");
+            }
         }
         else{
             alert("로그인이 필요합니다.");
@@ -311,9 +321,11 @@ export const StoryInfoRoute: React.FC = () => {
 
     async function deleteEpisode(){
         const isLogin = await checkLogin();
+        debugger;
 
         if(isLogin === true){
             const state = await deleteStoryApi(userId, storyData.pk);
+            debugger;
             if(state === null){
                 alert("로그인 정보가 맞지 않습니다. 다시 로그인 해주세요.");
             }
