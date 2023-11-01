@@ -21,7 +21,7 @@ export const StoryListToolbar: React.FC<StoryListToolbarProps> = props => {
 
 	return (
 		<RouteToolbar
-			pinnedControls={<StorageQuota watch={stories} />}
+			// pinnedControls={<StorageQuota watch={stories} />}
 			tabs={{
 				["에피소드"]: <StoryActions selectedStory={selectedStory} />,
 				// [t('common.story')]: <StoryActions selectedStory={selectedStory} />,

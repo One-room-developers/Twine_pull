@@ -31,6 +31,7 @@ export const StoryCard: React.FC<StoryCardProps> = props => {
 	} = props;
 	const {t} = useTranslation();
 
+	let normalPassageCount = story.passages.filter(passage => (passage.passageType === 'normalPassage')).length
 	return (
 		<div className="story-card">
 			<SelectableCard
@@ -50,11 +51,11 @@ export const StoryCard: React.FC<StoryCardProps> = props => {
 							<p>
 								{t('components.storyCard.lastUpdated', {
 									date: dateFormatter.format(story.lastUpdate)
-								})}
+								}).replace('Last edited on ', '업데이트 : ')}
 								<br />
-								{t('components.storyCard.passageCount', {
-									count: story.passages.length
-								})}
+								{'장면 : '+t('components.storyCard.passageCount', {
+									count: normalPassageCount
+								}).replace(' passages', '개').replace(' passage', '개')}
 							</p>
 						</div>
 					</div>

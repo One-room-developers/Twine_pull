@@ -26,7 +26,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const {dispatch, stories} = useUndoableStoriesContext();
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
-    React.useEffect(function(){
+    React.useEffect(function(){//props가 변경될 때마다 useState의 값 업데이트(수동으로 해줘야됨)
         setName(props.passage.name)
         setText(props.passage.text)
         setVisibleText(props.passage.visibleText)

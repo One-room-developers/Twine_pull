@@ -54,7 +54,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const [optionsNextNormalPassage, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassage);
     const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
 
-    useEffect(function(){
+    useEffect(function(){//props가 변경될 때마다 useState의 값 업데이트(수동으로 해줘야됨)
         setOptionsPk(dummyOptionsPk)
         setOptionsName(dummyOptionsTitles)
         setOptionsStatus1(dummyOptionsStatus1)
@@ -307,7 +307,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 <span>{optionsAmountChange2[i]}</span>
                                 <span></span>
                                 <span className='after-story-preview-btn'>
-                                    <span>에필로그</span>
+                                    <span>선택 후 이야기</span>
                                     <div>{optionsAfterStory[i]}</div>
                                 </span>
                             </div>
@@ -378,29 +378,132 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
 
     function setOptionListByOptionPassage(){
         lists.push(
+            // {
+            //     let status1;
+            //     let status2;
+            //     switch(optionsStatus1[i]){
+            //         case 'null':
+            //             status1="변화없음";
+            //             break;
+            //         case 'health':
+            //             status1="체력";
+            //             break;
+            //         case 'money':
+            //             status1="돈";
+            //             break;
+            //         case 'hungry':
+            //             status1="포만감";
+            //             break;
+            //         // case 'strength':
+            //         //     status1="힘";
+            //         //     break;
+            //         // case 'agility':
+            //         //     status1="속도";
+            //         //     break;
+            //         // case 'armor':
+            //         //     status1="내구도";
+            //         //     break;
+            //         // case 'mental':
+            //         //     status1="정신력";
+            //         //     break;
+            //         default:
+            //             status1 ="없음";
+            //     }
+            //     switch(optionsStatus2[i]){
+            //         case 'null':
+            //             status2="없음";
+            //             break;
+            //         case 'health':
+            //             status2="체력";
+            //             break;
+            //         case 'money':
+            //             status2="돈";
+            //             break;
+            //         case 'hungry':
+            //             status2="포만감";
+            //             break;
+            //         // case 'strength':
+            //         //     status2="힘";
+            //         //     break;
+            //         // case 'agility':
+            //         //     status2="속도";
+            //         //     break;
+            //         // case 'armor':
+            //         //     status2="내구도";
+            //         //     break;
+            //         // case 'mental':
+            //         //     status2="정신력";
+            //         //     break;
+            //         default:
+            //             status2 ="없음";
+            //     }
             // <div key={i} id={i.toString()} className="option-list-div">
             //     <div className='info-icon'>선택지{i+1}</div>
-            //         <div className='option-info-container'>
-            //             <div className='option-info-title'>{optionsVisibleName[i]}</div>
-            //             <div className='option-info-main'>
-            //                 <span>{status1}</span>
-            //                 <span>{optionsAmountChange1[i]}</span>
-            //                 <span></span>
-            //                 <span>{status2}</span>
-            //                 <span>{optionsAmountChange2[i]}</span>
-            //                 <span></span>
-            //                 <span className='after-story-preview-btn'>
-            //                     <span>에필로그</span>
-            //                     <div>{optionsAfterStory[i]}</div>
-            //                 </span>
-            //             </div>
+            //     <div className='option-info-container'>
+            //         <div className='option-info-title'>{optionsVisibleName[i]}</div>
+            //         <div className='option-info-main'>
+            //             <span>{status1}</span>
+            //             <span>{optionsAmountChange1[i]}</span>
+            //             <span></span>
+            //             <span>{status2}</span>
+            //             <span>{optionsAmountChange2[i]}</span>
+            //             <span></span>
+            //             <span className='after-story-preview-btn'>
+            //                 <span>에필로그</span>
+            //                 <div>{optionsAfterStory[i]}</div>
+            //             </span>
             //         </div>
-            //         <button data-optionId={i} className='option-list-m-btn' >수정
-            //         </button>
-            //         <button data-optionId={i} className='option-list-d-btn'>삭제
-            //         </button>
+            //     </div>
+            //     <button data-optionId={i} className='option-list-d-btn' onClick={function(e){
+            //         //splice(제거를 시작할 index, 시작지점부텨 몇개 지울선지, (선택사항) 지운 자리에 넣을 배열)
+            //         e.preventDefault();
+            //         if(window.confirm("장면을 삭제하시겠습니까?")) {
+            //             //다른 엘리먼트일떄 탈출문
+            //             if (!(e.target instanceof HTMLButtonElement)) {
+            //                 return;
+            //             }
+            //             const index = parseInt(e.target.dataset.optionId);
+            //             console.log(index);
+
+            //             //let optionsId = Array.from(options_id);
+            //             let _optionsVisibleName = Array.from(optionsVisibleName);
+            //             let _optionsStatus1 = Array.from(optionsStatus1);
+            //             let _optionsAmountChange1 = Array.from(optionsAmountChange1);
+            //             let _optionsStatus2 = Array.from(optionsStatus2);
+            //             let _optionsAmountChange2 = Array.from(optionsAmountChange2);
+            //             let _options_after_story = Array.from(optionsAfterStory);
+            //             let _options_name = Array.from(optionsName);
+
+            //             const deletedPassage = passageWithNameAsStory(props.story, optionsName[i]);
+            //             dispatch(deletePassage(props.story, deletedPassage, dispatch))
+            //             //optionsId.splice(index, 1);
+            //             _optionsVisibleName.splice(index, 1);
+            //             _options_name.splice(index, 1);
+            //             _optionsStatus1.splice(index, 1);
+            //             _optionsAmountChange1.splice(index, 1);
+            //             _optionsStatus2.splice(index, 1);
+            //             _optionsAmountChange2.splice(index, 1);
+            //             _options_after_story.splice(index, 1);
+
+            //             max_option_num = max_option_num -1;
+                        
+            //             //options_id: optionsId,
+            //             setOptionsVisibleName(_optionsVisibleName);
+            //             setOptionsStatus1(_optionsStatus1)
+            //             setOptionsAmountChange1(_optionsAmountChange1)
+            //             setOptionsStatus2(_optionsStatus2)
+            //             setOptionsAmountChange2(_optionsAmountChange2)
+            //             setOptionsAfterStory(_options_after_story)
+            //             setOptionsName(_options_name)
+            //             //상위 컴포넌트(Twine)으로 값 전달
+                        
+            //             props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
+            //         } else {
+
+            //         }
+            //     }}>삭제</button>
             // </div>
-        )
+        );
     }
     //선택지 생성 컴포넌트 만들기
     function setOptionCreator(){
@@ -509,10 +612,10 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                     props.onClose();
                                 }
                             }>                 
-                            <input className = 'option-passage-submit-title' placeholder='다음 에피소드 제목' value={nextNormalPassageName} onChange={function(e){
+                            <input className = 'option-passage-submit-title' placeholder='다음 장면 제목' value={nextNormalPassageName} onChange={function(e){
                                 setNextNormalPassageName(e.target.value);
                             }} required></input>
-                            <input className='option-submit-btn' type="submit" value="+ 생성하기"></input>
+                            <input className='option-submit-btn' type="submit" value="생성하기"></input>
                         </form>
                     )
                 }

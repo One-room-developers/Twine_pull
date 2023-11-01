@@ -13,12 +13,14 @@ export interface MainContentProps                      // 스토리 카드의 �
 
 export const MainContent = React.forwardRef<HTMLDivElement, MainContentProps>(       // forwardRef:자식 컴포넌트의 태그에 ref를 넣는 용도
 	(props, ref) => {
-		const {children, grabbable, title} = props;                 // children, grabbable, title 프로퍼티로 전달
+		let {children, grabbable, title} = props;                 // children, grabbable, title 프로퍼티로 전달
 		const containerRef = React.useRef<HTMLDivElement>(null);    // containerRef에 div 엘리멘트를 다룰 수 있게 함?
 		const className = classNames('main-content', {
 			padded: props.padded ?? true
 		});
-
+		//스토리 리스트 페이지 맨 위, 스토리 개수 출력 바꾸기
+		if(title !== null && title !== undefined)
+			title = title.replace(' Stories', '개의 에피소드')
 		React.useImperativeHandle(
 			ref,
 			() => containerRef.current as HTMLDivElement
@@ -95,7 +97,7 @@ export const MainContent = React.forwardRef<HTMLDivElement, MainContentProps>(  
 				};
 			}
 		}, [grabbable]);
-
+		debugger;
 
 		// 새로 만든 스토리의 제목을 DocumentTitle로 넘겨서 HTML 형태로 저장
 		return (

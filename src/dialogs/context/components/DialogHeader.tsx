@@ -21,7 +21,7 @@ export const DialogHeader: React.FC<DialogHeaderProps> = (props) => {
             ) : 
             (
                 <div className="making-window-header">
-                    <div className="title-info-icon info-icon">선택지<br/>내용</div>
+                    <div className="title-info-icon info-icon">선택지</div>
                     <input value={props.optionVisibleName} onChange={function(e){
                         props.setOptionVisibleName(e.target.value)
                     }}/>
