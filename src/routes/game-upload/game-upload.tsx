@@ -188,7 +188,7 @@ interface IStory {
     startPassage: string,
     like: number,
     dislike: number,
-    lastUpdate: Date,
+    createdAt: Date,
 }
 //path="/game-upload/all/1"
 export const GameUploadRoute: React.FC = () => {
@@ -243,7 +243,7 @@ export const GameUploadRoute: React.FC = () => {
                                 </ImgContainer>
                                 <StoryInfoContainer>
                                     <StoryTitle>{story.name}</StoryTitle>
-                                    <StoryContent>업로드 일시: {convertISOToKoreaDate(story.lastUpdate)}</StoryContent>
+                                    <StoryContent>업로드 일시: {convertISOToKoreaDate(story.createdAt)}</StoryContent>
                                     <LinkContainer>
                                         <SubInfoContainer>
                                             <SubInfo>작성자 {story.userNickname} | 추천수 {story.like - story.dislike} | 난이도 {story.level}</SubInfo>

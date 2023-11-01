@@ -251,7 +251,7 @@ interface IStory {
     startPassage: string,
     like: number,
     dislike: number,
-    lastUpdate: Date,
+    createdAt: Date,
 }
 
 interface IPassage{
@@ -331,7 +331,7 @@ export const StoryInfoRoute: React.FC = () => {
                 alert("서버에 문제가 발생했습니다.");
             }
             else if(state.msg === 42){
-                history.push("http://localhost:3000/#/game-upload/all/1");
+                history.push("/game-upload/all/1");
                 alert("삭제되었습니다.");
             }
         }
@@ -363,7 +363,7 @@ export const StoryInfoRoute: React.FC = () => {
                                 storyData.userNickname === userName ? <DeleteBtn onClick={deleteEpisode}>에피소드 삭제</DeleteBtn> : <></>
                             }
                         </StoryTitleContainer>
-                        <StoryData>{storyData.userNickname} {convertISOToKoreaDate(storyData.lastUpdate)}</StoryData>
+                        <StoryData>{storyData.userNickname} {convertISOToKoreaDate(storyData.createdAt)}</StoryData>
                         <LikeBtnContainer>
                             <LikeBtn onClick={clickLikeBtn}>
                                 추천
