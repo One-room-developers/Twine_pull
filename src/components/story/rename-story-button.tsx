@@ -13,7 +13,7 @@ const DisabledRenameStoryButton: React.FC = () => {
 	const {t} = useTranslation();
 
 	return (
-		<IconButton disabled icon={<IconWriting />} label={t('common.rename')} />
+		<IconButton disabled icon={<IconWriting />} label={t('이름 바꾸기')} />
 	);
 };
 
@@ -57,7 +57,7 @@ const EnabledRenameStoryButton: React.FC<EnabledRenameStoryButtonProps> = props 
 	return (
 		<PromptButton
 			icon={<IconWriting />}
-			label={t('common.rename')}
+			label={t('이름 바꾸기')}
 			onChange={event => setNewName(event.target.value)}
 			onSubmit={onRename}
 			prompt={t('common.renamePrompt', {name: story.name})}

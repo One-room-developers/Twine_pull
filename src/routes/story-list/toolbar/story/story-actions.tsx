@@ -19,8 +19,8 @@ export const StoryActions: React.FC<StoryActionsProps> = props => {
 	return (
 		<ButtonBar>
 			<CreateStoryButton />
-			<EditStoryButton story={selectedStory} />
-			<TagStoryButton story={selectedStory} />
+			{/* <EditStoryButton story={selectedStory} /> */}
+			{/* <TagStoryButton story={selectedStory} /> */}
 			<RenameStoryButton
 				existingStories={stories}
 				onRename={name =>
