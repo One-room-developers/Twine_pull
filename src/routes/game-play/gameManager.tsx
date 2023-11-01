@@ -233,7 +233,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function passageEnd() {
-        debugger;
+        
         resetTextDiv();
 
         //배고픔이 0이면
@@ -293,7 +293,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         else{
             alert("ending type 입력 실패")
         }
-        debugger;
+        
         [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, story.startPassage);
         setStoryName(story.name);
         setPassageTitle(currentPassage.name);
@@ -330,7 +330,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
     React.useEffect(() => 
         {
-            debugger;
+            
             if(isGameStart === true){
                 game_start()
             }

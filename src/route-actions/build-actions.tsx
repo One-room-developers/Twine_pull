@@ -266,7 +266,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			let currentY = basicY
 			let optionVisibleNames = []
 			for(let i = 0; i <thisLayerNodeNum; i++){
-				debugger;
+				
 				let visibleText = randomText(5);
 				let text = visibleText;
 				options.push([])
@@ -296,7 +296,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 							nextNormalPassage :nextNormalPassage
 						}
 					)
-					debugger;
+					
 				}
 
 				if(thisLayerNodeNum > 1){
@@ -361,7 +361,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 			thisLayerNodeNum*=2;
 			lastNormalIndex = normalIndex;
 		}	
-		debugger;
+		
 		
 	}
 	async function makeOptionPassage(index, visibleName){
@@ -394,7 +394,7 @@ export const BuildActions: React.FC<BuildActionsProps> = ({story}) => {
 		optionIndex+=1
 	}
 	function checkStory(){
-		debugger;
+		
 		console.log(story);
 		let normalPassageNum = 0;
 		story.passages.forEach((passage, index) => {

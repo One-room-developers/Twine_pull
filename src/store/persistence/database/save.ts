@@ -158,6 +158,8 @@ export async function uploadStory(story:Story){
 		},
 	})
 	.then((res) => {
+		console.log(story)
+		debugger;
 		story.passages.forEach(passage => {
 			uploadPassage(passage, story);
 			if(passage.passageType === "normalPassage"){
@@ -203,7 +205,7 @@ export async function uploadPassage(passage:Passage, story:Story){
 }
 
 export async function uploadOption(option:option, normalPassagePk:string){
-	debugger;
+	
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/make_episode/upload_option`,
@@ -228,7 +230,7 @@ export async function uploadOption(option:option, normalPassagePk:string){
 }
 
 export async function updatePassage(passage:Passage){
-	debugger;
+	
 	axios({
 		method: "PATCH",
 		url: `${process.env.REACT_APP_API_URL}/make_episode/update_passage/${passage.pk}`,
