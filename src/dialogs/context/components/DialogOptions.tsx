@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Component, useState } from 'react';
 import './option.css'
 import CreateOption from './CreateOption';
@@ -29,6 +29,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const {dispatch} = props;
 
     if(props.options){ 
+        debugger;
         props.options.forEach(option => {
             dummyOptionsPk.push(option.pk)
             dummyOptionsTitles.push(option.name)
@@ -53,6 +54,18 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     const [optionsNextNormalPassage, setOptionsNextNormalPassage] = useState(dummyOptionsNextNormalPassage);
     const [optionsVisibleName, setOptionsVisibleName] = useState(dummyOptionsVisibleName);
 
+    useEffect(function(){
+        setOptionsPk(dummyOptionsPk)
+        setOptionsName(dummyOptionsTitles)
+        setOptionsStatus1(dummyOptionsStatus1)
+        setOptionsAmountChange1(dummyOptionsAmountChange1)
+        setOptionsStatus2(dummyOptionsStatus2)
+        setOptionsAmountChange2(dummyOptionsAmountChange2)
+        setOptionsAfterStory(dummyOptionsAfterStory)
+        setOptionsNextNormalPassage(dummyOptionsNextNormalPassage)
+        setOptionsVisibleName(dummyOptionsVisibleName)
+        debugger;
+    }, [props.options])
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
     //
@@ -77,7 +90,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     }
     
     //옵션 만든것들 출력 및 수정 가능하도록 변경하는 함수
-    function setNormalPassageList(){
+    function setOptionList(){
         for(let i=0; i < max_option_num; i++){
             //i번째 요소에 i라는 key를 주고 있는데 아예 선택지의 고유 ID를 만들면 그걸로 대체해도 될듯
             //고유 id는 곧 i+1이다.
@@ -363,7 +376,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         }
     }
 
-    function setOptionPassageList(){
+    function setOptionListByOptionPassage(){
         lists.push(
             // <div key={i} id={i.toString()} className="option-list-div">
             //     <div className='info-icon'>선택지{i+1}</div>
@@ -440,9 +453,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let option_creator;
 
     if(props.passage.passageType === "normalPassage")
-        setNormalPassageList();
+        setOptionList();
     else
-        setOptionPassageList();
+        setOptionListByOptionPassage();
         
     setOptionCreator();
 

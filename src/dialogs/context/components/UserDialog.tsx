@@ -22,12 +22,18 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
     const [text, setText] = useState(props.passage.text)
     const [visibleText, setVisibleText] = useState(props.passage.visibleText);
     const [options, setOptions] = useState(props.passage.options);
-    const {dispatch, stories} = useUndoableStoriesContext();
     const [optionVisibleName, setOptionVisibleName] = useState(props.passage.optionVisibleName)
+    const {dispatch, stories} = useUndoableStoriesContext();
     console.log("Log : UserDialog() - "); 
     console.log(props.passage);
-    
-    //본문 + [[선택지]] 로 된 문자열 생성
+    React.useEffect(function(){
+        setName(props.passage.name)
+        setText(props.passage.text)
+        setVisibleText(props.passage.visibleText)
+        setOptions(props.passage.options)
+        setOptionVisibleName(props.passage.optionVisibleName)
+        debugger;
+    }, [props.passage.name])
     
     return(
         <div className="making-all-container">

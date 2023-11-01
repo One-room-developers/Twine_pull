@@ -54,7 +54,7 @@ export const UploadStoryButton: React.FC<UploadStoryButtonProps> = props => {
             console.log(nowPassage.optionVisibleName)
         
         console.log(checkedPassages);
-        debugger;
+        
         //checkdPassage
         if(!checkedPassages.find(checkedPassage => checkedPassage === nowPassage)){
             checkedPassages.push(nowPassage)

@@ -28,7 +28,7 @@ export async function getNextStoryAndPassages(currentStat: Status, lastStoryArr:
     });
 
     const data = response.data;
-    debugger;
+    
     const story = getStory(data);
     const passages = getPassages(data);
     const options = getOptions(data);
