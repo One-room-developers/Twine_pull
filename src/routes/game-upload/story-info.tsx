@@ -321,20 +321,18 @@ export const StoryInfoRoute: React.FC = () => {
 
     async function deleteEpisode(){
         const isLogin = await checkLogin();
-        debugger;
 
         if(isLogin === true){
             const state = await deleteStoryApi(userId, storyData.pk);
-            debugger;
             if(state === null){
                 alert("로그인 정보가 맞지 않습니다. 다시 로그인 해주세요.");
             }
             else if(state.msg === 41){
-                alert("삭제되었습니다.");
-                history.push("http://localhost:3000/#/game-upload/all/1");
+                alert("서버에 문제가 발생했습니다.");
             }
             else if(state.msg === 42){
-                alert("서버에 문제가 발생했습니다.");
+                history.push("http://localhost:3000/#/game-upload/all/1");
+                alert("삭제되었습니다.");
             }
         }
         else{

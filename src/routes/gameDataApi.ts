@@ -72,15 +72,8 @@ export async function deleteStoryApi(user_id:string, story_pk:string){
         url: `${process.env.REACT_APP_API_URL}/my_episode/delete_upload_story/${story_pk}`,
         data: { id: user_id },
         withCredentials: true,
-    })
-    .catch((err) => {
-        return null;      // 리프레시 토큰이 유효하지 않으면 null 반환
-    })
-
-    /**
-     * data.msg === 42 => 삭제 성공, 41 => 서버 문제로 삭제 실패
-     * data가 null이면 id 변조
-     */
+    });
+    console.log(response);
     const data = response.data;
     return data;
 }
@@ -92,7 +85,7 @@ export async function updateLikeApi(user_id:string, story_pk:string){
         data: {
             player_id: user_id,
             storyPk: story_pk
-        }
+        },
     });
     const data = response.data;
     return data;                  // data === true면 추천 성공, false면 이미 추천한 상태
