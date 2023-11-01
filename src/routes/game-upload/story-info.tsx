@@ -320,7 +320,9 @@ export const StoryInfoRoute: React.FC = () => {
                     <StoryInfo>
                         <StoryTitleContainer>
                             <StoryTitle>에피소드명: {storyData.name}</StoryTitle>
-                            <DeleteBtn>에피소드 삭제</DeleteBtn>
+                            {
+                                storyData.userNickname === userId ? <DeleteBtn>에피소드 삭제</DeleteBtn> : <></>
+                            }
                         </StoryTitleContainer>
                         <StoryData>{storyData.userNickname} {convertISOToKoreaDate(storyData.lastUpdate)}</StoryData>
                         <LikeBtnContainer>
