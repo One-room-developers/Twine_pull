@@ -2,9 +2,11 @@ import * as React from 'react';
 import '../game-play-route.css';
 import bookLogo from '../../../styles/image/book-svgrepo-com.svg';
 import { GameManager } from '../gameManager';
+import { useHistory } from 'react-router-dom';
 
 
 export default function Main(props) {
+    const history = useHistory();
 
     let passage_text_div = React.useRef(null);
     let text_view_div = React.useRef(null);
@@ -63,12 +65,12 @@ export default function Main(props) {
                         </div>
                     </div>
                 </div>
-                {/* <div className="main_ui">
-                    <button className="main-ui-btn font-game-thin" onClick={function () { props.stat_window_event() }}>능력치</button>
-                    <button className="main-ui-btn font-game-thin">SAVE</button>
-                    <button className="main-ui-btn font-game-thin">인벤토리</button>
-                    <button className="main-ui-btn font-game-thin">환경설정</button>
-                </div> */}
+                <div className="main_ui">
+                    <button className="main-ui-btn font-game-thin" onClick={function () { props.stat_window_event() }}>준비 중</button>{/*능력치*/}
+                    <button className="main-ui-btn font-game-thin">준비 중</button> {/*세이브*/}
+                    <button className="main-ui-btn font-game-thin">로그보기</button>
+                    <button className="main-ui-btn font-game-thin" onClick={()=>history.push("/")}>홈으로</button>
+                </div>
             </main>
         </>
     );
