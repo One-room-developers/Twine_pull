@@ -38,7 +38,7 @@
 		"redo": "Redo",
 		"redoChange": "Redo {{change}}",
 		"rename": "Rename",
-		"renamePrompt": "What should “{{name}}” be renamed to?",
+		"renamePrompt": "“{{name}}”을(를) 무엇으로 바꾸시겠습니까?",
 		"remove": "Remove",
 		"selectAll": "Select All",
 		"skip": "Skip",
@@ -343,7 +343,7 @@
 				"deleteStoryButton": {
 					"warning": {
 						"electron": "Are you sure you want to delete “{{storyName}}”? It will be moved to the trash.",
-						"web": "Are you sure you want to delete “{{storyName}}”? It will be deleted forever. This cannot be undone."
+						"web": "정말로 “{{storyName}}”을(를) 삭제하시겠습니까?"
 					}
 				},
 				"showAllStories": "Show All Stories",

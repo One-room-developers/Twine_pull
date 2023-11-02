@@ -38,7 +38,7 @@
 		"redo": "Redo",
 		"redoChange": "Redo {{change}}",
 		"rename": "Rename",
-		"renamePrompt": "What should “{{name}}” be renamed to?",
+		"renamePrompt": "“{{name}}”을 무엇으로 바꾸시겠습니까?",
 		"remove": "Remove",
 		"selectAll": "Select All",
 		"skip": "Skip",
