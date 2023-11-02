@@ -32,7 +32,6 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
         setVisibleText(props.passage.visibleText)
         setOptions(props.passage.options)
         setOptionVisibleName(props.passage.optionVisibleName)
-        debugger;
     }, [props.passage.name])
     
     return(
@@ -66,7 +65,9 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
                     passage = {props.passage}
                     dispatch = {dispatch}
                     story = {props.story}
-                    onClose = {props.onClose}>
+                    onClose = {props.onClose}
+                    setText = {setText}>
+                    
                 </DialogOptions>
 
                 <DialogButton

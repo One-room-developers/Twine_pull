@@ -58,8 +58,8 @@ export const Dialogs: React.FC = props => { //텍스트 편집 창
 		<div className="dialogs" style={containerStyle}>
 			<TransitionGroup component={null}>
 				{dialogs.map((dialog, index) => {
-					const passage = passageWithId(stories, dialogs[index].props.storyId, dialogs[index].props.passageId)
-					const story = storyWithId(stories, dialogs[index].props.storyId);
+					const passage = passageWithId(stories, dialog.props.storyId, dialog.props.passageId)
+					const story = storyWithId(stories, dialog.props.storyId);
 					
 					
 					const managementProps = {

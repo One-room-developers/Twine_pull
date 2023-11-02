@@ -159,7 +159,6 @@ export async function uploadStory(story:Story){
 	})
 	.then((res) => {
 		console.log(story)
-		debugger;
 		story.passages.forEach(passage => {
 			uploadPassage(passage, story);
 			if(passage.passageType === "normalPassage"){

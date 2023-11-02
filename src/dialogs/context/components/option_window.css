@@ -13,7 +13,6 @@
     background-color: #555;
 }
 
-
 *{
     box-sizing: border-box;
 }
@@ -235,3 +234,4 @@ textarea:focus{
 .save-btn-container button:active{
     box-shadow: none;
 }
+
