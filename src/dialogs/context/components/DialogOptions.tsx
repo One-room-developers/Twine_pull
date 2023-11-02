@@ -153,10 +153,11 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsStatus1(_optionsStatus1);
                                     }}>
-                                        <option value="">(능력)</option>
-                                        <option value="health">체력</option>
+                                        <option value="">(스탯 변화1)</option>
+                                        <option value="null">(없음)</option>
+                                        <option value="health">생명력</option>
                                         <option value="money">돈</option>
-                                        <option value="hungry">포만감</option>
+                                        <option value="satiety">포만감</option>
                                         {/* <option value="strength">힘</option>
                                         <option value="agility">민첩</option>
                                         <option value="armor">내구도</option>
@@ -173,10 +174,11 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsAmountChange1(_optionsAmountChange1);
                                     }}>
-                                        <option value="">(변화량)</option>
-                                        <option value="1">+1</option>
-                                        <option value="0">0</option>
-                                        <option value="-1">-1</option>
+                                    <option value="">(스탯 변화2)</option>
+                                    <option value="null">(없음)</option>
+                                    <option value="health">생명력</option>
+                                    <option value="money">돈</option>
+                                    <option value="satiety">포만감</option>
                                     </select>
                                 </div>
     
