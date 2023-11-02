@@ -1,4 +1,4 @@
-import {IconHash} from '@tabler/icons';
+import {Icon3dRotate, IconHash} from '@tabler/icons';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {IconButton} from '../../../../components/control/icon-button';
@@ -79,7 +79,7 @@ export const UploadStoryButton: React.FC<UploadStoryButtonProps> = props => {
 
 	return (
 		<IconButton
-			icon={<IconHash />}
+			icon={<Icon3dRotate />}
 			label={'업로드'}
 			onClick={() =>
 				{

@@ -7,7 +7,9 @@ import {BackButton} from './back-button';
 import './route-toolbar.css';
 import { UploadStoryButton } from '../../routes/story-edit/toolbar/story/upload-story-button';
 import { Story, storyWithId } from '../../store/stories';
-import { useUndoableStoriesContext } from '../../store/undoable-stories';
+import { StoryTestButton } from '../../routes/story-edit/toolbar/story/story-test-button';
+import { GamePlayRoute } from '../../routes/game-play';
+import GameTest from './gameTest/gameTest';
 
 export interface RouteToolbarProps {
 	helpUrl?: string;
@@ -36,6 +38,13 @@ export const RouteToolbar: React.FC<RouteToolbarProps> = props => {
 						(props.story) ? (<UploadStoryButton story = {props.story}></UploadStoryButton>) 
 						: (<></>)
 					}
+					{/* {
+						(props.story) ? (
+							<StoryTestButton story = {props.story}>
+								<GameTest story = {props.story}></GameTest>
+							</StoryTestButton>) 
+						: (<></>)
+					} */}
 					<div className="route-toolbar-pinned-controls">
 						{pinnedControls}
 						<IconButton

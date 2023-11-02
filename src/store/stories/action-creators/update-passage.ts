@@ -39,7 +39,6 @@ export function updatePassage(
 		const oldName = passage.name;
 		const oldText = passage.text;
 		//thunk-reducer.js의 dispatch
-		debugger;
 		dispatch({
 			props,
 			type: 'updatePassage',
@@ -141,7 +140,6 @@ export function updatePassage(
 						}
 						return option;
 					})
-					debugger;
 					updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
 						story,
 						relinkedPassage,
@@ -162,7 +160,6 @@ export function updatePassage(
 					parentOption.nextNormalPassage = parseLinks(props.text)[0] ?? "";
 				return parentOption;
 			})
-			debugger;
 			updatePassage( //지금 업데이트하는 passage의 상위 부모를 바꿔줌
 				story,
 				parentPassage,

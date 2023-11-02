@@ -1,7 +1,6 @@
 /*components*/
 @import "../../styles/components/reset.css";
 @import "../../styles/components/variables.css";
-
 @import "../../styles/components/font.css";
 
 *{
@@ -18,7 +17,31 @@ body{
     justify-content: center;
 }
 
+.game_test_body{
+    position: fixed;
+    top : 0;
+    left : 0;
+    padding-top : 50px;
+    padding-bottom: 50px;
+    margin : auto;
+    width : auto;
+    background-color: gray;
+    height : 100%;
+}
+
 .main{
+    height : 100vh;
+    width: 720px;
+    display: flex;
+    flex-direction: column;
+    padding : 5vh 0%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-white);
+    white-space: pre-wrap;
+}
+
+.testMain{
     height : 100vh;
     width: 720px;
     display: flex;
@@ -104,6 +127,21 @@ body{
     -ms-overflow-style: none;
     animation: text-view-appear 1.3s ease-in forwards;
     animation-delay: 0.3s;
+    line-height: 30px;
+}
+
+.test_text_view{
+    width: 70%;
+    min-width: 600px;
+    height: 60vh;
+    opacity: 1;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    border-top : 5px solid var(--main-gray);
+    border-bottom :5px solid var(--main-gray);
+    border-radius: 1%;
+    overflow: overlay;
+    -ms-overflow-style: none;
     line-height: 30px;
 }
 
