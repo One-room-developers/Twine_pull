@@ -119,6 +119,7 @@ const PassageContext = styled.div`
     padding: 20px;
     font-family: "godicThin";
     font-size: 17px;
+    line-height: 150%;
 
 `
 const PassageImg = styled.img`

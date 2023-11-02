@@ -85,7 +85,7 @@ textarea:focus{
     background-color: rgb(238, 238, 238);
     width: 350px;
     border-bottom: 2px solid rgb(57, 62, 70);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     height: 30px;
 }
@@ -119,12 +119,13 @@ textarea:focus{
     border-top: 2px solid rgb(57, 62, 70);
     border-bottom: 2px solid rgb(57, 62, 70);
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     height: 250px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     padding: 10px;
     margin: 20px 0 20px 0;
+    line-height: 150%;
 }
 .making-window-main:focus-within textarea{
     background-color: #FFFFFF;
