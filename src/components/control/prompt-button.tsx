@@ -119,6 +119,7 @@ export const PromptButton: React.FC<PromptButtonProps> = props => {
 							icon={cancelIcon ?? <IconX />}
 							label={cancelLabel ?? t('common.cancel')}
 							onClick={handleCancel}
+							variant={"cancle"}
 						/>
 					</ButtonBar>
 				</form>

@@ -15,6 +15,7 @@
 	transition: background 0.3s;
 	user-select: none;
 }
+
 .icon-button{
 	align-items: center;
 	background: none;
@@ -103,6 +104,10 @@
 .icon-button:active:not(:disabled),
 .icon-link:active:not(:disabled) {
 	background: var(--gray);
+}
+
+.icon-button.variant-cancle{
+	color: #FF0060;
 }
 
 .icon-button.variant-primary,

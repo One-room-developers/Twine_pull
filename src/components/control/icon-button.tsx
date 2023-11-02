@@ -15,7 +15,7 @@ export interface IconButtonProps {
 	selectable?: boolean;
 	selected?: boolean;
 	tooltipPosition?: TooltipProps['position'];
-	variant?: 'create' | 'danger' | 'primary' | 'secondary';
+	variant?: 'create' | 'danger' | 'primary' | 'secondary' | 'cancle';
 }
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -37,7 +37,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 			`icon-position-${iconPosition}`,
 			{selected: selected},
 			`variant-${variant}`,
-			{'icon-only': iconOnly}
+			{'icon-only': iconOnly},
 		);
 		const [button, setButton] = React.useState<HTMLButtonElement | null>(null);
 		React.useImperativeHandle(ref, () => button as HTMLButtonElement);

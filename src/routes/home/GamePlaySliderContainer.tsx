@@ -3,25 +3,28 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slide.css";
+import infoImg1 from './img/1_게임시작.png';
+import infoImg2 from './img/2_플레이.png';
+import infoImg3 from './img/3_게임진행.png';
 
 const Outer = styled.div`
     position: relative;
-    width: 800px;
-    height: 450px;
+    width: 900px;
+    height: 460px;
     background-color: #FFFFFF;
 `
 const SlideContents = styled.div`
-    width: 800px;
-    height: 450px;
+    width: 900px;
+    height: 460px;
+    border: 1px solid #FFFFFF;
 `
-const ExplainH3 = styled.h3`
-    font-size: 45px;
-    font-family: "godicM";
-    display: flex;
-    justify-content: center;
+const ExplainImg = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `
 
-function SliderContainer(){
+function GamePlaySliderContainer(){
     var settings = {
         dots: true,
         infinite: true,
@@ -35,17 +38,17 @@ function SliderContainer(){
         <Outer>
             <Slider {...settings}>
                 <SlideContents>
-                    <ExplainH3>1</ExplainH3>
+                    <ExplainImg src={infoImg1} />
                 </SlideContents>
                 <SlideContents>
-                    <ExplainH3>2</ExplainH3>
+                    <ExplainImg src={infoImg2} />
                 </SlideContents>
                 <SlideContents>
-                    <ExplainH3>3</ExplainH3>
+                    <ExplainImg src={infoImg3} />
                 </SlideContents>
             </Slider>
         </Outer>
     )
 }
 
-export default SliderContainer;
+export default GamePlaySliderContainer;

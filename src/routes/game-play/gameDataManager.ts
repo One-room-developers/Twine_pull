@@ -1,4 +1,4 @@
-import { NextOption, NextPassage, NextStory, Status, NextStoryAndPassages, NextStoryAndPassagesArr } from "../../store/stories/gameManager.types";
+import { NextOption, NextPassage, Status, NextStoryAndPassages, NextStoryAndPassagesArr } from "../../store/stories/gameManager.types";
 import axios from 'axios';
 import { vibration } from './component/main';
 
@@ -17,13 +17,12 @@ export let default_status : Status = {
 export let current_status: Status = default_status;
 
 
-export async function getNextStoryAndPassages(currentStat: Status, lastStoryArr: string[]) : Promise<NextStoryAndPassagesArr>{
+export async function getNextStoryAndPassages(current_health: number, lastStoryArr: string[]) : Promise<NextStoryAndPassagesArr>{
     const response = await axios({
         method : "POST",
         url: `${process.env.REACT_APP_API_URL}/game_play/get_next_episode`,
         data: {
-            genre: 1,
-            //currentStat: currentStat,
+            currentHealth: current_health,
             lastStoryArr: lastStoryArr,
         }
     });
