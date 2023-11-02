@@ -41,7 +41,6 @@ export const StoriesContextProvider: React.FC = props => {
 			//이지원 제작
 			//db에 데이터를 저장하는 코드
 			DBsaveMiddleware(newState, action)
-
 			return newState;
 		},
 		[formats, reportError, storiesPersistence]

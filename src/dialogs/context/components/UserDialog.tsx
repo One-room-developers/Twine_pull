@@ -32,6 +32,7 @@ export const UserDialog: React.FC<UserDialogProps> = (props) => {
         setVisibleText(props.passage.visibleText)
         setOptions(props.passage.options)
         setOptionVisibleName(props.passage.optionVisibleName)
+        
     }, [props.passage.name])
     
     return(

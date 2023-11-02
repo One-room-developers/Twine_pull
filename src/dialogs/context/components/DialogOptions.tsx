@@ -382,7 +382,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     function setOptionListByOptionPassage(){
         const i = 0;
         const parentPassage = passageWithNameAsStory(props.story, props.passage.parentOfOption)
-        const thisOpion = parentPassage.options.filter(option => option.name = props.passage.name)[0]
+        const thisOpion = parentPassage.options.filter(option => option.name === props.passage.name)[0]
         const nextNormalPassage = thisOpion.nextNormalPassage ?? "";
         if (nextNormalPassage !== ""){
             passageList.push(
@@ -393,6 +393,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         }else{
             passageList.push(
                 <form 
+                key = {i}
                 method='post' 
                 onSubmit={
                     function(e){//인자로 id까지 받아서 배열에 넣기
