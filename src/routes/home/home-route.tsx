@@ -4,7 +4,8 @@ import CookieStorageAPI from "../login/cookies";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
 import {Link, useHistory} from "react-router-dom"
-import SliderContainer from './SliderContainer';
+import GamePlaySliderContainer from './GamePlaySliderContainer';
+import MakeEpiSliderContainer from './MakeEpiSliderContainer';
 import {checkAccessToken} from '../authApi';
 import {useRecoilValue, useRecoilState} from "recoil";
 import {userNameAtom, userIdAtom} from "../login/userInfoAtom";
@@ -184,7 +185,7 @@ export const HomeRoute: React.FC = () => {
                     </div>
 
                     <div className="game-play-main-container">
-                        <SliderContainer />
+                        <GamePlaySliderContainer />
                     </div>
 
                     <div className="game-play-title-container">
@@ -196,7 +197,7 @@ export const HomeRoute: React.FC = () => {
                     </div>
 
                     <div className="game-play-main-container">
-                        <SliderContainer />
+                        <MakeEpiSliderContainer />
                     </div>
                 </div>
 
