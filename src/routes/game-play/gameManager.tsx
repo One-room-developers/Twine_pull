@@ -169,7 +169,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         if(basicSize_of_textViewDiv < headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight){
-            // passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
+            main_text_view_div.current.style.height = `${headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight}px`;
             moveScrollBottom()
         }
         else{
