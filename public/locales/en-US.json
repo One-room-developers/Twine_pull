@@ -336,9 +336,9 @@
 			"toolbar": {
 				"archive": "Archive",
 				"createStoryButton": {
-					"prompt": "What should your story be named? You can change this later.",
-					"emptyName": "Please enter a name.",
-					"nameConflict": "Another story has this name."
+					"prompt": "에피소드 이름을 작성해주세요",
+					"emptyName": "에피소드 이름을 작성해주세요.",
+					"nameConflict": "이미 동일한 이름의 에피소드가 있습니다."
 				},
 				"deleteStoryButton": {
 					"warning": {
