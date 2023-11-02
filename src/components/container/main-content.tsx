@@ -97,7 +97,6 @@ export const MainContent = React.forwardRef<HTMLDivElement, MainContentProps>(  
 				};
 			}
 		}, [grabbable]);
-		debugger;
 
 		// 새로 만든 스토리의 제목을 DocumentTitle로 넘겨서 HTML 형태로 저장
 		return (
