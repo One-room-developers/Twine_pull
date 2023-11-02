@@ -10,6 +10,7 @@ type DialogBodyProps = {
 }
 export const DialogBody: React.FC<DialogBodyProps> = (props) => {
     let optionAfterStory = ""
+    let mainInfoText = ""
     if(props.passage.passageType === "optionPassage"){
         const parentPassage = passageWithName(props.stories, props.story.id, props.passage.parentOfOption)
         parentPassage.options.forEach(option => {
@@ -17,6 +18,9 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
                 optionAfterStory = option.afterStory
             }
         })
+        mainInfoText='선택 후\n이야기'
+    }else{
+        mainInfoText='본문'
     }
     return(
         (props.passage.passageType === "normalPassage") ? ( //normalPassage면 제목 출력 아니면 미출력

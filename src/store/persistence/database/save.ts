@@ -138,6 +138,13 @@ export async function createStory(story:Story){
 }
 
 export async function uploadStory(story:Story){
+	let level = 0;
+	story.passages.forEach(passage => {
+		passage.options.forEach(option => {
+			level += option.status1Num;
+			level += option.status2Num;
+		})
+	})
 	axios({
 		method: "POST",
 		url: `${process.env.REACT_APP_API_URL}/make_episode/upload_story`,
@@ -145,7 +152,7 @@ export async function uploadStory(story:Story){
 			pk: story.pk,
 			id: story.id,
 			ifid: story.ifid,
-			level: story.level,
+			level: level,
 			name: story.name,
 			userNickname: story.userNickname,
 			startPassage: story.startPassage,

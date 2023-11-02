@@ -66,9 +66,15 @@ export const DataBaseLoader: React.FC<DataBaseLoader> = props => {
                     }
                 });
                 dbPassage.options = res3.data;
+                //버그나서 nextNormalpassage가 null이면 ""로 바꿔주는 코드 추가
+                dbPassage.options.forEach(option => {
+                    if(option.nextNormalPassage === null)
+                        option.nextNormalPassage = ""
+                })
                 return dbPassage
             }));
-
+            debugger;
+            
             //변수 값 local storage에 저장하기
             await dbPassagesState.forEach((passage)=>{
                 doUpdateTransaction(transaction => {

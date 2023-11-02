@@ -58,6 +58,7 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
         }else if(passage.passageType === "optionPassage"){
             //option passage에서 수정 없이 작성완료를 클릭했을 시에만 작동
             newText = text;
+            visibleText = visibleText;
         }
         dispatch(updatePassage(story, passage, {name, optionVisibleName, text:newText, visibleText, options}));
     }
