@@ -384,7 +384,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         const parentPassage = passageWithNameAsStory(props.story, props.passage.parentOfOption)
         const thisOpion = parentPassage.options.filter(option => option.name = props.passage.name)[0]
         const nextNormalPassage = thisOpion.nextNormalPassage ?? "";
-        debugger;
         if (nextNormalPassage !== ""){
             passageList.push(
                 <div key={i} id={i.toString()} className="passage-list-div">
@@ -432,7 +431,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
             }
             else{
                 option_creator = <CreateOption onCreate={
-                    function(option_visible_name, status1, amount_change1, status2, amount_change2, after_story, newName) {
+                    function(option_visible_name, status1, amount_change1 : number, status2, amount_change2 : number, after_story, newName) {
                             //선택지 목록 아이디를 위한 갯수 추가
                             max_option_num = max_option_num + 1;
                             //새로 만든 배열 추가하여 생성

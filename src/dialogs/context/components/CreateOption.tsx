@@ -28,7 +28,7 @@ class CreateOption extends Component<Modes_props> {
                 onSubmit={function(e) {
                     e.preventDefault();
                     const newName = uuid();
-                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, e.target.amount_change1.value, e.target.status2.value, e.target.amount_change2.value, e.target.after_story.value, newName);
+                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, parseInt(e.target.amount_change1.value), e.target.status2.value, parseInt(e.target.amount_change2.value), e.target.after_story.value, newName);
                 }.bind(this)}>
                     
                     <input className='option-mini-title' name='option_title' placeholder='선택지 이름' required></input>

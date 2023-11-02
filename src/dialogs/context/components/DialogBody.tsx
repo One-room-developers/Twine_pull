@@ -50,7 +50,7 @@ export const DialogBody: React.FC<DialogBodyProps> = (props) => {
                     rows={10} 
                     onChange={
                         function(e){
-                            props.setVisibleText(e.target.value)
+                            // props.setVisibleText(e.target.value)
                         }
                     }
                     readOnly>

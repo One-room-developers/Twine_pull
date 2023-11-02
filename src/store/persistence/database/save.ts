@@ -138,10 +138,10 @@ export async function createStory(story:Story){
 }
 
 export async function uploadStory(story:Story){
-	let level = 0;
+	let level : number = 0;
 	story.passages.forEach(passage => {
 		passage.options.forEach(option => {
-			level += option.status1Num;
+			level = option.status1Num;
 			level += option.status2Num;
 		})
 	})
