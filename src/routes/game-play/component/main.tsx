@@ -4,6 +4,13 @@ import bookLogo from '../../../styles/image/book-svgrepo-com.svg';
 import { GameManager } from '../gameManager';
 import { useHistory } from 'react-router-dom';
 
+export function vibration(){
+    document.getElementById("main").classList.add("vibration");
+
+    setTimeout(function() {
+        document.getElementById("main").classList.remove("vibration");
+    }, 400);
+}
 
 export default function Main(props) {
     const history = useHistory();
@@ -36,7 +43,7 @@ export default function Main(props) {
                 passageTextState={[passageText, setpassageText]}
                 resultTextState = {[resultText, setResultText]}>
             </GameManager>
-            <main className="main">
+            <main id="main" className="main">
                 <div className="passage_logo">
                     <img className="icon-book" src={bookLogo} alt="" />
                 </div>

@@ -239,7 +239,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //배고픔이 0이면
         if(current_status.hungry <= 0){
             //체력 1깎음
-            changeStatus({hungry : -1})
+            changeStatus({health : -1})
         }
 
         if(current_status.hungry <= 0){
