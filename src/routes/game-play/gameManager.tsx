@@ -186,13 +186,13 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 let statMessage;
                 switch(statName){
                     case 'health':
-                        statMessage="체력이"
+                        statMessage="생명력이"
                         break;
                     case 'money':
                         statMessage="돈이"
                         break;
                     case 'hungry':
-                        statMessage="허기가"
+                        statMessage="포만감이"
                         break;
                 }
                 if (statusChange[optionIndex][statName] < 0){
@@ -239,7 +239,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //배고픔이 0이면
         if(current_status.hungry <= 0){
             //체력 1깎음
-            changeStatus({hungry : -1})
+            changeStatus({health : -1})
         }
 
         if(current_status.hungry <= 0){

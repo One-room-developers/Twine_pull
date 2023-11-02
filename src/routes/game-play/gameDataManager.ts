@@ -1,5 +1,6 @@
 import { NextOption, NextPassage, NextStory, Status, NextStoryAndPassages, NextStoryAndPassagesArr } from "../../store/stories/gameManager.types";
 import axios from 'axios';
+import { vibration } from './component/main';
 
 export let maxStatus : Status = {
     health: 5,
@@ -107,6 +108,10 @@ export function resetStatus(){
 }
 
 export function changeStatus(changeStatus : Partial<Status>){
+    if(changeStatus.health < 0) {
+        vibration();
+    }
+    
     current_status.health += changeStatus.health;
     current_status.hungry += changeStatus.hungry;
     current_status.money += changeStatus.money;

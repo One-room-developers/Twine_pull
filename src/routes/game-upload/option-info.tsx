@@ -102,8 +102,13 @@ export function OptionInfoRoute(props:IProps){
                                         <ContentsContainer>
                                             <MiniInfo>스텟 변화량</MiniInfo>
                                             <OptionStatContainer>
-                                                <OptionStat>{option.status1} 변화량: {option.status1Num}</OptionStat>
-                                                <OptionStat>{option.status2} 변화량: {option.status2Num}</OptionStat>
+                                                <OptionStat>{option.status1 === "health" ? "생명력 변화량: " + `${option.status1Num > 0 ? `+${option.status1Num}`: option.status1Num}` :
+                                                option.status1 === "hungry" ? "포만감 변화량: " + `${option.status1Num > 0 ? `+${option.status1Num}`: option.status1Num}`:
+                                                option.status1 === "money" ? "돈 변화량: " + `${option.status1Num > 0 ? `+${option.status1Num}`: option.status1Num}` : "변화 없음"} </OptionStat>
+                                                
+                                                <OptionStat>{option.status2=== "health" ? "생명력 변화량: " + `${option.status2Num > 0 ? `+${option.status2Num}`: option.status2Num}` :
+                                                option.status2 === "hungry" ? "포만감 변화량: " + `${option.status2Num > 0 ? `+${option.status2Num}`: option.status2Num}` :
+                                                option.status2 === "money" ? "돈 변화량: " + `${option.status2Num > 0 ? `+${option.status2Num}`: option.status2Num}` : "변화 없음"} </OptionStat>
                                             </OptionStatContainer>
                                         </ContentsContainer>
                                         
@@ -113,7 +118,7 @@ export function OptionInfoRoute(props:IProps){
                                         </ContentsContainer>
 
                                         <ContentsContainer>
-                                            <MiniInfo>다음 글 제목</MiniInfo>
+                                            <MiniInfo>다음 장면 제목</MiniInfo>
                                             <MiniContents>{(option.nextNormalPassage === null) ? (<>마지막 글입니다.</>) : (<>{option.nextNormalPassage}</>)}</MiniContents>
                                         </ContentsContainer>
                                     </OptionContentsContainer>

@@ -240,7 +240,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                 let status2;
                 switch(optionsStatus1[i]){
                     case 'null':
-                        status1="변화없음";
+                        status1="없음";
                         break;
                     case 'health':
                         status1="체력";

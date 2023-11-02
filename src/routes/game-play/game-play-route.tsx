@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import apoImg from '../game-upload/img/mode-apo.png';
 //로그인 관련
 import RequestLoginInfo from '../select/components/requestLoginInfo';
-import { BottomStatUI } from './component/bottomStatUI';
+//import { BottomStatUI } from './component/bottomStatUI';
 
 
 
@@ -104,7 +104,7 @@ export const GamePlayRoute: React.FC = () => {
     return (
         <div className="game_play_body" >
             <LeftUI>
-                <GameIllustContainer>
+                {/* <GameIllustContainer>
                     <Line1 />
                     <Line2 />
                     <Line3 />
@@ -112,7 +112,7 @@ export const GamePlayRoute: React.FC = () => {
                     <Line5 />
                     <Line6 />
                     <GameIllustration />
-                </GameIllustContainer>
+                </GameIllustContainer> */}
             </LeftUI>
             <Main stat_window_event = {function(){stat_window_event()} }></Main>
             <Right_Ui></Right_Ui>

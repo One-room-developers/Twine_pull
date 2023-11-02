@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import styled from "styled-components";
 import { HeaderBar } from '../home';
 import {useQuery} from "react-query";
-import { getUploadedStoriesApi } from '../gameDataApi';
-import apoImg from './img/mode-apo.png';
+import { getMyStoriesApi } from '../gameDataApi';
+import apoImg from '../game-upload/img/mode-apo.png';
 
 import {convertISOToKoreaDate} from '../board/components/postList/convertIsoToKoreaDate';
 
@@ -174,8 +174,7 @@ const StoryList = styled.ul`
 `
 
 interface RouteParams{
-    category: string,
-    pageNum: string
+    userName: string,
 }
 
 //간추린 정보
@@ -191,33 +190,11 @@ interface IStory {
     createdAt: Date,
 }
 //path="/game-upload/all/1"
-export const GameUploadRoute: React.FC = () => {
-    const { category } = useParams<RouteParams>();
-    let categoryNum;
-    //url에 오는 카테고리에 따라 DB로 들어가는 번호 달라지게 설정
-    switch (category){
-        case "all":
-            categoryNum = 1;
-            break;
-
-        default:
-            categoryNum = 1;
-            break;
-    }
-
-    const { pageNum } = useParams<RouteParams>();
-
-
-    //페이지 설정
-    const [page, setPage] = React.useState(1);
-    if(pageNum === undefined){
-    }
-    else if (parseInt(pageNum) !== page){
-        setPage(parseInt(pageNum));
-    }
+export const MyPageRoute: React.FC = () => {
+    const { userName } = useParams<RouteParams>();
 
     //Story data 가져오기
-    const {isLoading:isStoryLoading, data:storiesData} = useQuery<IStory[]>(["storyList", page], ()=> getUploadedStoriesApi(categoryNum));//페이지 인자로 받아야됨
+    const {isLoading:isStoryLoading, data:storiesData} = useQuery<IStory[]>(["myStoryList", userName], ()=> getMyStoriesApi(userName));//페이지 인자로 받아야됨
 
     
     //const {isLoading, data} = useQuery<IStory>("storyListData", fetchStoryList);
@@ -226,7 +203,7 @@ export const GameUploadRoute: React.FC = () => {
         <Container>
             <HeaderBar />
             <Header>
-                <Title>에피소드 업로드 목록</Title>
+                <Title>나의 에피소드 목록</Title>
             </Header>
             <Main>
                 {isStoryLoading ? (<Loader>불러오는 중...</Loader>) : 

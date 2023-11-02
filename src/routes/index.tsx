@@ -16,6 +16,7 @@ import { BoardRoute, ThreadRoute, WriteRoute, ModifyRoute } from './board';
 import { GameUploadRoute } from './game-upload'
 import { StoryInfoRoute } from './game-upload'
 import { ExceptionRoute } from './exception';
+import { MyPageRoute } from './mypage';
 import { BetaInfo } from './info';
 import {ReactQueryDevtools} from "react-query/devtools"
 import ScrollToTop from "./ScrollToTop"
@@ -73,6 +74,9 @@ export const Routes: React.FC = () => {
 					</Route>
 					<Route path="/game-upload/:category/:pageNum">
 						<GameUploadRoute />
+					</Route>
+					<Route path="/mypage/:userName">
+						<MyPageRoute />
 					</Route>
 					<Route path="/story-formats">
 						<StoryFormatListRoute />

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import {useQuery} from "react-query";
+import { getUploadedStoriesApi } from '../../gameDataApi';
 
 
 const PopularGameListContainer = styled.div`
@@ -27,30 +29,48 @@ const SidePostContents = styled.li`
 const SidePostTitle = styled.h2`
     font-family: "godicThin";
     font-size: 16px;
+    width: 100%;
+    display: flex;
 `
-
+interface IStory {
+    pk: string,
+    genre: number,
+    level: number,
+    name: string,
+    userNickname: string,//누가 썼는가?
+    startPassage: string,
+    like: number,
+    dislike: number,
+    createdAt: Date,
+}
 export const PopularEpi:React.FC = () => {
+    const categoryNum = 1;//현재는 아포칼립스만
+    //Story data 가져오기
+    const {isLoading:isStoryLoading, data:storiesData} = useQuery<IStory[]>(["LastStoryList"], ()=> getUploadedStoriesApi(categoryNum));//페이지 인자로 받아야됨
+
 
     //더미데이터
-    const likeEpisode = [{id:1, title: "피를 마시는 새", userName: "이영도",}];
-
+    
     return(
         <PopularGameListContainer>
             <SidePostHeader>
-                최신 인기 에피소드
+                최신 업로드 에피소드
             </SidePostHeader>
             
             <SidePostContentsContainer>
                 {
-                likeEpisode?.map((episode, index) =>
+                    isStoryLoading ? (<>불러오는 중...</>) : 
+                    (storiesData?.map((episode, index) =>
                     <SidePostContents key={index}>
-                        <SidePostTitle>
-                            <Link to={`/storyInfo/${episode.id}`}>
-                                {episode.title}
-                            </Link>
-                        </SidePostTitle>
+                        <Link to={`/storyInfo/${episode.pk}`}>
+                            <SidePostTitle>
+                                {episode.name}
+                                &nbsp;
+                                {episode.genre === 1 ? "[멸망]" : <></>}
+                            </SidePostTitle>
+                        </Link>
                     </SidePostContents>
-                    )
+                    ))
                 }
             </SidePostContentsContainer>
         </PopularGameListContainer>

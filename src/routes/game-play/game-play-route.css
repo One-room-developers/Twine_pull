@@ -30,6 +30,19 @@ body{
     white-space: pre-wrap;
 }
 
+.main.vibration {
+    animation: vibration 0.1s infinite;
+}
+
+@keyframes vibration {
+    from {
+        transform: rotate(1deg);
+    }
+    to {
+        transform: rotate(-1deg);
+    }
+}
+
 @keyframes logo-opacity{
     0%{
         opacity: 0;

@@ -62,8 +62,6 @@ class UserDialog extends Component<Modes_props, State_type>{
                         if(Array.isArray(_options_title)){
                             await this.updateContext(_options_title.length);
                         }
-                        console.log(this.state.options_title);
-                        console.log(this.convertedString);
                     }.bind(this)}></DialogOptions>
                     <div className="save-btn-container">
                         <button>작성완료</button>
