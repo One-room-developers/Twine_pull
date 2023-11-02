@@ -31,15 +31,15 @@ class CreateOption extends Component<Modes_props> {
                     this.props.onCreate(e.target.option_title.value, e.target.status1.value, e.target.amount_change1.value, e.target.status2.value, e.target.amount_change2.value, e.target.after_story.value, newName);
                 }.bind(this)}>
                     
-                    <input className='option-mini-title' name='option_title' placeholder='선택지 출력 내용' required></input>
+                    <input className='option-mini-title' name='option_title' placeholder='선택지 이름' required></input>
 
                     <div className='mini-line'></div>
 
                     <div>
                         <select className='select-dropdown' name='status1' required>
-                            <option value="null">(능력)</option>
+                            <option value="null">(스탯 변화1)</option>
                             <option value="null">(없음)</option>
-                            <option value="health">체력</option>
+                            <option value="health">생명력</option>
                             <option value="money">돈</option>
                             <option value="satiety">포만감</option>
                             {/* <option value="strength">힘</option>
@@ -59,9 +59,9 @@ class CreateOption extends Component<Modes_props> {
 
                     <div>
                         <select className='select-dropdown' name='status2' required>
-                            <option value="null">(능력2)</option>
+                            <option value="null">(스탯 변화2)</option>
                             <option value="null">(없음)</option>
-                            <option value="health">체력</option>
+                            <option value="health">생명력</option>
                             <option value="money">돈</option>
                             <option value="satiety">포만감</option>
                             {/* <option value="strength">힘</option>
@@ -80,7 +80,7 @@ class CreateOption extends Component<Modes_props> {
                     <div className='mini-line'></div>
 
                     
-                    <textarea placeholder='플레이어가 선택지 선택 후에 등장하는 결과 이야기' className='option-mini-textarea' name="after_story" id="" cols={30} rows={10} required></textarea>
+                    <textarea placeholder='선택지를 누른 후에 나올 이야기' className='option-mini-textarea' name="after_story" id="" cols={30} rows={10} required></textarea>
                     
                     <input className='option-submit-btn' type="submit" value="생성하기"></input>
                 </form>
