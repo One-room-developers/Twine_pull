@@ -41,7 +41,7 @@ class CreateOption extends Component<Modes_props> {
                             <option value="null">(없음)</option>
                             <option value="health">생명력</option>
                             <option value="money">돈</option>
-                            <option value="satiety">포만감</option>
+                            <option value="hungry">포만감</option>
                             {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>
@@ -63,7 +63,7 @@ class CreateOption extends Component<Modes_props> {
                             <option value="null">(없음)</option>
                             <option value="health">생명력</option>
                             <option value="money">돈</option>
-                            <option value="satiety">포만감</option>
+                            <option value="hungry">포만감</option>
                             {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>

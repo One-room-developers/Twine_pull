@@ -157,7 +157,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         <option value="null">(없음)</option>
                                         <option value="health">생명력</option>
                                         <option value="money">돈</option>
-                                        <option value="satiety">포만감</option>
+                                        <option value="hungry">포만감</option>
                                         {/* <option value="strength">힘</option>
                                         <option value="agility">민첩</option>
                                         <option value="armor">내구도</option>
@@ -174,11 +174,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsAmountChange1(_optionsAmountChange1);
                                     }}>
-                                    <option value="">(스탯 변화2)</option>
-                                    <option value="null">(없음)</option>
-                                    <option value="health">생명력</option>
-                                    <option value="money">돈</option>
-                                    <option value="satiety">포만감</option>
+                                        <option value="1">+1</option>
+                                        <option value="0">0</option>
+                                        <option value="-1">-1</option>
                                     </select>
                                 </div>
     
@@ -194,9 +192,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsStatus2(_optionsStatus2);
                                     }}>
-                                        <option value="">(능력2)</option>
-                                        <option value="null">없음</option>
-                                        <option value="health">체력</option>
+                                        <option value="">(스탯 변화2)</option>
+                                        <option value="null">(없음)</option>
+                                        <option value="health">생명력</option>
                                         <option value="money">돈</option>
                                         <option value="hungry">포만감</option>
                                         {/* <option value="strength">힘</option>
@@ -248,7 +246,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         status1="없음";
                         break;
                     case 'health':
-                        status1="체력";
+                        status1="생명력";
                         break;
                     case 'money':
                         status1="돈";
@@ -276,7 +274,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         status2="없음";
                         break;
                     case 'health':
-                        status2="체력";
+                        status2="생명력";
                         break;
                     case 'money':
                         status2="돈";
@@ -312,7 +310,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 <span>{optionsAmountChange2[i]}</span>
                                 <span></span>
                                 <span className='after-story-preview-btn'>
-                                    <span>선택 후 이야기</span>
+                                    <span>이후 이야기</span>
                                     <div>{optionsAfterStory[i]}</div>
                                 </span>
                             </div>
@@ -385,7 +383,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         const i = 0;
         const parentPassage = passageWithNameAsStory(props.story, props.passage.parentOfOption)
         const thisOpion = parentPassage.options.filter(option => option.name = props.passage.name)[0]
-        const nextNormalPassage = thisOpion.nextNormalPassage;
+        const nextNormalPassage = thisOpion.nextNormalPassage ?? "";
         debugger;
         if (nextNormalPassage !== ""){
             passageList.push(

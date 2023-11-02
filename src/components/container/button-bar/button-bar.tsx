@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import './button-bar.css';
+import './button-bar.css';	
 
 export interface ButtonBarProps {
 	orientation?: 'horizontal' | 'vertical';
