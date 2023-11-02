@@ -169,7 +169,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         if(basicSize_of_textViewDiv < headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight){
-            main_text_view_div.current.style.height = `${headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight}px`;
+            main_text_view_div.current.style.height = `${passageTextDivHeight+optionsDivHeight}px`;
             moveScrollBottom()
         }
         else{
@@ -178,12 +178,11 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function makeResultText(optionIndex: number) {
-        result_text_div.current.classList.remove("hidden");
         //다음 passage 미리 설정
         nextPassageName = currentOptions[optionIndex].nextNormalPassage;
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
 
-        let result_txt = "\n" + currentOptions[optionIndex].afterStory + "\n\n"
+        let result_txt = '\n'+currentOptions[optionIndex].afterStory+'\n'
         let isStatChanged = false;
 
         //stat 증가량 텍스트 입력
@@ -211,11 +210,12 @@ export const GameManager : React.FC<MainProps> = (props) => {
             }
         }
         setResultText(result_txt);
+        result_text_div.current.classList.remove("hidden");
         changeStatus(statusChange[optionIndex])
-
         //result div를 만들어줌
+        
         makeResultOptionDiv();
-        result_text_div.current.style.height = `${(basicSize_of_textViewDiv) - (result_option_div.current.clientHeight)}px`;
+        
         moveScrollBottom();
         //ui 업데이트
         if(isStatChanged)
@@ -232,10 +232,18 @@ export const GameManager : React.FC<MainProps> = (props) => {
             resultDiv.addEventListener('click', (e: any) => { passageEnd() }); //result div를 누르면 이번 passage를 끝냄
         }
         result_option_div.current.appendChild(resultDiv);
-
         result_option_div.current.classList.remove("hidden");
 
-        moveScrollBottom();
+        const resultTextDivHeight = result_text_div.current.clientHeight
+        const resultOptionsDivHeight = result_option_div.current.clientHeight
+        const headerTextViewDivHeight = header_text_view_div.current.clientHeight
+        if(basicSize_of_textViewDiv < resultTextDivHeight+resultOptionsDivHeight){
+            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight+resultTextDivHeight+resultOptionsDivHeight}px`;
+        }
+        else{
+            result_text_div.current.style.height = `${basicSize_of_textViewDiv-resultOptionsDivHeight}px`;
+            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight+basicSize_of_textViewDiv}px`;
+        }
         height_multiple++;
     }
 
@@ -323,6 +331,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         options_div.current.innerHTML = "";
         result_option_div.current.innerHTML = "";
         main_text_view_div.current.style.height = "auto";
+        result_text_div.current.style.height = "auto"
         options_div.current.classList.add("hidden");
         result_text_div.current.classList.add("hidden");
         result_option_div.current.classList.add("hidden");

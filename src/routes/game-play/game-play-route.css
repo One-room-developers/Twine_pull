@@ -201,11 +201,11 @@ body{
 }
 
 .result_option{
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: 50px;
     padding-left: 20px;
     padding-right: 20px;
-    width : 100%;
+    width : 100%; 
 }
 
 .result_div{
