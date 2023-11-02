@@ -20,7 +20,7 @@ export const MainContent = React.forwardRef<HTMLDivElement, MainContentProps>(  
 		});
 		//스토리 리스트 페이지 맨 위, 스토리 개수 출력 바꾸기
 		if(title !== null && title !== undefined)
-			title = title.replace(' Stories', '개의 에피소드')
+			title = title.replace(' Stories', '개의 에피소드').replace(' Story', '개의 에피소드')
 		React.useImperativeHandle(
 			ref,
 			() => containerRef.current as HTMLDivElement
