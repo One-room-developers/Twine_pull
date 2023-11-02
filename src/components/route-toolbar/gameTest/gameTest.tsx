@@ -1,7 +1,7 @@
 import * as React from 'react';
-import '../game-play-route.css';
+import '../../../routes/game-play/game-play-route.css';
 import bookLogo from '../../../styles/image/book-svgrepo-com.svg';
-import { GameManager } from '../gameManager';
+import { GameTestManager } from './gameTestManager';
 import { useHistory } from 'react-router-dom';
 
 export function vibration(){
@@ -12,9 +12,9 @@ export function vibration(){
     }, 400);
 }
 
-export default function Main(props) {
+export default function GameTest(props) {
     const history = useHistory();
-
+    let story = props.story;
     let passage_text_div = React.useRef(null);
     let text_view_div = React.useRef(null);
     let main_text_view_div = React.useRef(null);
@@ -29,8 +29,8 @@ export default function Main(props) {
     const [resultText, setResultText] = React.useState("");
 
     return (
-        <>
-            <GameManager 
+        <div className='game_test_body'>
+            <GameTestManager 
                 passage_text_div = {passage_text_div}
                 text_view_div = {text_view_div}
                 main_text_view_div = {main_text_view_div}
@@ -42,13 +42,9 @@ export default function Main(props) {
                 passageTitleState={[passageTitle, setpassageTitle]}
                 passageTextState={[passageText, setpassageText]}
                 resultTextState = {[resultText, setResultText]}>
-            </GameManager>
-            <main id="main" className="main">
-                <div className="passage_logo">
-                    <img className="icon-book" src={bookLogo} alt="" />
-                </div>
-                <div className="passage_logo_line"></div>
-                <div className="text_view" ref={text_view_div}>
+            </GameTestManager>
+            <main id="testMain" className="testMain">
+                <div className="test_text_view" ref={text_view_div}>
                     <div className="header_text_view" ref={header_text_view_div}>
                         <div className="passage_number font-game-thick">
                             <span className="story-title" >
@@ -72,13 +68,7 @@ export default function Main(props) {
                         </div>
                     </div>
                 </div>
-                <div className="main_ui">
-                    <button className="main-ui-btn font-game-thin">준비 중</button>{/*능력치*/}
-                    <button className="main-ui-btn font-game-thin">준비 중</button> {/*세이브*/}
-                    <button className="main-ui-btn font-game-thin">로그보기</button>
-                    <button className="main-ui-btn font-game-thin" onClick={()=>history.push("/")}>홈으로</button>
-                </div>
             </main>
-        </>
+        </div>
     );
 };
