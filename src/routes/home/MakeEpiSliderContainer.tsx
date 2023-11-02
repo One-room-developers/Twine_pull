@@ -22,6 +22,7 @@ const Outer = styled.div`
 const SlideContents = styled.div`
     width: 900px;
     height: 460px;
+    border: 1px solid #FFFFFF;
 `
 const ExplainImg = styled.img`
     width: 100%;
