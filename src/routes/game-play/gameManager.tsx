@@ -89,7 +89,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                     //episode 타이핑 시작
                     setTimeout(async function () {
                         try{
-                            await typing_text(typingIndex);
+                            await typing_text(typingIndex, currentPassage.visibleText, 'passage');
                             typingIndex++;
                             resolve();
                         }
@@ -99,7 +99,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
                     }, 20);
                 })
             }
-
+            await wait(100)
             //promise 쓴 이유
             //episode 타이핑이 끝난 후 옵션 div 생성
             if(!isGameOver){
@@ -115,24 +115,31 @@ export const GameManager : React.FC<MainProps> = (props) => {
         promise();
     }
 
-    async function typing_text(typingIndex : number) { //텍스트 한 글자 타이핑
-        let text = currentPassage.visibleText
+    async function typing_text(typingIndex : number, text_ : string, mode : string) { //텍스트 한 글자 타이핑
+        debugger;
+        let text = text_
         //클릭을 안했다면 수행
         if (isClickToSkipText !== true) {
             if (typingIndex < text.length) {
                 // 타이핑될 텍스트 길이만큼 반복
                 print_txt += text[typingIndex]
-                setPassageText(print_txt)
+                
+                if(mode === 'passage')
+                    setPassageText(print_txt)
+                else if(mode === 'result')
+                    setResultText(print_txt)
                 if (text[typingIndex] === ".") {
                     await wait(100);
                 }
 
                 //글자가 페이지를 넘어간다면
-                if (text_view_div.current.clientHeight * height_multiple < passage_text_div.current.clientHeight + header_text_view_div.current.clientHeight) {
-                    main_text_view_div.current.style.height = `${(text_view_div.current.clientHeight * height_multiple + basicSize_of_mainTextViewDiv)}px`;
-                    moveScrollBottom();
-                    height_multiple++;
-                    await wait(100);
+                if(mode === 'passage'){
+                    if (text_view_div.current.clientHeight * height_multiple < passage_text_div.current.clientHeight + header_text_view_div.current.clientHeight) {
+                        main_text_view_div.current.style.height = `${(text_view_div.current.clientHeight * height_multiple + basicSize_of_mainTextViewDiv)}px`;
+                        moveScrollBottom();
+                        height_multiple++;
+                        await wait(100);
+                    }
                 }
             }
             else {
@@ -142,8 +149,14 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //클릭을 했다면 탈출
         else {
             isTypingEnd =true
-            setPassageText(text);
-            text_view_div.current.removeEventListener("click", click_on);
+            if(mode === 'passage'){
+                setPassageText(text);
+                text_view_div.current.removeEventListener("click", click_on);
+            }
+            else if(mode === 'result'){
+                setResultText(text);
+                text_view_div.current.removeEventListener("click", click_on);
+            }
         }
     }
 
@@ -177,7 +190,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
     }
 
-    function makeResultText(optionIndex: number) {
+    async function makeResultText(optionIndex: number) {
         //다음 passage 미리 설정
         nextPassageName = currentOptions[optionIndex].nextNormalPassage;
         // 선택지를 고른 후 캐릭터 스테이터스 업데이트
@@ -209,17 +222,46 @@ export const GameManager : React.FC<MainProps> = (props) => {
                 }
             }
         }
-        setResultText(result_txt);
-        result_text_div.current.classList.remove("hidden");
-        changeStatus(statusChange[optionIndex])
-        //result div를 만들어줌
-        
-        makeResultOptionDiv();
-        
-        moveScrollBottom();
-        //ui 업데이트
-        if(isStatChanged)
-            makeRightUI(); 
+        let promise = async function () {
+            let typingIndex = 0;
+            print_txt = ""
+            isTypingEnd = false;
+            isClickToSkipText = false;
+            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight+basicSize_of_textViewDiv}px`;
+            result_text_div.current.classList.remove("hidden");
+            moveScrollBottom()
+            await wait(500)
+            while(isTypingEnd === false) {
+                if(typingIndex>5)
+                    text_view_div.current.addEventListener("click", click_on);
+                await new Promise<void>((resolve, reject) => {
+                    //episode 타이핑 시작
+                    setTimeout(async function () {
+                        try{
+                            await typing_text(typingIndex, result_txt, 'result');
+                            typingIndex++;
+                            resolve();
+                        }
+                        catch{
+                            return;
+                        }
+                    }, 20);
+                })
+            }
+
+            await wait(100)
+            // setResultText(result_txt);
+            changeStatus(statusChange[optionIndex])
+            //result div를 만들어줌
+            
+            makeResultOptionDiv();
+            
+            moveScrollBottom();
+            //ui 업데이트
+            if(isStatChanged)
+                makeRightUI(); 
+        }
+        promise();
     }
 
     function makeResultOptionDiv() {
@@ -238,11 +280,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
         const resultOptionsDivHeight = result_option_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         if(basicSize_of_textViewDiv < resultTextDivHeight+resultOptionsDivHeight){
-            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight+resultTextDivHeight+resultOptionsDivHeight}px`;
+            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight-basicSize_of_textViewDiv+resultTextDivHeight+resultOptionsDivHeight}px`;
         }
         else{
             result_text_div.current.style.height = `${basicSize_of_textViewDiv-resultOptionsDivHeight}px`;
-            main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight+basicSize_of_textViewDiv}px`;
         }
         height_multiple++;
     }
@@ -316,6 +357,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
 
     function click_on() {
+        debugger;
         isClickToSkipText = true
     }
 
