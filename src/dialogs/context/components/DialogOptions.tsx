@@ -503,7 +503,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                             }
                         } 
                         }>
-                            + 선택지 추가하기
+                            {mode === 'optionCreate' ? <>- 선택지 제작 취소</> : <>+ 선택지 추가하기</>}
                         </a>
                     ) : 
                     (
