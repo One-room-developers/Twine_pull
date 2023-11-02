@@ -358,7 +358,7 @@ export const StoryInfoRoute: React.FC = () => {
                 (
                     <StoryInfo>
                         <StoryTitleContainer>
-                            <StoryTitle>에피소드명: {storyData.name}</StoryTitle>
+                            <StoryTitle>에피소드: {storyData.name}</StoryTitle>
                             {
                                 storyData.userNickname === userName ? <DeleteBtn onClick={deleteEpisode}>에피소드 삭제</DeleteBtn> : <></>
                             }
