@@ -137,7 +137,8 @@ const WriteContainer = styled.div`
 `
 const WriterTextArea = styled.textarea`
     padding: 12px;
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 150%;
     font-family: "godicThin";
     width: 100%;
     height: 500px;

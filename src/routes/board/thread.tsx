@@ -284,7 +284,7 @@ const Div6 = styled.div`
     display: flex;
     justify-content: flex-end;
 `
-const CommentContensInput= styled.input`
+const CommentContensInput= styled.textarea`
     width: calc(100% - 130px);
     padding: 8px;
     font-family: "godicThin";
@@ -501,7 +501,7 @@ export const ThreadRoute: React.FC = () => {
     const [modifyCommentContent, setModifyCommentContent] = React.useState("");
     const [modifyCommentId, setModifyCommentId] = React.useState(-1);
     const [confirmCommentPwd, setConfirmCommentPwd] = React.useState("");
-    const onChangeModifyCommentName = React.useCallback((e) => setModifyCommentName(e.target.value), []);
+    //const onChangeModifyCommentName = React.useCallback((e) => setModifyCommentName(e.target.value), []);
     const onChangeModifyCommentContent = React.useCallback((e) => setModifyCommentContent(e.target.value), []);
     const onChangeConfirmCommentPwd = React.useCallback((e) => setConfirmCommentPwd(e.target.value), []);
 
@@ -653,6 +653,7 @@ export const ThreadRoute: React.FC = () => {
                         <Div1>
                             <MessageIcon />
                             댓글
+                            {commentEditMode ? "" : ""}
                         </Div1>
                         {
                             isLoading ? (<Loader>불러오는 중...</Loader>) :
@@ -672,7 +673,7 @@ export const ThreadRoute: React.FC = () => {
                                                                     <IdInput value={modifyCommentName} type="text" disabled/>
                                                                     <ConfirmPwInput onChange={onChangeConfirmCommentPwd} required type="password" placeholder='비밀번호 확인'/>
                                                                 </Div4>
-                                                                <CommentContensInput value={modifyCommentContent} onChange={onChangeModifyCommentContent} required type="text"/>
+                                                                <CommentContensInput value={modifyCommentContent} onChange={onChangeModifyCommentContent} required/>
                                                             </Div5>
                                                             <Div6>
                                                                 <CommentModifyCancletBtn onClick={()=>{setCommentEditMode(false);}}>취소</CommentModifyCancletBtn>
@@ -720,7 +721,7 @@ export const ThreadRoute: React.FC = () => {
                                     <IdInput onChange={onChangeCommentName} required type="text" placeholder='익명 닉네임'/>
                                     <PwInput onChange={onChangeCommentPwd} required type="password" placeholder='임시 비밀번호'/>
                                 </Div4>
-                                <CommentContensInput onChange={onChangeCommentContent} required type="text" placeholder='댓글로 의견을 전달하세요!'/>
+                                <CommentContensInput onChange={onChangeCommentContent} required placeholder='댓글로 의견을 전달하세요!'/>
                             </Div5>
                             <Div6>
                                 <CommentSubmintBtn>작성</CommentSubmintBtn>
