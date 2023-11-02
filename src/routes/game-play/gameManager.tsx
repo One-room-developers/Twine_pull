@@ -60,7 +60,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         isStoryEnd = false;
 
         if(start !== true){ //game start때는 따로 데이터를 가져옴
-            [story, passages, options] = await getNextStoryAndPassages(current_status, lastStoryArr);
+            [story, passages, options] = await getNextStoryAndPassages(current_status.health, lastStoryArr);
         }
         let startPassage : NextPassage = passages.find(passage => story.startPassage === passage.id);
         [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, startPassage.name);

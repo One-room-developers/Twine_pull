@@ -3,7 +3,7 @@ import {useScrollbarSize} from 'react-scrollbar-size';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {useDialogsContext} from '.';
 import {usePrefsContext} from '../../store/prefs';
-import { Passage, Story, passageWithId} from '../../store/stories';
+import { Passage, Story, passageWithId, passageWithNameAsStory} from '../../store/stories';
 import { useUndoableStoriesContext } from '../../store/undoable-stories';
 import { storyWithId } from '../../store/stories';
 import { useState} from "react";
@@ -58,9 +58,8 @@ export const Dialogs: React.FC = props => { //텍스트 편집 창
 		<div className="dialogs" style={containerStyle}>
 			<TransitionGroup component={null}>
 				{dialogs.map((dialog, index) => {
-					const passage = passageWithId(stories, dialogs[index].props.storyId, dialogs[index].props.passageId)
-					const story = storyWithId(stories, dialogs[index].props.storyId);
-					
+					const passage = passageWithId(stories, dialog.props.storyId, dialog.props.passageId)
+					const story = storyWithId(stories, dialog.props.storyId);
 					
 					const managementProps = {
 						collapsed: dialog.collapsed,

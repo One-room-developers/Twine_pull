@@ -27,14 +27,14 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
         options : option[], 
         passage : Passage, 
         story : Story, 
-        previousText : string,
+        text : string,
         optionVisibleName : string)
     {
         console.log("Log : handlePassageTextChange() - ");
-        let text = visibleText.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
+        let newText = visibleText.replace(/\n\[\[.*\]\]/g,''); //text_user에 [[]] 따위를 직접 입력하지 못하도록 모두 제거
         if(passage.passageType === "normalPassage"){
             options.forEach(option => {
-                text = text + "\n" + "[[" + option.name + "]]";
+                newText = newText + "\n" + "[[" + option.name + "]]";
             })
             //만약 option 속성속 visible name이 변경되었다면 그 option passage의 visible name도 수정
             
@@ -57,9 +57,10 @@ export const DialogButton: React.FC<DialogButtonProps> = (props) => {
             
         }else if(passage.passageType === "optionPassage"){
             //option passage에서 수정 없이 작성완료를 클릭했을 시에만 작동
-            text = previousText;
+            newText = text;
+            visibleText = visibleText;
         }
-        dispatch(updatePassage(story, passage, {name, optionVisibleName, text, visibleText, options}));
+        dispatch(updatePassage(story, passage, {name, optionVisibleName, text:newText, visibleText, options}));
     }
 
     return(

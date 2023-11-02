@@ -28,7 +28,7 @@ class CreateOption extends Component<Modes_props> {
                 onSubmit={function(e) {
                     e.preventDefault();
                     const newName = uuid();
-                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, e.target.amount_change1.value, e.target.status2.value, e.target.amount_change2.value, e.target.after_story.value, newName);
+                    this.props.onCreate(e.target.option_title.value, e.target.status1.value, parseInt(e.target.amount_change1.value), e.target.status2.value, parseInt(e.target.amount_change2.value), e.target.after_story.value, newName);
                 }.bind(this)}>
                     
                     <input className='option-mini-title' name='option_title' placeholder='선택지 이름' required></input>
@@ -37,11 +37,11 @@ class CreateOption extends Component<Modes_props> {
 
                     <div>
                         <select className='select-dropdown' name='status1' required>
-                            <option value="null">(스탯 변화1)</option>
+                            <option value="">(스탯 변화1)</option>
                             <option value="null">(없음)</option>
                             <option value="health">생명력</option>
                             <option value="money">돈</option>
-                            <option value="satiety">포만감</option>
+                            <option value="hungry">포만감</option>
                             {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>
@@ -59,11 +59,11 @@ class CreateOption extends Component<Modes_props> {
 
                     <div>
                         <select className='select-dropdown' name='status2' required>
-                            <option value="null">(스탯 변화2)</option>
+                            <option value="">(스탯 변화2)</option>
                             <option value="null">(없음)</option>
                             <option value="health">생명력</option>
                             <option value="money">돈</option>
-                            <option value="satiety">포만감</option>
+                            <option value="hungry">포만감</option>
                             {/* <option value="strength">힘</option>
                             <option value="agility">민첩</option>
                             <option value="armor">내구도</option>

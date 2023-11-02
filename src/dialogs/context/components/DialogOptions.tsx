@@ -11,7 +11,8 @@ type DialogOptionsProps = {
     passage : Passage
     story : Story
     dispatch : (actionOrThunk: StoriesActionOrThunk, annotation?: string) => void
-    onClose : any
+    onClose : any;
+    setText : any;
 }
 
 export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
@@ -28,8 +29,11 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     let max_option_num:number = props.options.length ?? 0;
     const {dispatch} = props;
 
+    let optionLists = [];
+    let option_creator;
+    let passageList = [];
+
     if(props.options){ 
-        debugger;
         props.options.forEach(option => {
             dummyOptionsPk.push(option.pk)
             dummyOptionsTitles.push(option.name)
@@ -64,7 +68,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         setOptionsAfterStory(dummyOptionsAfterStory)
         setOptionsNextNormalPassage(dummyOptionsNextNormalPassage)
         setOptionsVisibleName(dummyOptionsVisibleName)
-        debugger;
     }, [props.options])
     //수정할 옵션의 숫자
     const [selectedModifyOptionNum, setselectedModifyOptionNum] = useState(0);
@@ -97,7 +100,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
             //if문에 걸리는 수정하려는 선택지만 form형태의 수정 가능한 html 출력.
             if(mode === "optionModify" &&  selectedModifyOptionNum === i){
                 
-                lists.push(
+                optionLists.push(
                     <div key={i} id={i.toString()} className="option-list-div option-list-div-onmodify">
                         <div className='info-icon-onmodify'>선택지{i+1}</div>
                         <div className='options-making__container'>
@@ -150,8 +153,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsStatus1(_optionsStatus1);
                                     }}>
-                                        <option value="">(능력)</option>
-                                        <option value="health">체력</option>
+                                        <option value="">(스탯 변화1)</option>
+                                        <option value="null">(없음)</option>
+                                        <option value="health">생명력</option>
                                         <option value="money">돈</option>
                                         <option value="hungry">포만감</option>
                                         {/* <option value="strength">힘</option>
@@ -170,7 +174,6 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsAmountChange1(_optionsAmountChange1);
                                     }}>
-                                        <option value="">(변화량)</option>
                                         <option value="1">+1</option>
                                         <option value="0">0</option>
                                         <option value="-1">-1</option>
@@ -189,9 +192,9 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                         });
                                         setOptionsStatus2(_optionsStatus2);
                                     }}>
-                                        <option value="">(능력2)</option>
-                                        <option value="null">없음</option>
-                                        <option value="health">체력</option>
+                                        <option value="">(스탯 변화2)</option>
+                                        <option value="null">(없음)</option>
+                                        <option value="health">생명력</option>
                                         <option value="money">돈</option>
                                         <option value="hungry">포만감</option>
                                         {/* <option value="strength">힘</option>
@@ -243,7 +246,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         status1="없음";
                         break;
                     case 'health':
-                        status1="체력";
+                        status1="생명력";
                         break;
                     case 'money':
                         status1="돈";
@@ -271,7 +274,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         status2="없음";
                         break;
                     case 'health':
-                        status2="체력";
+                        status2="생명력";
                         break;
                     case 'money':
                         status2="돈";
@@ -294,7 +297,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                     default:
                         status2 ="없음";
                 }
-                lists.push(
+                optionLists.push(
                     <div key={i} id={i.toString()} className="option-list-div">
                         <div className='info-icon'>선택지{i+1}</div>
                         <div className='option-info-container'>
@@ -307,7 +310,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                                 <span>{optionsAmountChange2[i]}</span>
                                 <span></span>
                                 <span className='after-story-preview-btn'>
-                                    <span>선택 후 이야기</span>
+                                    <span>이후 이야기</span>
                                     <div>{optionsAfterStory[i]}</div>
                                 </span>
                             </div>
@@ -377,133 +380,47 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
     }
 
     function setOptionListByOptionPassage(){
-        lists.push(
-            // {
-            //     let status1;
-            //     let status2;
-            //     switch(optionsStatus1[i]){
-            //         case 'null':
-            //             status1="변화없음";
-            //             break;
-            //         case 'health':
-            //             status1="체력";
-            //             break;
-            //         case 'money':
-            //             status1="돈";
-            //             break;
-            //         case 'hungry':
-            //             status1="포만감";
-            //             break;
-            //         // case 'strength':
-            //         //     status1="힘";
-            //         //     break;
-            //         // case 'agility':
-            //         //     status1="속도";
-            //         //     break;
-            //         // case 'armor':
-            //         //     status1="내구도";
-            //         //     break;
-            //         // case 'mental':
-            //         //     status1="정신력";
-            //         //     break;
-            //         default:
-            //             status1 ="없음";
-            //     }
-            //     switch(optionsStatus2[i]){
-            //         case 'null':
-            //             status2="없음";
-            //             break;
-            //         case 'health':
-            //             status2="체력";
-            //             break;
-            //         case 'money':
-            //             status2="돈";
-            //             break;
-            //         case 'hungry':
-            //             status2="포만감";
-            //             break;
-            //         // case 'strength':
-            //         //     status2="힘";
-            //         //     break;
-            //         // case 'agility':
-            //         //     status2="속도";
-            //         //     break;
-            //         // case 'armor':
-            //         //     status2="내구도";
-            //         //     break;
-            //         // case 'mental':
-            //         //     status2="정신력";
-            //         //     break;
-            //         default:
-            //             status2 ="없음";
-            //     }
-            // <div key={i} id={i.toString()} className="option-list-div">
-            //     <div className='info-icon'>선택지{i+1}</div>
-            //     <div className='option-info-container'>
-            //         <div className='option-info-title'>{optionsVisibleName[i]}</div>
-            //         <div className='option-info-main'>
-            //             <span>{status1}</span>
-            //             <span>{optionsAmountChange1[i]}</span>
-            //             <span></span>
-            //             <span>{status2}</span>
-            //             <span>{optionsAmountChange2[i]}</span>
-            //             <span></span>
-            //             <span className='after-story-preview-btn'>
-            //                 <span>에필로그</span>
-            //                 <div>{optionsAfterStory[i]}</div>
-            //             </span>
-            //         </div>
-            //     </div>
-            //     <button data-optionId={i} className='option-list-d-btn' onClick={function(e){
-            //         //splice(제거를 시작할 index, 시작지점부텨 몇개 지울선지, (선택사항) 지운 자리에 넣을 배열)
-            //         e.preventDefault();
-            //         if(window.confirm("장면을 삭제하시겠습니까?")) {
-            //             //다른 엘리먼트일떄 탈출문
-            //             if (!(e.target instanceof HTMLButtonElement)) {
-            //                 return;
-            //             }
-            //             const index = parseInt(e.target.dataset.optionId);
-            //             console.log(index);
+        const i = 0;
+        const parentPassage = passageWithNameAsStory(props.story, props.passage.parentOfOption)
+        const thisOpion = parentPassage.options.filter(option => option.name === props.passage.name)[0]
+        const nextNormalPassage = thisOpion.nextNormalPassage ?? "";
+        if (nextNormalPassage !== ""){
+            passageList.push(
+                <div key={i} id={i.toString()} className="passage-list-div">
+                    <div className='info-icon'>다음 장면   -   {nextNormalPassage}</div>
+                </div>
+            );
+        }else{
+            passageList.push(
+                <form 
+                key = {i}
+                method='post' 
+                onSubmit={
+                    function(e){//인자로 id까지 받아서 배열에 넣기
+                        e.preventDefault();
+                        if((props.story.passages.find((passage) =>  {
+                            if(passage.name === nextNormalPassageName){
+                                if(passage.passageType === props.passage.passageType)
+                                    return true
+                            }
+                        }))){//passage 이름이 중복될때 passageType마저 같다면 종료`
+                            alert("선택지에서 선택지로 연결할 수 없습니다!")
+                            return;
+                        }
+                        const text = props.passage.text + "\n" +"[[" + nextNormalPassageName + "]]";
+                        const visibleText = props.passage.visibleText;
+                        dispatch(updatePassage(props.story, props.passage, {text, visibleText}));
+                        props.setText(text)
+                    }
+                }>                 
+                <input className = 'option-passage-submit-title' placeholder='다음 장면 제목' value={nextNormalPassageName} onChange={function(e){
+                    setNextNormalPassageName(e.target.value);
+                }} required></input>
+                <input className='option-submit-btn' type="submit" value="생성하기"></input>
+                </form>
+            )
+        }
 
-            //             //let optionsId = Array.from(options_id);
-            //             let _optionsVisibleName = Array.from(optionsVisibleName);
-            //             let _optionsStatus1 = Array.from(optionsStatus1);
-            //             let _optionsAmountChange1 = Array.from(optionsAmountChange1);
-            //             let _optionsStatus2 = Array.from(optionsStatus2);
-            //             let _optionsAmountChange2 = Array.from(optionsAmountChange2);
-            //             let _options_after_story = Array.from(optionsAfterStory);
-            //             let _options_name = Array.from(optionsName);
-
-            //             const deletedPassage = passageWithNameAsStory(props.story, optionsName[i]);
-            //             dispatch(deletePassage(props.story, deletedPassage, dispatch))
-            //             //optionsId.splice(index, 1);
-            //             _optionsVisibleName.splice(index, 1);
-            //             _options_name.splice(index, 1);
-            //             _optionsStatus1.splice(index, 1);
-            //             _optionsAmountChange1.splice(index, 1);
-            //             _optionsStatus2.splice(index, 1);
-            //             _optionsAmountChange2.splice(index, 1);
-            //             _options_after_story.splice(index, 1);
-
-            //             max_option_num = max_option_num -1;
-                        
-            //             //options_id: optionsId,
-            //             setOptionsVisibleName(_optionsVisibleName);
-            //             setOptionsStatus1(_optionsStatus1)
-            //             setOptionsAmountChange1(_optionsAmountChange1)
-            //             setOptionsStatus2(_optionsStatus2)
-            //             setOptionsAmountChange2(_optionsAmountChange2)
-            //             setOptionsAfterStory(_options_after_story)
-            //             setOptionsName(_options_name)
-            //             //상위 컴포넌트(Twine)으로 값 전달
-                        
-            //             props.onTrackingOption(makeOptionsToReturn(optionsPk, _optionsVisibleName, _options_after_story, _optionsStatus1, _optionsStatus2, _optionsAmountChange1, _optionsAmountChange2, _options_name));
-            //         } else {
-
-            //         }
-            //     }}>삭제</button>
-            // </div>
-        );
     }
     //선택지 생성 컴포넌트 만들기
     function setOptionCreator(){
@@ -515,7 +432,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
             }
             else{
                 option_creator = <CreateOption onCreate={
-                    function(option_visible_name, status1, amount_change1, status2, amount_change2, after_story, newName) {
+                    function(option_visible_name, status1, amount_change1 : number, status2, amount_change2 : number, after_story, newName) {
                             //선택지 목록 아이디를 위한 갯수 추가
                             max_option_num = max_option_num + 1;
                             //새로 만든 배열 추가하여 생성
@@ -552,8 +469,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         }
     }
     
-    let lists = [];
-    let option_creator;
+
 
     if(props.passage.passageType === "normalPassage")
         setOptionList();
@@ -567,7 +483,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
         <div className="option-ui__container">
             {/* 수정 이벤트 함수(mode와 어떤 option선택 되었는지 id올리기), 제거 이벤트 함수, 데이터, 선택지 갯수 정보 보냄 */}
             <div className="options-show__container">
-                {lists}
+                {optionLists}
             </div>
 
             <div className='add-option-btn-container'>
@@ -591,32 +507,7 @@ export const DialogOptions : React.FC<DialogOptionsProps> = (props) => {
                         </a>
                     ) : 
                     (
-                        <form 
-                            method='post' 
-                            onSubmit={
-                                function(e){//인자로 id까지 받아서 배열에 넣기
-                                    e.preventDefault();
-                                    if((props.story.passages.find((passage) =>  {
-                                        if(passage.name === nextNormalPassageName){
-                                            if(passage.passageType === props.passage.passageType)
-                                                return true
-                                        }
-                                    })))
-                                    {//passage 이름이 중복될때 passageType마저 같다면 종료
-                                        alert("선택지에서 선택지로 연결할 수 없습니다!")
-                                        return;
-                                    }
-                                    const text = props.passage.text + "\n" +"[[" + nextNormalPassageName + "]]";
-                                    const visibleText = props.passage.visibleText;
-                                    dispatch(updatePassage(props.story, props.passage, {text, visibleText}));
-                                    props.onClose();
-                                }
-                            }>                 
-                            <input className = 'option-passage-submit-title' placeholder='다음 장면 제목' value={nextNormalPassageName} onChange={function(e){
-                                setNextNormalPassageName(e.target.value);
-                            }} required></input>
-                            <input className='option-submit-btn' type="submit" value="생성하기"></input>
-                        </form>
+                        passageList
                     )
                 }
             </div>

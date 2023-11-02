@@ -38,7 +38,7 @@
 		"redo": "Redo",
 		"redoChange": "Redo {{change}}",
 		"rename": "Rename",
-		"renamePrompt": "What should “{{name}}” be renamed to?",
+		"renamePrompt": "“{{name}}”을(를) 무엇으로 바꾸시겠습니까?",
 		"remove": "Remove",
 		"selectAll": "Select All",
 		"skip": "Skip",
@@ -336,14 +336,14 @@
 			"toolbar": {
 				"archive": "Archive",
 				"createStoryButton": {
-					"prompt": "What should your story be named? You can change this later.",
-					"emptyName": "Please enter a name.",
-					"nameConflict": "Another story has this name."
+					"prompt": "에피소드 이름을 작성해주세요",
+					"emptyName": "에피소드 이름을 작성해주세요.",
+					"nameConflict": "이미 동일한 이름의 에피소드가 있습니다."
 				},
 				"deleteStoryButton": {
 					"warning": {
 						"electron": "Are you sure you want to delete “{{storyName}}”? It will be moved to the trash.",
-						"web": "Are you sure you want to delete “{{storyName}}”? It will be deleted forever. This cannot be undone."
+						"web": "정말로 “{{storyName}}”을(를) 삭제하시겠습니까?"
 					}
 				},
 				"showAllStories": "Show All Stories",
