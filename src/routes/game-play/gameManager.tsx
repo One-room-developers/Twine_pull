@@ -165,9 +165,16 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //hidden 풀어서 option Div가 보이게 해줌
         options_div.current.classList.remove("hidden");
         //text div의 높이를 설정해줘서 option div가 맨 아래에 위치하도록 하는 코드 코드
+        const passageTextDivHeight = passage_text_div.current.clientHeight
         const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
-        passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
+        if(basicSize_of_textViewDiv < headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight){
+            // passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
+            moveScrollBottom()
+        }
+        else{
+            passage_text_div.current.style.height = `${basicSize_of_textViewDiv - optionsDivHeight - headerTextViewDivHeight}px`;
+        }
     }
 
     function makeResultText(optionIndex: number) {
