@@ -3,7 +3,7 @@ import './home-route.css';
 import CookieStorageAPI from "../login/cookies";
 import IfLogin from "./ifLogin";
 import IfLogout from "./ifLogout";
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 import SliderContainer from './SliderContainer';
 import {checkAccessToken} from '../authApi';
 import {useRecoilValue, useRecoilState} from "recoil";
@@ -16,11 +16,12 @@ export async function isLogin(userId: string | null) : Promise<React.JSX.Element
     }
     else{
         console.log("저장된 유저 id 있음");
-        return(<IfLogin nickname={userId}></IfLogin>);
+        return(<IfLogin></IfLogin>);
     }
 }
 
 export const HeaderBar: React.FC = () =>{
+    const history = useHistory();
     const targetRef = React.useRef(null);
     const [scrollY, setScrollY] = React.useState<number>(0);
 
@@ -41,6 +42,14 @@ export const HeaderBar: React.FC = () =>{
     const handleScroll = () => {
         setScrollY(window.scrollY);
     };
+
+    async function toGameTutorial(){
+        await history.push("/");
+        window.scrollTo({
+            top: 1348,
+            behavior: 'smooth'
+        })
+    }
     
     //recoil
 
@@ -60,15 +69,13 @@ export const HeaderBar: React.FC = () =>{
                     </div>
                     <div className="header__right">
                         <div className="category__container">
-                            <div className="category">
-                                <Link to={`/`}>
-                                    <span className="font-game-thick category-span">게임소개</span>
-                                </Link>
+                            <div onClick={toGameTutorial} className="category">
+                                <span className="cursor font-game-thick category-span">게임소개</span>
                             </div>
 
                             <div className="category">
                                 <Link to={`/select`}>
-                                    <span className="font-game-thick category-span">시작하기</span>
+                                    <span className="font-game-thick category-span">게임시작</span>
                                 </Link>
                             </div>
 

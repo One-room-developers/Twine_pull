@@ -314,3 +314,7 @@ body{
     font-weight: 600;
     line-height: 150%;
 }
+
+.cursor:hover{
+    cursor: pointer;
+}
