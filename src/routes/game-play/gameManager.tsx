@@ -17,8 +17,7 @@ let statusChange: Status[];
 let isGameStart = true;
 let isGameOver = false;
 let isStoryEnd = false;
-let happyEndTime = 10;
-
+let happyEndTime = 5;
 
 export const GameManager : React.FC<MainProps> = (props) => {
     let passage_text_div = props.passage_text_div
@@ -59,7 +58,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
     async function story_start(start ?: boolean){
         isStoryEnd = false;
 
-        if(start !== true){ //game start때는 따로 데이터를 가져옴
+        if(start !== true && isGameOver !== true){ //game start때는 따로 데이터를 가져옴
             [story, passages, options] = await getNextStoryAndPassages(current_status.health, lastStoryArr);
         }
         let startPassage : NextPassage = passages.find(passage => story.startPassage === passage.id);
@@ -84,8 +83,10 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //passage의 텍스트 타이핑 시작
         let promise = async function () {
             let typingIndex = 0;
+            debugger;
             while(isTypingEnd === false) {
                 await new Promise<void>((resolve, reject) => {
+                    
                     //episode 타이핑 시작
                     setTimeout(async function () {
                         try{
@@ -116,7 +117,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     async function typing_text(typingIndex : number, text_ : string, mode : string) { //텍스트 한 글자 타이핑
-        debugger;
         let text = text_
         //클릭을 안했다면 수행
         if (isClickToSkipText !== true) {
@@ -332,6 +332,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         if(endingType === 'happy'){
             [story, passages, options] = HappyEndEpisode;
+            debugger;
         }
         else if(endingType === 'bad'){
             switch(endingCause){
@@ -349,15 +350,15 @@ export const GameManager : React.FC<MainProps> = (props) => {
         else{
             alert("ending type 입력 실패")
         }
-        
+        debugger;
         [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, story.startPassage);
         setStoryName(story.name);
         setPassageTitle(currentPassage.name);
+        debugger;
     }
 
 
     function click_on() {
-        debugger;
         isClickToSkipText = true
     }
 

@@ -16,7 +16,7 @@ let statusChange: Status[];
 let isGameStart = true;
 let isGameOver = false;
 let isStoryEnd = false;
-let happyEndTime = 10;
+let happyEndTime = 3;
 
 
 export const GameTestManager : React.FC<MainProps> = (props) => {
@@ -254,7 +254,7 @@ export const GameTestManager : React.FC<MainProps> = (props) => {
                 setPassageTitle(currentPassage.name);
             }
         }
-        if(happyEndTime <= 0){  //게임이 종료되지 않았다면
+        if(happyEndTime === 0){  //게임이 종료되지 않았다면
             gameEnd('happy', '')
         }
         //passage를 끝내면 useEffect가 다시 실행됨
@@ -262,7 +262,8 @@ export const GameTestManager : React.FC<MainProps> = (props) => {
     }
 
     function storyEnd(){
-        happyEndTime -= 1;
+        happyEndTime = happyEndTime - 1;
+        debugger;
         isStoryEnd = true
         lastStoryArr.push(story.pk)
     }
