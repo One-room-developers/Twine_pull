@@ -154,7 +154,7 @@ body{
     grid-row: 1/1;
     width: 100%;
     display: grid;
-    grid-template-columns : repeat(5, 20%);
+    grid-template-rows : 30% 70%
 }
 
 .text_view-main{
@@ -165,8 +165,10 @@ body{
 
 
 .passage_number{
+    text-align: center;
     grid-column: 1/1;
-    padding-top: 10px;
+    padding-top: 15px;
+    font-size: 15px;
 }
 
 .story-title{
@@ -175,11 +177,11 @@ body{
 
 .passage_title{
     text-align: center;
-    grid-column : 2/5;
-    font-size: 30px;
-    padding-top: 30px;
+    grid-column : 2/1;
+    
+    padding-top: 20px;
     padding-bottom: 50px;
-    word-break: keep-all;
+    font-size: 30px;
 }
 
 
