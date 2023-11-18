@@ -263,7 +263,6 @@ export const GameTestManager : React.FC<MainProps> = (props) => {
 
     function storyEnd(){
         happyEndTime = happyEndTime - 1;
-        debugger;
         isStoryEnd = true
         lastStoryArr.push(story.pk)
     }
