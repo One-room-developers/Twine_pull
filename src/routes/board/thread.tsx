@@ -399,7 +399,7 @@ interface IComment{
 export const ThreadRoute: React.FC = () => {
     const history = useHistory();
     const {viewId} = useParams<RouteParams>();
-    const {isLoading, data} = useQuery<IComment[]>(["comment", viewId], ()=> fetchCommentList(parseInt(viewId)));//고유해야 하는 id
+    let {isLoading, data} = useQuery<IComment[]>(["comment", viewId], ()=> fetchCommentList(parseInt(viewId)));//고유해야 하는 id
 
     const [postDeleteMode, setPostDeleteMode] = React.useState(false);
     const [commentEditMode, setCommentEditMode] = React.useState(false);
@@ -521,6 +521,8 @@ export const ThreadRoute: React.FC = () => {
         else{
             updateComment(modifyCommentId, modifyCommentContent);
             setCommentEditMode(false);
+            //새로고침
+            window.location.reload();
         }
     }
 

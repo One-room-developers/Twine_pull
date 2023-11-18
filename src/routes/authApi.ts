@@ -135,7 +135,7 @@ export async function logout():Promise<boolean>{
             withCredentials: true
         });
 
-        window.location.href = "/";
+        window.location.href = "";
         return true;
     }
     catch(err){
