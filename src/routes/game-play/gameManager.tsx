@@ -83,7 +83,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
         //passage의 텍스트 타이핑 시작
         let promise = async function () {
             let typingIndex = 0;
-            debugger;
             while(isTypingEnd === false) {
                 await new Promise<void>((resolve, reject) => {
                     
@@ -332,7 +331,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         if(endingType === 'happy'){
             [story, passages, options] = HappyEndEpisode;
-            debugger;
         }
         else if(endingType === 'bad'){
             switch(endingCause){
@@ -350,11 +348,9 @@ export const GameManager : React.FC<MainProps> = (props) => {
         else{
             alert("ending type 입력 실패")
         }
-        debugger;
         [currentPassage, currentOptions, statusChange] = getCurrentPassageAndOptions(passages, options, story.startPassage);
         setStoryName(story.name);
         setPassageTitle(currentPassage.name);
-        debugger;
     }
 
 

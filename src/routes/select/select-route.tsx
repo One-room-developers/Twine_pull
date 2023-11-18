@@ -2,16 +2,20 @@ import * as React from 'react';
 import './select-route.css';
 import swordLogo from '../../styles/image/sword-svgrepo-com.svg';
 import writeLogo from '../../styles/image/write-svgrepo-com.svg';
+import homeLogo from './img/home.png';
 import GameMode from './game_mode'
+import {useHistory} from 'react-router-dom';
 import UserDialog from './components copy/UserDialog';
 
 //component
 
 export const SelectRoute: React.FC = () => {
+    const history = useHistory();
     var [modeHidden, setmodeHidden] = React.useState(true);
 
     return(
         <body className="select-body">
+            <img src={homeLogo} alt="" className='home-btn' onClick={()=>history.push('/')}/>
             <main className="select-main">
                 <div className="game__section">
                     <div></div>
