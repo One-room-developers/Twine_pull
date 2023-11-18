@@ -15,7 +15,7 @@ export const SelectRoute: React.FC = () => {
 
     return(
         <body className="select-body">
-            <img src={homeLogo} alt="" className='home-btn' onClick={()=>history.push('/')}/>
+            <img src={homeLogo} alt="" className='home-btn introduce-game-animation' onClick={()=>history.push('/')}/>
             <main className="select-main">
                 <div className="game__section">
                     <div></div>

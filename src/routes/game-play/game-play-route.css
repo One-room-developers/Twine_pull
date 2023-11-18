@@ -30,7 +30,7 @@ body{
 }
 
 .main{
-    height : 100vh;
+    min-height : 730px;
     width: 720px;
     display: flex;
     flex-direction: column;
@@ -109,7 +109,7 @@ body{
     }
     100%{
         opacity: 1;
-        height: 60vh;
+        height: 450px;
     }
 }
 
@@ -176,15 +176,17 @@ body{
 .passage_title{
     text-align: center;
     grid-column : 2/5;
-    font-size: max(2vw,30px);
-    padding-top: max(2vw,30px);
-    padding-bottom: max(4vw,50px);
+    font-size: 30px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    word-break: keep-all;
 }
 
 
 .passage_text{
     width: 100%;
     text-align: left;
+    word-break: keep-all;
 }
 
 .options{
@@ -245,9 +247,9 @@ body{
     opacity: 0;
     animation: logo-opacity 0.3s forwards;
     animation-delay: 0.3s;
-    width: 70%;
+    width: 510px;
+    height: 60px;
     margin-top: 3vh;
-    height: 8vh;
     border-radius: 1vh;
     border: 2px solid var(--main-dark);
     background-color: var(--main-white);
@@ -272,11 +274,11 @@ body{
     }
 }
 .main-ui-btn{
-    width: 6vw;
-    height: 4vh;
+    width: 90px;
+    height: 30px;
     background-color: var(--main-white);
     border: 1.5px solid var(--main-gray);
-    font-size: 0.8vw;
+    font-size: 14px;
     font-weight: 600;
     
     background: linear-gradient(-70deg, var(--main-white) 0%,var(--main-white) 50%, var(--main-dark) 50%, var(--main-dark) 100%);
