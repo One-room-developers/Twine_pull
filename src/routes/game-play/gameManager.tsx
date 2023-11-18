@@ -13,7 +13,7 @@ let options : NextOption[][] = null; ;
 let currentOptions : NextOption[] = null;
 let currentPassage : NextPassage = null;
 let nextPassageName : string = null;
-let statusChange: Status[];
+let statusChange: Status[] = [];
 let isGameStart = true;
 let isGameOver = false;
 let isStoryEnd = false;
@@ -51,8 +51,12 @@ export const GameManager : React.FC<MainProps> = (props) => {
         [story, passages, options] = startEpisode;
         story_start(true);
 
-        await wait(1500);
-        makeRightUI()
+        try{
+            await wait(1500);
+            makeRightUI()
+        }catch(e){
+            console.log(e)
+        }
     }
 
     async function story_start(start ?: boolean){
@@ -70,49 +74,55 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     async function passage_start() {
-        setIsPassageEnd(false);
-        await wait(2000);
+        try{ //뒤로가기 빨리 누르면 에러 발생하는거 예외처리
+            setIsPassageEnd(false);
+            await wait(2000);
 
-        print_txt = passageText;
-        basicSize_of_textViewDiv = text_view_div.current.clientHeight;
-        basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
+            print_txt = passageText;
+            basicSize_of_textViewDiv = text_view_div.current.clientHeight;
+            basicSize_of_mainTextViewDiv = main_text_view_div.current.clientHeight;
 
-        //클릭하면 텍스트 한번에 출력되는 이벤트 리스너 추가
-        text_view_div.current.addEventListener("click", click_on);
+            //클릭하면 텍스트 한번에 출력되는 이벤트 리스너 추가
+            text_view_div.current.addEventListener("click", click_on);
 
-        //passage의 텍스트 타이핑 시작
-        let promise = async function () {
-            let typingIndex = 0;
-            while(isTypingEnd === false) {
-                await new Promise<void>((resolve, reject) => {
-                    
-                    //episode 타이핑 시작
-                    setTimeout(async function () {
-                        try{
-                            await typing_text(typingIndex, currentPassage.visibleText, 'passage');
-                            typingIndex++;
-                            resolve();
-                        }
-                        catch{
-                            return;
-                        }
-                    }, 20);
-                })
+            //passage의 텍스트 타이핑 시작
+            let promise = async function () {
+                let typingIndex = 0;
+            
+                while(isTypingEnd === false) {
+                    await new Promise<void>((resolve, reject) => {
+                        
+                        //episode 타이핑 시작
+                        setTimeout(async function () {
+                            try{
+                                await typing_text(typingIndex, currentPassage.visibleText, 'passage');
+                                typingIndex++;
+                                resolve();
+                            }
+                            catch{
+                                return;
+                            }
+                        }, 20);
+                    })
+                }
+                await wait(100)
+                //promise 쓴 이유
+                //episode 타이핑이 끝난 후 옵션 div 생성
+                if(!isGameOver){
+                    let optionTexts = currentOptions.map(option => {
+                        return option.optionVisibleName
+                    })
+                    makeOptionDiv(optionTexts);
+                }
+                else{
+                    makeOptionDiv(["로비로..."]);
+                }
             }
-            await wait(100)
-            //promise 쓴 이유
-            //episode 타이핑이 끝난 후 옵션 div 생성
-            if(!isGameOver){
-                let optionTexts = currentOptions.map(option => {
-                    return option.optionVisibleName
-                })
-                makeOptionDiv(optionTexts);
-            }
-            else{
-                makeOptionDiv(["로비로..."]);
-            }
+            promise();
         }
-        promise();
+        catch(e){
+            console.log(e)
+        }
     }
 
     async function typing_text(typingIndex : number, text_ : string, mode : string) { //텍스트 한 글자 타이핑
@@ -147,6 +157,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         }
         //클릭을 했다면 탈출
         else {
+            debugger;
             isTypingEnd =true
             if(mode === 'passage'){
                 setPassageText(text);
@@ -160,7 +171,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
     }
 
     function makeOptionDiv(optionTexts : string[]) {
-
         optionTexts.forEach((optionText, i) => {
             let optionDiv = document.createElement('div');
             optionDiv.className = "option_div";
@@ -180,6 +190,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         const passageTextDivHeight = passage_text_div.current.clientHeight
         const optionsDivHeight = options_div.current.clientHeight
         const headerTextViewDivHeight = header_text_view_div.current.clientHeight
+        debugger;
         if(basicSize_of_textViewDiv < headerTextViewDivHeight+passageTextDivHeight+optionsDivHeight){
             main_text_view_div.current.style.height = `${passageTextDivHeight+optionsDivHeight}px`;
             moveScrollBottom()
@@ -277,7 +288,6 @@ export const GameManager : React.FC<MainProps> = (props) => {
 
         const resultTextDivHeight = result_text_div.current.clientHeight
         const resultOptionsDivHeight = result_option_div.current.clientHeight
-        const headerTextViewDivHeight = header_text_view_div.current.clientHeight
         if(basicSize_of_textViewDiv < resultTextDivHeight+resultOptionsDivHeight){
             main_text_view_div.current.style.height = `${main_text_view_div.current.clientHeight-basicSize_of_textViewDiv+resultTextDivHeight+resultOptionsDivHeight}px`;
         }
@@ -370,6 +380,7 @@ export const GameManager : React.FC<MainProps> = (props) => {
         options_div.current.innerHTML = "";
         result_option_div.current.innerHTML = "";
         main_text_view_div.current.style.height = "auto";
+        passage_text_div.current.style.height = "auto";
         result_text_div.current.style.height = "auto"
         options_div.current.classList.add("hidden");
         result_text_div.current.classList.add("hidden");
@@ -382,10 +393,38 @@ export const GameManager : React.FC<MainProps> = (props) => {
     } //timeToDelay만큼 코드를 대기시키는 함수
 
 
+        
+
+    //뒤로가기 제어하는 코드
+    React.useEffect(() => {
+        const customBack = () => {
+            // 뒤로가기 할 때 변수를 다 초기화해서 변수값이 남아 있는 오류를 방지
+            lastStoryArr = [];
+            story = null;
+            passages = null;
+            options = null; ;
+            currentOptions = null;
+            currentPassage = null;
+            nextPassageName = null;
+            statusChange = []
+            isGameStart = true;
+            isGameOver = false;
+            isStoryEnd = false;
+            happyEndTime = 5;
+        };
+        // 뒤로가기 제어
+        (() => {
+            // history.pushState(null, '', window.location.href);
+            window.addEventListener('popstate', customBack);
+        })();
+
+        return () => {
+        window.removeEventListener('popstate', customBack);
+        };
+    }, []);
 
     React.useEffect(() => 
         {
-            
             if(isGameStart === true){
                 game_start()
             }
